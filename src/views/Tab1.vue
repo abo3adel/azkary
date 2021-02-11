@@ -26,9 +26,12 @@
         IonContent,
     } from '@ionic/vue';
     import ExploreContainer from '@/components/ExploreContainer.vue';
+    import { Options, Vue } from 'vue-class-component';
+// import db from '@/utils/db';
+import { User } from '@/entities/User';
+import { Connection } from 'typeorm';
 
-    export default {
-        name: 'Tab1',
+    @Options({
         components: {
             ExploreContainer,
             IonHeader,
@@ -37,5 +40,25 @@
             IonContent,
             IonPage,
         },
-    };
+        inject: {
+            db: {from: 'db'}
+        }
+    })
+    export default class Tab1 extends Vue {
+        mounted() {
+            // @ts-ignore
+            (this.db as Promise<Connection>).then(async (con: Connection) => {
+                // const user = new User();
+                // user.name = 'Ahmed Adel';
+                // user.azkarCount = 50;
+
+                const repo = con.getRepository(User);
+                // await repo.save(user);
+                // console.log('user has been saved');
+
+                const all = await repo.find();
+                console.log(all);
+            });
+        }
+    }
 </script>

@@ -22,22 +22,16 @@ import '@ionic/vue/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import { createConnection } from 'typeorm';
+import db from './utils/db';
 
 const app = createApp(App)
+    .provide('db', db())
     .use(IonicVue)
     .use(router);
 
 router.isReady().then(() => {
     if (isPlatform('desktop')) {
-        createConnection({
-            type: 'sqljs',
-            autoSave: false,
-            location: 'browser',
-            logging: ['error', 'query', 'schema'],
-            synchronize: true,
-            entities: [],
-        });
+        // db();
     }
     app.mount('#app');
 });
