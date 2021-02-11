@@ -10,16 +10,26 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@capacitor-community/sqlite": "^2.9.9",
     "@capacitor/core": "2.4.6",
+    "@ionic-native/native-storage": "^5.31.1",
+    "@ionic-native/sqlite": "^5.31.1",
     "@ionic/vue": "^5.4.0",
     "@ionic/vue-router": "^5.4.0",
+    "cordova-plugin-nativestorage": "^2.3.2",
+    "cordova-sqlite-storage": "^5.1.0",
     "core-js": "^3.6.5",
+    "reflect-metadata": "^0.1.13",
+    "sequelize": "^6.5.0",
+    "sql.js": "^1.4.0",
+    "typeorm": "^0.2.31",
     "vue": "^3.0.0-0",
     "vue-router": "^4.0.0-0"
   },
   "devDependencies": {
     "@capacitor/cli": "2.4.6",
     "@types/jest": "^24.0.19",
+    "@types/node": "^14.14.25",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
     "@vue/cli-plugin-babel": "~4.5.0",
