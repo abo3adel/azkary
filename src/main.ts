@@ -2,7 +2,7 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 
-import { IonicVue, getPlatforms } from '@ionic/vue';
+import { IonicVue, isPlatform } from '@ionic/vue';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/vue/css/core.css';
@@ -29,16 +29,15 @@ const app = createApp(App)
     .use(router);
 
 router.isReady().then(() => {
-    console.log(...getPlatforms());
-    createConnection({
-        type: 'sqljs',
-        autoSave: false,
-        location: 'browser',
-        logging: ['error', 'query', 'schema'],
-        synchronize: true,
-        entities: [],
-    })
-        .then((r) => console.log(r))
-        .catch((e) => console.log(e));
+    if (isPlatform('desktop')) {
+        createConnection({
+            type: 'sqljs',
+            autoSave: false,
+            location: 'browser',
+            logging: ['error', 'query', 'schema'],
+            synchronize: true,
+            entities: [],
+        });
+    }
     app.mount('#app');
 });
