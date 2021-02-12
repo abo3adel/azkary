@@ -1,11 +1,12 @@
-import { BaseEntity, EntityTarget } from 'typeorm';
+import { BaseEntity, EntityTarget, Repository } from 'typeorm';
 import faker from 'faker';
 import db, { TEST_DB_NAME } from '@/utils/db';
 
 export default abstract class BaseFactory {
-    protected size: number = 1;
+    protected size = 1;
     protected conName: string = TEST_DB_NAME;
     protected entity: EntityTarget<BaseEntity>;
+    protected repo!: Repository<BaseEntity>;
     protected faker = faker;
 
     public constructor(entity: EntityTarget<BaseEntity>) {
@@ -22,11 +23,16 @@ export default abstract class BaseFactory {
         return this;
     }
 
+    public setRepo(repo: any) {
+        this.repo = repo;
+        return this;
+    }
+
     /**
      * create more than one user object
      * @param size number
      */
-    public count(size: number = 1): BaseFactory {
+    public count(size = 1): BaseFactory {
         this.size = size;
         return this;
     }

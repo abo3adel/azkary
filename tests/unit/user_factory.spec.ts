@@ -1,8 +1,8 @@
 import db, { TEST_DB_NAME } from '@/utils/db';
 import { User } from '@/entities/User';
-import {UserFactory} from '../database/factory/UserFactory';
+import {UserFactory} from '../../database/factory/UserFactory';
 import { getRepository } from 'typeorm';
-import clearDB from './clearDB';
+import clearDB from '../../database/clearDB';
 
 beforeEach(async () => clearDB(User));
 afterEach(async () => clearDB(User));

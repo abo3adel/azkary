@@ -1,5 +1,5 @@
 import { BaseEntity } from 'typeorm';
-import { User } from './../../../src/entities/User';
+import { User } from '../../src/entities/User';
 import BaseFactory from './BaseFactory';
 
 export class UserFactoryClass extends BaseFactory {

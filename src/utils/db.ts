@@ -1,8 +1,9 @@
 import { User } from '../entities/User';
-import { Connection, createConnection, getConnection } from 'typeorm';
+import { Connection, createConnection, getConnection, EntityTarget, BaseEntity, EntitySchema } from 'typeorm';
 
 export const TEST_DB_NAME = 'test';
 export const APP_DB_NAME = 'default';
+export const ENTITIES = [User];
 
 export default async function db(conName = APP_DB_NAME): Promise<Connection> {
     let con: Connection;
@@ -17,7 +18,7 @@ export default async function db(conName = APP_DB_NAME): Promise<Connection> {
             location: 'browser',
             logging: ['error', 'query', 'schema'],
             synchronize: true,
-            entities: [User],
+            entities: ENTITIES,
         });
     }
 

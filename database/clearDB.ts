@@ -1,8 +1,6 @@
-import { User } from '../../src/entities/User';
-import db, { TEST_DB_NAME } from '../../src/utils/db';
+import { User } from '@/entities/User';
+import db, { TEST_DB_NAME, ENTITIES } from '@/utils/db';
 import { BaseEntity, EntityTarget } from 'typeorm';
-
-const entities: EntityTarget<BaseEntity>[] = [User];
 
 export default async function clearDB(
     entity: EntityTarget<BaseEntity> | null = null,
@@ -15,7 +13,7 @@ export default async function clearDB(
             .clear();
     }
 
-    for (let ent of entities) {
+    for (let ent of ENTITIES) {
         const tableName = con.getMetadata(ent).tableName;
         await con.query(`DELETE FROM ${tableName}`);
         // console.error("asdasd asd".repeat(90));
