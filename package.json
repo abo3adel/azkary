@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit",
+    "test": "vue-cli-service test:unit --maxWorkers=1 --detectOpenHandles",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint"
   },
@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@capacitor/cli": "2.4.6",
+    "@types/faker": "^5.1.6",
     "@types/jest": "^24.0.19",
     "@types/node": "^14.14.25",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
