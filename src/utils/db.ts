@@ -1,9 +1,10 @@
+import { Category } from './../entities/Category';
 import { User } from '../entities/User';
 import { Connection, createConnection, getConnection, EntityTarget, BaseEntity, EntitySchema } from 'typeorm';
 
 export const TEST_DB_NAME = 'test';
 export const APP_DB_NAME = 'default';
-export const ENTITIES = [User];
+export const ENTITIES = [User, Category];
 
 export default async function db(conName = APP_DB_NAME): Promise<Connection> {
     let con: Connection;

@@ -12,7 +12,7 @@
                 </ion-toolbar>
             </ion-header>
 
-            <ExploreContainer name="Tab 1 page" />
+            <!-- <ExploreContainer name="Tab 1 page" /> -->
         </ion-content>
     </ion-page>
 </template>
@@ -30,6 +30,7 @@
 // import db from '@/utils/db';
 import { User } from '@/entities/User';
 import { Connection } from 'typeorm';
+import db from '@/utils/db';
 
     @Options({
         components: {
@@ -46,8 +47,7 @@ import { Connection } from 'typeorm';
     })
     export default class Tab1 extends Vue {
         mounted() {
-            // @ts-ignore
-            (this.db as Promise<Connection>).then(async (con: Connection) => {
+            db().then(async (con: Connection) => {
                 // const user = new User();
                 // user.name = 'Ahmed Adel';
                 // user.azkarCount = 50;
