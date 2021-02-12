@@ -7,7 +7,7 @@ export default async function clearDB(
 ) {
     if (process.env.NODE_ENV === 'test') {
         const nrc = require('node-run-cmd');
-        return await nrc.run('rm -rf browser');
+        await nrc.run('rm -rf browser');
     }
 
     const con = await db(conName);
@@ -19,11 +19,7 @@ export default async function clearDB(
 
     for (let ent of ENTITIES) {
         const tableName = con.getMetadata(ent).tableName;
-        await con.query(
-            `DELETE FROM :tbName;
-            VACUUM;`,
-            [tableName]
-        );
+        await con.query(`DELETE FROM ${tableName}`);
         await con.query(`
         DELETE FROM SQLITE_SEQUENCE WHERE name = '${tableName}'`);
         // console.error("asdasd asd".repeat(90));
