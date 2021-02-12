@@ -4,13 +4,13 @@ import {UserFactory} from '../../database/factory/UserFactory';
 import { getRepository } from 'typeorm';
 import clearDB from '../../database/clearDB';
 
-beforeEach(async () => clearDB(User));
-afterEach(async () => clearDB(User));
+beforeEach(async () => await clearDB());
 
 it('can make user object', async () => {
     const user = UserFactory.make() as User;
     expect(user).toBeInstanceOf(User);
     expect(user.name).toBeTruthy();
+    await db(TEST_DB_NAME);
     const us = await getRepository(User, TEST_DB_NAME).count();
     expect(us).toBe(0);
 });

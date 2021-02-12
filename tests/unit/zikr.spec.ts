@@ -18,3 +18,5 @@ it('zikr body supports arabic langague', async () => {
     expect(count).toBe(1);
     expect(first?.body).toBe(title);
 });
+
+// it('zikr belongs to category')
