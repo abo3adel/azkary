@@ -19,8 +19,8 @@ export default class UserFactory extends BaseFactory {
     /**
      * save user object into database
      */
-    static async create(): Promise<User> {
-        const con = await db();
+    static async create(conName: string = 'default'): Promise<User> {
+        const con = await db(conName);
         const repo = con.getRepository(User);
         const user = this.make();
         await repo.save(user);

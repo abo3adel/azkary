@@ -1,13 +1,14 @@
 import { User } from '../entities/User';
 import { Connection, createConnection, getConnection } from 'typeorm';
 
-export default async function db(): Promise<Connection> {
+export default async function db(conName: string = 'default'): Promise<Connection> {
     let con: Connection;
 
     try {
-        con = getConnection();
+        con = getConnection(conName);
     } catch (e) {
         con = await createConnection({
+            name: conName,
             type: 'sqljs',
             autoSave: true,
             location: 'browser',
