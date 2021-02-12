@@ -1,3 +1,4 @@
+import { BaseEntity } from 'typeorm';
 import { BaseEntity, EntityTarget, Repository } from 'typeorm';
 import faker from 'faker';
 import db, { TEST_DB_NAME } from '@/utils/db';
@@ -51,12 +52,12 @@ export default abstract class BaseFactory {
     /**
      * save user object into database
      */
-    public async create(): Promise<BaseEntity | BaseEntity[]> {
+    public async create(entity: BaseEntity | null = null): Promise<BaseEntity | BaseEntity[]> {
         const con = await db(this.conName);
         const repo = con.getRepository(this.entity);
         const entities: BaseEntity[] = [];
         for (let i = 0; i < this.size; i++) {
-            await repo.save(this.getData());
+            await repo.save(entity ?? this.getData());
         }
         return entities.length > 1 ? entities : entities[0];
     }
