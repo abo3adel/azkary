@@ -2,8 +2,9 @@ import { Connection } from 'typeorm';
 import db from '@/utils/db';
 import { User } from './../../../src/entities/User';
 import faker from 'faker';
+import BaseFactory from './BaseFactory';
 
-export default class UserFactory {
+export default class UserFactory extends BaseFactory {
     /**
      * create user object without saving it
      */
@@ -25,17 +26,5 @@ export default class UserFactory {
         await repo.save(user);
 
         return user;
-    }
-
-    /**
-     * create more than one user object
-     * @param num number
-     */
-    static async count(num: number): Promise<User[]> {
-        const users: User[] = [];
-        for(let i = 0; i < num; i++) {
-            users.push(await this.create());
-        }
-        return users;
     }
 }
