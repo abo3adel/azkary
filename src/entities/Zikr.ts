@@ -1,3 +1,5 @@
+import { Category } from './Category';
+import { ManyToOne } from 'typeorm';
 import { BaseEntity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { Entity } from 'typeorm';
 
@@ -15,4 +17,9 @@ export class Zikr extends BaseEntity
 
     @Column({default: false})
     by_user!: boolean;
+
+    @ManyToOne(() => Category, category => category.azkar, {
+        onDelete: 'CASCADE'
+    })
+    category!: Category;
 }
