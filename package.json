@@ -45,6 +45,7 @@
     "eslint-plugin-vue": "^7.0.0-0",
     "faker": "^5.4.0",
     "moment": "^2.29.1",
+    "node-run-cmd": "^1.0.1",
     "typescript": "~3.9.3",
     "vue-class-component": "^8.0.0-rc.1",
     "vue-jest": "^5.0.0-0"
