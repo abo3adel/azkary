@@ -1,5 +1,11 @@
 import { Zikr } from './Zikr';
-import { BaseEntity, Column, Entity, Index, JoinTable, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, Index, JoinTable, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+
+export enum CategoryType {
+    Zikr = 'zikr',
+    Du3a = 'du3a',
+    Any = 'any',
+}
 
 @Entity('categories')
 @Index(['slug'], {unique: true})
@@ -19,6 +25,9 @@ export class Category extends BaseEntity
         nullable: true
     })
     slug!: string;
+
+    @Column({default: CategoryType.Zikr, length: 4})
+    type!: string;
 
     @OneToMany(() => Zikr, zikr => zikr.category, {
         eager: true,

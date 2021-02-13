@@ -1,7 +1,7 @@
 import { Zikr } from './../../src/entities/Zikr';
 import { ZikrFactory } from './ZikrFactory';
 import { BaseEntity, Repository } from 'typeorm';
-import { Category } from '../../src/entities/Category';
+import { Category, CategoryType } from '../../src/entities/Category';
 import BaseFactory from './BaseFactory';
 
 export class CategoryFactoryClass extends BaseFactory {
@@ -10,6 +10,7 @@ export class CategoryFactoryClass extends BaseFactory {
         const title = this.faker.lorem.sentence().substr(0, 20);
         category.title = title;
         category.slug = title.replace(/\s/gi, '-').toLowerCase();
+        category.type = this.faker.random.objectElement(CategoryType) as CategoryType;
         return category;
     }
 

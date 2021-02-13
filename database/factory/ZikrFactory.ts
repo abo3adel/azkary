@@ -10,7 +10,7 @@ export class ZikrFactoryClass extends BaseFactory {
         zikr.body = this.faker.lorem.sentence();
         zikr.count = this.faker.random.number(100);
         zikr.byUser = this.faker.random.boolean();
-        zikr.order = this.faker.random.number(50);
+        zikr.order = this.faker.random.number(100);
         return zikr;
     }
 

@@ -15,6 +15,10 @@ const routes: Array<RouteRecordRaw> = [
         path: '',
         component: () => import('@/views/Home.vue')
       },
+      {
+        path: '/zikr',
+        component: () => import('@/views/zikr/Index.vue')
+      },
     //   {
     //     path: 'tab1',
     //     component: () => import('@/views/Tab1.vue')

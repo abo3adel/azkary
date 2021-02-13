@@ -1,18 +1,18 @@
 <template>
-    <h1>Home {{page}}</h1>
-    <h1>{{$t('hello')}}</h1>
+    <ion-toolbar>
+        <ion-back-button>asdsad</ion-back-button>
+    </ion-toolbar>
 </template>
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
+// import { CategoryFactory } from '../../database/factory/CategoryFactory';
 
 @Options({})
 export default class Home extends Vue
 {
     page = 'PAGE';
     mounted() {
-        // const $t = this.$t.bind(this)
-        // @ts-ignor
-        // console.log(this.$t);
+        // CategoryFactory.with(5).count(7).create();
     }
 }
 </script>
