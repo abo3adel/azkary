@@ -70,11 +70,12 @@ export default abstract class BaseFactory {
         const repo = con.getRepository(this.entity);
         const entities: BaseEntity[] = [];
         for (let i = 0; i < this.size; i++) {
-            entity = entity ?? this.getData();
-            entity = this.relationsSize
-                ? await this.addRelations(entity, repo)
-                : await repo.save(entity);
-            entities.push(entity);
+            let ent = entity ?? this.getData();
+            console.error(ent);
+            ent = this.relationsSize
+                ? await this.addRelations(ent, repo)
+                : await repo.save(ent);
+            entities.push(ent);
         }
         return entities.length > 1 ? entities : entities[0];
     }
