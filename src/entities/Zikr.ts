@@ -15,8 +15,11 @@ export class Zikr extends BaseEntity
     @Column({unsigned: true, default: 3, type: 'integer'})
     count!: number;
 
-    @Column({default: false})
-    by_user!: boolean;
+    @Column('boolean', {default: false})
+    byUser!: boolean;
+
+    @Column('integer')
+    order!: number;
 
     @ManyToOne(() => Category, category => category.azkar, {
         onDelete: 'CASCADE'
