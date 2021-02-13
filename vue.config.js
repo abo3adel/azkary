@@ -7,7 +7,7 @@ module.exports = {
         before(app) {
             // use proper mime-type for wasm files
             app.get('*.wasm', function(req, res, next) {
-                var options = {
+                const options = {
                     root: '/testApps/myAzkar/public/',
                     dotfiles: 'deny',
                     headers: {
@@ -22,13 +22,15 @@ module.exports = {
             });
         },
     },
-    chainWebpack: (webpackConfig) => {
-        // webpackConfig.module
-        //     .rule('wasm')
-        //     .test(/.wasm$/)
-        //     .use('wasm-loader')
-        //     .loader('wasm-loader');
-    },
+
+    // chainWebpack: (webpackConfig) => {
+    //     // webpackConfig.module
+    //     //     .rule('wasm')
+    //     //     .test(/.wasm$/)
+    //     //     .use('wasm-loader')
+    //     //     .loader('wasm-loader');
+    // },
+
     configureWebpack: {
         plugins: [
             new webpack.NormalModuleReplacementPlugin(/typeorm$/, function(
@@ -62,4 +64,13 @@ module.exports = {
             ]),
         ],
     },
+
+    pluginOptions: {
+      i18n: {
+        locale: 'en',
+        fallbackLocale: 'en',
+        localeDir: 'locales',
+        enableLegacy: false
+      }
+    }
 };
