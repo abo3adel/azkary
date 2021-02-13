@@ -16,14 +16,14 @@ it('can make user object', async () => {
 });
 
 it('can create user in db', async () => {
-    const user = await UserFactory.create();
+    await UserFactory.create();
 
     const us = getRepository(User, TEST_DB_NAME);
     expect(await us.count()).toBe(1);
 });
 
 it('can create more than one user', async () => {
-    const users = await UserFactory.count(5).create();
+    await UserFactory.count(5).create();
 
     const us = getRepository(User, TEST_DB_NAME);
     expect(await us.count()).toBe(5);

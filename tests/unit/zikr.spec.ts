@@ -19,8 +19,8 @@ it('zikr body supports arabic langague', async () => {
     expect(first?.body).toBe(title);
 });
 
-it.only('zikr belongs to category', async () => {
-    const zikr = await ZikrFactory.with(1).create();
+it('zikr belongs to category', async () => {
+    await ZikrFactory.with(1).create();
 
     const repo = getRepository(Zikr, TEST_DB_NAME)
     const first = await repo.findOne(1, {relations: ['category']}) as Zikr;

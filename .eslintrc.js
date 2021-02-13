@@ -18,15 +18,16 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/ban-ts-ignore': 'off',
   },
+  ignorePatterns: ["**/tests/**/*.spec.ts", "vue.config.js"],
   overrides: [
     {
       files: [
         '**/__tests__/*.{j,t}s?(x)',
-        '**/tests/unit/**/*.spec.{j,t}s?(x)'
+        '**/tests/unit/**/*.spec.{j,t}s?(x)',
       ],
       env: {
         jest: true
       }
     }
-  ]
+  ],
 }

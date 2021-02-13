@@ -1,7 +1,7 @@
 import { Zikr } from './../entities/Zikr';
 import { Category } from './../entities/Category';
 import { User } from '../entities/User';
-import { Connection, createConnection, getConnection, EntityTarget, BaseEntity, EntitySchema } from 'typeorm';
+import { Connection, createConnection, getConnection } from 'typeorm';
 
 export const TEST_DB_NAME = 'test';
 export const APP_DB_NAME = 'default';
