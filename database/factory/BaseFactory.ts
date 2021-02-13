@@ -35,7 +35,7 @@ export default abstract class BaseFactory {
     /**
      * add relations to every entity instance
      */
-    public with(size: number = 3): BaseFactory {
+    public with(size = 3): BaseFactory {
         this.relationsSize = size;
         return this;
     }

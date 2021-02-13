@@ -1,7 +1,7 @@
 <template>
     <ion-page>
         <ion-header>
-            <ion-toolbar>
+            <ion-toolbar color="primary">
                 <ion-title>Tab 1</ion-title>
             </ion-toolbar>
         </ion-header>
@@ -13,6 +13,11 @@
             </ion-header>
 
             <!-- <ExploreContainer name="Tab 1 page" /> -->
+            <div style="margin-top: 50px">
+                <div v-for="zikr of azkar" :key="zikr.id">
+                    {{ zikr.body }}
+                </div>
+            </div>
         </ion-content>
     </ion-page>
 </template>
@@ -27,10 +32,12 @@
     } from '@ionic/vue';
     import ExploreContainer from '@/components/ExploreContainer.vue';
     import { Options, Vue } from 'vue-class-component';
-// import db from '@/utils/db';
-import { User } from '@/entities/User';
-import { Connection } from 'typeorm';
-import db from '@/utils/db';
+    // import db from '@/utils/db';
+    import { User } from '@/entities/User';
+    import { Connection } from 'typeorm';
+    import db, { APP_DB_NAME } from '@/utils/db';
+    import { Zikr } from '@/entities/Zikr';
+    import { ZikrFactory } from '../../database/factory/ZikrFactory';
 
     @Options({
         components: {
@@ -42,22 +49,21 @@ import db from '@/utils/db';
             IonPage,
         },
         inject: {
-            db: {from: 'db'}
-        }
+            db: { from: 'db' },
+        },
     })
     export default class Tab1 extends Vue {
+        azkar: Zikr[] = [];
+
         mounted() {
             db().then(async (con: Connection) => {
-                // const user = new User();
-                // user.name = 'Ahmed Adel';
-                // user.azkarCount = 50;
+                // ZikrFactory.with(1).count(15).setConName(APP_DB_NAME).create().then(r => r);
 
-                const repo = con.getRepository(User);
+                const repo = con.getRepository(Zikr);
                 // await repo.save(user);
                 // console.log('user has been saved');
 
-                const all = await repo.find();
-                console.log(all);
+                repo.find().then((r) => (this.azkar = r));
             });
         }
     }
