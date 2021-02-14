@@ -5,14 +5,17 @@
 </template>
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-// import { CategoryFactory } from '../../database/factory/CategoryFactory';
+// import seeder from '@/seeder';
 
 @Options({})
 export default class Home extends Vue
 {
     page = 'PAGE';
     mounted() {
-        // CategoryFactory.with(5).count(7).create();
+        // seeder.run().then(r => {
+        //     console.clear();
+        //     console.log('Done Seeded');
+        // });
     }
 }
 </script>
