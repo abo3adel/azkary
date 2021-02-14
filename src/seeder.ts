@@ -1,73 +1,48 @@
 import { CategoryType } from './entities/Category';
 import { Category } from '@/entities/Category';
-import { getRepository, Repository } from 'typeorm';
-import db, { APP_DB_NAME } from './utils/db';
+import { Repository } from 'typeorm';
+import db from './utils/db';
 import faker from 'faker';
-// import clearDB from '../database/clearDB';
+import { ZikrFactory } from '../database/factory/ZikrFactory';
+import { Zikr } from './entities/Zikr';
 
 class Seeder {
-    async run(): Promise<boolean> {
-        // await clearDB(null, APP_DB_NAME)
-        return await this.seedCategories();
+    private catRepo!: Repository<Category>;
+    async run(): Promise<void> {
+        await this.seedCategories();
+        return;
     }
 
-    async seedCategories() {
-        const repo = (await db()).getRepository(Category) as Repository<
+    private async seedCategories() {
+        this.catRepo = (await db()).getRepository(Category) as Repository<
             Category
         >;
-        await repo.insert(
-            this.getCategory(
-                faker.lorem.sentence(),
-                'morning',
-            )
-        );
-        await repo.insert(
-            this.getCategory(
-                faker.lorem.sentence(),
-                'night'
-            )
-        );
-        await repo.insert(
-            this.getCategory(
-                faker.lorem.sentence(),
-                'mosque'
-            )
-        );
-        await repo.insert(
-            this.getCategory(
-                faker.lorem.sentence(),
-                'wake-up'
-            )
-        );
-        await repo.insert(
-            this.getCategory(
-                faker.lorem.sentence(),
-                'sleep'
-            )
-        );
-        await repo.insert(
-            this.getCategory(
-                faker.lorem.sentence(),
-                'salat'
-            )
-        );
+        await this.createCategory(faker.lorem.sentence(), 'morning');
+        await this.createCategory(faker.lorem.sentence(), 'night');
+        await this.createCategory(faker.lorem.sentence(), 'mosque');
+        await this.createCategory(faker.lorem.sentence(), 'wake-up');
+        await this.createCategory(faker.lorem.sentence(), 'sleep');
+        await this.createCategory(faker.lorem.sentence(), 'salat');
         return true;
     }
 
-    private getCategory(
+    private async createCategory(
         title: string,
         slug: string,
         type: CategoryType = CategoryType.Zikr
-    ): Category {
-        const cat = new Category();
+    ): Promise<Category> {
+        const cat = new Category;
         cat.title = title;
         cat.slug = slug;
         cat.type = type;
+        cat.azkar = await ZikrFactory.count(10).create() as Zikr[];
+
+        this.catRepo.save(cat);
 
         return cat;
     }
 }
 
-const seeder = new Seeder;
+const seeder = new Seeder();
 
 export default seeder;

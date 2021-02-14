@@ -2,7 +2,7 @@
     <ion-page>
         <ion-header>
             <ion-toolbar :color="meta.color || 'primary'">
-                <ion-buttons slot='start'>
+                <ion-buttons slot="start">
                     <ion-back-button></ion-back-button>
                 </ion-buttons>
                 <h3 class="p-4 pb-8 uppercase">
@@ -20,13 +20,29 @@
                 ></ion-icon>
             </ion-toolbar>
         </ion-header>
-        <ion-content :fullscreen="true"> </ion-content>
+        <ion-content :fullscreen="true">
+            <ion-list>
+                <ion-item v-for="z in category.azkar" :key="z.id">
+                    <ion-label>
+                        {{ z.body }}
+                    </ion-label>
+                </ion-item>
+            </ion-list>
+        </ion-content>
     </ion-page>
 </template>
 <script lang="ts">
     import { Options, Vue } from 'vue-class-component';
 
-    import { IonPage, IonToolbar, IonHeader, IonContent } from '@ionic/vue';
+    import {
+        IonPage,
+        IonToolbar,
+        IonHeader,
+        IonContent,
+        IonList,
+        IonItem,
+        IonLabel,
+    } from '@ionic/vue';
     import { Category } from '@/entities/Category';
     import db from '@/utils/db';
     import getCategoryIcon, { CategoryIcon } from '@/utils/getCategoryIcon';
@@ -35,7 +51,17 @@
         slug!: string;
     }
 
-    @Options({ components: { IonPage, IonToolbar, IonHeader, IonContent } })
+    @Options({
+        components: {
+            IonPage,
+            IonToolbar,
+            IonHeader,
+            IonContent,
+            IonList,
+            IonItem,
+            IonLabel,
+        },
+    })
     export default class Show extends Vue.with(Props) {
         category: Category = new Category();
         meta: CategoryIcon | null = null;
