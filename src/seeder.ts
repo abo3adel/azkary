@@ -18,43 +18,37 @@ class Seeder {
         await repo.insert(
             this.getCategory(
                 faker.lorem.sentence(),
-                faker.lorem.slug(),
-                'gold'
+                'morning',
             )
         );
         await repo.insert(
             this.getCategory(
                 faker.lorem.sentence(),
-                faker.lorem.slug(),
-                'tertiary'
+                'night'
             )
         );
         await repo.insert(
             this.getCategory(
                 faker.lorem.sentence(),
-                faker.lorem.slug(),
-                'secondary'
+                'mosque'
             )
         );
         await repo.insert(
             this.getCategory(
                 faker.lorem.sentence(),
-                faker.lorem.slug(),
-                'success'
+                'wake-up'
             )
         );
         await repo.insert(
             this.getCategory(
                 faker.lorem.sentence(),
-                faker.lorem.slug(),
-                'danger'
+                'sleep'
             )
         );
         await repo.insert(
             this.getCategory(
                 faker.lorem.sentence(),
-                faker.lorem.slug(),
-                'primary'
+                'salat'
             )
         );
         return true;
@@ -63,14 +57,12 @@ class Seeder {
     private getCategory(
         title: string,
         slug: string,
-        color: string,
         type: CategoryType = CategoryType.Zikr
     ): Category {
         const cat = new Category();
         cat.title = title;
         cat.slug = slug;
         cat.type = type;
-        cat.color = color;
 
         return cat;
     }

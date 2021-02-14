@@ -1,8 +1,8 @@
 <template>
-    <ion-page class="bg-page">
+    <ion-page>
         <ion-header>
             <ion-toolbar color="primary">
-                <h3 class="p-4 pb-8 uppercase bg-primary-600">
+                <h3 class="p-4 pb-8 uppercase">
                     {{ $t('zikr.toolbar') }}
                 </h3>
                 <ion-buttons slot="end">
@@ -21,6 +21,7 @@
                         :color="icons[inx].color"
                         expand="block"
                         class="mb-5"
+                        :router-link="`/tabs/zikr/${cat.slug}`"
                     >
                         <span class="absolute left-0">
                             {{ $t(`zikr.cat.${cat.slug}`) }}
@@ -59,7 +60,7 @@
         IonIcon,
     } from '@ionic/vue';
 
-    import { sunnyOutline, cloudyNightOutline, alarmOutline } from 'ionicons/icons';
+    import getCategoryIcon, {CategoryIcon} from '@/utils/getCategoryIcon';
 
     @Options({
         components: {
@@ -78,38 +79,7 @@
     })
     export default class ZikrIndex extends Vue {
         categories: Category[] = [];
-        icons: { type: string; name?: string; color: string }[] = [
-            {
-                type: 'icon',
-                name: sunnyOutline,
-                color: 'gold',
-            },
-            {
-                type: 'icon',
-                name: cloudyNightOutline,
-                color: 'tertiary',
-            },
-            {
-                type: 'svg',
-                name: 'mosque',
-                color: 'secondary',
-            },
-            {
-                type: 'icon',
-                name: alarmOutline,
-                color: 'success',
-            },
-            {
-                type: 'svg',
-                name: 'half-moon',
-                color: 'danger',
-            },
-            {
-                type: 'svg',
-                name: 'julus',
-                color: 'primary',
-            },
-        ];
+        icons: CategoryIcon[] = getCategoryIcon();
 
         async loadCategories() {
             const con = await db();
@@ -117,7 +87,6 @@
                 .from(Category, 'Category')
                 .execute();
 
-            categories.pop();
             this.categories = categories;
         }
 

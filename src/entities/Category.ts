@@ -29,9 +29,6 @@ export class Category extends BaseEntity
     @Column({default: CategoryType.Zikr, length: 4})
     type!: string;
 
-    @Column({length: 10, nullable: true})
-    color!: string
-
     @OneToMany(() => Zikr, zikr => zikr.category, {
         eager: true,
         cascade: true,

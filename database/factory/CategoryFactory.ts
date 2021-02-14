@@ -11,15 +11,6 @@ export class CategoryFactoryClass extends BaseFactory {
         category.title = title;
         category.slug = title.replace(/\s/gi, '-').toLowerCase();
         category.type = this.faker.random.objectElement(CategoryType) as CategoryType;
-        category.color = this.faker.random.arrayElement([
-            'gold',
-            'primary',
-            'danger',
-            'tertiary',
-            'secondary',
-            'success',
-            'warning',
-        ]);
         return category;
     }
 
