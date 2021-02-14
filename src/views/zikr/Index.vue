@@ -23,7 +23,7 @@
                         class="mb-5"
                     >
                         <span class="absolute left-0">
-                            {{ cat.title }}
+                            {{ $t(`zikr.cat.${cat.slug}`) }}
                         </span>
                         <ion-icon
                             v-if="icons[inx].type === 'svg'"
