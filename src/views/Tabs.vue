@@ -2,12 +2,12 @@
   <ion-page>
     <ion-tabs>
       <ion-tab-bar slot="bottom">
-        <ion-tab-button tab="tab1" href="/">
+        <ion-tab-button tab="home" href='/tabs/home'>
           <ion-icon :icon="home" />
           <ion-label>Tab 1</ion-label>
         </ion-tab-button>
           
-        <ion-tab-button tab="tab2" href="/zikr">
+        <ion-tab-button tab="zikr" href="/tabs/zikr">
           <ion-icon :icon="ellipse" />
           <ion-label>Azkar</ion-label>
         </ion-tab-button>
