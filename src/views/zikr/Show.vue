@@ -23,6 +23,12 @@
             </ion-toolbar>
             <ion-toolbar color="light">
                 <ion-buttons slot="start">
+                    <ion-button color="primary" @click="toggleReorder()">
+                        <ion-icon :icon="reorderFourOutline"></ion-icon>
+                        <span class="hidden sm:inline-block">
+                            {{ $t('zikr.show.reorder') }}
+                        </span>
+                    </ion-button>
                     <ion-button color="primary" @click="add()">
                         <ion-icon :icon="addOutline"></ion-icon>
                         <span class="hidden sm:inline-block">
@@ -51,57 +57,68 @@
         <ion-content :fullscreen="true">
             <ion-reorder-group
                 @ionItemReorder="doReorder($event)"
-                :disabled="true"
+                :disabled="!reorder"
                 class="font-size-updater"
                 style="font-size: 1.0rem"
             >
-                <transition-group name="list" tag="div">
-                    <template v-for="(z, zinx) in category.azkar" :key="z.id">
-                        <transition name="slide-fade">
-                            <ion-item-sliding v-if="z.count > 0" class="my-2">
-                                <ion-item-options side="start">
-                                    <ion-item-option
-                                        color="primary"
-                                        @click="share(item)"
-                                    >
-                                        Share
-                                    </ion-item-option>
-                                </ion-item-options>
-
-                                <ion-item
-                                    @click="z.count--"
-                                    class="hover:cursor-pointer ion-activatable ripple-parent"
-                                    :color="zinx % 2 == 0 ? 'light' : ''"
+                <!-- <transition-group name="list" tag="div"> -->
+                <template v-for="(z, zinx) in category.azkar" :key="z.id">
+                    <transition name="slide-fade">
+                        <ion-item-sliding v-if="z.count > 0" class="my-2">
+                            <ion-item-options side="start">
+                                <ion-item-option
+                                    color="primary"
+                                    @click="share(item)"
                                 >
-                                    <ion-label
-                                        style="white-space: break-spaces;word-wrap: break-all;"
-                                    >
-                                        {{ z.body }}
-                                    </ion-label>
-                                    <ion-ripple-effect></ion-ripple-effect>
-                                    <ion-note
-                                        slot="end"
-                                        :color="meta.color"
-                                        class="px-2 m-0 font-bold text-md"
-                                    >
-                                        {{ z.count }}
-                                    </ion-note>
-                                    <ion-reorder slot="end"></ion-reorder>
-                                </ion-item>
+                                    Share
+                                </ion-item-option>
+                            </ion-item-options>
 
-                                <ion-item-options side="end">
-                                    <ion-item-option
-                                        color="danger"
-                                        @click="unread(item)"
-                                    >
-                                        Delete
-                                    </ion-item-option>
-                                </ion-item-options>
-                            </ion-item-sliding>
-                        </transition>
-                    </template>
-                </transition-group>
+                            <ion-item
+                                @click="z.count--"
+                                class="hover:cursor-pointer ion-activatable ripple-parent"
+                                :color="zinx % 2 == 0 ? 'light' : ''"
+                            >
+                                <ion-label
+                                    style="white-space: break-spaces;word-wrap: break-all;"
+                                >
+                                    {{ z.body }}
+                                </ion-label>
+                                <ion-ripple-effect></ion-ripple-effect>
+                                <ion-note
+                                    slot="end"
+                                    :color="meta.color"
+                                    class="px-2 m-0 font-bold text-md"
+                                >
+                                    {{ z.count }}
+                                </ion-note>
+                                <ion-reorder slot="end"></ion-reorder>
+                            </ion-item>
+
+                            <ion-item-options side="end">
+                                <ion-item-option
+                                    color="danger"
+                                    @click="unread(item)"
+                                >
+                                    Delete
+                                </ion-item-option>
+                            </ion-item-options>
+                        </ion-item-sliding>
+                    </transition>
+                </template>
+                <!-- </transition-group> -->
             </ion-reorder-group>
+            <ion-fab
+                vertical="bottom"
+                horizontal="start"
+                slot="fixed"
+                v-if="reorder"
+                @click="saveOrder()"
+            >
+                <ion-fab-button>
+                    <ion-icon :icon="checkmarkDoneOutline"></ion-icon>
+                </ion-fab-button>
+            </ion-fab>
         </ion-content>
     </ion-page>
 </template>
@@ -131,12 +148,15 @@
     import { Category } from '@/entities/Category';
     import db from '@/utils/db';
     import getCategoryIcon, { CategoryIcon } from '@/utils/getCategoryIcon';
-    import { addOutline, colorPaletteOutline } from 'ionicons/icons';
+    import {
+        addOutline,
+        colorPaletteOutline,
+        reorderFourOutline,
+        checkmarkDoneOutline,
+    } from 'ionicons/icons';
     import toast from '@/utils/toast';
-
-    class Props {
-        slug!: string;
-    }
+    import { Zikr } from '@/entities/Zikr';
+    import { getRepository } from 'typeorm';
 
     @Options({
         components: {
@@ -160,33 +180,58 @@
             IonButton,
         },
     })
-    export default class Show extends Vue.with(Props) {
+    export default class Show extends Vue {
         category: Category = new Category();
         meta: CategoryIcon | null = null;
         addOutline = addOutline;
         colorPaletteOutline = colorPaletteOutline;
+        reorderFourOutline = reorderFourOutline;
+        checkmarkDoneOutline = checkmarkDoneOutline;
+        reorder = false;
+        oldOrder: Zikr[] = [];
 
         async loadData() {
-            const repo = await (await db()).getRepository(Category);
-            this.category = await repo.findOneOrFail({
-                slug: this.$route.params.slug as string,
-            });
+            this.category = await (await db())
+                .createQueryBuilder(Category, 'categories')
+                .leftJoinAndSelect('categories.azkar', 'azkar')
+                .orderBy('azkar.order', 'ASC')
+                .addOrderBy('azkar.id', 'DESC')
+                .getOneOrFail();
+        }
+
+        toggleReorder(): void {
+            this.oldOrder = JSON.parse(JSON.stringify(this.category.azkar));
+
+            this.reorder = !this.reorder;
+            console.log(this.category.azkar);
         }
 
         doReorder(event: CustomEvent) {
-            // The `from` and `to` properties contain the index of the item
-            // when the drag started and ended, respectively
-            console.log(
-                'Dragged from index',
-                event.detail.from,
-                'to',
-                event.detail.to
-            );
+            event.detail.complete(this.category.azkar) as Zikr[];
 
-            // Finish the reorder and position the item in the DOM based on
-            // where the gesture ended. This method can also be called directly
-            // by the reorder group
-            event.detail.complete();
+            this.category.azkar = this.category.azkar.map((x, inx) => {
+                x.order = inx+1;
+                return x;
+            });
+        }
+
+        async saveOrder(): Promise<void> {
+            // check if menu order was changed
+            const changed = this.category.azkar.find(
+                (x, inx) => x.id !== this.oldOrder[inx].id
+            );
+            if (!changed) {
+                toast(this.$t('zikr.show.err.noOrdered'));
+                return;
+            }
+            // TODO show spinner loader
+            const repo = getRepository(Zikr);
+            await this.category.azkar.forEach(async (x) => await x.save());
+
+            // TODO hide spinner loader
+            // disable reorder
+            this.reorder = false;
+            return;
         }
 
         /**
