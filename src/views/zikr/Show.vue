@@ -48,7 +48,7 @@
             <ion-reorder-group
                 @ionItemReorder="doReorder($event)"
                 :disabled="true"
-                class='font-size-updater'
+                class="font-size-updater"
                 style="font-size: 1.0rem"
             >
                 <transition-group name="list" tag="div">
@@ -128,6 +128,7 @@
     import db from '@/utils/db';
     import getCategoryIcon, { CategoryIcon } from '@/utils/getCategoryIcon';
     import { addOutline, colorPaletteOutline } from 'ionicons/icons';
+    import toast from '@/utils/toast';
 
     class Props {
         slug!: string;
@@ -184,28 +185,48 @@
             event.detail.complete();
         }
 
-        fontIncrese() {
-            const el = document.querySelector('.font-size-updater') as HTMLDivElement;
+        /**
+         * increse ion-label font size from 0.9rem to 1.9rem
+         *
+         * @returns void
+         */
+        fontIncrese(): void {
+            const el = document.querySelector(
+                '.font-size-updater'
+            ) as HTMLDivElement;
+
             if (!el) return;
+
             const fontSize = parseFloat(el.style.fontSize);
+
             if (fontSize >= 1.9) {
-                // TODO show error toast
-                console.log('can larager than this')
+                toast(this.$t('zikr.err.font-increse'));
                 return;
             }
-            el.style.fontSize = (fontSize + 0.1) + 'rem';
+
+            el.style.fontSize = fontSize + 0.1 + 'rem';
         }
 
-        fontDecrese() {
-            const el = document.querySelector('.font-size-updater') as HTMLDivElement;
+        /**
+         * decrese ion-label font size from 1.9rem to 0.9rem
+         *
+         * @returns void
+         */
+        fontDecrese(): void {
+            const el = document.querySelector(
+                '.font-size-updater'
+            ) as HTMLDivElement;
+
             if (!el) return;
+
             const fontSize = parseFloat(el.style.fontSize);
+
             if (fontSize <= 0.9) {
-                // TODO show error toast
-                console.log('can lower than this')
+                toast(this.$t('zikr.err.font-decrese'));
                 return;
             }
-            el.style.fontSize = (fontSize - 0.1) + 'rem';
+
+            el.style.fontSize = fontSize - 0.1 + 'rem';
         }
 
         beforeMount() {

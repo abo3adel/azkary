@@ -15,6 +15,7 @@
     "@capacitor-community/sqlite": "^2.9.9",
     "@capacitor/core": "2.4.6",
     "@ionic-native/sqlite": "^5.31.1",
+    "@ionic/pwa-elements": "^3.0.2",
     "@ionic/vue": "^5.4.0",
     "@ionic/vue-router": "^5.4.0",
     "@tailwindcss/postcss7-compat": "^2.0.2",

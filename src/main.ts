@@ -4,6 +4,10 @@ import router from './router';
 
 import { IonicVue, isPlatform } from '@ionic/vue';
 
+import i18n from './i18n';
+
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
+
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/vue/css/core.css';
 
@@ -25,8 +29,6 @@ import './theme/variables.css';
 
 import './assets/tailwind.css';
 
-import i18n from './i18n';
-
 const app = createApp(App)
     .use(IonicVue)
     .use(router)
@@ -37,4 +39,6 @@ router.isReady().then(() => {
         // db();
     }
     app.mount('#app');
+    // Call the element loader after the platform has been bootstrapped
+    defineCustomElements(window);
 });
