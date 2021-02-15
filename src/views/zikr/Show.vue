@@ -355,10 +355,11 @@
 
             await getRepository(Zikr).delete({ id });
 
-            this.category.azkar.splice(
-                this.category.azkar.findIndex((x) => x.id === id),
-                1
-            );
+            const inx = this.category.azkar.findIndex((x) => x.id === id);
+
+            this.category.azkar[inx].count = 0;
+
+            setTimeout(() => this.category.azkar.splice(inx,1), 100);
 
             await loader.hide();
             return;
