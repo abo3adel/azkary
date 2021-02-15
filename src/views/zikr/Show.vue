@@ -90,7 +90,7 @@
                                     :color="meta.color"
                                     class="px-2 m-0 font-bold text-md"
                                 >
-                                    {{ z.count }}->{{ zinx + 1 }}
+                                    {{ z.count }}
                                 </ion-note>
                                 <ion-reorder slot="end"></ion-reorder>
                             </ion-item>
@@ -197,6 +197,9 @@
         oldOrder: Zikr[] = [];
         loaderTxt = '';
 
+        /**
+         * load all azkar related to this category
+         */
         async loadData() {
             await loader.show(this.loaderTxt);
 
@@ -211,7 +214,11 @@
             await loader.hide();
         }
 
-        async add() {
+        /**
+         * add new zikr to this category
+         * @returns Promise<void>
+         */
+        async add(): Promise<void> {
             const alert = await alertController.create({
                 cssClass: 'ion-alert',
                 header: this.$t('zikr.add.header'),
@@ -230,6 +237,9 @@
                         min: 1,
                         placeholder: this.$t('zikr.add.countPH'),
                         value: 1,
+                        attributes: {
+                            inputmode: 'numeric',
+                        },
                     },
                 ],
                 buttons: [
@@ -254,14 +264,17 @@
 
                             await loader.show();
 
-                            const repo = getRepository(Zikr);
                             let zikr = new Zikr();
                             zikr.body = body.trim();
                             zikr.count = count > 0 ? count : 1;
-                            zikr.category = this.category;
                             zikr.order = this.category.azkar.length;
-                            zikr = await repo.save(zikr);
+                            // set category relationship
+                            zikr.category = this.category;
 
+                            zikr = await getRepository(Zikr).save(zikr);
+
+                            // add to current list without
+                            // relationship object
                             delete zikr.category;
                             this.category.azkar.push(zikr);
 
@@ -274,28 +287,28 @@
             alert.present();
         }
 
+        /**
+         * toggle reorder option
+         */
         toggleReorder(): void {
-            // console.log(this.category.azkar);
+            // pass array with value not reference
+            // aka clone
             this.oldOrder = [...this.category.azkar];
-            console.log(this.category.azkar.length);
 
             this.reorder = !this.reorder;
         }
 
+        /**
+         * fire reorder event to complete
+         */
         doReorder(event: CustomEvent) {
-            const { from, to } = event.detail;
-            console.log(from, to);
-
-            const upated = event.detail.complete(this.category.azkar);
-
-            console.log(upated);
-
-            // this.category.azkar = this.category.azkar.map((x, inx) => {
-            //     x.order = inx + 1;
-            //     return x;
-            // });
+            event.detail.complete(this.category.azkar);
         }
 
+        /**
+         * save the ordered list by index
+         * @returns Promise<void>
+         */
         async saveOrder(): Promise<void> {
             // check if menu order was changed
             const changed = this.category.azkar.find(
@@ -312,13 +325,16 @@
                 await getConnection()
                     .createQueryBuilder(Zikr, 'azkar')
                     .update()
+                    // set order to current list index
+                    // because reorder only affects list index
                     .set({ order: y })
-                    .where({ id: x.id })
+                    .where({ id: x.id }) // typeorm is awesome
                     .execute();
                 y++;
             }
 
             await loader.hide();
+
             // disable reorder
             this.reorder = false;
             return;
