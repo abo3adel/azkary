@@ -1,12 +1,13 @@
 import { loadingController } from '@ionic/vue';
 
+export const LOADER_MESSAGE = 'برجاء الإنتظار...';
+
 export class Loader {
     private loader!: HTMLIonLoadingElement | null;
-    private message = 'Please wait...';
     private timeout = 50000;
 
     public async show(
-        message = this.message,
+        message = LOADER_MESSAGE,
         timeout = this.timeout
     ): Promise<void> {
         if (!this.loader) {

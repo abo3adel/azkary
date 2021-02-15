@@ -144,6 +144,8 @@
         IonIcon,
         IonButtons,
         IonButton,
+        IonFabButton,
+        IonFab,
     } from '@ionic/vue';
     import { Category } from '@/entities/Category';
     import db from '@/utils/db';
@@ -179,6 +181,8 @@
             IonIcon,
             IonButtons,
             IonButton,
+            IonFabButton,
+            IonFab,
         },
     })
     export default class Show extends Vue {
@@ -190,14 +194,19 @@
         checkmarkDoneOutline = checkmarkDoneOutline;
         reorder = false;
         oldOrder: Zikr[] = [];
+        loaderTxt = '';
 
         async loadData() {
+            await loader.show(this.loaderTxt);
+
             this.category = await (await db())
                 .createQueryBuilder(Category, 'categories')
                 .leftJoinAndSelect('categories.azkar', 'azkar')
                 .orderBy('azkar.order', 'ASC')
                 .addOrderBy('azkar.id', 'DESC')
                 .getOneOrFail();
+
+            await loader.hide();
         }
 
         toggleReorder(): void {
@@ -224,7 +233,7 @@
                 toast(this.$t('zikr.show.err.noOrdered'));
                 return;
             }
-            await loader.show(this.$t('loaderTxt'));
+            await loader.show(this.loaderTxt);
 
             const repo = getRepository(Zikr);
             for (const x of this.category.azkar) {
@@ -288,6 +297,7 @@
         }
 
         mounted() {
+            this.loaderTxt = this.$t('loderTxt');
             this.loadData();
         }
     }
