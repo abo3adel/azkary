@@ -8,7 +8,7 @@
                     ></ion-back-button>
                 </ion-buttons>
                 <h3 class="px-4 uppercase">
-                    {{ $t(`zikr.cat.${category.slug}`) }}
+                    {{ $t(`zikr.cat.${meta.slug}`) }}
                 </h3>
                 <ion-icon
                     v-if="meta.type === 'svg'"
@@ -203,6 +203,7 @@
             this.category = await (await db())
                 .createQueryBuilder(Category, 'categories')
                 .leftJoinAndSelect('categories.azkar', 'azkar')
+                .where({ slug: this.meta?.slug })
                 .orderBy('azkar.order', 'ASC')
                 .addOrderBy('azkar.id', 'DESC')
                 .getOneOrFail();
