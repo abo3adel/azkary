@@ -67,7 +67,7 @@
                             <ion-item-options side="start">
                                 <ion-item-option
                                     color="primary"
-                                    @click="share(item)"
+                                    @click="share(z.body)"
                                 >
                                     <ion-icon
                                         :icon="shareSocialOutline"
@@ -165,6 +165,7 @@
         IonFabButton,
         IonFab,
         alertController,
+        isPlatform,
     } from '@ionic/vue';
     import { Category } from '@/entities/Category';
     import db from '@/utils/db';
@@ -183,9 +184,9 @@
     import { getRepository, getConnection } from 'typeorm';
     import loader from '@/utils/loader';
 
-    import { Plugins, ActionSheetOptionStyle } from '@capacitor/core';
+    import { Plugins } from '@capacitor/core';
 
-    const { Modals } = Plugins;
+    const { Modals, Share, Clipboard } = Plugins;
 
     @Options({
         components: {
@@ -361,6 +362,26 @@
 
             await loader.hide();
             return;
+        }
+
+        /**
+         * share zikr item
+         */
+        async share(text: string) {
+            // TODO test in native app
+            try {
+                await Share.share({
+                    title: this.$t('zikr.share.dtitle'),
+                    text: text,
+                    url: '',
+                    dialogTitle: this.$t('zikr.share.dtitle'),
+                });
+            } catch (e) {
+                await Clipboard.write({
+                    string: text,
+                });
+                toast(this.$t('copied.done'));
+            }
         }
 
         /**
