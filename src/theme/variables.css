@@ -53,9 +53,9 @@ http://ionicframework.com/docs/theming/ */
 
     /** gold **/
     --ion-color-gold: #daa520;
-    --ion-color-gold-rgb: 218,165,32;
+    --ion-color-gold-rgb: 218, 165, 32;
     --ion-color-gold-contrast: #ffffff;
-    --ion-color-gold-contrast-rgb: 0,0,0;
+    --ion-color-gold-contrast-rgb: 0, 0, 0;
     --ion-color-gold-shade: #c0911c;
     --ion-color-gold-tint: #deae36;
 
@@ -84,8 +84,8 @@ http://ionicframework.com/docs/theming/ */
     --ion-color-light-tint: #f5f6f9;
 
     /** Custom **/
-    --default-text-color: #000;
-    --page-bg: red;
+    --ion-background-color: rgb(247, 245, 245);
+    --ion-text-color: rgb(12, 11, 11);
 }
 
 .ion-color-gold {
@@ -95,7 +95,7 @@ http://ionicframework.com/docs/theming/ */
     --ion-color-contrast-rgb: var(--ion-color-gold-contrast-rgb);
     --ion-color-shade: var(--ion-color-gold-shade);
     --ion-color-tint: var(--ion-color-gold-tint);
-  }
+}
 
 @media (prefers-color-scheme: dark) {
     /*

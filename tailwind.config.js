@@ -11,6 +11,7 @@ module.exports = {
                     '600': 'var(--ion-color-primary)',
                     '800': 'var(--ion-color-primary-shade)',
                 },
+                color: 'var(--ion-color-primary-contrast)',
                 // primary: 'var(--ion-color-primary)',
                 gray: colors.blueGray,
                 teal: colors.teal,
@@ -19,6 +20,15 @@ module.exports = {
             backgroundColors: {
                 page: 'var(--page-bg)',
                 primary: 'var(--ion-color-primary)',
+            },
+            fontFamily: {
+                sans: [
+                    'Roboto',
+                    'Cairo',
+                    '-apple-system',
+                    'BlinkMacSystemFont',
+                    'Segoe UI',
+                ],
             },
         },
     },

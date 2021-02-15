@@ -63,7 +63,7 @@
             >
                 <template v-for="(z, zinx) in category.azkar" :key="z.id">
                     <transition name="slide-fade">
-                        <ion-item-sliding v-if="z.count > 0" class="my-2">
+                        <!-- <ion-item-sliding v-if="z.count > 0" class="my-2">
                             <ion-item-options side="start">
                                 <ion-item-option
                                     color="primary"
@@ -77,7 +77,6 @@
                                     </ion-label>
                                 </ion-item-option>
                             </ion-item-options>
-
                             <ion-item
                                 @click="z.count--"
                                 class="hover:cursor-pointer ion-activatable ripple-parent"
@@ -99,7 +98,6 @@
                                 </ion-note>
                                 <ion-reorder slot="end"></ion-reorder>
                             </ion-item>
-
                             <ion-item-options side="end">
                                 <ion-item-option
                                     color="secondary"
@@ -122,7 +120,37 @@
                                     </ion-label>
                                 </ion-item-option>
                             </ion-item-options>
-                        </ion-item-sliding>
+                        </ion-item-sliding> -->
+
+                        <div
+                            class="relative w-11/12 mx-auto mt-4 mb-8"
+                            v-if="z.count > 0"
+                        >
+                            <div
+                                class="relative px-3 pt-2 pb-4 overflow-hidden font-semibold bg-gray-100 border border-gray-500 rounded-md shadow-2xl hover:cursor-pointer ion-activatable ripple-parent"
+                                @click="z.count--"
+                                dir="rtl"
+                            >
+                                {{ z.body }}
+                                <ion-reorder class='absolute top-0 left-0 z-10' v-if='!reorder'></ion-reorder>
+                                <ion-ripple-effect></ion-ripple-effect>
+                            </div>
+                            <div
+                                :data-zinx="zinx"
+                                class="relative flex flex-wrap w-4/5 p-1 py-1 mx-auto -m-3 text-sm rounded-md shadow-2xl bg-primary-600 footer text-color"
+                            >
+                                <div class="relative w-1/2 overflow-hidden text-center border-r border-current ion-activatable ripple-parent hover:cursor-pointer"
+                                @click="z.count--">
+                                    {{$t('zikr.count')}}: <span class='w-4 h-4 p-1 text-xs border border-current rounded-full'>
+                                        {{ z.count }}
+                                    </span>
+                                    <ion-ripple-effect></ion-ripple-effect>
+                                </div>
+                                <div class="w-1/2 text-center">
+                                    options
+                                </div>
+                            </div>
+                        </div>
                     </transition>
                 </template>
             </ion-reorder-group>
@@ -359,7 +387,7 @@
 
             this.category.azkar[inx].count = 0;
 
-            setTimeout(() => this.category.azkar.splice(inx,1), 100);
+            setTimeout(() => this.category.azkar.splice(inx, 1), 100);
 
             await loader.hide();
             return;
@@ -527,43 +555,15 @@
             }
         }
     }
-    .list-item {
-        display: inline-block;
-        margin-right: 10px;
-    }
-    .list-enter-active,
-    .list-leave-active {
-        transition: all 1s ease;
-    }
-    .list-enter-from,
-    .list-leave-to {
-        opacity: 0;
-        transform: translateX(-30px);
-    }
-
-    .list-move {
-        transition: transform 0.8s ease;
-    }
     .slide-fade-enter-active {
         transition: all 0.3s ease-out;
     }
-
     .slide-fade-leave-active {
         transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
     }
-
     .slide-fade-enter-from,
     .slide-fade-leave-to {
         transform: translateX(20px);
         opacity: 0;
     }
 </style>
-<i18n>
-{
-    "zikr": {
-        "show": {
-            "increse": "A"
-        }
-    }
-}
-</i18n>
