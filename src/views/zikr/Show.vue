@@ -26,41 +26,50 @@
         <ion-content :fullscreen="true">
             <ion-reorder-group
                 @ionItemReorder="doReorder($event)"
-                :disabled="false"
+                :disabled="true"
             >
-                <ion-item-sliding v-for="(z, zinx) in category.azkar" :key="z.id">
-                    <ion-item-options side="start">
-                        <ion-item-option color="primary" @click="share(item)">
-                            Share
-                        </ion-item-option>
-                    </ion-item-options>
+                <template v-for="(z, zinx) in category.azkar" :key="z.id">
+                    <ion-item-sliding v-if="z.count > 0">
+                        <ion-item-options side="start">
+                            <ion-item-option
+                                color="primary"
+                                @click="share(item)"
+                            >
+                                Share
+                            </ion-item-option>
+                        </ion-item-options>
 
-                    <ion-item
-                        class="hover:cursor-pointer ion-activatable ripple-parent"
-                        :color="zinx%2==0 ? 'light' : ''"
-                    >
-                        <ion-label
-                            style="white-space: break-spaces;word-wrap: break-all;"
+                        <ion-item
+                            @click="z.count--"
+                            class="hover:cursor-pointer ion-activatable ripple-parent"
+                            :color="zinx % 2 == 0 ? 'light' : ''"
                         >
-                            {{ z.body }}
-                        </ion-label>
-                        <ion-ripple-effect></ion-ripple-effect>
-                        <ion-note
-                            slot="end"
-                            :color="meta.color"
-                            class="text-lg font-bold"
-                        >
-                            {{ z.count }}
-                        </ion-note>
-                        <ion-reorder slot="end"></ion-reorder>
-                    </ion-item>
+                            <ion-label
+                                style="white-space: break-spaces;word-wrap: break-all;"
+                            >
+                                {{ z.body }}
+                            </ion-label>
+                            <ion-ripple-effect></ion-ripple-effect>
+                            <ion-note
+                                slot="end"
+                                :color="meta.color"
+                                class="font-bold text-md"
+                            >
+                                {{ z.count }}
+                            </ion-note>
+                            <ion-reorder slot="end"></ion-reorder>
+                        </ion-item>
 
-                    <ion-item-options side="end">
-                        <ion-item-option color="danger" @click="unread(item)">
-                            Delete
-                        </ion-item-option>
-                    </ion-item-options>
-                </ion-item-sliding>
+                        <ion-item-options side="end">
+                            <ion-item-option
+                                color="danger"
+                                @click="unread(item)"
+                            >
+                                Delete
+                            </ion-item-option>
+                        </ion-item-options>
+                    </ion-item-sliding>
+                </template>
             </ion-reorder-group>
         </ion-content>
     </ion-page>
