@@ -21,6 +21,28 @@
                     class="absolute right-0 text-5xl top-2"
                 ></ion-icon>
             </ion-toolbar>
+            <ion-toolbar color="light">
+                <ion-buttons slot="start">
+                    <ion-button color="primary" @click="add()">
+                        <ion-icon :icon="addOutline"></ion-icon>
+                        <span class="hidden sm:inline-block">
+                            {{ $t('zikr.show.add') }}
+                        </span>
+                    </ion-button>
+                    <ion-button color="primary" @click="adwwd()">
+                        <ion-icon :icon="colorPaletteOutline"></ion-icon>
+                        <span class="hidden sm:inline-block">
+                            {{ $t('zikr.show.brush') }}
+                        </span>
+                    </ion-button>
+                    <ion-button color="primary" @click="adwwd()">
+                        {{ $t('zikr.show.increse') }}+
+                    </ion-button>
+                    <ion-button color="primary" @click="adwwd()">
+                        {{ $t('zikr.show.decrese') }}-
+                    </ion-button>
+                </ion-buttons>
+            </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true">
             <ion-reorder-group
@@ -98,10 +120,12 @@
         IonReorder,
         IonIcon,
         IonButtons,
+        IonButton,
     } from '@ionic/vue';
     import { Category } from '@/entities/Category';
     import db from '@/utils/db';
     import getCategoryIcon, { CategoryIcon } from '@/utils/getCategoryIcon';
+    import { addOutline, colorPaletteOutline } from 'ionicons/icons';
 
     class Props {
         slug!: string;
@@ -126,12 +150,14 @@
             IonReorder,
             IonIcon,
             IonButtons,
+            IonButton,
         },
     })
     export default class Show extends Vue.with(Props) {
         category: Category = new Category();
         meta: CategoryIcon | null = null;
-        // items: Zikr[] = []
+        addOutline = addOutline;
+        colorPaletteOutline = colorPaletteOutline;
 
         async loadData() {
             const repo = await (await db()).getRepository(Category);
