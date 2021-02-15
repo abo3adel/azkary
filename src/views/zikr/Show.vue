@@ -79,7 +79,7 @@
                             </ion-item-options>
                             <ion-item
                                 @click="z.count--"
-                                class="hover:cursor-pointer ion-activatable ripple-parent"
+                                class="select-none hover:cursor-pointer ion-activatable ripple-parent"
                                 :color="zinx % 2 == 0 ? 'light' : ''"
                                 dir="rtl"
                             >
@@ -128,7 +128,7 @@
                             v-if="z.count > 0 && theme === 'dev'"
                         >
                             <div
-                                class="relative px-3 pt-2 pb-4 overflow-hidden font-semibold bg-gray-100 border border-gray-500 rounded-md shadow-2xl hover:cursor-pointer ion-activatable ripple-parent"
+                                class="relative px-3 pt-2 pb-4 overflow-hidden bg-gray-100 border border-gray-500 rounded-md shadow-2xl select-none hover:cursor-pointer ion-activatable ripple-parent "
                                 @click="z.count--"
                                 dir="rtl"
                             >
@@ -141,7 +141,7 @@
                             </div>
                             <div
                                 :data-zinx="zinx"
-                                class="relative flex flex-wrap w-11/12 p-1 py-1 mx-auto -m-3 text-sm rounded-md shadow-2xl bg-primary-600 footer text-color"
+                                class="relative flex flex-wrap w-11/12 p-1 py-1 mx-auto -m-3 text-sm rounded-md shadow-2xl select-none bg-primary-600 footer text-color"
                             >
                                 <div
                                     class="relative w-1/2 overflow-hidden text-center border-r border-current ion-activatable ripple-parent hover:cursor-pointer"
