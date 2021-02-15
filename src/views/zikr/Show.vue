@@ -28,14 +28,17 @@
                 @ionItemReorder="doReorder($event)"
                 :disabled="false"
             >
-                <ion-item-sliding v-for="z in category.azkar" :key="z.id">
+                <ion-item-sliding v-for="(z, zinx) in category.azkar" :key="z.id">
                     <ion-item-options side="start">
                         <ion-item-option color="primary" @click="share(item)">
                             Share
                         </ion-item-option>
                     </ion-item-options>
 
-                    <ion-item class="hover:cursor-pointer">
+                    <ion-item
+                        class="hover:cursor-pointer ion-activatable ripple-parent"
+                        :color="zinx%2==0 ? 'light' : ''"
+                    >
                         <ion-label
                             style="white-space: break-spaces;word-wrap: break-all;"
                         >
@@ -81,11 +84,11 @@
         IonNote,
         IonReorderGroup,
         IonReorder,
+        IonIcon,
     } from '@ionic/vue';
     import { Category } from '@/entities/Category';
     import db from '@/utils/db';
     import getCategoryIcon, { CategoryIcon } from '@/utils/getCategoryIcon';
-    import { Zikr } from '@/entities/Zikr';
 
     class Props {
         slug!: string;
@@ -108,6 +111,7 @@
             IonNote,
             IonReorderGroup,
             IonReorder,
+            IonIcon,
         },
     })
     export default class Show extends Vue.with(Props) {
@@ -149,3 +153,9 @@
         }
     }
 </script>
+<style>
+    /* ion-item:first-child {
+        background: red;
+        color:#fff;
+    } */
+</style>
