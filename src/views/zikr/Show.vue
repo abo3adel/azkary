@@ -35,10 +35,10 @@
                             {{ $t('zikr.show.brush') }}
                         </span>
                     </ion-button>
-                    <ion-button color="primary" @click="adwwd()">
+                    <ion-button color="primary" @click="fontIncrese()">
                         {{ $t('zikr.show.increse') }}+
                     </ion-button>
-                    <ion-button color="primary" @click="adwwd()">
+                    <ion-button color="primary" @click="fontDecrese()">
                         {{ $t('zikr.show.decrese') }}-
                     </ion-button>
                 </ion-buttons>
@@ -48,6 +48,8 @@
             <ion-reorder-group
                 @ionItemReorder="doReorder($event)"
                 :disabled="true"
+                class='font-size-updater'
+                style="font-size: 1.0rem"
             >
                 <transition-group name="list" tag="div">
                     <template v-for="(z, zinx) in category.azkar" :key="z.id">
@@ -182,6 +184,30 @@
             event.detail.complete();
         }
 
+        fontIncrese() {
+            const el = document.querySelector('.font-size-updater') as HTMLDivElement;
+            if (!el) return;
+            const fontSize = parseFloat(el.style.fontSize);
+            if (fontSize >= 1.9) {
+                // TODO show error toast
+                console.log('can larager than this')
+                return;
+            }
+            el.style.fontSize = (fontSize + 0.1) + 'rem';
+        }
+
+        fontDecrese() {
+            const el = document.querySelector('.font-size-updater') as HTMLDivElement;
+            if (!el) return;
+            const fontSize = parseFloat(el.style.fontSize);
+            if (fontSize <= 0.9) {
+                // TODO show error toast
+                console.log('can lower than this')
+                return;
+            }
+            el.style.fontSize = (fontSize - 0.1) + 'rem';
+        }
+
         beforeMount() {
             this.meta = getCategoryIcon().filter(
                 (x) => x.slug === (this.$route.params.slug as string)
@@ -194,10 +220,9 @@
     }
 </script>
 <style>
-    /* ion-item:first-child {
-        background: red;
-        color:#fff;
-    } */
+    ion-item.item {
+        font-size: inherit;
+    }
     .list-item {
         display: inline-block;
         margin-right: 10px;
@@ -229,3 +254,12 @@
         opacity: 0;
     }
 </style>
+<i18n>
+{
+    "zikr": {
+        "show": {
+            "increse": "A"
+        }
+    }
+}
+</i18n>
