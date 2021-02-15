@@ -61,7 +61,6 @@
                 class="font-size-updater"
                 style="font-size: 1.0rem"
             >
-                <!-- <transition-group name="list" tag="div"> -->
                 <template v-for="(z, zinx) in category.azkar" :key="z.id">
                     <transition name="slide-fade">
                         <ion-item-sliding v-if="z.count > 0" class="my-2">
@@ -70,7 +69,12 @@
                                     color="primary"
                                     @click="share(item)"
                                 >
-                                    Share
+                                    <ion-icon
+                                        :icon="shareSocialOutline"
+                                    ></ion-icon>
+                                    <ion-label class="hidden sm:inline-block">
+                                        {{ $t('show.item.share') }}
+                                    </ion-label>
                                 </ion-item-option>
                             </ion-item-options>
 
@@ -97,16 +101,29 @@
 
                             <ion-item-options side="end">
                                 <ion-item-option
+                                    color="secondary"
+                                    @click="add(z.body, z.count, z.id)"
+                                >
+                                    <ion-icon :icon="createOutline"></ion-icon>
+                                    <ion-label class="hidden sm:inline-block">
+                                        {{ $t('show.item.edit') }}
+                                    </ion-label>
+                                </ion-item-option>
+                                <ion-item-option
                                     color="danger"
                                     @click="unread(item)"
                                 >
-                                    Delete
+                                    <ion-icon
+                                        :icon="trashBinOutline"
+                                    ></ion-icon>
+                                    <ion-label class="hidden sm:inline-block">
+                                        {{ $t('show.item.delete') }}
+                                    </ion-label>
                                 </ion-item-option>
                             </ion-item-options>
                         </ion-item-sliding>
                     </transition>
                 </template>
-                <!-- </transition-group> -->
             </ion-reorder-group>
             <ion-fab
                 vertical="bottom"
@@ -156,6 +173,9 @@
         colorPaletteOutline,
         reorderFourOutline,
         checkmarkDoneOutline,
+        createOutline,
+        trashBinOutline,
+        shareSocialOutline,
     } from 'ionicons/icons';
     import toast from '@/utils/toast';
     import { Zikr } from '@/entities/Zikr';
@@ -193,6 +213,9 @@
         colorPaletteOutline = colorPaletteOutline;
         reorderFourOutline = reorderFourOutline;
         checkmarkDoneOutline = checkmarkDoneOutline;
+        createOutline = createOutline;
+        trashBinOutline = trashBinOutline;
+        shareSocialOutline = shareSocialOutline;
         reorder = false;
         oldOrder: Zikr[] = [];
         loaderTxt = '';
@@ -216,9 +239,14 @@
 
         /**
          * add new zikr to this category
+         *
+         * @param txt string zikr body
+         * @param count number zikr count
+         * @param id number|null pass this to edit and update
+         *
          * @returns Promise<void>
          */
-        async add(): Promise<void> {
+        async add(txt = '', count: 1, id: number | null = null): Promise<void> {
             const alert = await alertController.create({
                 cssClass: 'ion-alert',
                 header: this.$t('zikr.add.header'),
@@ -226,7 +254,7 @@
                     {
                         name: 'body',
                         placeholder: 'سبحان الله وبحمده',
-                        cssClass: 'specialClass',
+                        value: txt,
                         attributes: {
                             dir: 'rtl',
                         },
@@ -236,7 +264,7 @@
                         type: 'number',
                         min: 1,
                         placeholder: this.$t('zikr.add.countPH'),
-                        value: 1,
+                        value: count,
                         attributes: {
                             inputmode: 'numeric',
                         },
@@ -247,9 +275,6 @@
                         text: this.$t('zikr.add.cancel'),
                         role: 'cancel',
                         cssClass: 'cancelBtn',
-                        // handler: () => {
-                        //     // console.log('Confirm Cancel');
-                        // },
                     },
                     {
                         text: this.$t('zikr.add.save'),
@@ -267,16 +292,35 @@
                             let zikr = new Zikr();
                             zikr.body = body.trim();
                             zikr.count = count > 0 ? count : 1;
-                            zikr.order = this.category.azkar.length;
-                            // set category relationship
-                            zikr.category = this.category;
+                            if (id) {
+                                zikr.id = id;
+                            } else {
+                                zikr.order = this.category.azkar.length;
+                                // set category relationship
+                                zikr.category = this.category;
+                            }
 
                             zikr = await getRepository(Zikr).save(zikr);
 
                             // add to current list without
                             // relationship object
                             delete zikr.category;
-                            this.category.azkar.push(zikr);
+
+                            if (id) {
+                                // update item
+                                this.category.azkar = this.category.azkar.map(
+                                    (x) => {
+                                        if (x.id === id) {
+                                            x.body = body;
+                                            x.count = count;
+                                        }
+
+                                        return x;
+                                    }
+                                );
+                            } else {
+                                this.category.azkar.push(zikr);
+                            }
 
                             return await loader.hide();
                         },
