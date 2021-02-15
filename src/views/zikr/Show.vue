@@ -157,6 +157,7 @@
     import toast from '@/utils/toast';
     import { Zikr } from '@/entities/Zikr';
     import { getRepository } from 'typeorm';
+    import loader from '@/utils/loader';
 
     @Options({
         components: {
@@ -203,14 +204,13 @@
             this.oldOrder = JSON.parse(JSON.stringify(this.category.azkar));
 
             this.reorder = !this.reorder;
-            console.log(this.category.azkar);
         }
 
         doReorder(event: CustomEvent) {
             event.detail.complete(this.category.azkar) as Zikr[];
 
             this.category.azkar = this.category.azkar.map((x, inx) => {
-                x.order = inx+1;
+                x.order = inx + 1;
                 return x;
             });
         }
@@ -224,11 +224,14 @@
                 toast(this.$t('zikr.show.err.noOrdered'));
                 return;
             }
-            // TODO show spinner loader
-            const repo = getRepository(Zikr);
-            await this.category.azkar.forEach(async (x) => await x.save());
+            await loader.show(this.$t('loaderTxt'));
 
-            // TODO hide spinner loader
+            const repo = getRepository(Zikr);
+            for (const x of this.category.azkar) {
+                await x.save();
+            }
+
+            await loader.hide();
             // disable reorder
             this.reorder = false;
             return;
@@ -292,6 +295,12 @@
 <style>
     ion-item.item {
         font-size: inherit;
+    }
+    .ion-loader {
+        --background: var(--ion-color-primary);
+        --spinner-color: var(--ion-color-primary-contrast);
+
+        color: var(--ion-color-primary-contrast);
     }
     .list-item {
         display: inline-block;
