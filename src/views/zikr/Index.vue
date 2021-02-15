@@ -18,7 +18,7 @@
                         :color="icons[inx].color"
                         expand="block"
                         class="mb-5"
-                        :router-link="`/tabs/zikr/${cat.slug}`"
+                        :router-link="`/zikr/${cat.slug}`"
                     >
                         <span class="absolute left-0">
                             {{ $t(`zikr.cat.${cat.slug}`) }}
