@@ -90,7 +90,7 @@
                                     :color="meta.color"
                                     class="px-2 m-0 font-bold text-md"
                                 >
-                                    {{ z.count }}
+                                    {{ z.count }}->{{ zinx + 1 }}
                                 </ion-note>
                                 <ion-reorder slot="end"></ion-reorder>
                             </ion-item>
@@ -146,6 +146,7 @@
         IonButton,
         IonFabButton,
         IonFab,
+        alertController,
     } from '@ionic/vue';
     import { Category } from '@/entities/Category';
     import db from '@/utils/db';
@@ -158,7 +159,7 @@
     } from 'ionicons/icons';
     import toast from '@/utils/toast';
     import { Zikr } from '@/entities/Zikr';
-    import { getRepository } from 'typeorm';
+    import { getRepository, getConnection } from 'typeorm';
     import loader from '@/utils/loader';
 
     @Options({
@@ -209,19 +210,89 @@
             await loader.hide();
         }
 
+        async add() {
+            const alert = await alertController.create({
+                cssClass: 'ion-alert',
+                header: this.$t('zikr.add.header'),
+                inputs: [
+                    {
+                        name: 'body',
+                        placeholder: 'سبحان الله وبحمده',
+                        cssClass: 'specialClass',
+                        attributes: {
+                            dir: 'rtl',
+                        },
+                    },
+                    {
+                        name: 'count',
+                        type: 'number',
+                        min: 1,
+                        placeholder: this.$t('zikr.add.countPH'),
+                        value: 1,
+                    },
+                ],
+                buttons: [
+                    {
+                        text: this.$t('zikr.add.cancel'),
+                        role: 'cancel',
+                        cssClass: 'cancelBtn',
+                        // handler: () => {
+                        //     // console.log('Confirm Cancel');
+                        // },
+                    },
+                    {
+                        text: this.$t('zikr.add.save'),
+                        cssClass: 'submitBtn',
+                        handler: async (ev): Promise<void> => {
+                            const body = ev.body as string;
+                            const count = ev.count as number;
+                            if (!body || !body.length) {
+                                toast(this.$t('zikr.err.noBody'));
+                                return;
+                            }
+
+                            await loader.show();
+
+                            const repo = getRepository(Zikr);
+                            let zikr = new Zikr();
+                            zikr.body = body.trim();
+                            zikr.count = count > 0 ? count : 1;
+                            zikr.category = this.category;
+                            zikr.order = this.category.azkar.length;
+                            zikr = await repo.save(zikr);
+
+                            delete zikr.category;
+                            this.category.azkar.push(zikr);
+
+                            return await loader.hide();
+                        },
+                    },
+                ],
+            });
+
+            alert.present();
+        }
+
         toggleReorder(): void {
-            this.oldOrder = JSON.parse(JSON.stringify(this.category.azkar));
+            // console.log(this.category.azkar);
+            this.oldOrder = [...this.category.azkar];
+            console.log(this.category.azkar.length);
 
             this.reorder = !this.reorder;
         }
 
         doReorder(event: CustomEvent) {
-            event.detail.complete(this.category.azkar) as Zikr[];
+            const { from, to } = event.detail;
+            console.log(from, to);
 
-            this.category.azkar = this.category.azkar.map((x, inx) => {
-                x.order = inx + 1;
-                return x;
-            });
+            const upated = event.detail.complete(this.category.azkar);
+
+            console.log(upated);
+
+            // this.category.azkar = this.category.azkar.map((x, inx) => {
+            //     x.order = inx + 1;
+            //     return x;
+            // });
         }
 
         async saveOrder(): Promise<void> {
@@ -230,14 +301,20 @@
                 (x, inx) => x.id !== this.oldOrder[inx].id
             );
             if (!changed) {
-                toast(this.$t('zikr.show.err.noOrdered'));
+                toast(this.$t('zikr.err.noOrdered'));
                 return;
             }
             await loader.show(this.loaderTxt);
 
-            const repo = getRepository(Zikr);
+            let y = 0;
             for (const x of this.category.azkar) {
-                await x.save();
+                await getConnection()
+                    .createQueryBuilder(Zikr, 'azkar')
+                    .update()
+                    .set({ order: y })
+                    .where({ id: x.id })
+                    .execute();
+                y++;
             }
 
             await loader.hide();
@@ -302,7 +379,7 @@
         }
     }
 </script>
-<style>
+<style lang="postcss">
     ion-item.item {
         font-size: inherit;
     }
@@ -311,6 +388,29 @@
         --spinner-color: var(--ion-color-primary-contrast);
 
         color: var(--ion-color-primary-contrast);
+    }
+    /* .ion-alert .alert-wrapper {
+        --background: #e5e5e5;
+    } */
+    .ion-alert {
+        .cancelBtn {
+            @apply text-orange-600 transition duration-300;
+            &:hover,
+            &:focus,
+            &:active {
+                @apply bg-orange-600 text-white;
+            }
+        }
+        .submitBtn {
+            @apply transition duration-300 font-semibold;
+            color: var(--ion-color-primary);
+            &:hover,
+            &:focus,
+            &:active {
+                background: var(--ion-color-primary);
+                color: var(--ion-color-primary-contrast);
+            }
+        }
     }
     .list-item {
         display: inline-block;
