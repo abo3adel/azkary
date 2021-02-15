@@ -5,21 +5,20 @@
                 <ion-buttons slot="start">
                     <ion-back-button
                         default-href="/tabs/home"
-                        :text="$t('backBtn')"
                     ></ion-back-button>
                 </ion-buttons>
-                <h3 class="p-4 pb-8 uppercase">
+                <h3 class="px-4 uppercase">
                     {{ $t(`zikr.cat.${category.slug}`) }}
                 </h3>
                 <ion-icon
                     v-if="meta.type === 'svg'"
                     :src="`/assets/icons/${meta.name}.svg`"
-                    class="absolute right-0 text-6xl top-2"
+                    class="absolute right-0 text-5xl top-2"
                 ></ion-icon>
                 <ion-icon
                     v-else
                     :icon="meta.name"
-                    class="absolute right-0 text-6xl top-2"
+                    class="absolute right-0 text-5xl top-2"
                 ></ion-icon>
             </ion-toolbar>
         </ion-header>
@@ -31,7 +30,7 @@
                 <transition-group name="list" tag="div">
                     <template v-for="(z, zinx) in category.azkar" :key="z.id">
                         <transition name="slide-fade">
-                            <ion-item-sliding v-if="z.count > 0">
+                            <ion-item-sliding v-if="z.count > 0" class="my-2">
                                 <ion-item-options side="start">
                                     <ion-item-option
                                         color="primary"
@@ -55,7 +54,7 @@
                                     <ion-note
                                         slot="end"
                                         :color="meta.color"
-                                        class="font-bold text-md"
+                                        class="px-2 m-0 font-bold text-md"
                                     >
                                         {{ z.count }}
                                     </ion-note>

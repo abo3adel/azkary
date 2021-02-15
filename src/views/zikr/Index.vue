@@ -5,9 +5,6 @@
                 <h3 class="p-4 pb-8 uppercase">
                     {{ $t('zikr.toolbar') }}
                 </h3>
-                <ion-buttons slot="end">
-                    <ion-back-button></ion-back-button>
-                </ion-buttons>
             </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true">
