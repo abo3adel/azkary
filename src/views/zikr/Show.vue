@@ -82,6 +82,7 @@
                                 @click="z.count--"
                                 class="hover:cursor-pointer ion-activatable ripple-parent"
                                 :color="zinx % 2 == 0 ? 'light' : ''"
+                                dir="rtl"
                             >
                                 <ion-label
                                     style="white-space: break-spaces;word-wrap: break-all;"
