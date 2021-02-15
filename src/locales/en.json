@@ -1,6 +1,9 @@
 {
   "hello": "hello i18n !!",
   "zikr": {
-    "repellendus-iste-exp": "repellendus-iste Easdasdasdxp"
+    "repellendus-iste-exp": "repellendus-iste Easdasdasdxp",
+    "show": {
+      "font": "A"
+    }
   }
 }

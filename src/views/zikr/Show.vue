@@ -36,13 +36,13 @@
                         </span>
                     </ion-button>
                     <ion-button color="primary" @click="fontIncrese()">
-                        <ion-label class="text-md">
-                            {{ $t('zikr.show.increse') }}+
+                        <ion-label class="text-lg">
+                            {{ $t('zikr.show.font') }}+
                         </ion-label>
                     </ion-button>
                     <ion-button color="primary" @click="fontDecrese()">
-                        <ion-label class="text-sm">
-                            {{ $t('zikr.show.decrese') }}-
+                        <ion-label class="text-xs">
+                            {{ $t('zikr.show.font') }}-
                         </ion-label>
                     </ion-button>
                 </ion-buttons>
