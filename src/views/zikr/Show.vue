@@ -132,12 +132,12 @@
                                 dir="rtl"
                             >
                                 {{ z.body }}
-                                <ion-reorder class='absolute top-0 left-0 z-10' v-if='!reorder'></ion-reorder>
+                                <ion-reorder class='absolute top-0 left-0 z-10' v-if='reorder'></ion-reorder>
                                 <ion-ripple-effect></ion-ripple-effect>
                             </div>
                             <div
                                 :data-zinx="zinx"
-                                class="relative flex flex-wrap w-4/5 p-1 py-1 mx-auto -m-3 text-sm rounded-md shadow-2xl bg-primary-600 footer text-color"
+                                class="relative flex flex-wrap w-11/12 p-1 py-1 mx-auto -m-3 text-sm rounded-md shadow-2xl bg-primary-600 footer text-color"
                             >
                                 <div class="relative w-1/2 overflow-hidden text-center border-r border-current ion-activatable ripple-parent hover:cursor-pointer"
                                 @click="z.count--">
