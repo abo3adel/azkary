@@ -35,7 +35,7 @@
                             {{ $t('zikr.show.add') }}
                         </span>
                     </ion-button>
-                    <ion-button color="primary" @click="adwwd()">
+                    <ion-button color="primary" @click="themeToggle()">
                         <ion-icon :icon="colorPaletteOutline"></ion-icon>
                         <span class="hidden sm:inline-block">
                             {{ $t('zikr.show.brush') }}
@@ -62,8 +62,8 @@
                 style="font-size: 1.0rem"
             >
                 <template v-for="(z, zinx) in category.azkar" :key="z.id">
-                    <transition name="slide-fade">
-                        <!-- <ion-item-sliding v-if="z.count > 0" class="my-2">
+                    <transition name="slide-fade" v-if="theme === 'base'">
+                        <ion-item-sliding v-if="z.count > 0" class="my-2">
                             <ion-item-options side="start">
                                 <ion-item-option
                                     color="primary"
@@ -120,11 +120,12 @@
                                     </ion-label>
                                 </ion-item-option>
                             </ion-item-options>
-                        </ion-item-sliding> -->
-
+                        </ion-item-sliding>
+                    </transition>
+                    <transition name="slide-fade" v-if="theme === 'dev'">
                         <div
                             class="relative w-11/12 mx-auto mt-4 mb-8"
-                            v-if="z.count > 0"
+                            v-if="z.count > 0 && theme === 'dev'"
                         >
                             <div
                                 class="relative px-3 pt-2 pb-4 overflow-hidden font-semibold bg-gray-100 border border-gray-500 rounded-md shadow-2xl hover:cursor-pointer ion-activatable ripple-parent"
@@ -132,16 +133,24 @@
                                 dir="rtl"
                             >
                                 {{ z.body }}
-                                <ion-reorder class='absolute top-0 left-0 z-10' v-if='reorder'></ion-reorder>
+                                <ion-reorder
+                                    class="absolute top-0 left-0 z-10"
+                                    v-if="reorder"
+                                ></ion-reorder>
                                 <ion-ripple-effect></ion-ripple-effect>
                             </div>
                             <div
                                 :data-zinx="zinx"
                                 class="relative flex flex-wrap w-11/12 p-1 py-1 mx-auto -m-3 text-sm rounded-md shadow-2xl bg-primary-600 footer text-color"
                             >
-                                <div class="relative w-1/2 overflow-hidden text-center border-r border-current ion-activatable ripple-parent hover:cursor-pointer"
-                                @click="z.count--">
-                                    {{$t('zikr.count')}}: <span class='w-4 h-4 p-1 text-xs border border-current rounded-full'>
+                                <div
+                                    class="relative w-1/2 overflow-hidden text-center border-r border-current ion-activatable ripple-parent hover:cursor-pointer"
+                                    @click="z.count--"
+                                >
+                                    {{ $t('zikr.count') }}:
+                                    <span
+                                        class="w-4 h-4 p-1 text-xs border border-current rounded-full"
+                                    >
                                         {{ z.count }}
                                     </span>
                                     <ion-ripple-effect></ion-ripple-effect>
@@ -253,6 +262,7 @@
         reorder = false;
         oldOrder: Zikr[] = [];
         loaderTxt = '';
+        theme: 'base' | 'dev' = 'base';
 
         /**
          * load all azkar related to this category
@@ -363,6 +373,10 @@
             });
 
             alert.present();
+        }
+
+        themeToggle() {
+            this.theme = this.theme === 'base' ? 'dev' : 'base';
         }
 
         /**
