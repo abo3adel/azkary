@@ -112,7 +112,7 @@
                                 </ion-item-option>
                                 <ion-item-option
                                     color="danger"
-                                    @click="unread(item)"
+                                    @click="remove(z.id)"
                                 >
                                     <ion-icon
                                         :icon="trashBinOutline"
@@ -182,6 +182,10 @@
     import { Zikr } from '@/entities/Zikr';
     import { getRepository, getConnection } from 'typeorm';
     import loader from '@/utils/loader';
+
+    import { Plugins, ActionSheetOptionStyle } from '@capacitor/core';
+
+    const { Modals } = Plugins;
 
     @Options({
         components: {
@@ -330,6 +334,33 @@
             });
 
             alert.present();
+        }
+
+        /**
+         * delete zikr from database
+         * @returns Promise<void>
+         */
+        async remove(id: number): Promise<void> {
+            const confirm = await Modals.confirm({
+                title: this.$t('zikr.del.conf'),
+                message: this.$t('zikr.del.mess'),
+                okButtonTitle: this.$t('zikr.del.okBtn'),
+                cancelButtonTitle: this.$t('zikr.del.cancelBtn'),
+            });
+
+            if (!confirm.value) return;
+
+            await loader.show();
+
+            await getRepository(Zikr).delete({ id });
+
+            this.category.azkar.splice(
+                this.category.azkar.findIndex((x) => x.id === id),
+                1
+            );
+
+            await loader.hide();
+            return;
         }
 
         /**
