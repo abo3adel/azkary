@@ -3,8 +3,3 @@
 @tailwind components;
 
 @tailwind utilities;
-
-@font-face {
-    font-family: 'Cairo';
-    src: url('/assets/cairo.woff2') format('woff2'), url('/assets/cairo.woff') format('woff');
-}
