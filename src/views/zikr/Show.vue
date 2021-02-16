@@ -1,7 +1,7 @@
 <template>
     <ion-page>
         <ion-header>
-            <ion-toolbar :color="meta.color || 'primary'">
+            <ion-toolbar :color="meta.color || 'primary'" class='haveBg'>
                 <ion-buttons slot="start">
                     <ion-button color="light" @click="goBack()">
                         <ion-icon
