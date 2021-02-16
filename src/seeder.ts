@@ -5,13 +5,16 @@ import db from './utils/db';
 import faker from 'faker';
 import { ZikrFactory } from '../database/factory/ZikrFactory';
 import { Zikr } from './entities/Zikr';
+import { UserFactory } from '../database/factory/UserFactory';
 
 class Seeder {
     private catRepo!: Repository<Category>;
     async run(): Promise<void> {
+        await UserFactory.create();
         await this.seedCategories();
         return;
     }
+
 
     private async seedCategories() {
         this.catRepo = (await db()).getRepository(Category) as Repository<

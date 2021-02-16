@@ -1,5 +1,4 @@
-import { UserOpr } from './UserOpr';
-import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, JoinTable, OneToOne} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, BaseEntity} from "typeorm";
 
 export enum UserTheme {
     Base = 'base',
@@ -29,5 +28,5 @@ export class User extends BaseEntity {
     fontSize!: number;
 
     @Column({length: 10, default: UserTheme.Dev})
-    theme!: UserTheme;
+    theme!: UserTheme | string;
 }

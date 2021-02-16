@@ -221,7 +221,7 @@
         trashBinOutline,
         shareSocialOutline,
         cogOutline,
-        closeOutline
+        closeOutline,
     } from 'ionicons/icons';
     import toast from '@/utils/toast';
     import { Zikr } from '@/entities/Zikr';
@@ -229,6 +229,7 @@
     import loader from '@/utils/loader';
 
     import { Plugins } from '@capacitor/core';
+    import { User, UserTheme } from '@/entities/User';
 
     const { Modals, Share, Clipboard } = Plugins;
 
@@ -273,7 +274,7 @@
         reorder = false;
         oldOrder: Zikr[] = [];
         loaderTxt = '';
-        theme: 'base' | 'dev' = 'dev';
+        theme: UserTheme = UserTheme.Dev;
 
         /**
          * load all azkar related to this category
@@ -431,8 +432,17 @@
             alert.present();
         }
 
-        themeToggle() {
-            this.theme = this.theme === 'base' ? 'dev' : 'base';
+        async themeToggle() {
+            this.theme =
+                this.theme === UserTheme.Base ? UserTheme.Dev : UserTheme.Base;
+            
+            await loader.show();
+            await getConnection()
+                .createQueryBuilder(User, 'users')
+                .update()
+                .set({ theme: this.theme })
+                .execute();
+            await loader.hide();
         }
 
         /**
@@ -584,6 +594,16 @@
             this.meta = getCategoryIcon().filter(
                 (x) => x.slug === (this.$route.params.slug as string)
             )[0];
+
+            db().then((con) => {
+                con.getRepository(User)
+                    .findOne()
+                    .then((user) => {
+                        // @ts-ignore
+                        this.theme = user?.theme as string;
+                        // this.font
+                    });
+            });
         }
 
         mounted() {
