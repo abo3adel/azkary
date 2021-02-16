@@ -59,7 +59,7 @@
                 @ionItemReorder="doReorder($event)"
                 :disabled="!reorder"
                 class="font-size-updater"
-                style="font-size: 1.0rem"
+                :style="`font-size: ${fontSize}rem`"
             >
                 <template v-for="(z, zinx) in category.azkar" :key="z.id">
                     <transition name="slide-fade" v-if="theme === 'base'">
@@ -231,7 +231,7 @@
     import { Plugins } from '@capacitor/core';
     import { User, UserTheme } from '@/entities/User';
 
-    const { Modals, Share, Clipboard } = Plugins;
+    const { Modals, Share, Clipboard, Storage } = Plugins;
 
     @Options({
         components: {
@@ -274,7 +274,8 @@
         reorder = false;
         oldOrder: Zikr[] = [];
         loaderTxt = '';
-        theme: UserTheme = UserTheme.Dev;
+        theme: UserTheme | string = UserTheme.Base;
+        fontSize = 1.1;
 
         /**
          * load all azkar related to this category
@@ -435,14 +436,8 @@
         async themeToggle() {
             this.theme =
                 this.theme === UserTheme.Base ? UserTheme.Dev : UserTheme.Base;
-            
-            await loader.show();
-            await getConnection()
-                .createQueryBuilder(User, 'users')
-                .update()
-                .set({ theme: this.theme })
-                .execute();
-            await loader.hide();
+
+            await Storage.set({ key: 'theme', value: this.theme });
         }
 
         /**
@@ -552,20 +547,13 @@
          * @returns void
          */
         fontIncrese(): void {
-            const el = document.querySelector(
-                '.font-size-updater'
-            ) as HTMLDivElement;
-
-            if (!el) return;
-
-            const fontSize = parseFloat(el.style.fontSize);
-
-            if (fontSize >= 1.9) {
+            if (this.fontSize >= 1.9) {
                 toast(this.$t('zikr.err.font-increse'));
                 return;
             }
 
-            el.style.fontSize = fontSize + 0.1 + 'rem';
+            this.fontSize += 0.1;
+            Storage.set({ key: 'fontSize', value: `${this.fontSize}` });
         }
 
         /**
@@ -574,20 +562,13 @@
          * @returns void
          */
         fontDecrese(): void {
-            const el = document.querySelector(
-                '.font-size-updater'
-            ) as HTMLDivElement;
-
-            if (!el) return;
-
-            const fontSize = parseFloat(el.style.fontSize);
-
-            if (fontSize <= 0.9) {
+            if (this.fontSize <= 0.9) {
                 toast(this.$t('zikr.err.font-decrese'));
                 return;
             }
 
-            el.style.fontSize = fontSize - 0.1 + 'rem';
+            this.fontSize -= 0.1;
+            Storage.set({ key: 'fontSize', value: `${this.fontSize}` });
         }
 
         beforeMount() {
@@ -595,15 +576,14 @@
                 (x) => x.slug === (this.$route.params.slug as string)
             )[0];
 
-            db().then((con) => {
-                con.getRepository(User)
-                    .findOne()
-                    .then((user) => {
-                        // @ts-ignore
-                        this.theme = user?.theme as string;
-                        // this.font
-                    });
-            });
+            Storage.get({ key: 'theme' }).then(
+                (res) => (this.theme = res.value as string)
+            );
+
+            // set font size
+            Storage.get({ key: 'fontSize' }).then(
+                (res) => (this.fontSize = parseFloat(res.value as string))
+            );
         }
 
         mounted() {
