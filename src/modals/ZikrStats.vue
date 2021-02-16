@@ -79,25 +79,22 @@
                     {{ $t('zikr.stats.total') }}
                 </div>
                 <div class="w-1/2 text-lg font-bold">
-                    {{ user.azkarCount + count }}
+                    {{ user.id ? formatNum(totalCount) : totalCount }}
                 </div>
             </div>
             <div class="w-8/12 mx-auto text-center p-7">
                 <div
                     class="w-16 h-16 p-3 mx-auto text-4xl transition duration-500 transform rounded-full shadow-2xl text-color hover:scale-125"
-                    :class="{ 'hover:cursor-pointer': user.id }"
+                    :class="{ 'hover:cursor-pointer': doneSaving }"
                     :style="`background-color: var(--ion-color-${meta.color})`"
                     @click="goToHome()"
                 >
                     <ion-icon
                         :icon="reloadOutline"
                         class="animate-spin"
-                        v-if="!user.id"
+                        v-if="!doneSaving"
                     ></ion-icon>
-                    <ion-icon
-                        :icon="homeOutline"
-                        v-else
-                    ></ion-icon>
+                    <ion-icon :icon="homeOutline" v-else></ion-icon>
                 </div>
             </div>
         </div>
@@ -130,6 +127,9 @@
                 user: {
                     azkarCount: 0,
                 },
+                totalCount: 0,
+                doneSaving: false,
+
                 calculatorOutline,
                 homeOutline,
                 reloadOutline,
@@ -140,20 +140,22 @@
                 this.user = JSON.parse(
                     (await Storage.get({ key: 'user' })).value
                 );
+                this.user.azkarCount = 20;
                 const fontSize = (await Storage.get({ key: 'fontSize' })).value;
                 const theme = (await Storage.get({ key: 'theme' })).value;
 
                 // update user with new values
-                return await getConnection()
+                await getConnection()
                     .createQueryBuilder(User, 'users')
                     .update()
                     .set({ azkarCount: this.user.azkarCount + this.count })
                     .set({ fontSize })
                     .set({ theme })
                     .execute();
+                this.doneSaving = true;
             },
             goToHome() {
-                if (!this.user.id) return;
+                if (!this.doneSaving) return;
                 this.$router.push('/tabs/home');
             },
             formatNum: (num) => {
@@ -178,9 +180,25 @@
                     si[i].symbol
                 );
             },
+            getTotalCount() {
+                let max = 5000;
+                const intval = setInterval(() => {
+                    if (max === this.totalCount) clearInterval(intval);
+
+                    // check if user model was loaded
+                    // and call this once
+                    if (this.user.id && max === 5000) {
+                        max = this.user.azkarCount + this.count;
+                    }
+
+                    if (this.totalCount > max) this.totalCount--;
+                    else this.totalCount++;
+                });
+            },
         },
         mounted() {
             setTimeout(() => this.saveToDB(), 5000);
+            this.getTotalCount();
         },
         components: { IonContent, IonIcon },
     });
