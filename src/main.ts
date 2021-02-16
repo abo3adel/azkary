@@ -46,7 +46,7 @@ router.isReady().then(async () => {
         // db();
     }
     const {value} = await Storage.get({key: 'fontSize'});
-    if (!value) {
+    if (!value || value === 'undefined') {
         await loader.show();
         const user = await (await db()).getRepository(User).findOne();
         await Storage.set({key: 'fontSize', value: `${user?.fontSize}`});

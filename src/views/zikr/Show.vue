@@ -70,6 +70,7 @@
                                     @click="share(z.body)"
                                 >
                                     <ion-icon
+                                        class="mx-1"
                                         :icon="shareSocialOutline"
                                     ></ion-icon>
                                     <ion-label class="hidden sm:inline-block">
@@ -103,7 +104,10 @@
                                     color="secondary"
                                     @click="add(z.body, z.count, z.id)"
                                 >
-                                    <ion-icon :icon="createOutline"></ion-icon>
+                                    <ion-icon
+                                        class="mx-1"
+                                        :icon="createOutline"
+                                    ></ion-icon>
                                     <ion-label class="hidden sm:inline-block">
                                         {{ $t('show.item.edit') }}
                                     </ion-label>
@@ -113,6 +117,7 @@
                                     @click="remove(z.id)"
                                 >
                                     <ion-icon
+                                        class="mx-1"
                                         :icon="trashBinOutline"
                                     ></ion-icon>
                                     <ion-label class="hidden sm:inline-block">
@@ -129,7 +134,10 @@
                         >
                             <div
                                 class="relative px-3 pt-2 pb-4 overflow-hidden bg-gray-100 border border-gray-500 rounded-md shadow-2xl select-none hover:cursor-pointer ion-activatable ripple-parent "
-                                @click="z.count--"
+                                @click="
+                                    z.count--;
+                                    onDecree(z.count);
+                                "
                                 dir="rtl"
                             >
                                 {{ z.body }}
@@ -145,7 +153,10 @@
                             >
                                 <div
                                     class="relative w-1/2 overflow-hidden text-center border-r border-current ion-activatable ripple-parent hover:cursor-pointer"
-                                    @click="z.count--"
+                                    @click="
+                                        z.count--;
+                                        onDecree();
+                                    "
                                 >
                                     {{ $t('zikr.count') }}:
                                     <span
@@ -159,8 +170,13 @@
                                     class="relative w-1/2 overflow-hidden text-center ion-activatable ripple-parent hover:cursor-pointer"
                                     @click="showOprs(z)"
                                 >
-                                    <ion-icon :icon="cogOutline"></ion-icon>
-                                    {{ $t('zikr.opr') }}
+                                    <ion-icon
+                                        class="mx-1 align-middle text-md"
+                                        :icon="cogOutline"
+                                    ></ion-icon>
+                                    <ion-label>
+                                        {{ $t('zikr.opr') }}
+                                    </ion-label>
                                     <ion-ripple-effect></ion-ripple-effect>
                                 </div>
                             </div>
@@ -208,6 +224,7 @@
         IonFab,
         alertController,
         actionSheetController,
+        modalController,
     } from '@ionic/vue';
     import { Category } from '@/entities/Category';
     import db from '@/utils/db';
@@ -227,7 +244,7 @@
     import { Zikr } from '@/entities/Zikr';
     import { getRepository, getConnection } from 'typeorm';
     import loader from '@/utils/loader';
-
+    import ZikrStats from '@/modals/ZikrStats.vue';
     import { Plugins } from '@capacitor/core';
     import { User, UserTheme } from '@/entities/User';
 
@@ -276,6 +293,8 @@
         loaderTxt = '';
         theme: UserTheme | string = UserTheme.Base;
         fontSize = 1.1;
+        completedItems = 0;
+        totalCount = 0;
 
         /**
          * load all azkar related to this category
@@ -292,6 +311,8 @@
                 .getOneOrFail();
 
             await loader.hide();
+
+            this.totalCount = this.category.azkar.reduce((p, c) => p += c.count, 0);
         }
 
         async showOprs(zikr: Zikr) {
@@ -569,6 +590,29 @@
 
             this.fontSize -= 0.1;
             Storage.set({ key: 'fontSize', value: `${this.fontSize}` });
+        }
+
+        async onDecree(count: number) {
+            if (count === 0) {
+                this.completedItems++;
+            }
+
+            if (this.completedItems !== this.category.azkar.length) {
+                // return;
+            }
+
+            // this.$router.push('/tabs/home');
+            
+            const modal = await modalController.create({
+                component: ZikrStats,
+                cssClass: 'my-custom-class',
+                componentProps: {
+                    title: this.category.title,
+                    meta: this.meta,
+                    count: this.totalCount+ 20,
+                },
+            });
+            return modal.present();
         }
 
         beforeMount() {

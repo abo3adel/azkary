@@ -8,7 +8,7 @@ export class ZikrFactoryClass extends BaseFactory {
     getData(): BaseEntity {
         const zikr = new Zikr();
         zikr.body = this.faker.lorem.sentence();
-        zikr.count = this.faker.random.number(100);
+        zikr.count = 1;
         zikr.byUser = this.faker.random.boolean();
         zikr.order = this.faker.random.number(100);
         return zikr;
