@@ -598,18 +598,15 @@
             }
 
             if (this.completedItems !== this.category.azkar.length) {
-                // return;
+                return;
             }
 
-            // this.$router.push('/tabs/home');
-            
             const modal = await modalController.create({
                 component: ZikrStats,
-                cssClass: 'my-custom-class',
                 componentProps: {
                     title: this.category.title,
                     meta: this.meta,
-                    count: this.totalCount+ 20,
+                    count: this.totalCount,
                 },
             });
             return modal.present();

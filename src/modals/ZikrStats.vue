@@ -79,7 +79,7 @@
                     {{ $t('zikr.stats.total') }}
                 </div>
                 <div class="w-1/2 text-lg font-bold">
-                    {{ user.id ? formatNum(totalCount) : totalCount }}
+                    {{ totalCount }}
                 </div>
             </div>
             <div class="w-8/12 mx-auto text-center p-7">
@@ -140,7 +140,6 @@
                 this.user = JSON.parse(
                     (await Storage.get({ key: 'user' })).value
                 );
-                this.user.azkarCount = 20;
                 const fontSize = (await Storage.get({ key: 'fontSize' })).value;
                 const theme = (await Storage.get({ key: 'theme' })).value;
 
@@ -156,10 +155,10 @@
             },
             goToHome() {
                 if (!this.doneSaving) return;
-                this.$router.push('/tabs/home');
+                this.$router.push('');
             },
-            formatNum: (num) => {
-                const si = [
+            formatNum(num) {
+                let si = [
                     { value: 1, symbol: '' },
                     { value: 1e3, symbol: 'k' },
                     { value: 1e6, symbol: 'M' },
@@ -168,6 +167,19 @@
                     { value: 1e15, symbol: 'P' },
                     { value: 1e18, symbol: 'E' },
                 ];
+
+                if (this.$i18n.locale === 'ar') {
+                    si = [
+                        { value: 1, symbol: '' },
+                        { value: 1e3, symbol: ' ألف' },
+                        { value: 1e6, symbol: ' مليون' },
+                        { value: 1e9, symbol: ' مليار' },
+                        { value: 1e12, symbol: ' بليون' },
+                        { value: 1e15, symbol: ' بليار' },
+                        { value: 1e18, symbol: ' تريليون' },
+                    ];
+                }
+
                 const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
                 let i;
                 for (i = si.length - 1; i > 0; i--) {
@@ -181,23 +193,20 @@
                 );
             },
             getTotalCount() {
-                let max = 5000;
                 const intval = setInterval(() => {
-                    if (max === this.totalCount) clearInterval(intval);
-
-                    // check if user model was loaded
-                    // and call this once
-                    if (this.user.id && max === 5000) {
-                        max = this.user.azkarCount + this.count;
+                    if (this.user.id) {
+                        clearInterval(intval);
+                        this.totalCount = this.formatNum(
+                            this.user.azkarCount + this.count
+                        );
+                        return;
                     }
-
-                    if (this.totalCount > max) this.totalCount--;
-                    else this.totalCount++;
+                    this.totalCount++;
                 });
             },
         },
         mounted() {
-            setTimeout(() => this.saveToDB(), 5000);
+           setTimeout(() =>  this.saveToDB(), 1000);
             this.getTotalCount();
         },
         components: { IonContent, IonIcon },
