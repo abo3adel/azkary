@@ -155,8 +155,13 @@
                                     </span>
                                     <ion-ripple-effect></ion-ripple-effect>
                                 </div>
-                                <div class="w-1/2 text-center">
-                                    options
+                                <div
+                                    class="relative w-1/2 overflow-hidden text-center ion-activatable ripple-parent hover:cursor-pointer"
+                                    @click="showOprs(z)"
+                                >
+                                    <ion-icon :icon="cogOutline"></ion-icon>
+                                    {{ $t('zikr.opr') }}
+                                    <ion-ripple-effect></ion-ripple-effect>
                                 </div>
                             </div>
                         </div>
@@ -202,7 +207,7 @@
         IonFabButton,
         IonFab,
         alertController,
-        isPlatform,
+        actionSheetController,
     } from '@ionic/vue';
     import { Category } from '@/entities/Category';
     import db from '@/utils/db';
@@ -215,6 +220,8 @@
         createOutline,
         trashBinOutline,
         shareSocialOutline,
+        cogOutline,
+        closeOutline
     } from 'ionicons/icons';
     import toast from '@/utils/toast';
     import { Zikr } from '@/entities/Zikr';
@@ -252,6 +259,7 @@
     export default class Show extends Vue {
         category: Category = new Category();
         meta: CategoryIcon | null = null;
+
         addOutline = addOutline;
         colorPaletteOutline = colorPaletteOutline;
         reorderFourOutline = reorderFourOutline;
@@ -259,10 +267,13 @@
         createOutline = createOutline;
         trashBinOutline = trashBinOutline;
         shareSocialOutline = shareSocialOutline;
+        cogOutline = cogOutline;
+        closeOutline = closeOutline;
+
         reorder = false;
         oldOrder: Zikr[] = [];
         loaderTxt = '';
-        theme: 'base' | 'dev' = 'base';
+        theme: 'base' | 'dev' = 'dev';
 
         /**
          * load all azkar related to this category
@@ -281,6 +292,47 @@
             await loader.hide();
         }
 
+        async showOprs(zikr: Zikr) {
+            const actionSheet = await actionSheetController.create({
+                header: this.$t('zikr.opr'),
+                cssClass: 'opr-actions',
+                backdropDismiss: true,
+                buttons: [
+                    {
+                        text: this.$t('show.item.edit'),
+                        icon: createOutline,
+                        cssClass: 'editBtn',
+                        handler: async () => {
+                            await this.add(zikr.body, zikr.count, zikr.id);
+                        },
+                    },
+                    {
+                        text: this.$t('show.item.share'),
+                        icon: shareSocialOutline,
+                        cssClass: 'shareBtn',
+                        handler: async () => {
+                            await this.share(zikr.body);
+                        },
+                    },
+                    {
+                        text: this.$t('show.item.del'),
+                        icon: trashBinOutline,
+                        cssClass: 'deleteBtn',
+                        handler: async () => {
+                            await this.remove(zikr.id);
+                        },
+                    },
+                    {
+                        text: this.$t('show.close'),
+                        icon: closeOutline,
+                        role: 'cancel',
+                        cssClass: 'cancelBtn',
+                    },
+                ],
+            });
+            return await actionSheet.present();
+        }
+
         /**
          * add new zikr to this category
          *
@@ -290,7 +342,11 @@
          *
          * @returns Promise<void>
          */
-        async add(txt = '', count: 1, id: number | null = null): Promise<void> {
+        async add(
+            txt = '',
+            count = 1,
+            id: number | null = null
+        ): Promise<void> {
             const alert = await alertController.create({
                 cssClass: 'ion-alert',
                 header: this.$t('zikr.add.header'),
@@ -579,5 +635,25 @@
     .slide-fade-leave-to {
         transform: translateX(50px);
         opacity: 0;
+    }
+    .opr-actions {
+        button {
+            @apply transition duration-300 ease-in;
+            &:hover {
+                @apply font-semibold;
+            }
+        }
+        button.editBtn * {
+            @apply text-blue-600;
+        }
+        button.shareBtn * {
+            @apply text-teal-600;
+        }
+        button.deleteBtn * {
+            @apply text-red-600;
+        }
+        button.cancelBtn * {
+            @apply text-orange-600;
+        }
     }
 </style>
