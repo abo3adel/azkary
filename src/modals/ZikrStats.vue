@@ -1,7 +1,7 @@
 <template>
     <ion-content :fullscreen="true">
         <div
-            class="relative shadow-sm select-none header h-1/3"
+            class="relative shadow-sm select-none header h-2/5"
             :style="
                 meta.color.length
                     ? `background: linear-gradient(60deg, var(--ion-color-primary) 0%, var(--ion-color-${meta.color}) 100% );`
@@ -9,11 +9,21 @@
             "
         >
             <div class="text-center inner-header hero text-color">
-                <h1 class="pt-12 text-xl">{{ title }}</h1>
+                <h1 class="w-11/12 pt-10 mx-auto text-center">
+                    <ion-icon
+                        v-if="meta.type === 'svg'"
+                        :src="`/assets/icons/${meta.name}.svg`"
+                        class="w-14 h-14"
+                    ></ion-icon>
+                    <ion-icon v-else :icon="meta.name" class="w-14 h-14"></ion-icon>
+                </h1>
+                <h1 class="text-lg">
+                    {{ title }}
+                </h1>
                 <h1 class="pt-6 text-3xl">
                     <ion-icon
                         :icon="calculatorOutline"
-                        class="mx-1 text-xl"
+                        class="w-8 h-8 mx-1 align-middle"
                     ></ion-icon>
                     {{ $t('zikr.stats.calc') }}
                 </h1>
@@ -155,7 +165,7 @@
             },
             goToHome() {
                 if (!this.doneSaving) return;
-                this.$router.push('');
+                this.$router.push('/');
             },
             formatNum(num) {
                 let si = [
@@ -206,7 +216,7 @@
             },
         },
         mounted() {
-           setTimeout(() =>  this.saveToDB(), 1000);
+            setTimeout(() => this.saveToDB(), 1000);
             this.getTotalCount();
         },
         components: { IonContent, IonIcon },

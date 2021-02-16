@@ -246,7 +246,7 @@
     import loader from '@/utils/loader';
     import ZikrStats from '@/modals/ZikrStats.vue';
     import { Plugins } from '@capacitor/core';
-    import { User, UserTheme } from '@/entities/User';
+    import { UserTheme } from '@/entities/User';
 
     const { Modals, Share, Clipboard, Storage } = Plugins;
 
@@ -598,7 +598,7 @@
             }
 
             if (this.completedItems !== this.category.azkar.length) {
-                return;
+                // return;
             }
 
             const modal = await modalController.create({
