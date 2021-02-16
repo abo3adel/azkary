@@ -1,36 +1,28 @@
 <template>
-    <ion-toolbar>
-        <ion-back-button></ion-back-button>
-    </ion-toolbar>
+  <ion-page>
+    <ion-header>
+      <ion-toolbar color="danger">
+        <ion-title>Home</ion-title>
+      </ion-toolbar>
+    </ion-header>
     <ion-content :fullscreen="true">
-       <h1>asdasdasd</h1>
+      <ion-header collapse="condense">
+        <ion-toolbar>
+          <ion-title size="large">Home</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      
+      <ExploreContainer name="Home page" />
     </ion-content>
+  </ion-page>
 </template>
+
 <script lang="ts">
-    import { Options, Vue } from 'vue-class-component';
-    import {
-        IonToolbar,
-        IonBackButton,
-        IonContent,
-    } from '@ionic/vue';
-    // import seeder from '@/seeder';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+import ExploreContainer from '@/components/ExploreContainer.vue';
 
-    @Options({
-        components: {
-            IonToolbar,
-            IonBackButton,
-            IonContent,
-        },
-    })
-    export default class Home extends Vue {
-        page = 'PAGE';
-
-        mounted() {
-            // seeder.run().then(r => {
-            //     console.clear();
-            //     console.log('Done Seeded');
-            // });
-            console.log('at home');
-        }
-    }
+export default  {
+  name: 'Tab2',
+  components: { ExploreContainer, IonHeader, IonToolbar, IonTitle, IonContent, IonPage }
+}
 </script>

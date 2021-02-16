@@ -8,6 +8,14 @@
             </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true">
+            <ion-header collapse="condense">
+                <ion-toolbar color="primary">
+                    <h3 class="p-4 pb-8 uppercase">
+                        {{ $t('zikr.toolbar') }}
+                    </h3>
+                </ion-toolbar>
+            </ion-header>
+
             <div class="pt-10">
                 <div
                     v-for="(cat, inx) in categories"
@@ -19,6 +27,7 @@
                         expand="block"
                         class="mb-5"
                         :router-link="`/zikr/${cat.slug}`"
+                        size="large"
                     >
                         <span class="absolute left-0">
                             {{ $t(`zikr.cat.${cat.slug}`) }}
@@ -57,7 +66,7 @@
         IonIcon,
     } from '@ionic/vue';
 
-    import getCategoryIcon, {CategoryIcon} from '@/utils/getCategoryIcon';
+    import getCategoryIcon, { CategoryIcon } from '@/utils/getCategoryIcon';
 
     @Options({
         components: {
@@ -80,7 +89,8 @@
 
         async loadCategories() {
             const con = await db();
-            const categories = await con.createQueryBuilder()
+            const categories = await con
+                .createQueryBuilder()
                 .from(Category, 'Category')
                 .execute();
 
