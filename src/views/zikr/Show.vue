@@ -3,9 +3,12 @@
         <ion-header>
             <ion-toolbar :color="meta.color || 'primary'">
                 <ion-buttons slot="start">
-                    <ion-back-button
-                        default-href="/tabs/home"
-                    ></ion-back-button>
+                    <ion-button color="light" @click="goBack()">
+                        <ion-icon
+                            slot="icon-only"
+                            :icon="arrowBackOutline"
+                        ></ion-icon>
+                    </ion-button>
                 </ion-buttons>
                 <h3 class="px-4 uppercase">
                     {{ $t(`zikr.cat.${meta.slug}`) }}
@@ -79,7 +82,10 @@
                                 </ion-item-option>
                             </ion-item-options>
                             <ion-item
-                                @click="z.count--;onDecree(z.count)"
+                                @click="
+                                    z.count--;
+                                    onDecree(z.count, z.id);
+                                "
                                 class="select-none hover:cursor-pointer ion-activatable ripple-parent"
                                 :color="zinx % 2 == 0 ? 'light' : ''"
                                 dir="rtl"
@@ -136,7 +142,7 @@
                                 class="relative px-3 pt-2 pb-4 overflow-hidden bg-gray-100 border border-gray-500 rounded-md shadow-2xl select-none hover:cursor-pointer ion-activatable ripple-parent "
                                 @click="
                                     z.count--;
-                                    onDecree(z.count);
+                                    onDecree(z.count, z.id);
                                 "
                                 dir="rtl"
                             >
@@ -155,7 +161,7 @@
                                     class="relative w-1/2 overflow-hidden text-center border-r border-current ion-activatable ripple-parent hover:cursor-pointer"
                                     @click="
                                         z.count--;
-                                        onDecree(z.count);
+                                        onDecree(z.count, z.id);
                                     "
                                 >
                                     {{ $t('zikr.count') }}:
@@ -239,6 +245,7 @@
         shareSocialOutline,
         cogOutline,
         closeOutline,
+        arrowBackOutline,
     } from 'ionicons/icons';
     import toast from '@/utils/toast';
     import { Zikr } from '@/entities/Zikr';
@@ -289,6 +296,7 @@
         shareSocialOutline = shareSocialOutline;
         cogOutline = cogOutline;
         closeOutline = closeOutline;
+        arrowBackOutline = arrowBackOutline;
 
         reorder = false;
         oldOrder: Zikr[] = [];
@@ -297,6 +305,7 @@
         fontSize = 1.1;
         completedItems = 0;
         totalCount = 0;
+        readed = 0;
         modal!: HTMLIonModalElement;
 
         /**
@@ -598,12 +607,17 @@
             Storage.set({ key: 'fontSize', value: `${this.fontSize}` });
         }
 
-        async onDecree(count: number) {
+        async onDecree(count: number, id: number, openDirect = false) {
+            this.readed++;
+
             if (count === 0) {
                 this.completedItems++;
             }
 
-            if (this.completedItems !== this.category.azkar.length) {
+            if (
+                this.completedItems !== this.category.azkar.length &&
+                !openDirect
+            ) {
                 return;
             }
 
@@ -614,10 +628,19 @@
                 componentProps: {
                     title: this.category.title,
                     meta: this.meta,
-                    count: this.totalCount,
+                    count: openDirect ? --this.readed : this.totalCount,
                 },
             });
             return await this.modal.present();
+        }
+
+        async goBack() {
+            if (!this.readed) {
+                await this.$router.replace('/tabs/zikr');
+                return;
+            }
+
+            await this.onDecree(1, 0, true);
         }
 
         beforeMount() {
