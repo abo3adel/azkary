@@ -1,4 +1,10 @@
-import {Entity, PrimaryGeneratedColumn, Column, BaseEntity} from "typeorm";
+import { UserOpr } from './UserOpr';
+import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, JoinTable, OneToOne} from "typeorm";
+
+export enum UserTheme {
+    Base = 'base',
+    Dev =  'dev',
+}
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -18,4 +24,10 @@ export class User extends BaseEntity {
         unsigned: true,
     })
     azkarCount!: number;
+
+    @Column('float', {default: '1.0'})
+    fontSize!: number;
+
+    @Column({length: 10, default: UserTheme.Dev})
+    theme!: UserTheme;
 }
