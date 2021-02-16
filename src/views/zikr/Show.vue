@@ -79,7 +79,7 @@
                                 </ion-item-option>
                             </ion-item-options>
                             <ion-item
-                                @click="z.count--"
+                                @click="z.count--;onDecree(z.count)"
                                 class="select-none hover:cursor-pointer ion-activatable ripple-parent"
                                 :color="zinx % 2 == 0 ? 'light' : ''"
                                 dir="rtl"
@@ -640,7 +640,7 @@
             this.loadData();
             emitter.on('go-home', async () => {
                 await this.$router.replace('/tabs/zikr');
-                await this.modal.dismiss();
+                await this.modal?.dismiss();
             });
         }
     }
