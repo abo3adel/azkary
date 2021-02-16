@@ -155,7 +155,7 @@
                                     class="relative w-1/2 overflow-hidden text-center border-r border-current ion-activatable ripple-parent hover:cursor-pointer"
                                     @click="
                                         z.count--;
-                                        onDecree();
+                                        onDecree(z.count);
                                     "
                                 >
                                     {{ $t('zikr.count') }}:
@@ -247,6 +247,8 @@
     import ZikrStats from '@/modals/ZikrStats.vue';
     import { Plugins } from '@capacitor/core';
     import { UserTheme } from '@/entities/User';
+    // @ts-ignore
+    import emitter from 'tiny-emitter/instance';
 
     const { Modals, Share, Clipboard, Storage } = Plugins;
 
@@ -295,6 +297,7 @@
         fontSize = 1.1;
         completedItems = 0;
         totalCount = 0;
+        modal!: HTMLIonModalElement;
 
         /**
          * load all azkar related to this category
@@ -312,7 +315,10 @@
 
             await loader.hide();
 
-            this.totalCount = this.category.azkar.reduce((p, c) => p += c.count, 0);
+            this.totalCount = this.category.azkar.reduce(
+                (p, c) => (p += c.count),
+                0
+            );
         }
 
         async showOprs(zikr: Zikr) {
@@ -598,18 +604,20 @@
             }
 
             if (this.completedItems !== this.category.azkar.length) {
-                // return;
+                return;
             }
 
-            const modal = await modalController.create({
+            this.modal = await modalController.create({
                 component: ZikrStats,
+                backdropDismiss: false,
+                keyboardClose: false,
                 componentProps: {
                     title: this.category.title,
                     meta: this.meta,
                     count: this.totalCount,
                 },
             });
-            return modal.present();
+            return await this.modal.present();
         }
 
         beforeMount() {
@@ -630,6 +638,10 @@
         mounted() {
             this.loaderTxt = this.$t('loderTxt');
             this.loadData();
+            emitter.on('go-home', async () => {
+                await this.$router.replace('/tabs/zikr');
+                await this.modal.dismiss();
+            });
         }
     }
 </script>

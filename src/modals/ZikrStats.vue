@@ -104,7 +104,7 @@
                         class="animate-spin"
                         v-if="!doneSaving"
                     ></ion-icon>
-                    <ion-icon :icon="homeOutline" v-else></ion-icon>
+                    <ion-icon :icon="chevronBackOutline" v-else></ion-icon>
                 </div>
             </div>
         </div>
@@ -116,12 +116,14 @@
     import {
         calculatorOutline,
         reloadOutline,
-        homeOutline,
+        chevronBackOutline,
     } from 'ionicons/icons';
     import { defineComponent } from 'vue';
     import { Plugins } from '@capacitor/core';
     import { getConnection } from 'typeorm';
     import { User } from '@/entities/User';
+    // @ts-ignore
+    import emitter from 'tiny-emitter/instance'
 
     const { Storage } = Plugins;
 
@@ -131,7 +133,11 @@
             title: { type: String, default: '' },
             meta: { type: Object },
             count: { type: Number, default: 1 },
+            modal: {},
         },
+        emits: [
+            'go-home'
+        ],
         data() {
             return {
                 user: {
@@ -141,7 +147,7 @@
                 doneSaving: false,
 
                 calculatorOutline,
-                homeOutline,
+                chevronBackOutline,
                 reloadOutline,
             };
         },
@@ -163,9 +169,9 @@
                     .execute();
                 this.doneSaving = true;
             },
-            goToHome() {
+            async goToHome() {
                 if (!this.doneSaving) return;
-                this.$router.push('/');
+                emitter.emit('go-home');
             },
             formatNum(num) {
                 let si = [
