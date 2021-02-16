@@ -1,11 +1,20 @@
 <template>
     <ion-content :fullscreen="true">
-        <div class="relative shadow-sm header h-1/3" :style="meta.color.length ? `background: linear-gradient(60deg, var(--ion-color-primary) 0%, var(--ion-color-${meta.color}) 100% );` : ''">
-            <div
-                class="text-center inner-header hero text-color"
-            >
+        <div
+            class="relative shadow-sm select-none header h-1/3"
+            :style="
+                meta.color.length
+                    ? `background: linear-gradient(60deg, var(--ion-color-primary) 0%, var(--ion-color-${meta.color}) 100% );`
+                    : ''
+            "
+        >
+            <div class="text-center inner-header hero text-color">
                 <h1 class="pt-12 text-xl">{{ title }}</h1>
                 <h1 class="pt-6 text-3xl">
+                    <ion-icon
+                        :icon="calculatorOutline"
+                        class="mx-1 text-xl"
+                    ></ion-icon>
                     {{ $t('zikr.stats.calc') }}
                 </h1>
                 <div class="absolute bottom-0 left-0 w-full">
@@ -54,21 +63,47 @@
             </div>
         </div>
 
-        <div class="content ion-padding">
-            <div class="flex flex-wrap p-2 text-center border border-gray-500 rounded-lg shadow-2xl">
+        <div class="select-none content ion-padding">
+            <div
+                class="flex flex-wrap p-2 text-center border border-gray-500 rounded-lg shadow-2xl"
+            >
                 <div class="w-1/2 font-semibold border-r border-gray-500">
-                    {{$t('zikr.stats.added')}}
+                    {{ $t('zikr.stats.added') }}
+                </div>
+                <div class="w-1/2 text-lg font-bold">{{ count }}+</div>
+            </div>
+            <div
+                class="flex flex-wrap p-2 my-5 text-center border border-gray-500 rounded-lg shadow-2xl"
+            >
+                <div class="w-1/2 font-semibold border-r border-gray-500">
+                    {{ $t('zikr.stats.total') }}
                 </div>
                 <div class="w-1/2 text-lg font-bold">
-                    {{count}}+
+                    {{ user.azkarCount + count }}
                 </div>
             </div>
-            <div class="flex flex-wrap p-2 my-5 text-center border border-gray-500 rounded-lg shadow-2xl">
-                <div class="w-1/2 font-semibold border-r border-gray-500">
-                    {{$t('zikr.stats.total')}}
-                </div>
-                <div class="w-1/2 text-lg font-bold">
-                    {{user.azkarCount + count}}+
+            <div class="w-8/12 mx-auto text-center p-7">
+                <div
+                    class="mx-auto text-xl text-color"
+                    :class="{ 'hover:cursor-pointer': user.id }"
+                    @click="goToHome()"
+                >
+                    <ion-icon
+                        :icon="reloadOutline"
+                        class="w-10 h-10 p-3 rounded-full shadow-lg animate-spin"
+                        :style="
+                            `background-color: var(--ion-color-${meta.color})`
+                        "
+                        v-if="!user.id"
+                    ></ion-icon>
+                    <ion-icon
+                        class="w-10 h-10 p-3 rounded-full shadow-lg"
+                        :icon="homeOutline"
+                        :style="
+                            `background-color: var(--ion-color-${meta.color})`
+                        "
+                        v-else
+                    ></ion-icon>
                 </div>
             </div>
         </div>
@@ -76,7 +111,12 @@
 </template>
 
 <script>
-    import { IonContent } from '@ionic/vue';
+    import { IonContent, IonIcon } from '@ionic/vue';
+    import {
+        calculatorOutline,
+        reloadOutline,
+        homeOutline,
+    } from 'ionicons/icons';
     import { defineComponent } from 'vue';
     import { Plugins } from '@capacitor/core';
     import { getConnection } from 'typeorm';
@@ -93,11 +133,16 @@
         },
         data() {
             return {
-                user: {},
+                user: {
+                    azkarCount: 0,
+                },
+                calculatorOutline,
+                homeOutline,
+                reloadOutline,
             };
         },
         methods: {
-            async run() {
+            async saveToDB() {
                 this.user = JSON.parse(
                     (await Storage.get({ key: 'user' })).value
                 );
@@ -113,11 +158,15 @@
                     .set({ theme })
                     .execute();
             },
+            goToHome() {
+                if (!this.user.id) return;
+                this.$router.push('/tabs/home');
+            },
         },
         mounted() {
-            this.run();
+            setTimeout(() => this.saveToDB(), 5000);
         },
-        components: { IonContent },
+        components: { IonContent, IonIcon },
     });
 </script>
 <style scoped>
