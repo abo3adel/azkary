@@ -84,24 +84,18 @@
             </div>
             <div class="w-8/12 mx-auto text-center p-7">
                 <div
-                    class="mx-auto text-xl text-color"
+                    class="w-16 h-16 p-3 mx-auto text-4xl transition duration-500 transform rounded-full shadow-2xl text-color hover:scale-125"
                     :class="{ 'hover:cursor-pointer': user.id }"
+                    :style="`background-color: var(--ion-color-${meta.color})`"
                     @click="goToHome()"
                 >
                     <ion-icon
                         :icon="reloadOutline"
-                        class="w-10 h-10 p-3 rounded-full shadow-lg animate-spin"
-                        :style="
-                            `background-color: var(--ion-color-${meta.color})`
-                        "
+                        class="animate-spin"
                         v-if="!user.id"
                     ></ion-icon>
                     <ion-icon
-                        class="w-10 h-10 p-3 rounded-full shadow-lg"
                         :icon="homeOutline"
-                        :style="
-                            `background-color: var(--ion-color-${meta.color})`
-                        "
                         v-else
                     ></ion-icon>
                 </div>
@@ -161,6 +155,28 @@
             goToHome() {
                 if (!this.user.id) return;
                 this.$router.push('/tabs/home');
+            },
+            formatNum: (num) => {
+                const si = [
+                    { value: 1, symbol: '' },
+                    { value: 1e3, symbol: 'k' },
+                    { value: 1e6, symbol: 'M' },
+                    { value: 1e9, symbol: 'G' },
+                    { value: 1e12, symbol: 'T' },
+                    { value: 1e15, symbol: 'P' },
+                    { value: 1e18, symbol: 'E' },
+                ];
+                const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+                let i;
+                for (i = si.length - 1; i > 0; i--) {
+                    if (num >= si[i].value) {
+                        break;
+                    }
+                }
+                return (
+                    (num / si[i].value).toFixed(1).replace(rx, '$1') +
+                    si[i].symbol
+                );
             },
         },
         mounted() {
