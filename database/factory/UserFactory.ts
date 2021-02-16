@@ -7,8 +7,8 @@ export class UserFactoryClass extends BaseFactory {
         const user = new User();
         user.name = this.faker.name.findName();
         user.azkarCount = this.faker.random.number();
-        user.fontSize = this.faker.random.float(1.2);
-        user.theme = UserTheme.Dev;
+        user.fontSize = 1 + this.faker.random.arrayElement([...Array(9).fill(0.1).map((x, inx) => (inx/10))]);
+        user.theme = this.faker.random.objectElement(UserTheme);
         return user;
     }
 }
