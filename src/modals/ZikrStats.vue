@@ -4,7 +4,10 @@
             <div
                 class="text-center inner-header hero text-color"
             >
-                <h1 class="pt-12 text-3xl">{{ title }}</h1>
+                <h1 class="pt-12 text-xl">{{ title }}</h1>
+                <h1 class="pt-6 text-3xl">
+                    {{ $t('zikr.stats.calc') }}
+                </h1>
                 <div class="absolute bottom-0 left-0 w-full">
                     <svg
                         class="relative w-full waves"
@@ -52,8 +55,22 @@
         </div>
 
         <div class="content ion-padding">
-            {{ count }}
-            {{ user.azkarCount }}
+            <div class="flex flex-wrap p-2 text-center border border-gray-500 rounded-lg shadow-2xl">
+                <div class="w-1/2 font-semibold border-r border-gray-500">
+                    {{$t('zikr.stats.added')}}
+                </div>
+                <div class="w-1/2 text-lg font-bold">
+                    {{count}}+
+                </div>
+            </div>
+            <div class="flex flex-wrap p-2 my-5 text-center border border-gray-500 rounded-lg shadow-2xl">
+                <div class="w-1/2 font-semibold border-r border-gray-500">
+                    {{$t('zikr.stats.total')}}
+                </div>
+                <div class="w-1/2 text-lg font-bold">
+                    {{user.azkarCount + count}}+
+                </div>
+            </div>
         </div>
     </ion-content>
 </template>
