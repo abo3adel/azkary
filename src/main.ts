@@ -1,3 +1,4 @@
+import { User } from './entities/User';
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
@@ -28,17 +29,34 @@ import '@ionic/vue/css/display.css';
 import './theme/variables.css';
 
 import './assets/tailwind.css';
+import db from './utils/db';
+import loader from './utils/loader';
+
+import { Plugins } from '@capacitor/core';
+
+const { Storage } = Plugins;
 
 const app = createApp(App)
     .use(IonicVue)
     .use(router)
     .use(i18n);
 
-router.isReady().then(() => {
+router.isReady().then(async () => {
     if (isPlatform('desktop')) {
         // db();
     }
+    const {value} = await Storage.get({key: 'fontSize'});
+    if (!value) {
+        await loader.show();
+        const user = await (await db()).getRepository(User).findOne();
+        await Storage.set({key: 'fontSize', value: `${user?.fontSize}`});
+        await Storage.set({key: 'theme', value: user?.theme as string});
+        await Storage.set({key: 'user', value: JSON.stringify(user)});
+    }
+
     app.mount('#app');
+    await loader.hide();
+
     // Call the element loader after the platform has been bootstrapped
     defineCustomElements(window);
 });
