@@ -1,7 +1,7 @@
 import { CategoryType } from './entities/Category';
 import { Category } from '@/entities/Category';
 import { Repository } from 'typeorm';
-import db from './utils/db';
+import db, { APP_DB_NAME } from './utils/db';
 import faker from 'faker';
 import { ZikrFactory } from '../database/factory/ZikrFactory';
 import { Zikr } from './entities/Zikr';
@@ -9,11 +9,12 @@ import { UserFactory } from '../database/factory/UserFactory';
 
 class Seeder {
     private catRepo!: Repository<Category>;
-    async run(): Promise<void> {
-        await UserFactory.create();
+    async run(): Promise<void> {  
+        await UserFactory.setConName(APP_DB_NAME).create();   
         await this.seedCategories();
         return;
     }
+
 
 
     private async seedCategories() {
