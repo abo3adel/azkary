@@ -25,4 +25,6 @@ export default createI18n({
   fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'ar',
   globalInjection: true,
   messages: loadLocaleMessages(),
+  missingWarn: false,
+  fallbackWarn: false,
 })
