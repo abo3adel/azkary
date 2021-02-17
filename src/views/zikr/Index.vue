@@ -1,7 +1,7 @@
 <template>
     <ion-page>
         <ion-header>
-            <ion-toolbar color="primary" class='haveBg'>
+            <ion-toolbar color="primary" class="haveBg">
                 <h3 class="p-4 pb-8 uppercase">
                     {{ $t('zikr.toolbar') }}
                 </h3>
@@ -68,6 +68,9 @@
 
     import getCategoryIcon, { CategoryIcon } from '@/utils/getCategoryIcon';
 
+    import { Plugins } from '@capacitor/core';
+    const { LocalNotifications } = Plugins;
+
     @Options({
         components: {
             IonToolbar,
@@ -99,6 +102,23 @@
 
         mounted() {
             this.loadCategories();
+            LocalNotifications.schedule({
+                notifications: [
+                    {
+                        title: 'Title',
+                        body: 'Body',
+                        id: 5,
+                        schedule: { every: 'minute', count: 5 },
+                        sound: undefined,
+                        attachments: undefined,
+                        actionTypeId: '',
+                        extra: null,
+                    },
+                ],
+            });
+            // @ts-ignore
+            // LocalNotifications.requestPermissions().then(r => console.log(r.results));
+            // LocalNotifications.getPending().then(r => console.log(r.notifications));
         }
     }
 </script>
