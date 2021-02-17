@@ -102,23 +102,6 @@
 
         mounted() {
             this.loadCategories();
-            LocalNotifications.schedule({
-                notifications: [
-                    {
-                        title: 'Title',
-                        body: 'Body',
-                        id: 5,
-                        schedule: { every: 'minute', count: 5 },
-                        sound: undefined,
-                        attachments: undefined,
-                        actionTypeId: '',
-                        extra: null,
-                    },
-                ],
-            });
-            // @ts-ignore
-            // LocalNotifications.requestPermissions().then(r => console.log(r.results));
-            // LocalNotifications.getPending().then(r => console.log(r.notifications));
         }
     }
 </script>
