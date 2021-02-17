@@ -77,7 +77,7 @@
 
     @Options({
         components: { IonRippleEffect, IonIcon, IonLabel },
-        emits: ['edit'],
+        emits: ['decree', 'edit', 'share', 'remove'],
     })
     export default class DevTheme extends Vue.with(Props) {
         createOutline = createOutline;

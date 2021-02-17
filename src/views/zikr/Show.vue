@@ -66,8 +66,25 @@
             >
                 <template v-for="(z, zinx) in category.azkar" :key="z.id">
                     <transition name="slide-fade" v-if="theme === 'base'">
-                        <!-- <base-theme :z="z" :zinx="zinx" :meta="meta" /> -->
-                        <h1 :data-zinx="zinx">sd</h1>
+                        <base-theme
+                            :z="z"
+                            :zinx="zinx"
+                            :color="meta.color"
+                            @edit="
+                                add(
+                                    $event.zikr.body,
+                                    $event.zikr.count,
+                                    $event.zikr.id
+                                )
+                            "
+                            @share="share($event.body)"
+                            @remove="remove($event.id)"
+                            @decree="onDecree(z.count, z.id)"
+                        >
+                            <template #order>
+                                <ion-reorder v-if="reorder"></ion-reorder>
+                            </template>
+                        </base-theme>
                     </transition>
                     <transition
                         name="slide-fade"
@@ -77,7 +94,6 @@
                             :z="z"
                             :theme="theme"
                             :color="meta.color"
-                            :reorder="reorder"
                             @edit="
                                 add(
                                     $event.zikr.body,
@@ -122,14 +138,7 @@
         IonToolbar,
         IonHeader,
         IonContent,
-        IonList,
-        IonItem,
         IonLabel,
-        IonRippleEffect,
-        IonItemSliding,
-        IonItemOptions,
-        IonItemOption,
-        IonNote,
         IonReorderGroup,
         IonReorder,
         IonIcon,
@@ -148,11 +157,6 @@
         colorPaletteOutline,
         reorderFourOutline,
         checkmarkDoneOutline,
-        createOutline,
-        trashBinOutline,
-        shareSocialOutline,
-        cogOutline,
-        closeOutline,
         arrowBackOutline,
     } from 'ionicons/icons';
     import toast from '@/utils/toast';
@@ -165,14 +169,14 @@
     // @ts-ignore
     import emitter from 'tiny-emitter/instance';
 
-    import BaseTheme from '@/components/themes/Base.vue';
+    import DevTheme from '@/components/themes/Dev.vue';
     import { defineAsyncComponent } from 'vue';
     import Loading from '@/components/Loading.vue';
 
     const { Modals, Share, Clipboard, Storage } = Plugins;
 
-    const DevTheme = defineAsyncComponent({
-        loader: () => import('@/components/themes/Dev.vue'),
+    const BaseTheme = defineAsyncComponent({
+        loader: () => import('@/components/themes/Base.vue'),
         loadingComponent: Loading,
     });
 
@@ -186,14 +190,7 @@
             IonToolbar,
             IonHeader,
             IonContent,
-            IonList,
-            IonItem,
             IonLabel,
-            IonRippleEffect,
-            IonItemSliding,
-            IonItemOptions,
-            IonItemOption,
-            IonNote,
             IonReorderGroup,
             IonReorder,
             IonIcon,
@@ -211,11 +208,6 @@
         colorPaletteOutline = colorPaletteOutline;
         reorderFourOutline = reorderFourOutline;
         checkmarkDoneOutline = checkmarkDoneOutline;
-        createOutline = createOutline;
-        trashBinOutline = trashBinOutline;
-        shareSocialOutline = shareSocialOutline;
-        cogOutline = cogOutline;
-        closeOutline = closeOutline;
         arrowBackOutline = arrowBackOutline;
 
         reorder = false;
@@ -515,7 +507,7 @@
             }
 
             if (
-                this.category.azkar[this.category.azkar.length - 1].count > 0 &&
+                this.category.azkar.length > 1 &&
                 !openDirect
             ) {
                 return;
