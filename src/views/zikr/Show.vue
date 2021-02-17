@@ -216,7 +216,6 @@
         loaderTxt = '';
         theme: UserTheme | string = UserTheme.Base;
         fontSize = 1.1;
-        completedItems = 0;
         totalCount = 0;
         readed = 0;
         modal!: HTMLIonModalElement;
@@ -381,7 +380,13 @@
 
             this.category.azkar[inx].count = 0;
 
-            setTimeout(() => this.category.azkar.splice(inx, 1), 100);
+            setTimeout(() => {
+                this.category.azkar.splice(inx, 1);
+                this.totalCount = this.category.azkar.reduce(
+                    (p, c) => (p += c.count),
+                    0
+                );
+            }, 500);
 
             await loader.hide();
             return;
@@ -416,7 +421,6 @@
             this.oldOrder = [...this.category.azkar];
 
             this.reorder = !this.reorder;
-            alert(this.category.azkar.length);
         }
 
         /**
@@ -495,11 +499,16 @@
             this.readed++;
 
             if (count === 0) {
-                this.completedItems++;
+                // remove item and trigger animation
+                const inx = this.category.azkar.findIndex((x) => x.id === id);
+
+                this.category.azkar[inx].count = 0;
+
+                setTimeout(() => this.category.azkar.splice(inx, 1), 500);
             }
 
             if (
-                this.completedItems !== this.category.azkar.length &&
+                this.category.azkar[this.category.azkar.length - 1].count > 0 &&
                 !openDirect
             ) {
                 return;
