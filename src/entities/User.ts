@@ -4,6 +4,7 @@ export enum UserTheme {
     Base = 'base',
     DevColored = 'dev-colored',
     Dev =  'dev',
+    Slide = 'slide',
 }
 
 @Entity('users')

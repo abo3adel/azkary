@@ -63,6 +63,7 @@
                 :disabled="!reorder"
                 class="font-size-updater"
                 :style="`font-size: ${fontSize}rem`"
+                v-if="['base', 'dev', 'dev-colored'].indexOf(theme) > -1"
             >
                 <template v-for="(z, zinx) in category.azkar" :key="z.id">
                     <transition name="slide-fade" v-if="theme === 'base'">
@@ -115,6 +116,13 @@
                     </transition>
                 </template>
             </ion-reorder-group>
+            <div
+                v-if="theme === 'slide'"
+                class="h-full font-size-updater"
+                :style="`font-size: ${fontSize}rem`"
+            >
+                <slide-theme :azkar='category.azkar' :color='meta.color' />
+            </div>
             <ion-fab
                 vertical="bottom"
                 horizontal="start"
@@ -148,6 +156,7 @@
         IonFab,
         alertController,
         modalController,
+        IonSlides
     } from '@ionic/vue';
     import { Category } from '@/entities/Category';
     import db from '@/utils/db';
@@ -170,6 +179,8 @@
     import emitter from 'tiny-emitter/instance';
 
     import DevTheme from '@/components/themes/Dev.vue';
+    import SlideTheme from '@/components/themes/Slide.vue';
+
     import { defineAsyncComponent } from 'vue';
     import Loading from '@/components/Loading.vue';
 
@@ -184,6 +195,7 @@
         components: {
             BaseTheme,
             DevTheme,
+            SlideTheme,
             Loading,
             IonPage,
             IonBackButton,
@@ -198,6 +210,7 @@
             IonButton,
             IonFabButton,
             IonFab,
+            IonSlides,
         },
     })
     export default class Show extends Vue {
@@ -213,7 +226,7 @@
         reorder = false;
         oldOrder: Zikr[] = [];
         loaderTxt = '';
-        theme: UserTheme | string = UserTheme.Base;
+        theme: UserTheme | string = UserTheme.DevColored;
         fontSize = 1.1;
         totalCount = 0;
         readed = 0;
@@ -340,19 +353,20 @@
         }
 
         async themeToggle() {
-            switch (this.theme) {
-                case UserTheme.Base:
-                    this.theme = UserTheme.DevColored;
-                    break;
-                case UserTheme.DevColored:
-                    this.theme = UserTheme.Dev;
-                    break;
-                case UserTheme.Dev:
-                    this.theme = UserTheme.Base;
-                    break;
-                default:
-                    this.theme = UserTheme.DevColored;
-            }
+            this.theme = UserTheme.Slide;
+            // switch (this.theme) {
+            //     case UserTheme.Base:
+            //         this.theme = UserTheme.DevColored;
+            //         break;
+            //     case UserTheme.DevColored:
+            //         this.theme = UserTheme.Dev;
+            //         break;
+            //     case UserTheme.Dev:
+            //         this.theme = UserTheme.Base;
+            //         break;
+            //     default:
+            //         this.theme = UserTheme.DevColored;
+            // }
 
             await Storage.set({ key: 'theme', value: this.theme });
         }
@@ -506,10 +520,7 @@
                 setTimeout(() => this.category.azkar.splice(inx, 1), 500);
             }
 
-            if (
-                this.category.azkar.length > 1 &&
-                !openDirect
-            ) {
+            if (this.category.azkar.length > 1 && !openDirect) {
                 return;
             }
 
