@@ -165,15 +165,22 @@
     // @ts-ignore
     import emitter from 'tiny-emitter/instance';
 
-    import DevTheme from '@/components/themes/Dev.vue';
     import BaseTheme from '@/components/themes/Base.vue';
+    import { defineAsyncComponent } from 'vue';
+    import Loading from '@/components/Loading.vue';
 
     const { Modals, Share, Clipboard, Storage } = Plugins;
+
+    const DevTheme = defineAsyncComponent({
+        loader: () => import('@/components/themes/Dev.vue'),
+        loadingComponent: Loading,
+    });
 
     @Options({
         components: {
             BaseTheme,
             DevTheme,
+            Loading,
             IonPage,
             IonBackButton,
             IonToolbar,
@@ -604,25 +611,5 @@
     .slide-fade-leave-to {
         transform: translateX(50px);
         opacity: 0;
-    }
-    .opr-actions {
-        button {
-            @apply transition duration-300 ease-in;
-            &:hover {
-                @apply font-semibold;
-            }
-        }
-        button.editBtn * {
-            @apply text-blue-600;
-        }
-        button.shareBtn * {
-            @apply text-teal-600;
-        }
-        button.deleteBtn * {
-            @apply text-red-600;
-        }
-        button.cancelBtn * {
-            @apply text-orange-600;
-        }
     }
 </style>
