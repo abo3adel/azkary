@@ -56,7 +56,7 @@
     </ion-item-sliding>
 </template>
 <script lang="ts">
-    import { Vue, prop, Options } from 'vue-class-component';
+    import { Vue, Options, prop } from 'vue-class-component';
     import {
         IonLabel,
         IonRippleEffect,
@@ -72,12 +72,10 @@
         trashBinOutline,
         createOutline,
     } from 'ionicons/icons';
-    import { Zikr } from '@/entities/Zikr';
+    import { EmitsList, Props as Abstract } from './Abstract';
 
-    class Props {
-        z = prop<Zikr>({ required: true });
+    class Props extends Abstract {
         zinx = prop<number>({ required: true });
-        color = prop<string>({ required: true });
     }
 
     @Options({
@@ -91,7 +89,7 @@
             IonRippleEffect,
             IonItem,
         },
-        emits: ['decree', 'edit', 'share', 'remove'],
+        emits: EmitsList,
     })
     export default class BaseTheme extends Vue.with(Props) {
         shareSocialOutline = shareSocialOutline;

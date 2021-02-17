@@ -52,7 +52,7 @@
     </div>
 </template>
 <script lang="ts">
-    import { Vue, prop, Options } from 'vue-class-component';
+    import { Vue, Options, prop } from 'vue-class-component';
     import { Zikr } from '@/entities/Zikr';
     import {
         createOutline,
@@ -67,17 +67,15 @@
         IonIcon,
         IonLabel,
     } from '@ionic/vue';
-    import { UserTheme } from '@/entities/User';
+    import { EmitsList, Props as Abstract } from './Abstract';
 
-    class Props {
-        z = prop<Zikr>({ required: true });
-        theme = prop<UserTheme>({ required: true });
-        color = prop<string>({ default: 'primary' });
+    class Props extends Abstract {
+        theme = prop<string>({required: true})
     }
 
     @Options({
         components: { IonRippleEffect, IonIcon, IonLabel },
-        emits: ['decree', 'edit', 'share', 'remove'],
+        emits: EmitsList,
     })
     export default class DevTheme extends Vue.with(Props) {
         createOutline = createOutline;
