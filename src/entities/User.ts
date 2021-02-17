@@ -2,6 +2,7 @@ import {Entity, PrimaryGeneratedColumn, Column, BaseEntity} from "typeorm";
 
 export enum UserTheme {
     Base = 'base',
+    DevColored = 'dev-colored',
     Dev =  'dev',
 }
 
