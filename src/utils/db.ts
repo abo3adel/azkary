@@ -1,3 +1,4 @@
+import { Du3a } from './../entities/Du3a';
 import { Zikr } from './../entities/Zikr';
 import { Category } from './../entities/Category';
 import { User } from '../entities/User';
@@ -5,7 +6,7 @@ import { Connection, createConnection, getConnection } from 'typeorm';
 
 export const TEST_DB_NAME = 'test';
 export const APP_DB_NAME = 'default';
-export const ENTITIES = [User, Category, Zikr];
+export const ENTITIES = [User, Category, Zikr, Du3a];
 
 export default async function db(conName = APP_DB_NAME): Promise<Connection> {
     let con: Connection;
