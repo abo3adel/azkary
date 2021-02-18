@@ -26,30 +26,65 @@
             </ion-toolbar>
             <ion-toolbar color="light">
                 <ion-buttons slot="start">
-                    <ion-button color="primary" @click="toggleReorder()">
+                    <ion-button
+                        :color="
+                            theme.indexOf('colored') > -1
+                                ? meta.color
+                                : 'primary'
+                        "
+                        @click="toggleReorder()"
+                    >
                         <ion-icon :icon="reorderFourOutline"></ion-icon>
                         <span class="hidden sm:inline-block">
                             {{ $t('zikr.show.reorder') }}
                         </span>
                     </ion-button>
-                    <ion-button color="primary" @click="add()">
+                    <ion-button
+                        :color="
+                            theme.indexOf('colored') > -1
+                                ? meta.color
+                                : 'primary'
+                        "
+                        @click="add()"
+                    >
                         <ion-icon :icon="addOutline"></ion-icon>
                         <span class="hidden sm:inline-block">
                             {{ $t('zikr.show.add') }}
                         </span>
                     </ion-button>
-                    <ion-button color="primary" @click="themeToggle()">
+                    <ion-button
+                        :color="
+                            theme.indexOf('colored') > -1
+                                ? meta.color
+                                : 'primary'
+                        "
+                        @click="themeToggle()"
+                    >
                         <ion-icon :icon="colorPaletteOutline"></ion-icon>
                         <span class="hidden sm:inline-block">
                             {{ $t('zikr.show.brush') }}
                         </span>
                     </ion-button>
-                    <ion-button color="primary" @click="fontIncrese()">
+                    <ion-button
+                        :color="
+                            theme.indexOf('colored') > -1
+                                ? meta.color
+                                : 'primary'
+                        "
+                        @click="fontIncrese()"
+                    >
                         <ion-label class="text-lg">
                             {{ $t('zikr.show.font') }}+
                         </ion-label>
                     </ion-button>
-                    <ion-button color="primary" @click="fontDecrese()">
+                    <ion-button
+                        :color="
+                            theme.indexOf('colored') > -1
+                                ? meta.color
+                                : 'primary'
+                        "
+                        @click="fontDecrese()"
+                    >
                         <ion-label class="text-xs">
                             {{ $t('zikr.show.font') }}-
                         </ion-label>
