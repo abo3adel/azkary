@@ -6,6 +6,7 @@ export default async function clearDB(
     conName: string = TEST_DB_NAME
 ) {
     if (process.env.NODE_ENV === 'test') {
+        /* eslint-disable @typescript-eslint/no-var-requires*/
         const nrc = require('node-run-cmd');
         await nrc.run('rm -rf browser');
     }
@@ -17,7 +18,7 @@ export default async function clearDB(
             .clear();
     }
 
-    for (let ent of ENTITIES) {
+    for (const ent of ENTITIES) {
         const tableName = con.getMetadata(ent).tableName;
         await con.query(`DELETE FROM ${tableName}`);
         await con.query(`
