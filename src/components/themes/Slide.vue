@@ -1,8 +1,8 @@
 <template>
-    <div class="content h-5/6">
+    <div class="content h-3/4 slide-theme">
         <swiper
             class="h-full text-center"
-            :dir="this.$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
+            :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
             navigation
             virtual
             keyboard
@@ -15,22 +15,40 @@
                 v-for="(z, zinx) in azkar"
                 :key="z.id"
                 :virtualIndex="zinx"
-                @click="onClicked(z)"
+                @click="
+                    z.count--;
+                    onClicked(z, zinx);
+                "
             >
                 {{ z.body }}
             </swiper-slide>
         </swiper>
     </div>
-    <div class="w-full controls">
-        <h1>control</h1>
-        <h2>{{ azkar.length }}/{{ activeIndex }}</h2>
+    <div class="flex flex-wrap w-full controls h-1/4">
+        <div class="relative w-1/2 mx-auto text-sm text-center">
+            <div id="container" class="w-11/12 mx-auto releative"></div>
+        </div>
+        <div class="flex flex-wrap w-1/2 text-base">
+            <div class="flex flex-col w-1/2 pl-1 text-left">
+                <span class="text-lg">{{ $t('zikr.count') }}</span>
+                <span class="text-xl font-semibold">{{ current.count }}</span>
+            </div>
+            <div class="w-1/2 pr-1 text-base text-right">
+                <span class="text-3xl font-semibold">{{
+                    activeIndex + 1
+                }}</span>
+                <span class="text-lg">/{{ azkar.length }}</span>
+            </div>
+        </div>
     </div>
 </template>
 <script lang="ts">
     import { Options, Vue, prop } from 'vue-class-component';
     import { EmitsList } from './Abstract';
-    // import { IonSlides, IonSlide } from '@ionic/vue';
     import { Zikr } from '@/entities/Zikr';
+
+    // @ts-ignore
+    import emitter from 'tiny-emitter/instance';
 
     // import Swiper core and required modules
     import SwiperCore, {
@@ -45,10 +63,13 @@
 
     SwiperCore.use([Navigation, Pagination, Virtual, Keyboard]);
 
+    // @ts-ignore
+    import ProgressBar from 'progressbar.js/dist/progressbar';
+
     class Props {
-        azkar = prop<Zikr[]>({ required: true, default: [] });
-        color = prop<string>({ required: true });
-        // zinx = prop<number>({ required: true });
+        azkar = prop<Zikr[]>({ required: false, default: [] });
+        color = prop<string>({ required: false });
+        // z = prop<Zikr>({});
     }
 
     @Options({
@@ -58,21 +79,95 @@
     export default class SideTheme extends Vue.with(Props) {
         swiper: any;
         activeIndex = 0;
-
+        bar: any;
+        zikr: Zikr = new Zikr();
         onSlideChange(ev: any) {
             this.activeIndex = ev.activeIndex;
+            this.zikr = Object.assign({}, this.current);
+
+            if (!this.current.count) {
+                this.bar.set(1);
+                // this.bar.setText(1);
+                return;
+            }
+
+            this.bar.set(0);
         }
 
-        onClicked(ev: any) {
-            console.log(ev);
+        onClicked() {
+            if (this.current.count < 0) {
+                this.current.count++;
+                // this.bar.set(1);
+                this.swiper.slideNext();
+                return;
+            }
+
+            this.$emit('decree', {
+                count: this.current.count,
+                id: this.current.id,
+            });
+
+            const val = this.bar.value() + 1 / this.zikr.count;
+            if (Math.floor(val) >= this.zikr.count) {
+                this.bar.animate(1, {
+                    duration: 300,
+                });
+                setTimeout(() => this.swiper.slideNext(), 305);
+                return;
+            }
+            this.bar.animate(val);
+        }
+        setProgressBar() {
+            this.bar = new ProgressBar.Circle(
+                document.querySelector('#container'),
+                {
+                    color: 'var(--ion-color-primary)',
+                    strokeWidth: 4,
+                    trailWidth: 1,
+                    easing: 'easeInOut',
+                    trailColor: 'var(--ion-color-primary)',
+                    duration: 600,
+                    text: {
+                        autoStyleContainer: false,
+                    },
+                    from: { color: '#d60000', width: 1 },
+                    to: { color: '#333', width: 4 },
+                    step: (state: any, circle: any) => {
+                        circle.path.setAttribute('stroke', state.color);
+                        circle.path.setAttribute('stroke-width', state.width);
+                        const value = Math.round(
+                            circle.value() * this.zikr?.count ?? 1
+                        );
+                        if (value === 0) {
+                            circle.setText('');
+                        } else {
+                            circle.setText(`${value}/${this.zikr?.count ?? 1}`);
+                        }
+                    },
+                }
+            );
+            this.bar.svg.style.height = '7rem';
+            this.bar.text.style.fontSize = 'inherit';
+        }
+
+        get current(): Zikr {
+            return this.azkar.length
+                ? this.azkar[this.activeIndex]
+                : new Zikr();
+        }
+        beforeMount() {
+            this.zikr.count = 0;
         }
 
         mounted() {
-            // setTimeout(() => this.swiper.slideTo(5), 1000);
+            this.setProgressBar();
+            emitter.on('data-loaded', () => {
+                this.zikr = Object.assign({}, this.azkar[0]);
+            });
         }
     }
 </script>
-<style>
+<style lang="postcss">
     /**
  * Swiper 6.4.14
  * Most modern mobile touch slider and framework with hardware accelerated transitions
@@ -233,8 +328,8 @@
     :root {
         --swiper-navigation-size: 44px;
         /*
-  --swiper-navigation-color: var(--swiper-theme-color);
-  */
+--swiper-navigation-color: var(--swiper-theme-color);
+*/
     }
     .swiper-button-prev,
     .swiper-button-next {
@@ -297,8 +392,8 @@
     }
     :root {
         /*
-  --swiper-pagination-color: var(--swiper-theme-color);
-  */
+--swiper-pagination-color: var(--swiper-theme-color);
+*/
     }
     .swiper-pagination {
         position: absolute;
@@ -519,8 +614,8 @@
     /* Preloader */
     :root {
         /*
-  --swiper-preloader-color: var(--swiper-theme-color);
-  */
+--swiper-preloader-color: var(--swiper-theme-color);
+*/
     }
     .swiper-lazy-preloader {
         width: 42px;

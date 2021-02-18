@@ -121,7 +121,16 @@
                 class="h-full font-size-updater"
                 :style="`font-size: ${fontSize}rem`"
             >
-                <slide-theme :azkar='category.azkar' :color='meta.color' />
+                <slide-theme
+                    :azkar="category.azkar"
+                    :color="meta.color"
+                    @edit="
+                        add($event.zikr.body, $event.zikr.count, $event.zikr.id)
+                    "
+                    @share="share($event.body)"
+                    @remove="remove($event.id)"
+                    @decree="onDecree($event.count, $event.id, false, true)"
+                />
             </div>
             <ion-fab
                 vertical="bottom"
@@ -156,7 +165,7 @@
         IonFab,
         alertController,
         modalController,
-        IonSlides
+        IonSlides,
     } from '@ionic/vue';
     import { Category } from '@/entities/Category';
     import db from '@/utils/db';
@@ -252,6 +261,8 @@
                 (p, c) => (p += c.count),
                 0
             );
+
+            emitter.emit('data-loaded');
         }
 
         /**
@@ -508,10 +519,12 @@
             Storage.set({ key: 'fontSize', value: `${this.fontSize}` });
         }
 
-        async onDecree(count: number, id: number, openDirect = false) {
+        async onDecree(count: number, id: number, openDirect = false, slide = false) {
+            console.log(count, id);
+            
             this.readed++;
 
-            if (count === 0) {
+            if (count === 0 && !slide) {
                 // remove item and trigger animation
                 const inx = this.category.azkar.findIndex((x) => x.id === id);
 
