@@ -128,8 +128,6 @@
          * if current item count is 0
          */
         onClicked(zikr: Zikr) {
-            console.log(zikr.count);
-
             // if current item was already readed then slide
             if (zikr.count < 0) {
                 // increment back to zero

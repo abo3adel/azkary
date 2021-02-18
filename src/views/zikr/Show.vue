@@ -367,20 +367,19 @@
         }
 
         async themeToggle() {
-            this.theme = UserTheme.Slide;
-            // switch (this.theme) {
-            //     case UserTheme.Base:
-            //         this.theme = UserTheme.DevColored;
-            //         break;
-            //     case UserTheme.DevColored:
-            //         this.theme = UserTheme.Dev;
-            //         break;
-            //     case UserTheme.Dev:
-            //         this.theme = UserTheme.Base;
-            //         break;
-            //     default:
-            //         this.theme = UserTheme.DevColored;
-            // }
+            const themes = [
+                'dev-colored',
+                'dev',
+                'base',
+                'slide-colored',
+                'slide',
+            ];
+            const inx = themes.indexOf(this.theme) + 1;
+            if (inx >= themes.length) {
+                this.theme = themes[0];
+            } else {
+                this.theme = themes[inx];
+            }
 
             await Storage.set({ key: 'theme', value: this.theme });
         }
@@ -528,8 +527,6 @@
             openDirect = false,
             slide = false
         ) {
-            console.log('on Decreeeeee');
-            
             this.readed++;
 
             if (count === 0 && !slide) {
