@@ -18,7 +18,7 @@
             @slideChange="onSlideChange"
         >
             <swiper-slide
-                class="w-full h-full align-middle"
+                class="w-full h-full"
                 v-for="(z, zinx) in azkar"
                 :key="z.id"
                 :virtualIndex="zinx"
@@ -27,7 +27,11 @@
                     onClicked(z, zinx);
                 "
             >
-                {{ z.body }}
+                <div class="flex h-full overflow-auto">
+                    <div class="m-auto">
+                        {{ z.body }}
+                    </div>
+                </div>
             </swiper-slide>
         </swiper>
     </div>
