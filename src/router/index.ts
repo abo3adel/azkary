@@ -19,6 +19,10 @@ const routes: Array<RouteRecordRaw> = [
                 path: 'zikr',
                 component: () => import('@/views/zikr/Index.vue'),
             },
+            {
+                path: 'du3a',
+                component: () => import('@/views/Du3a.vue'),
+            },
         ],  
     },
     {

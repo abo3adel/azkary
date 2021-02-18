@@ -12,9 +12,9 @@
           <ion-label>Azkar</ion-label>
         </ion-tab-button>
         
-        <ion-tab-button tab="tab3" href="/tabs/tab3">
+        <ion-tab-button tab="du3a" href="/tabs/du3a">
           <ion-icon :icon="square" />
-          <ion-label>Tab 3</ion-label>
+          <ion-label>Du3a</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>
