@@ -88,6 +88,7 @@
         emits: EmitsList,
     })
     export default class SideTheme extends Vue.with(Props) {
+        azkarClone: { id: number; count: number }[] = [];
         swiper: any;
         activeIndex = 0;
         bar: any;
@@ -99,11 +100,22 @@
         onSlideChange(ev: any) {
             this.activeIndex = ev.activeIndex;
             this.zikr = Object.assign({}, this.current);
+            // update zikr count to item iniate count
+            this.zikr.count = this.azkarClone[this.activeIndex].count;
 
             // complete bar if this item was alraady readed
             if (!this.current.count) {
                 this.bar.set(1);
                 // this.bar.setText(1);
+                return;
+            }
+
+            // if user clicked this item and did not finish count
+            // then show current count on progress bar
+            if (this.zikr.count > this.current.count) {
+                this.bar.animate(
+                    (this.zikr.count - this.current.count) / this.zikr.count
+                );
                 return;
             }
 
@@ -211,6 +223,9 @@
             this.setProgressBar();
             emitter.on('data-loaded', () => {
                 this.zikr = Object.assign({}, this.azkar[0]);
+                this.azkar.forEach((x) =>
+                    this.azkarClone.push({ id: x.id, count: x.count })
+                );
             });
         }
     }
