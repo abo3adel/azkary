@@ -88,7 +88,7 @@
                 <div class="w-1/2 font-semibold border-r border-gray-500">
                     {{ $t('zikr.stats.total') }}
                 </div>
-                <div class="w-1/2 text-lg font-bold">
+                <div class="w-1/2 text-lg font-bold" :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'">
                     {{ totalCount }}
                 </div>
             </div>

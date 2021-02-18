@@ -321,6 +321,8 @@
         }
 
         afterDataUpdate(): void {
+            this.azkarClone.splice(0);
+
             this.totalCount = this.category.azkar.reduce(
                 (p, c) => (p += c.count),
                 0
