@@ -208,6 +208,10 @@
             this.bar.text.style.fontSize = 'inherit'; // control with tailwind
         }
 
+        opts() {
+            showOprs(this.current, this);
+        }
+
         /**
          * get current viewable zikr item
          * which has updated count to latest
@@ -235,7 +239,7 @@
             });
 
             emitter.on('slide-cog', () => {
-                showOprs(this.current, this);
+                this.opts();
             });
         }
     }
