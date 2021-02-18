@@ -117,7 +117,7 @@
                 </template>
             </ion-reorder-group>
             <div
-                v-if="theme === 'slide'"
+                v-if="theme === 'slide' || theme === 'slide-colored'"
                 class="h-full font-size-updater"
                 :style="`font-size: ${fontSize}rem`"
             >
@@ -130,7 +130,9 @@
                     "
                     @share="share($event.body)"
                     @remove="remove($event.id)"
-                    @decree="onDecree($event.count, $event.id, $event.open, true)"
+                    @decree="
+                        onDecree($event.count, $event.id, $event.open, true)
+                    "
                 />
             </div>
             <ion-fab
@@ -520,7 +522,12 @@
             Storage.set({ key: 'fontSize', value: `${this.fontSize}` });
         }
 
-        async onDecree(count: number, id: number, openDirect = false, slide = false) {            
+        async onDecree(
+            count: number,
+            id: number,
+            openDirect = false,
+            slide = false
+        ) {
             this.readed++;
 
             if (count === 0 && !slide) {

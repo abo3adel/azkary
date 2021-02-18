@@ -171,17 +171,23 @@
             this.bar = new ProgressBar.Circle(
                 document.querySelector('#container'),
                 {
-                    color: 'var(--ion-color-primary)',
+                    color:
+                        this.theme === 'slide-colored'
+                            ? `var(--ion-color-${this.color})`
+                            : 'var(--ion-color-primary)',
                     strokeWidth: 4,
                     trailWidth: 1,
                     easing: 'easeInOut',
-                    trailColor: 'var(--ion-color-primary)',
+                    trailColor:
+                        this.theme === 'slide-colored'
+                            ? `var(--ion-color-${this.color})`
+                            : 'var(--ion-color-primary)',
                     duration: 600,
                     text: {
                         autoStyleContainer: false,
                     },
-                    from: { color: '#d60000', width: 1 },
-                    to: { color: '#333', width: 4 },
+                    from: { color: '#3171e0', width: 2 },
+                    to: { color: '#28ba62', width: 7 },
                     step: (state: any, circle: any) => {
                         circle.path.setAttribute('stroke', state.color);
                         circle.path.setAttribute('stroke-width', state.width);
