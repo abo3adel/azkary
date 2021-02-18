@@ -1,3 +1,4 @@
+import { Du3aFactory } from './../database/factory/Du3aFactory';
 import { CategoryType } from './entities/Category';
 import { Category } from '@/entities/Category';
 import { Repository } from 'typeorm';
@@ -10,8 +11,9 @@ import { UserFactory } from '../database/factory/UserFactory';
 class Seeder {
     private catRepo!: Repository<Category>;
     async run(): Promise<void> {  
-        await UserFactory.setConName(APP_DB_NAME).create();   
+        await UserFactory.setConName(APP_DB_NAME).create();
         await this.seedCategories();
+        await Du3aFactory.setConName(APP_DB_NAME).count(20).create();
         return;
     }
 
