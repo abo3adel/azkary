@@ -229,17 +229,9 @@
 
         mounted() {
             this.setProgressBar();
-            // if (this.azkar.length) {
-            //     this.azkar.forEach((x) =>
-            //         this.azkarClone.push({ id: x.id, count: x.count })
-            //     );
-            // }
 
             emitter.on('data-loaded', () => {
                 this.zikr = Object.assign({}, this.azkar[0]);
-                // this.azkar.forEach((x) =>
-                //     this.azkarClone.push({ id: x.id, count: x.count })
-                // );
             });
 
             emitter.on('slide-cog', () => {
