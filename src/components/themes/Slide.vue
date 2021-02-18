@@ -101,7 +101,7 @@
             this.activeIndex = ev.activeIndex;
             this.zikr = Object.assign({}, this.current);
             // update zikr count to item iniate count
-            this.zikr.count = this.azkarClone[this.activeIndex].count;
+            this.zikr.count = this.azkarClone[this.activeIndex]?.count ?? 1;
 
             // complete bar if this item was alraady readed
             if (!this.current.count) {
@@ -159,7 +159,7 @@
                 setTimeout(() => this.swiper.slideNext(), 305);
                 return;
             }
-            
+
             this.bar.animate(
                 (this.zikr.count - this.current.count) / this.zikr.count
             );
@@ -228,6 +228,12 @@
 
         mounted() {
             this.setProgressBar();
+            if (this.azkar.length) {
+                this.azkar.forEach((x) =>
+                    this.azkarClone.push({ id: x.id, count: x.count })
+                );
+            }
+
             emitter.on('data-loaded', () => {
                 this.zikr = Object.assign({}, this.azkar[0]);
                 this.azkar.forEach((x) =>
