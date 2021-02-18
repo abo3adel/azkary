@@ -85,6 +85,10 @@ http://ionicframework.com/docs/theming/ */
     --ion-color-light-shade: #d7d8da;
     --ion-color-light-tint: #f5f6f9;
 
+    /** Swiper **/
+    --swiper-theme-color: var(--ion-color-primary);
+    --swiper-navigation-size: 3rem;
+
     /** Custom **/
     --ion-background-color: rgb(247, 245, 245);
     --ion-text-color: rgb(12, 11, 11);

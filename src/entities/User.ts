@@ -1,15 +1,15 @@
-import {Entity, PrimaryGeneratedColumn, Column, BaseEntity} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
 
 export enum UserTheme {
     Base = 'base',
     DevColored = 'dev-colored',
-    Dev =  'dev',
+    Dev = 'dev',
+    SlideColored = 'slide-colored',
     Slide = 'slide',
 }
 
 @Entity('users')
 export class User extends BaseEntity {
-
     @PrimaryGeneratedColumn()
     id!: number;
 
@@ -26,9 +26,9 @@ export class User extends BaseEntity {
     })
     azkarCount!: number;
 
-    @Column('float', {default: '1.0'})
+    @Column('float', { default: '1.0' })
     fontSize!: number;
 
-    @Column({length: 10, default: UserTheme.Dev})
+    @Column({ length: 10, default: UserTheme.Dev })
     theme!: UserTheme | string;
 }

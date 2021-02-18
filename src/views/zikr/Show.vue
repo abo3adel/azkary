@@ -124,6 +124,7 @@
                 <slide-theme
                     :azkar="category.azkar"
                     :color="meta.color"
+                    :theme="theme"
                     @edit="
                         add($event.zikr.body, $event.zikr.count, $event.zikr.id)
                     "
