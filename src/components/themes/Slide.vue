@@ -105,13 +105,19 @@
             this.$emit('decree', {
                 count: this.current.count,
                 id: this.current.id,
+                open:
+                    this.current.count === 0 &&
+                    !this.azkar.some((x) => x.count > 0),
             });
 
             const val = this.bar.value() + 1 / this.zikr.count;
-            if (Math.floor(val) >= this.zikr.count) {
+            
+            if (Math.floor(val) >= this.current.count) {
                 this.bar.animate(1, {
                     duration: 300,
                 });
+                console.log('DONE');
+                
                 setTimeout(() => this.swiper.slideNext(), 305);
                 return;
             }

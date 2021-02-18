@@ -129,7 +129,7 @@
                     "
                     @share="share($event.body)"
                     @remove="remove($event.id)"
-                    @decree="onDecree($event.count, $event.id, false, true)"
+                    @decree="onDecree($event.count, $event.id, $event.open, true)"
                 />
             </div>
             <ion-fab
@@ -519,9 +519,7 @@
             Storage.set({ key: 'fontSize', value: `${this.fontSize}` });
         }
 
-        async onDecree(count: number, id: number, openDirect = false, slide = false) {
-            console.log(count, id);
-            
+        async onDecree(count: number, id: number, openDirect = false, slide = false) {            
             this.readed++;
 
             if (count === 0 && !slide) {
