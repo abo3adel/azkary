@@ -79,6 +79,7 @@
 
     class Props {
         azkar = prop<Zikr[]>({ required: true, default: [] });
+        azkarClone = prop<{ count: number; id: number }[]>({ required: true });
         color = prop<string>({ required: true });
         theme = prop<string>({ required: true });
     }
@@ -88,7 +89,7 @@
         emits: EmitsList,
     })
     export default class SideTheme extends Vue.with(Props) {
-        azkarClone: { id: number; count: number }[] = [];
+        // azkarClone: { id: number; count: number }[] = [];
         swiper: any;
         activeIndex = 0;
         bar: any;
@@ -228,17 +229,17 @@
 
         mounted() {
             this.setProgressBar();
-            if (this.azkar.length) {
-                this.azkar.forEach((x) =>
-                    this.azkarClone.push({ id: x.id, count: x.count })
-                );
-            }
+            // if (this.azkar.length) {
+            //     this.azkar.forEach((x) =>
+            //         this.azkarClone.push({ id: x.id, count: x.count })
+            //     );
+            // }
 
             emitter.on('data-loaded', () => {
                 this.zikr = Object.assign({}, this.azkar[0]);
-                this.azkar.forEach((x) =>
-                    this.azkarClone.push({ id: x.id, count: x.count })
-                );
+                // this.azkar.forEach((x) =>
+                //     this.azkarClone.push({ id: x.id, count: x.count })
+                // );
             });
 
             emitter.on('slide-cog', () => {

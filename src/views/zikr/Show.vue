@@ -173,6 +173,7 @@
             >
                 <slide-theme
                     :azkar="category.azkar"
+                    :azkar-clone="azkarClone"
                     :color="meta.color"
                     :theme="theme"
                     @edit="
@@ -289,6 +290,8 @@
 
         reorder = false;
         oldOrder: Zikr[] = [];
+        // will hold basic count for this item
+        azkarClone: { id: number; count: number }[] = [];
         loaderTxt = '';
         theme: UserTheme | string = UserTheme.DevColored;
         fontSize = 1.1;
@@ -310,14 +313,22 @@
                 .addOrderBy('azkar.id', 'DESC')
                 .getOneOrFail();
 
+            this.afterDataUpdate();
+
             await loader.hide();
 
+            emitter.emit('data-loaded');
+        }
+
+        afterDataUpdate(): void {
             this.totalCount = this.category.azkar.reduce(
                 (p, c) => (p += c.count),
                 0
             );
 
-            emitter.emit('data-loaded');
+            this.category.azkar.forEach((x) =>
+                this.azkarClone.push({ count: x.count, id: x.id })
+            );
         }
 
         /**
@@ -334,6 +345,10 @@
             count = 1,
             id: number | null = null
         ): Promise<void> {
+            if (id) {
+                count = this.azkarClone.find((x) => x.id === id)?.count ?? 1;
+            }
+
             const alert = await alertController.create({
                 cssClass: 'ion-alert',
                 header: this.$t('zikr.add.header'),
@@ -409,6 +424,8 @@
                                 this.category.azkar.push(zikr);
                             }
 
+                            this.afterDataUpdate();
+
                             return await loader.hide();
                         },
                     },
@@ -460,10 +477,7 @@
 
             setTimeout(() => {
                 this.category.azkar.splice(inx, 1);
-                this.totalCount = this.category.azkar.reduce(
-                    (p, c) => (p += c.count),
-                    0
-                );
+                this.afterDataUpdate();
             }, 500);
 
             await loader.hide();
