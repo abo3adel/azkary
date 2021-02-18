@@ -22,7 +22,7 @@
                 v-for="(z, zinx) in azkar"
                 :key="z.id"
                 :virtualIndex="zinx"
-                @click="
+                @click.prevent="
                     z.count--;
                     onClicked(z, zinx);
                 "
@@ -127,23 +127,23 @@
          * calculate progress value and slide to next slide
          * if current item count is 0
          */
-        onClicked() {
+        onClicked(zikr: Zikr) {
+            console.log(zikr.count);
+
             // if current item was already readed then slide
-            if (this.current.count < 0) {
+            if (zikr.count < 0) {
                 // increment back to zero
-                this.current.count++;
+                zikr.count++;
                 this.swiper.slideNext();
                 return;
             }
 
             this.$emit('decree', {
-                count: this.current.count,
-                id: this.current.id,
+                count: zikr.count,
+                id: zikr.id,
                 // make sure there is no elements with count > 0
                 // aka all items was readed
-                open:
-                    this.current.count === 0 &&
-                    !this.azkar.some((x) => x.count > 0),
+                open: zikr.count === 0 && !this.azkar.some((x) => x.count > 0),
             });
 
             // calculate progress next value
@@ -151,7 +151,7 @@
             // ex. 0.1 + 1/15 = 1.6 ~= 2
             const val = this.bar.value() + 1 / this.zikr.count;
 
-            if (Math.floor(val) >= this.current.count) {
+            if (Math.floor(val) >= zikr.count) {
                 // zikr item is at final count
                 this.bar.animate(1, {
                     duration: 300,
@@ -161,7 +161,10 @@
                 setTimeout(() => this.swiper.slideNext(), 305);
                 return;
             }
-            this.bar.animate(val);
+            
+            this.bar.animate(
+                (this.zikr.count - this.current.count) / this.zikr.count
+            );
         }
 
         /**

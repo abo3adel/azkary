@@ -528,6 +528,8 @@
             openDirect = false,
             slide = false
         ) {
+            console.log('on Decreeeeee');
+            
             this.readed++;
 
             if (count === 0 && !slide) {
