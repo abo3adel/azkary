@@ -55,7 +55,7 @@
 </template>
 <script lang="ts">
     import { Options, Vue, prop } from 'vue-class-component';
-    import { EmitsList, Props as Abstract } from './Abstract';
+    import { EmitsList } from './Abstract';
     import { Zikr } from '@/entities/Zikr';
 
     // @ts-ignore
@@ -92,20 +92,31 @@
         activeIndex = 0;
         bar: any;
         zikr: Zikr = new Zikr();
+
+        /**
+         * set current viewable zikr item
+         */
         onSlideChange(ev: any) {
             this.activeIndex = ev.activeIndex;
             this.zikr = Object.assign({}, this.current);
 
+            // complete bar if this item was alraady readed
             if (!this.current.count) {
                 this.bar.set(1);
                 // this.bar.setText(1);
                 return;
             }
 
+            // reset bar
             this.bar.set(0);
         }
 
+        /**
+         * calculate progress value and slide to next slide
+         * if current item count is 0
+         */
         onClicked() {
+            // if current item was already readed then slide
             if (this.current.count < 0) {
                 // increment back to zero
                 this.current.count++;
@@ -117,23 +128,33 @@
                 count: this.current.count,
                 id: this.current.id,
                 // make sure there is no elements with count > 0
+                // aka all items was readed
                 open:
                     this.current.count === 0 &&
                     !this.azkar.some((x) => x.count > 0),
             });
 
+            // calculate progress next value
+            // progress range 0 -> 1
+            // ex. 0.1 + 1/15 = 1.6 ~= 2
             const val = this.bar.value() + 1 / this.zikr.count;
 
             if (Math.floor(val) >= this.current.count) {
+                // zikr item is at final count
                 this.bar.animate(1, {
                     duration: 300,
                 });
 
+                // wait for progress to animate then slide
                 setTimeout(() => this.swiper.slideNext(), 305);
                 return;
             }
             this.bar.animate(val);
         }
+
+        /**
+         * iniate progress bar
+         */
         setProgressBar() {
             this.bar = new ProgressBar.Circle(
                 document.querySelector('#container'),
@@ -163,15 +184,25 @@
                     },
                 }
             );
-            this.bar.svg.style.height = '7rem';
-            this.bar.text.style.fontSize = 'inherit';
+            this.bar.svg.style.height = '7rem'; // responsive
+            this.bar.text.style.fontSize = 'inherit'; // control with tailwind
         }
 
+        /**
+         * get current viewable zikr item
+         * which has updated count to latest
+         *
+         * @returns Zikr
+         */
         get current(): Zikr {
             return this.azkar.length
                 ? this.azkar[this.activeIndex]
                 : new Zikr();
         }
+
+        /**
+         * reset zikr item count
+         */
         beforeMount() {
             this.zikr.count = 0;
         }
