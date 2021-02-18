@@ -37,7 +37,7 @@
             </div>
             <div
                 class="relative w-1/2 overflow-hidden text-center ion-activatable ripple-parent hover:cursor-pointer"
-                @click="showOprs(z)"
+                @click="opts(z)"
             >
                 <ion-icon
                     class="mx-1 align-middle text-md"
@@ -53,24 +53,13 @@
 </template>
 <script lang="ts">
     import { Vue, Options, prop } from 'vue-class-component';
+    import { cogOutline } from 'ionicons/icons';
+    import { IonRippleEffect, IonIcon, IonLabel } from '@ionic/vue';
+    import { EmitsList, Props as Abstract, showOprs } from './Abstract';
     import { Zikr } from '@/entities/Zikr';
-    import {
-        createOutline,
-        trashBinOutline,
-        shareSocialOutline,
-        cogOutline,
-        closeOutline,
-    } from 'ionicons/icons';
-    import {
-        IonRippleEffect,
-        actionSheetController,
-        IonIcon,
-        IonLabel,
-    } from '@ionic/vue';
-    import { EmitsList, Props as Abstract } from './Abstract';
 
     class Props extends Abstract {
-        theme = prop<string>({required: true})
+        theme = prop<string>({ required: true });
     }
 
     @Options({
@@ -78,51 +67,10 @@
         emits: EmitsList,
     })
     export default class DevTheme extends Vue.with(Props) {
-        createOutline = createOutline;
-        trashBinOutline = trashBinOutline;
-        shareSocialOutline = shareSocialOutline;
         cogOutline = cogOutline;
-        closeOutline = closeOutline;
 
-        async showOprs(zikr: Zikr) {
-            const actionSheet = await actionSheetController.create({
-                header: this.$t('zikr.opr'),
-                cssClass: 'opr-actions',
-                backdropDismiss: true,
-                buttons: [
-                    {
-                        text: this.$t('show.item.edit'),
-                        icon: createOutline,
-                        cssClass: 'editBtn',
-                        handler: async () => {
-                            this.$emit('edit', { zikr });
-                        },
-                    },
-                    {
-                        text: this.$t('show.item.share'),
-                        icon: shareSocialOutline,
-                        cssClass: 'shareBtn',
-                        handler: async () => {
-                            this.$emit('share', { body: zikr.body });
-                        },
-                    },
-                    {
-                        text: this.$t('show.item.del'),
-                        icon: trashBinOutline,
-                        cssClass: 'deleteBtn',
-                        handler: async () => {
-                            this.$emit('remove', { id: zikr.id });
-                        },
-                    },
-                    {
-                        text: this.$t('show.close'),
-                        icon: closeOutline,
-                        role: 'cancel',
-                        cssClass: 'cancelBtn',
-                    },
-                ],
-            });
-            return await actionSheet.present();
+        async opts(zikr: Zikr) {
+            showOprs(zikr, this);
         }
     }
 </script>

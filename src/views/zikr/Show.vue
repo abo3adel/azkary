@@ -33,6 +33,7 @@
                                 : 'primary'
                         "
                         @click="toggleReorder()"
+                        v-if="theme.indexOf('slide') < 0"
                     >
                         <ion-icon :icon="reorderFourOutline"></ion-icon>
                         <span class="hidden sm:inline-block">
@@ -88,6 +89,20 @@
                         <ion-label class="text-xs">
                             {{ $t('zikr.show.font') }}-
                         </ion-label>
+                    </ion-button>
+                    <ion-button
+                        :color="
+                            theme.indexOf('colored') > -1
+                                ? meta.color
+                                : 'primary'
+                        "
+                        @click.prevent="slideCog()"
+                        v-if="theme.indexOf('slide') > -1"
+                    >
+                        <ion-icon :icon="cogOutline"></ion-icon>
+                        <span class="hidden sm:inline-block">
+                            {{ $t('zikr.show.slideCog') }}
+                        </span>
                     </ion-button>
                 </ion-buttons>
             </ion-toolbar>
@@ -214,6 +229,7 @@
         reorderFourOutline,
         checkmarkDoneOutline,
         arrowBackOutline,
+        cogOutline,
     } from 'ionicons/icons';
     import toast from '@/utils/toast';
     import { Zikr } from '@/entities/Zikr';
@@ -269,6 +285,7 @@
         reorderFourOutline = reorderFourOutline;
         checkmarkDoneOutline = checkmarkDoneOutline;
         arrowBackOutline = arrowBackOutline;
+        cogOutline = cogOutline;
 
         reorder = false;
         oldOrder: Zikr[] = [];
@@ -597,6 +614,10 @@
             }
 
             await this.onDecree(1, 0, true);
+        }
+
+        slideCog() {
+            emitter.emit('slide-cog');
         }
 
         beforeMount() {

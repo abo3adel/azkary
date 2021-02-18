@@ -55,7 +55,7 @@
 </template>
 <script lang="ts">
     import { Options, Vue, prop } from 'vue-class-component';
-    import { EmitsList } from './Abstract';
+    import { EmitsList, showOprs } from './Abstract';
     import { Zikr } from '@/entities/Zikr';
 
     // @ts-ignore
@@ -239,6 +239,10 @@
                 this.azkar.forEach((x) =>
                     this.azkarClone.push({ id: x.id, count: x.count })
                 );
+            });
+
+            emitter.on('slide-cog', () => {
+                showOprs(this.current, this);
             });
         }
     }
