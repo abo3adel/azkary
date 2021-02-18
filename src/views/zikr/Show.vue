@@ -243,7 +243,6 @@
     import emitter from 'tiny-emitter/instance';
 
     import DevTheme from '@/components/themes/Dev.vue';
-    import SlideTheme from '@/components/themes/Slide.vue';
 
     import { defineAsyncComponent } from 'vue';
     import Loading from '@/components/Loading.vue';
@@ -252,6 +251,10 @@
 
     const BaseTheme = defineAsyncComponent({
         loader: () => import('@/components/themes/Base.vue'),
+        loadingComponent: Loading,
+    });
+    const SlideTheme = defineAsyncComponent({
+        loader: () => import('@/components/themes/Slide.vue'),
         loadingComponent: Loading,
     });
 
