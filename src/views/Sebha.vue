@@ -2,7 +2,24 @@
     <ion-page>
         <ion-toolbar color="primary">
             <ion-buttons>
-                <ion-button>asdsad</ion-button>
+                <ion-button color="light">
+                    <ion-icon :icon="menuOutline" />
+                    <ion-label class="hidden sm:inline-block">
+                        {{ $t('sebha.list') }}
+                    </ion-label>
+                </ion-button>
+                <ion-button color="light" @click.prevent="toggleTheme">
+                    <ion-icon :icon="colorPaletteOutline" />
+                    <ion-label class="hidden sm:inline-block">
+                        {{ $t('sebha.theme') }}
+                    </ion-label>
+                </ion-button>
+                <ion-button color="light">
+                    <ion-icon :icon="colorFillOutline" />
+                    <ion-label class="hidden sm:inline-block">
+                        {{ $t('sebha.color') }}
+                    </ion-label>
+                </ion-button>
             </ion-buttons>
         </ion-toolbar>
         <ion-content :fullscreen="true" class="select-none">
@@ -14,13 +31,13 @@
                 <div class="flex w-full h-full bg-black bg-opacity-20">
                     <div
                         class="m-auto text-6xl font-semibold"
-                        v-if="theme === 'base'"
+                        v-show="theme === 'base'"
                     >
                         <div id="container" class="releative"></div>
                     </div>
                     <div
                         class="relative m-auto overflow-hidden border rounded-full w-80 h-80 border-primary-400"
-                        v-else
+                        v-show="theme === 'dev'"
                     >
                         <div
                             class="absolute bottom-0 w-full h-5 transition-all duration-500 opacity-95 bg-primary-600"
@@ -58,10 +75,10 @@
                         </div>
                         <div class="absolute flex w-full h-full">
                             <div class="m-auto">
-                                <span class="text-3xl">{{
+                                <span class="text-6xl">{{
                                     sebha.current
                                 }}</span>
-                                <span class="text-xl"> /{{ sebha.max }} </span>
+                                <span class="text-3xl"> /{{ sebha.max }} </span>
                             </div>
                         </div>
                     </div>
@@ -78,7 +95,14 @@
         IonButtons,
         IonButton,
         IonContent,
+        IonLabel,
+        IonIcon,
     } from '@ionic/vue';
+    import {
+        menuOutline,
+        colorPaletteOutline,
+        colorFillOutline,
+    } from 'ionicons/icons';
     // @ts-ignore
     import ProgressBar from 'progressbar.js/dist/progressbar';
     import { Plugins } from '@capacitor/core';
@@ -90,23 +114,32 @@
     import { getConnection } from 'typeorm';
 
     @Options({
-        components: { IonPage, IonToolbar, IonButtons, IonButton, IonContent },
+        components: {
+            IonPage,
+            IonToolbar,
+            IonButtons,
+            IonButton,
+            IonContent,
+            IonLabel,
+            IonIcon,
+        },
     })
     export default class SebhaView extends Vue {
         bar: any;
         tasabeeh: Sebha[] = [];
         active = 0;
         sebha = new Sebha();
-        theme = 'dev';
+        theme = 'base';
         svgHeight = 0;
+        menuOutline = menuOutline;
+        colorPaletteOutline = colorPaletteOutline;
+        colorFillOutline = colorFillOutline;
 
         async loadTasabeeh() {
             await loader.show();
             this.tasabeeh = await (await db()).getRepository(Sebha).find();
             await loader.hide();
             this.sebha = this.tasabeeh[this.active];
-            this.sebha.current = 35;
-            this.sebha.max = 40;
 
             this.bar?.set(this.sebha.current / this.sebha.max);
             this.svgHeight = this.calcHeight() * this.sebha.current;
@@ -154,6 +187,19 @@
                 .execute();
         }
 
+        async toggleTheme() {
+            this.theme = this.theme === 'dev' ? 'base' : 'dev';
+
+            if (this.theme === 'base') {
+                if (!this.bar) this.setProgressBar();
+
+                this.bar?.set(this.sebha.current / this.sebha.max);
+            }
+
+            // save current theme
+            await Storage.set({ key: 'sebha_theme', value: this.theme });
+        }
+
         /**
          * iniate progress bar
          */
@@ -186,13 +232,16 @@
                     },
                 }
             );
-            // this.bar.svg.style.height = '7rem'; // responsive
             this.bar.text.style.fontSize = 'inherit'; // control with tailwind
         }
 
         beforeMount() {
             Storage.get({ key: 'sebha' }).then(
                 (r) => (this.active = parseInt(r.value ?? '0'))
+            );
+
+            Storage.get({ key: 'sebha_theme' }).then(
+                (r) => (this.theme = r.value ?? 'dev')
             );
         }
 
