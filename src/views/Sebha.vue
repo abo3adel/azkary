@@ -12,9 +12,9 @@
                 style="background-image: url('/assets/img/ka3ba2.jpg')"
             >
                 <div class="flex w-full h-full bg-black bg-opacity-20">
-                    <h1 class="m-auto text-6xl font-semibold">
+                    <div class="m-auto text-6xl font-semibold">
                         <div id="container" class="releative"></div>
-                    </h1>
+                    </div>
                 </div>
             </div>
         </ion-content>
@@ -53,11 +53,27 @@
             this.tasabeeh = await (await db()).getRepository(Sebha).find();
             await loader.hide();
             this.sebha = this.tasabeeh[this.active];
+            this.sebha.current = 1;
+            this.sebha.max = 5;
+            console.log(this.sebha.readed);
+
             this.bar.set(this.sebha.current / this.sebha.max);
         }
 
         async onClick() {
             this.sebha.current++;
+            if (this.sebha.current >= this.sebha.max) {
+                
+                this.bar.set(1);
+                // increment readed value
+                await getConnection().query(
+                    'UPDATE tasabeeh AS ts SET readed = readed +1 WHERE id = ?',
+                    [this.sebha.id]
+                );
+                // reset current
+                this.sebha.current = 0;
+            }
+
             this.bar.animate(this.sebha.current / this.sebha.max);
 
             // update db with current value
