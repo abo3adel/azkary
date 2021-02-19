@@ -23,6 +23,10 @@ const routes: Array<RouteRecordRaw> = [
                 path: 'notify',
                 component: () => import('@/views/Notify.vue'),
             },
+            {
+                path: 'sebha',
+                component: () => import('@/views/Sebha.vue'),
+            },
         ],  
     },
     {
