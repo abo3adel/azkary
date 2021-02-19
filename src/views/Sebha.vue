@@ -6,14 +6,9 @@
                 : ''
         "
     >
-        <ion-toolbar color="primary">
+        <ion-toolbar color="primary" translucent>
             <ion-buttons slot="start">
-                <ion-button color="light">
-                    <ion-icon :icon="menuOutline" />
-                    <ion-label class="hidden sm:inline-block">
-                        {{ $t('sebha.list') }}
-                    </ion-label>
-                </ion-button>
+                <ion-menu-button @click="setMenuItemWidth"></ion-menu-button>
             </ion-buttons>
             <ion-buttons slot="end">
                 <ion-button color="light" @click="add">
@@ -47,7 +42,7 @@
                 </ion-button>
             </ion-buttons>
         </ion-toolbar>
-        <ion-content :fullscreen="true" class="select-none">
+        <ion-content :fullscreen="true" class="select-none" id="main">
             <div
                 class="flex h-full text-white bg-fixed bg-no-repeat bg-cover"
                 @click.prevent="onClick()"
@@ -126,6 +121,43 @@
                 </ion-fab-button>
             </ion-fab>
         </ion-content>
+        <ion-menu side="start" content-id="main">
+            <ion-toolbar color="primary">
+                <ion-title>{{ $t('sebha.menu.title') }}</ion-title>
+            </ion-toolbar>
+            <ion-content :fullscreen="true" class="select-none ion-padding">
+                <div
+                    class="relative my-3 overflow-hidden transition-colors duration-500 rounded-md shadow-2xl card hover:cursor-pointer hover:bg-primary-600 hover:text-color"
+                    v-for="s in tasabeeh"
+                    :key="s.id"
+                    @click="getItemWidth"
+                >
+                    <div
+                        class="w-full px-2 bg-primary-600 rounded-tr-md rounded-tl-md text-color"
+                    >
+                        {{ s.body }}
+                    </div>
+                    <div class="relative flex flex-wrap p-2 card-body">
+                        <div class="w-1/2 text-center">
+                            {{ $t('sebha.current') }}: {{ s.current }}
+                        </div>
+                        <div class="w-1/2 text-center">
+                            {{ $t('sebha.max') }}: {{ s.max }}
+                        </div>
+                        <div class="w-full text-center">
+                            {{ $t('sebha.total') }}: {{ s.readed }}
+                        </div>
+                        <div
+                            class="absolute w-0 h-full transition-all duration-500 bg-primary-600"
+                            :style="
+                                `z-index: -1;width: ${(menuItemWidth / s.max) *
+                                    s.current}px`
+                            "
+                        ></div>
+                    </div>
+                </div>
+            </ion-content>
+        </ion-menu>
     </ion-page>
 </template>
 <script lang="ts">
@@ -141,10 +173,12 @@
         IonFab,
         IonFabButton,
         IonTitle,
+        IonMenuButton,
+        IonMenu,
         alertController,
+        menuController,
     } from '@ionic/vue';
     import {
-        menuOutline,
         colorPaletteOutline,
         colorFillOutline,
         addOutline,
@@ -152,18 +186,20 @@
         trashBinOutline,
         lockOpenOutline,
         lockClosedOutline,
+        menuOutline,
     } from 'ionicons/icons';
     // @ts-ignore
     import ProgressBar from 'progressbar.js/dist/progressbar';
     import { Plugins, Modals } from '@capacitor/core';
 
-    const { Storage } = Plugins;
     import { Sebha } from '@/entities/Sebha';
     import db from '@/utils/db';
     import loader from '@/utils/loader';
     import { getConnection, getRepository } from 'typeorm';
     import toast from '@/utils/toast';
     import SebhaMeta from '@/components/SebhaMeta.vue';
+
+    const { Storage } = Plugins;
 
     @Options({
         components: {
@@ -177,6 +213,8 @@
             IonFab,
             IonFabButton,
             IonTitle,
+            IonMenuButton,
+            IonMenu,
             SebhaMeta,
         },
     })
@@ -189,8 +227,8 @@
         svgHeight = 0;
         color = 'primary';
         locked = false;
+        menuItemWidth = 0;
 
-        menuOutline = menuOutline;
         colorPaletteOutline = colorPaletteOutline;
         colorFillOutline = colorFillOutline;
         addOutline = addOutline;
@@ -198,6 +236,11 @@
         trashBinOutline = trashBinOutline;
         lockOpenOutline = lockOpenOutline;
         lockClosedOutline = lockClosedOutline;
+        menuOutline = menuOutline;
+
+        async openMenu() {
+            await menuController.open();
+        }
 
         async loadTasabeeh() {
             await loader.show();
@@ -208,6 +251,15 @@
 
             this.bar?.set(this.sebha.current / this.sebha.max);
             this.svgHeight = this.calcHeight() * this.sebha.current;
+        }
+
+        setMenuItemWidth() {
+            this.menuItemWidth = 0;
+            const el = document.querySelector(
+                '.card-body.p-2'
+            ) as HTMLDivElement;
+
+            setTimeout(() => (this.menuItemWidth = el.offsetWidth), 500);
         }
 
         /**
