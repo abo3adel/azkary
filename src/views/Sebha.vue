@@ -102,6 +102,16 @@
                     <ion-icon :icon="closeOutline" />
                 </ion-fab-button>
             </ion-fab>
+            <ion-fab
+                vertical="top"
+                horizontal="start"
+                slot="fixed"
+                @click.prevent="remove"
+            >
+                <ion-fab-button>
+                    <ion-icon :icon="trashBinOutline" />
+                </ion-fab-button>
+            </ion-fab>
         </ion-content>
     </ion-page>
 </template>
@@ -125,19 +135,20 @@
         colorFillOutline,
         addOutline,
         closeOutline,
-        trashBinSharp,
+        trashBinOutline,
     } from 'ionicons/icons';
     // @ts-ignore
     import ProgressBar from 'progressbar.js/dist/progressbar';
-    import { Plugins } from '@capacitor/core';
+    import { Plugins, Modals } from '@capacitor/core';
 
     const { Storage } = Plugins;
     import { Sebha } from '@/entities/Sebha';
     import db from '@/utils/db';
     import loader from '@/utils/loader';
-    import { getConnection } from 'typeorm';
+    import { getConnection, getRepository } from 'typeorm';
     import toast from '@/utils/toast';
     import SebhaMeta from '@/components/SebhaMeta.vue';
+    import { SebhaFactory } from '../../database/factory/SebhaFactory';
 
     @Options({
         components: {
@@ -167,13 +178,14 @@
         colorFillOutline = colorFillOutline;
         addOutline = addOutline;
         closeOutline = closeOutline;
-        trashBinSharp = trashBinSharp;
+        trashBinOutline = trashBinOutline;
 
         async loadTasabeeh() {
             await loader.show();
             this.tasabeeh = await (await db()).getRepository(Sebha).find();
             await loader.hide();
-            this.sebha = this.tasabeeh[this.tasabeeh.length - 1];
+            this.active = this.tasabeeh.length - 1;
+            this.sebha = this.tasabeeh[this.active];
 
             this.bar?.set(this.sebha.current / this.sebha.max);
             this.svgHeight = this.calcHeight() * this.sebha.current;
@@ -266,7 +278,7 @@
         async add() {
             const alert = await alertController.create({
                 cssClass: 'ion-alert',
-                header: this.$t('zikr.add.header'),
+                header: this.$t('sebha.add.header'),
                 inputs: [
                     {
                         type: 'textarea',
@@ -329,6 +341,49 @@
                 ],
             });
             await alert.present();
+        }
+
+        /**
+         * delete current active sebha and activate next in list
+         * if no more then assign to first
+         * if no left then create new item with default values
+         *
+         * @returns void
+         */
+        async remove() {
+            const confirm = await Modals.confirm({
+                title: this.$t('sebha.del.conf'),
+                message: this.$t('sebha.del.mess'),
+                okButtonTitle: this.$t('sebha.del.okBtn'),
+                cancelButtonTitle: this.$t('sebha.del.cancelBtn'),
+            });
+
+            if (!confirm.value) return;
+
+            await loader.show();
+
+            await getRepository(Sebha).delete({ id: this.sebha.id });
+
+            this.tasabeeh.splice(this.active, 1);
+            this.sebha.current = 0;
+            this.active = this.tasabeeh[this.tasabeeh.length - 1]
+                ? this.tasabeeh.length - 1
+                : 0;
+
+            // check if list has any more sebha items
+            if (this.active) {
+                // assign to last item in list
+                this.sebha = this.tasabeeh[this.active - 1];
+            } else {
+                // create new sebha with default values
+                const sebha = new Sebha();
+                sebha.body = this.$t('sebha.add.pl');
+                sebha.max = 100;
+                sebha.current = 0;
+                this.sebha = sebha;
+            }
+
+            await loader.hide();
         }
 
         async resetSebha() {

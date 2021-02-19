@@ -1,3 +1,4 @@
+import { Sebha } from './../../src/entities/Sebha';
 import { BaseEntity, EntityTarget, Repository } from 'typeorm';
 import faker from 'faker';
 import db, { TEST_DB_NAME } from '@/utils/db';
@@ -52,10 +53,10 @@ export default abstract class BaseFactory {
     /**
      * create user object without saving it
      */
-    public make(): BaseEntity | BaseEntity[] {
+    public make(entity: BaseEntity | null = null): BaseEntity | BaseEntity[] {
         const entities = [];
         for (let i = 0; i < this.size; i++) {
-            entities.push(this.getData());
+            entities.push(entity ?? this.getData());
         }
         return entities.length > 1 ? entities : entities[0];
     }
