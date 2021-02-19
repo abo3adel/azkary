@@ -360,6 +360,7 @@
                 inputs: [
                     {
                         name: 'body',
+                        type:'textarea',
                         placeholder: 'سبحان الله وبحمده',
                         value: txt,
                         attributes: {
@@ -667,35 +668,6 @@
 <style lang="postcss">
     ion-item.item {
         font-size: inherit;
-    }
-    .ion-loader {
-        --background: var(--ion-color-primary);
-        --spinner-color: var(--ion-color-primary-contrast);
-
-        color: var(--ion-color-primary-contrast);
-    }
-    /* .ion-alert .alert-wrapper {
-        --background: #e5e5e5;
-    } */
-    .ion-alert {
-        .cancelBtn {
-            @apply text-orange-600 transition duration-300;
-            &:hover,
-            &:focus,
-            &:active {
-                @apply bg-orange-600 text-white;
-            }
-        }
-        .submitBtn {
-            @apply transition duration-300 font-semibold;
-            color: var(--ion-color-primary);
-            &:hover,
-            &:focus,
-            &:active {
-                background: var(--ion-color-primary);
-                color: var(--ion-color-primary-contrast);
-            }
-        }
     }
     .slide-fade-enter-active {
         transition: all 0.3s ease-out;

@@ -15,3 +15,33 @@ ion-toolbar.haveBg * {
     font-weight: 400;
     font-style: normal;
 }
+
+.ion-loader {
+    --background: var(--ion-color-primary);
+    --spinner-color: var(--ion-color-primary-contrast);
+
+    color: var(--ion-color-primary-contrast);
+}
+/* .ion-alert .alert-wrapper {
+    --background: #e5e5e5;
+} */
+.ion-alert {
+    .cancelBtn {
+        @apply text-orange-600 transition duration-300;
+        &:hover,
+        &:focus,
+        &:active {
+            @apply text-white bg-orange-600;
+        }
+    }
+    .submitBtn {
+        @apply font-semibold transition duration-300;
+        color: var(--ion-color-primary);
+        &:hover,
+        &:focus,
+        &:active {
+            background: var(--ion-color-primary);
+            color: var(--ion-color-primary-contrast);
+        }
+    }
+}
