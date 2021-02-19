@@ -44,10 +44,11 @@
             >
                 <div class="flex w-full h-full bg-black bg-opacity-20">
                     <div
-                        class="m-auto text-6xl font-semibold"
+                        class="relative m-auto font-semibold"
                         v-show="theme === 'base'"
                     >
                         <div id="container" class="releative"></div>
+                        <sebha-meta :sebha="sebha" />
                     </div>
                     <div
                         class="relative m-auto overflow-hidden border rounded-full w-80 h-80 border-primary-400"
@@ -87,23 +88,7 @@
                                 </g>
                             </svg>
                         </div>
-                        <div class="absolute flex w-full h-full">
-                            <div class="m-auto">
-                                <div class="flex flex-col text-center">
-                                    <div class="mx-4 font-semibold break-all">
-                                        {{ sebha.body }}
-                                    </div>
-                                    <div>
-                                        <span class="text-6xl">{{
-                                            sebha.current
-                                        }}</span>
-                                        <span class="text-3xl">
-                                            /{{ sebha.max }}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <sebha-meta :sebha="sebha" />
                     </div>
                 </div>
             </div>
@@ -152,6 +137,7 @@
     import loader from '@/utils/loader';
     import { getConnection } from 'typeorm';
     import toast from '@/utils/toast';
+    import SebhaMeta from '@/components/SebhaMeta.vue';
 
     @Options({
         components: {
@@ -164,6 +150,7 @@
             IonIcon,
             IonFab,
             IonFabButton,
+            SebhaMeta,
         },
     })
     export default class SebhaView extends Vue {
@@ -387,14 +374,41 @@
                     step: (state: any, circle: any) => {
                         circle.path.setAttribute('stroke', state.color);
                         circle.path.setAttribute('stroke-width', state.width);
-                        const value = Math.round(
-                            circle.value() * this.sebha.max ?? 10
-                        );
-                        if (value === 0 || !this.sebha.max) {
-                            circle.setText('');
-                        } else {
-                            circle.setText(`${value}/${this.sebha.max ?? 10}`);
-                        }
+                        circle.setText('');
+                        // const value = Math.round(
+                        //     circle.value() * this.sebha.max ?? 10
+                        // );
+                        // const parent = document.querySelector(
+                        //     '.progressbar-text'
+                        // );
+                        // if (!parent) {
+                        //     circle.setText('');
+                        // }
+                        // let header = parent?.querySelector(
+                        //     '#body'
+                        // ) as HTMLDivElement;
+                        // let percent = parent?.querySelector(
+                        //     '#percent'
+                        // ) as HTMLDivElement;
+
+                        // if (!header) {
+                        //     header = document.createElement('div');
+                        //     header.id = 'body';
+                        //     parent?.appendChild(header);
+                        // }
+                        // if (!percent) {
+                        //     percent = document.createElement('div');
+                        //     percent.id = 'percent';
+                        //     parent?.appendChild(percent);
+                        // }
+
+                        // if (value === 0 || !this.sebha.max) {
+                        //     // circle.setText('');
+                        // } else {
+                        //     header.textContent = this.sebha.body;
+                        //     percent.textContent = `${value}/${this.sebha.max ??
+                        //         10}`;
+                        // }
                     },
                 }
             );
