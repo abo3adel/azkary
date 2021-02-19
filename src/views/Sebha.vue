@@ -107,6 +107,16 @@
                     </div>
                 </div>
             </div>
+            <ion-fab
+                vertical="top"
+                horizontal="end"
+                slot="fixed"
+                @click.prevent="resetSebha"
+            >
+                <ion-fab-button>
+                    <ion-icon :icon="closeOutline" />
+                </ion-fab-button>
+            </ion-fab>
         </ion-content>
     </ion-page>
 </template>
@@ -120,6 +130,8 @@
         IonContent,
         IonLabel,
         IonIcon,
+        IonFab,
+        IonFabButton,
         alertController,
     } from '@ionic/vue';
     import {
@@ -127,6 +139,8 @@
         colorPaletteOutline,
         colorFillOutline,
         addOutline,
+        closeOutline,
+        trashBinSharp,
     } from 'ionicons/icons';
     // @ts-ignore
     import ProgressBar from 'progressbar.js/dist/progressbar';
@@ -148,6 +162,8 @@
             IonContent,
             IonLabel,
             IonIcon,
+            IonFab,
+            IonFabButton,
         },
     })
     export default class SebhaView extends Vue {
@@ -163,6 +179,8 @@
         colorPaletteOutline = colorPaletteOutline;
         colorFillOutline = colorFillOutline;
         addOutline = addOutline;
+        closeOutline = closeOutline;
+        trashBinSharp = trashBinSharp;
 
         async loadTasabeeh() {
             await loader.show();
@@ -315,9 +333,8 @@
                             this.active = this.tasabeeh.length - 1;
                             this.sebha = sebha;
 
-                            // reset svg height
-                            this.bar?.set(this.sebha.current / this.sebha.max);
-                            this.svgHeight = 0;
+                            // reset progress
+                            this.updateProgress();
 
                             await loader.hide();
                         },
@@ -325,6 +342,28 @@
                 ],
             });
             await alert.present();
+        }
+
+        async resetSebha() {
+            if (!this.sebha.current) return;
+
+            await loader.show();
+            await getConnection()
+                .createQueryBuilder(Sebha, 'tasabeeh')
+                .update()
+                .set({ current: 0 })
+                .where({ id: this.sebha.id })
+                .execute();
+
+            // reset
+            this.sebha.current = 0;
+            this.updateProgress();
+            await loader.hide();
+        }
+
+        updateProgress() {
+            this.svgHeight = this.calcHeight() * this.sebha.current;
+            this.bar?.set(this.sebha.current / this.sebha.max);
         }
 
         /**
