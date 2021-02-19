@@ -286,6 +286,9 @@
                     [this.sebha.id]
                 );
 
+                // updated readed value
+                this.sebha.readed++;
+
                 // reset
                 this.sebha.current = 0;
                 // will be incremented below
