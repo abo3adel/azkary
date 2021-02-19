@@ -15,14 +15,6 @@
                     </ion-label>
                 </ion-button>
             </ion-buttons>
-            <ion-buttons slot="center">
-                <ion-button color="light" @click="add">
-                    <ion-icon :icon="lockOpenOutline" />
-                    <ion-label class="hidden sm:inline-block">
-                        {{ $t('sebha.add') }}
-                    </ion-label>
-                </ion-button>
-            </ion-buttons>
             <ion-buttons slot="end">
                 <ion-button color="light" @click="add">
                     <ion-icon :icon="addOutline" />
@@ -40,6 +32,17 @@
                     <ion-icon :icon="colorFillOutline" />
                     <ion-label class="hidden sm:inline-block">
                         {{ $t('sebha.color') }}
+                    </ion-label>
+                </ion-button>
+                <ion-button
+                    color="light"
+                    @click="locked = !locked"
+                    class="mx-auto"
+                >
+                    <ion-icon :icon="lockOpenOutline" v-if="!locked" />
+                    <ion-icon :icon="lockClosedOutline" v-else />
+                    <ion-label class="hidden sm:inline-block">
+                        {{ $t('sebha.lock') }}
                     </ion-label>
                 </ion-button>
             </ion-buttons>
@@ -105,6 +108,7 @@
                 horizontal="end"
                 slot="fixed"
                 @click.prevent="resetSebha"
+                v-if="!locked"
             >
                 <ion-fab-button>
                     <ion-icon :icon="closeOutline" />
@@ -115,6 +119,7 @@
                 horizontal="start"
                 slot="fixed"
                 @click.prevent="remove"
+                v-if="!locked"
             >
                 <ion-fab-button>
                     <ion-icon :icon="trashBinOutline" />
@@ -135,6 +140,7 @@
         IonIcon,
         IonFab,
         IonFabButton,
+        IonTitle,
         alertController,
     } from '@ionic/vue';
     import {
@@ -170,6 +176,7 @@
             IonIcon,
             IonFab,
             IonFabButton,
+            IonTitle,
             SebhaMeta,
         },
     })
