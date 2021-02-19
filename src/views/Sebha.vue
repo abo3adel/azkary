@@ -131,11 +131,7 @@
                     :class="{ 'bg-primary-600 text-color': s.id === sebha.id }"
                     v-for="(s, sinx) in tasabeeh"
                     :key="s.id"
-                    @click.prevent="
-                        sebha = s;
-                        active = sinx;
-                        closeMenu();
-                    "
+                    @click.prevent="setSebha(s, sinx)"
                 >
                     <div
                         class="w-full px-2 bg-primary-600 rounded-tr-md rounded-tl-md text-color"
@@ -249,6 +245,13 @@
 
         async closeMenu() {
             await menuController.close();
+        }
+
+        async setSebha(s: Sebha, inx: number) {
+            this.sebha = s;
+            this.active = inx;
+            this.updateProgress();
+            await this.closeMenu();
         }
 
         async loadTasabeeh() {
@@ -465,6 +468,8 @@
                 this.sebha = await getRepository(Sebha).save(sebha);
             }
 
+            this.updateProgress();
+
             await loader.hide();
         }
 
@@ -487,7 +492,9 @@
 
         updateProgress() {
             this.svgHeight = this.calcHeight() * this.sebha.current;
-            this.bar?.set(this.sebha.current / this.sebha.max);
+            this.bar?.animate(this.sebha.current / this.sebha.max, {
+                duration: 500,
+            });
         }
 
         /**
