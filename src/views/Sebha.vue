@@ -1,5 +1,11 @@
 <template>
-    <ion-page>
+    <ion-page
+        :style="
+            color !== 'primary'
+                ? `--ion-color-primary: var(--ion-color-${color});--ion-color-primary-contrast: var(--ion-color-${color}-contrast)`
+                : ''
+        "
+    >
         <ion-toolbar color="primary">
             <ion-buttons>
                 <ion-button color="light">
@@ -14,7 +20,7 @@
                         {{ $t('sebha.theme') }}
                     </ion-label>
                 </ion-button>
-                <ion-button color="light">
+                <ion-button color="light" @click="toggleColor">
                     <ion-icon :icon="colorFillOutline" />
                     <ion-label class="hidden sm:inline-block">
                         {{ $t('sebha.color') }}
@@ -131,6 +137,8 @@
         sebha = new Sebha();
         theme = 'base';
         svgHeight = 0;
+        color = 'primary';
+
         menuOutline = menuOutline;
         colorPaletteOutline = colorPaletteOutline;
         colorFillOutline = colorFillOutline;
@@ -187,6 +195,9 @@
                 .execute();
         }
 
+        /**
+         * toggle the avaliable two thems
+         */
         async toggleTheme() {
             this.theme = this.theme === 'dev' ? 'base' : 'dev';
 
@@ -198,6 +209,27 @@
 
             // save current theme
             await Storage.set({ key: 'sebha_theme', value: this.theme });
+        }
+
+        async toggleColor() {
+            const colors = [
+                'primary',
+                'secondary',
+                'success',
+                'danger',
+                'warn',
+                'gold',
+                'tertiary',
+            ];
+            let inx = colors.findIndex((x) => x === this.color) + 1;
+
+            if (inx > colors.length) {
+                inx = 0;
+            }
+
+            this.color = colors[inx];
+
+            await Storage.set({ key: 'sebha_color', value: this.color });
         }
 
         /**
@@ -242,6 +274,10 @@
 
             Storage.get({ key: 'sebha_theme' }).then(
                 (r) => (this.theme = r.value ?? 'dev')
+            );
+
+            Storage.get({ key: 'sebha_color' }).then(
+                (r) => (this.color = r.value ?? 'primary')
             );
         }
 
