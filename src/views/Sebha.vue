@@ -128,9 +128,14 @@
             <ion-content :fullscreen="true" class="select-none ion-padding">
                 <div
                     class="relative my-3 overflow-hidden transition-colors duration-500 rounded-md shadow-2xl card hover:cursor-pointer hover:bg-primary-600 hover:text-color"
-                    v-for="s in tasabeeh"
+                    :class="{ 'bg-primary-600 text-color': s.id === sebha.id }"
+                    v-for="(s, sinx) in tasabeeh"
                     :key="s.id"
-                    @click="getItemWidth"
+                    @click.prevent="
+                        sebha = s;
+                        active = sinx;
+                        closeMenu();
+                    "
                 >
                     <div
                         class="w-full px-2 bg-primary-600 rounded-tr-md rounded-tl-md text-color"
@@ -240,6 +245,10 @@
 
         async openMenu() {
             await menuController.open();
+        }
+
+        async closeMenu() {
+            await menuController.close();
         }
 
         async loadTasabeeh() {
