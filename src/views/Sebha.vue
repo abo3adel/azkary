@@ -15,6 +15,14 @@
                     </ion-label>
                 </ion-button>
             </ion-buttons>
+            <ion-buttons slot="center">
+                <ion-button color="light" @click="add">
+                    <ion-icon :icon="lockOpenOutline" />
+                    <ion-label class="hidden sm:inline-block">
+                        {{ $t('sebha.add') }}
+                    </ion-label>
+                </ion-button>
+            </ion-buttons>
             <ion-buttons slot="end">
                 <ion-button color="light" @click="add">
                     <ion-icon :icon="addOutline" />
@@ -136,6 +144,8 @@
         addOutline,
         closeOutline,
         trashBinOutline,
+        lockOpenOutline,
+        lockClosedOutline,
     } from 'ionicons/icons';
     // @ts-ignore
     import ProgressBar from 'progressbar.js/dist/progressbar';
@@ -148,7 +158,6 @@
     import { getConnection, getRepository } from 'typeorm';
     import toast from '@/utils/toast';
     import SebhaMeta from '@/components/SebhaMeta.vue';
-    import { SebhaFactory } from '../../database/factory/SebhaFactory';
 
     @Options({
         components: {
@@ -172,6 +181,7 @@
         theme = 'base';
         svgHeight = 0;
         color = 'primary';
+        locked = false;
 
         menuOutline = menuOutline;
         colorPaletteOutline = colorPaletteOutline;
@@ -179,6 +189,8 @@
         addOutline = addOutline;
         closeOutline = closeOutline;
         trashBinOutline = trashBinOutline;
+        lockOpenOutline = lockOpenOutline;
+        lockClosedOutline = lockClosedOutline;
 
         async loadTasabeeh() {
             await loader.show();
@@ -379,8 +391,7 @@
                 const sebha = new Sebha();
                 sebha.body = this.$t('sebha.add.pl');
                 sebha.max = 100;
-                sebha.current = 0;
-                this.sebha = sebha;
+                this.sebha = await getRepository(Sebha).save(sebha);
             }
 
             await loader.hide();
