@@ -8,16 +8,12 @@
         <ion-content :fullscreen="true" class="select-none">
             <div
                 class="flex h-full text-white bg-fixed bg-no-repeat bg-cover"
-                @click.prevent="count++"
+                @click.prevent="onClick()"
                 style="background-image: url('/assets/img/ka3ba2.jpg')"
             >
                 <div class="flex w-full h-full bg-black bg-opacity-20">
-                    <h1 class="pt-4 mx-auto text-6xl font-semibold">
-                        {{ count }}
-                        <div
-                            id="container"
-                            class="releative"
-                        ></div>
+                    <h1 class="m-auto text-6xl font-semibold">
+                        <div id="container" class="releative"></div>
                     </h1>
                 </div>
             </div>
@@ -33,16 +29,45 @@
         IonButton,
         IonContent,
     } from '@ionic/vue';
-
     // @ts-ignore
     import ProgressBar from 'progressbar.js/dist/progressbar';
+    import { Plugins } from '@capacitor/core';
+
+    const { Storage } = Plugins;
+    import { Sebha } from '@/entities/Sebha';
+    import db from '@/utils/db';
+    import loader from '@/utils/loader';
+    import { getConnection } from 'typeorm';
 
     @Options({
         components: { IonPage, IonToolbar, IonButtons, IonButton, IonContent },
     })
     export default class SebhaView extends Vue {
         bar: any;
-        count = 0;
+        tasabeeh: Sebha[] = [];
+        active = 0;
+        sebha = new Sebha();
+
+        async loadTasabeeh() {
+            await loader.show();
+            this.tasabeeh = await (await db()).getRepository(Sebha).find();
+            await loader.hide();
+            this.sebha = this.tasabeeh[this.active];
+            this.bar.set(this.sebha.current / this.sebha.max);
+        }
+
+        async onClick() {
+            this.sebha.current++;
+            this.bar.animate(this.sebha.current / this.sebha.max);
+
+            // update db with current value
+            await getConnection()
+                .createQueryBuilder(Sebha, 'tasabeeh')
+                .update()
+                .set({ current: this.sebha.current })
+                .where({ id: this.sebha.id })
+                .execute();
+        }
 
         /**
          * iniate progress bar
@@ -65,22 +90,30 @@
                     step: (state: any, circle: any) => {
                         circle.path.setAttribute('stroke', state.color);
                         circle.path.setAttribute('stroke-width', state.width);
-                        const value = Math.round(circle.value() * 5);
-                        if (value === 0) {
+                        const value = Math.round(
+                            circle.value() * this.sebha.max ?? 10
+                        );
+                        if (value === 0 || !this.sebha.max) {
                             circle.setText('');
                         } else {
-                            circle.setText(`${value}/${5}`);
+                            circle.setText(`${value}/${this.sebha.max ?? 10}`);
                         }
                     },
                 }
             );
             // this.bar.svg.style.height = '7rem'; // responsive
             this.bar.text.style.fontSize = 'inherit'; // control with tailwind
-            this.bar.animate(1);
+        }
+
+        beforeMount() {
+            Storage.get({ key: 'sebha' }).then(
+                (r) => (this.active = parseInt(r.value ?? '0'))
+            );
         }
 
         mounted() {
             this.setProgressBar();
+            this.loadTasabeeh();
         }
     }
 </script>
