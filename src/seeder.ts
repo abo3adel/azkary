@@ -1,3 +1,4 @@
+import { SebhaFactory } from './../database/factory/SebhaFactory';
 import { NotifyZikrFactory } from './../database/factory/NotifyZikrFactory';
 import { CategoryType } from './entities/Category';
 import { Category } from '@/entities/Category';
@@ -15,6 +16,9 @@ class Seeder {
         await this.seedCategories();
         await NotifyZikrFactory.setConName(APP_DB_NAME)
             .count(20)
+            .create();
+        await SebhaFactory.setConName(APP_DB_NAME)
+            .count(3)
             .create();
         return;
     }

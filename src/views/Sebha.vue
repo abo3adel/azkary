@@ -40,7 +40,7 @@
     @Options({
         components: { IonPage, IonToolbar, IonButtons, IonButton, IonContent },
     })
-    export default class Sebha extends Vue {
+    export default class SebhaView extends Vue {
         bar: any;
         count = 0;
 
