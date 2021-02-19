@@ -1,10 +1,10 @@
 import { BaseEntity } from 'typeorm';
-import { Du3a } from '../../src/entities/Du3a';
+import { NotifyZikr } from '../../src/entities/NotifyZikr';
 import BaseFactory from './BaseFactory';
 
-export class Du3aFactoryClass extends BaseFactory {
+export class NotifyZikrFactoryClass extends BaseFactory {
     getData(): BaseEntity {
-        const du3a = new Du3a();
+        const du3a = new NotifyZikr();
         du3a.body = this.faker.lorem.sentence();
         du3a.notifiable = this.faker.random.boolean();
         du3a.byUser = this.faker.random.boolean();
@@ -12,4 +12,4 @@ export class Du3aFactoryClass extends BaseFactory {
     }
 }
 
-export const Du3aFactory: Du3aFactoryClass = new Du3aFactoryClass(Du3a)
+export const NotifyZikrFactory: NotifyZikrFactoryClass = new NotifyZikrFactoryClass(NotifyZikr)

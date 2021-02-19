@@ -14,7 +14,7 @@
         </ion-segment>
     </ion-toolbar>
     <ion-content class="ion-padding">
-        <template v-for="du in ad3ia" :key="du.id">
+        <template v-for="du in azkar" :key="du.id">
             <ion-item
                 v-if="active === 'user' ? du.byUser : !du.byUser"
                 class="my-5 rounded-lg shadow-2xl"
@@ -49,7 +49,7 @@
         IonItem,
     } from '@ionic/vue';
     import db from '@/utils/db';
-    import { Du3a } from '@/entities/Du3a';
+    import { NotifyZikr } from '@/entities/NotifyZikr';
 
     @Options({
         components: {
@@ -63,17 +63,17 @@
             IonItem,
         },
     })
-    export default class Du3aView extends Vue {
-        ad3ia: Du3a[] = [];
+    export default class Notify extends Vue {
+        azkar: NotifyZikr[] = [];
         active = 'user';
         toggles: HTMLDivElement[] = [];
 
         /**
-         * load all ad3ia items
+         * load all azkar items
          */
-        async loadAd3ia(): Promise<void> {
-            const repo = (await db()).getRepository(Du3a);
-            this.ad3ia = await repo.find();
+        async loadData(): Promise<void> {
+            const repo = (await db()).getRepository(NotifyZikr);
+            this.azkar = await repo.find();
         }
 
         segmentChanged(ev: { value: string }): void {
@@ -82,7 +82,7 @@
 
         async update(ev: { checked: boolean; value: string }): Promise<void> {
             await (await db())
-                .createQueryBuilder(Du3a, 'ad3ia')
+                .createQueryBuilder(NotifyZikr, 'notifiable_azkars')
                 .update()
                 .set({ notifiable: ev.checked })
                 .where({ id: ev.value })
@@ -94,7 +94,7 @@
         }
 
         mounted() {
-            this.loadAd3ia();
+            this.loadData();
         }
     }
 </script>

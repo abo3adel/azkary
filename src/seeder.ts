@@ -1,4 +1,4 @@
-import { Du3aFactory } from './../database/factory/Du3aFactory';
+import { NotifyZikrFactory } from './../database/factory/NotifyZikrFactory';
 import { CategoryType } from './entities/Category';
 import { Category } from '@/entities/Category';
 import { Repository } from 'typeorm';
@@ -10,14 +10,14 @@ import { UserFactory } from '../database/factory/UserFactory';
 
 class Seeder {
     private catRepo!: Repository<Category>;
-    async run(): Promise<void> {  
+    async run(): Promise<void> {
         await UserFactory.setConName(APP_DB_NAME).create();
         await this.seedCategories();
-        await Du3aFactory.setConName(APP_DB_NAME).count(20).create();
+        await NotifyZikrFactory.setConName(APP_DB_NAME)
+            .count(20)
+            .create();
         return;
     }
-
-
 
     private async seedCategories() {
         this.catRepo = (await db()).getRepository(Category) as Repository<
@@ -37,11 +37,11 @@ class Seeder {
         slug: string,
         type: CategoryType = CategoryType.Zikr
     ): Promise<Category> {
-        const cat = new Category;
+        const cat = new Category();
         cat.title = title;
         cat.slug = slug;
         cat.type = type;
-        cat.azkar = await ZikrFactory.count(10).create() as Zikr[];
+        cat.azkar = (await ZikrFactory.count(10).create()) as Zikr[];
 
         this.catRepo.save(cat);
 

@@ -20,8 +20,8 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import('@/views/zikr/Index.vue'),
             },
             {
-                path: 'du3a',
-                component: () => import('@/views/Du3a.vue'),
+                path: 'notify',
+                component: () => import('@/views/Notify.vue'),
             },
         ],  
     },

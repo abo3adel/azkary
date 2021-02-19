@@ -1,7 +1,7 @@
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity('ad3ia')
-export class Du3a extends BaseEntity {
+@Entity('notifiable_azkar')
+export class NotifyZikr extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
