@@ -7,11 +7,19 @@
         "
     >
         <ion-toolbar color="primary">
-            <ion-buttons>
+            <ion-buttons slot="start">
                 <ion-button color="light">
                     <ion-icon :icon="menuOutline" />
                     <ion-label class="hidden sm:inline-block">
                         {{ $t('sebha.list') }}
+                    </ion-label>
+                </ion-button>
+            </ion-buttons>
+            <ion-buttons slot="end">
+                <ion-button color="light" @click="add">
+                    <ion-icon :icon="addOutline" />
+                    <ion-label class="hidden sm:inline-block">
+                        {{ $t('sebha.add') }}
                     </ion-label>
                 </ion-button>
                 <ion-button color="light" @click.prevent="toggleTheme">
@@ -81,10 +89,19 @@
                         </div>
                         <div class="absolute flex w-full h-full">
                             <div class="m-auto">
-                                <span class="text-6xl">{{
-                                    sebha.current
-                                }}</span>
-                                <span class="text-3xl"> /{{ sebha.max }} </span>
+                                <div class="flex flex-col text-center">
+                                    <div class="mx-4 font-semibold break-all">
+                                        {{ sebha.body }}
+                                    </div>
+                                    <div>
+                                        <span class="text-6xl">{{
+                                            sebha.current
+                                        }}</span>
+                                        <span class="text-3xl">
+                                            /{{ sebha.max }}
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -103,11 +120,13 @@
         IonContent,
         IonLabel,
         IonIcon,
+        alertController,
     } from '@ionic/vue';
     import {
         menuOutline,
         colorPaletteOutline,
         colorFillOutline,
+        addOutline,
     } from 'ionicons/icons';
     // @ts-ignore
     import ProgressBar from 'progressbar.js/dist/progressbar';
@@ -118,6 +137,7 @@
     import db from '@/utils/db';
     import loader from '@/utils/loader';
     import { getConnection } from 'typeorm';
+    import toast from '@/utils/toast';
 
     @Options({
         components: {
@@ -142,12 +162,13 @@
         menuOutline = menuOutline;
         colorPaletteOutline = colorPaletteOutline;
         colorFillOutline = colorFillOutline;
+        addOutline = addOutline;
 
         async loadTasabeeh() {
             await loader.show();
             this.tasabeeh = await (await db()).getRepository(Sebha).find();
             await loader.hide();
-            this.sebha = this.tasabeeh[this.active];
+            this.sebha = this.tasabeeh[this.tasabeeh.length - 1];
 
             this.bar?.set(this.sebha.current / this.sebha.max);
             this.svgHeight = this.calcHeight() * this.sebha.current;
@@ -177,9 +198,11 @@
                     [this.sebha.id]
                 );
 
-                // reset current
+                // reset
                 this.sebha.current = 0;
-                this.svgHeight = 0;
+                // will be incremented below
+                // then set after increment to zero
+                this.svgHeight = -this.calcHeight();
             }
 
             this.bar?.animate(this.sebha.current / this.sebha.max);
@@ -211,6 +234,9 @@
             await Storage.set({ key: 'sebha_theme', value: this.theme });
         }
 
+        /**
+         * toggle between avaliable theme colors
+         */
         async toggleColor() {
             const colors = [
                 'primary',
@@ -230,6 +256,75 @@
             this.color = colors[inx];
 
             await Storage.set({ key: 'sebha_color', value: this.color });
+        }
+
+        async add() {
+            const alert = await alertController.create({
+                cssClass: 'ion-alert',
+                header: this.$t('zikr.add.header'),
+                inputs: [
+                    {
+                        type: 'textarea',
+                        name: 'body',
+                        placeholder: this.$t('sebha.add.pl'),
+                        attributes: {
+                            dir: 'rtl',
+                        },
+                    },
+                    {
+                        type: 'number',
+                        name: 'max',
+                        placeholder: this.$t('sebha.add.max'),
+                        value: 100,
+                        attributes: {
+                            dir: 'rtl',
+                            inputmode: 'numeric',
+                        },
+                    },
+                ],
+                buttons: [
+                    {
+                        text: this.$t('zikr.add.cancel'),
+                        role: 'cancel',
+                        cssClass: 'cancelBtn',
+                    },
+                    {
+                        text: this.$t('zikr.add.save'),
+                        cssClass: 'submitBtn',
+                        handler: async (ev: {
+                            body: string;
+                            max: number;
+                        }): Promise<void> => {
+                            if (!ev.body || !ev.body.length) {
+                                toast(this.$t('sebha.err.noBody'));
+                                return;
+                            }
+
+                            await loader.show();
+
+                            let sebha = new Sebha();
+                            sebha.body = ev.body;
+                            sebha.max = ev.max;
+
+                            sebha = await (await db())
+                                .getRepository(Sebha)
+                                .save(sebha);
+
+                            // select it as current active sebha
+                            this.tasabeeh.push(sebha);
+                            this.active = this.tasabeeh.length - 1;
+                            this.sebha = sebha;
+
+                            // reset svg height
+                            this.bar?.set(this.sebha.current / this.sebha.max);
+                            this.svgHeight = 0;
+
+                            await loader.hide();
+                        },
+                    },
+                ],
+            });
+            await alert.present();
         }
 
         /**
