@@ -12,8 +12,58 @@
                 style="background-image: url('/assets/img/ka3ba2.jpg')"
             >
                 <div class="flex w-full h-full bg-black bg-opacity-20">
-                    <div class="m-auto text-6xl font-semibold">
+                    <div
+                        class="m-auto text-6xl font-semibold"
+                        v-if="theme === 'base'"
+                    >
                         <div id="container" class="releative"></div>
+                    </div>
+                    <div
+                        class="relative m-auto overflow-hidden border rounded-full w-80 h-80 border-primary-400"
+                        v-else
+                    >
+                        <div
+                            class="absolute bottom-0 w-full h-5 transition-all duration-500 opacity-95 bg-primary-600"
+                            :style="`height: ${svgHeight}rem`"
+                        >
+                            <svg
+                                class="w-full -mt-7 waves"
+                                xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink"
+                                viewBox="0 24 150 28"
+                                preserveAspectRatio="none"
+                                shape-rendering="auto"
+                            >
+                                <defs>
+                                    <path
+                                        id="gentle-wave"
+                                        d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+                                    />
+                                </defs>
+                                <g class="parallax">
+                                    <use
+                                        xlink:href="#gentle-wave"
+                                        x="48"
+                                        y="0"
+                                        fill="var(--ion-color-primary)"
+                                    />
+                                    <use
+                                        xlink:href="#gentle-wave"
+                                        x="40"
+                                        y="7"
+                                        fill="var(--ion-color-primary)"
+                                    />
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="absolute flex w-full h-full">
+                            <div class="m-auto">
+                                <span class="text-3xl">{{
+                                    sebha.current
+                                }}</span>
+                                <span class="text-xl"> /{{ sebha.max }} </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -47,34 +97,53 @@
         tasabeeh: Sebha[] = [];
         active = 0;
         sebha = new Sebha();
+        theme = 'dev';
+        svgHeight = 0;
 
         async loadTasabeeh() {
             await loader.show();
             this.tasabeeh = await (await db()).getRepository(Sebha).find();
             await loader.hide();
             this.sebha = this.tasabeeh[this.active];
-            this.sebha.current = 1;
-            this.sebha.max = 5;
-            console.log(this.sebha.readed);
+            this.sebha.current = 35;
+            this.sebha.max = 40;
 
-            this.bar.set(this.sebha.current / this.sebha.max);
+            this.bar?.set(this.sebha.current / this.sebha.max);
+            this.svgHeight = this.calcHeight() * this.sebha.current;
+        }
+
+        /**
+         * calculate dev theme container div height
+         * ?eight is mesured by rem, div max-height -> 20rem
+         * ?calculate with 19 to show animation event on last number
+         *
+         * @returns number
+         */
+        calcHeight(): number {
+            return 19 / this.sebha.max;
         }
 
         async onClick() {
             this.sebha.current++;
+
             if (this.sebha.current >= this.sebha.max) {
-                
-                this.bar.set(1);
+                this.bar?.set(1);
+                this.svgHeight = 20;
+
                 // increment readed value
                 await getConnection().query(
                     'UPDATE tasabeeh AS ts SET readed = readed +1 WHERE id = ?',
                     [this.sebha.id]
                 );
+
                 // reset current
                 this.sebha.current = 0;
+                this.svgHeight = 0;
             }
 
-            this.bar.animate(this.sebha.current / this.sebha.max);
+            this.bar?.animate(this.sebha.current / this.sebha.max);
+
+            this.svgHeight += this.calcHeight();
 
             // update db with current value
             await getConnection()
@@ -128,8 +197,40 @@
         }
 
         mounted() {
-            this.setProgressBar();
+            if (this.theme !== 'dev') {
+                this.setProgressBar();
+            }
             this.loadTasabeeh();
         }
     }
 </script>
+<style scoped>
+    .waves {
+        height: 15vh;
+        margin-bottom: -7px; /*Fix for safari gap*/
+        min-height: 100px;
+        max-height: 150px;
+    }
+    .parallax > use {
+        animation: move-forever 10s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+    }
+    .parallax > use:nth-child(1) {
+        animation-delay: -2s;
+        animation-duration: 1s;
+    }
+    @keyframes move-forever {
+        0% {
+            transform: translate3d(-90px, 0, 0);
+        }
+        100% {
+            transform: translate3d(85px, 0, 0);
+        }
+    }
+    /*Shrinking for mobile*/
+    @media (max-width: 768px) {
+        .waves {
+            height: 40px;
+            min-height: 40px;
+        }
+    }
+</style>
