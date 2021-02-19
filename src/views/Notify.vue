@@ -27,7 +27,7 @@
                     {{ du.body }}
                 </ion-label>
                 <ion-toggle
-                    @ionChange="update($event.detail)"
+                    @ionChange="update($event.detail, du.id)"
                     :value="du.id"
                     :checked="du.notifiable"
                     color="primary"
@@ -80,13 +80,19 @@
             this.active = ev.value;
         }
 
-        async update(ev: { checked: boolean; value: string }): Promise<void> {
+        async update(
+            ev: { checked: boolean; value: string },
+            id: number
+        ): Promise<void> {
             await (await db())
                 .createQueryBuilder(NotifyZikr, 'notifiable_azkars')
                 .update()
                 .set({ notifiable: ev.checked })
                 .where({ id: ev.value })
                 .execute();
+
+            this.azkar[this.azkar.findIndex((x) => x.id === id)].notifiable =
+                ev.checked;
         }
 
         beforeUpdate() {
