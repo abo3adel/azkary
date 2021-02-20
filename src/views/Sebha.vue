@@ -614,6 +614,12 @@
                 }
                 this.onClick();
             });
+
+            // listen for volume keys
+            window.addEventListener('volumebuttonslistener', () => {
+                // TODO test this on real device
+                this.onClick();
+            });
         }
     }
 </script>
