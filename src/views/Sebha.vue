@@ -303,6 +303,7 @@
 
                 // reset
                 this.sebha.current = 0;
+                this.updateProgress();
                 // will be incremented below
                 // then set after increment to zero
                 this.svgHeight = -this.calcHeight();
@@ -452,6 +453,7 @@
 
             this.tasabeeh.splice(this.active, 1);
             this.sebha.current = 0;
+            this.updateProgress();
             this.active = this.tasabeeh[this.tasabeeh.length - 1]
                 ? this.tasabeeh.length - 1
                 : 0;
@@ -473,6 +475,9 @@
             await loader.hide();
         }
 
+        /**
+         * reset current value
+         */
         async resetSebha() {
             if (!this.sebha.current) return;
 
@@ -486,6 +491,7 @@
 
             // reset
             this.sebha.current = 0;
+            this.updateProgress();
             this.updateProgress();
             await loader.hide();
         }
@@ -575,6 +581,39 @@
                 this.setSebhaProgress();
             }
             this.loadTasabeeh();
+
+            // listen for keyboard events
+            document.addEventListener('keyup', (ev) => {
+                ev.preventDefault();
+
+                // handle esc buttton
+                // will reset current
+                if (ev.keyCode === 27) {
+                    this.resetSebha();
+                    return;
+                } else if (ev.keyCode === 46) {
+                    // delete button
+                    this.remove();
+                    return;
+                } else if (ev.keyCode === 77) {
+                    // m char key
+                    menuController.toggle();
+                    return;
+                } else if (ev.keyCode === 78) {
+                    // n char key
+                    this.add();
+                    return;
+                } else if (ev.keyCode === 84) {
+                    // t char key
+                    this.toggleTheme();
+                    return;
+                } else if (ev.keyCode === 67) {
+                    // c char key
+                    this.toggleColor();
+                    return;
+                }
+                this.onClick();
+            });
         }
     }
 </script>
