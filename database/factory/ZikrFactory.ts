@@ -1,10 +1,12 @@
 import { Category } from '@/entities/Category';
-import { BaseEntity, Repository } from 'typeorm';
+import { BaseEntity, Repository, InsertResult } from 'typeorm';
 import { Zikr } from '../../src/entities/Zikr';
 import BaseFactory from './BaseFactory';
 import { CategoryFactory } from './CategoryFactory';
 
 export class ZikrFactoryClass extends BaseFactory {
+    protected tbName = 'azkar';
+
     getData(): BaseEntity {
         const zikr = new Zikr();
         zikr.body = this.faker.lorem.sentence();
@@ -23,10 +25,13 @@ export class ZikrFactoryClass extends BaseFactory {
     protected async addRelations(
         entity: BaseEntity,
         repo: Repository<BaseEntity>
-    ): Promise<BaseEntity> {
+    ): Promise<BaseEntity | InsertResult> {
         const category = (await CategoryFactory.create()) as Category;
-        (entity as Zikr).category = category;
-        await repo.save(entity);
+        // @ts-ignore
+        entity.categoryId = category.id;
+        // await repo.save(entity);
+        // @ts-ignore
+        entity = await this.saveEntity(repo, entity, this.tbName);
         return entity;
     }
 }

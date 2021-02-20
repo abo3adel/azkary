@@ -14,9 +14,12 @@
             <ion-button color="primary" fill="solid" @click="seed"
                 >Seed DB</ion-button
             >
-            <ion-button color="danger" fill="solid" @click="upload"
-                >File</ion-button
-            >
+            <ion-button color="danger" fill="solid" @click="upload">
+                File
+            </ion-button>
+            <ion-button color="success" fill="solid" @click="showData">
+                ShowData
+            </ion-button>
 
             <ExploreContainer name="Home page" />
         </ion-content>
@@ -31,18 +34,17 @@
         IonTitle,
         IonContent,
         IonButton,
+        isPlatform,
     } from '@ionic/vue';
     import ExploreContainer from '@/components/ExploreContainer.vue';
     import { Options, Vue } from 'vue-class-component';
     import seeder from '@/seeder';
     import clearDB from '../../database/clearDB';
-    import { APP_DB_NAME } from '@/utils/db';
+    import db, { APP_DB_NAME } from '@/utils/db';
     import { FileChooser } from '@ionic-native/file-chooser';
-    import {
-        Plugins,
-        FilesystemDirectory,
-        FilesystemEncoding,
-    } from '@capacitor/core';
+    import { Plugins, FilesystemEncoding } from '@capacitor/core';
+    import { Category } from '@/entities/Category';
+    import { Zikr } from '@/entities/Zikr';
 
     const { Filesystem } = Plugins;
 
@@ -59,12 +61,26 @@
     })
     export default class Home extends Vue {
         async seed() {
+            // const d = await db();
+            // console.log(
+            //     'Connection Name5564: ' + d.name,
+            //     d.driver,
+            //     d.entityMetadatas
+            // );
             await clearDB(null, APP_DB_NAME);
             await seeder.run();
-            alert('done seeding');
+            console.log('done seeding');
+        }
+
+        async showData() {
+            const d = await db();
+            console.log(await d.getRepository(Category).find());
+            console.log(JSON.stringify(await d.getRepository(Zikr).find()));
         }
 
         upload() {
+            console.log(isPlatform('capacitor'), isPlatform('mobile'));
+
             FileChooser.open()
                 .then(async (r: any) => {
                     console.log('chooosed'.repeat(15), r);

@@ -3,6 +3,8 @@ import { User, UserTheme } from '../../src/entities/User';
 import BaseFactory from './BaseFactory';
 
 export class UserFactoryClass extends BaseFactory {
+    protected tbName = 'users';
+
     getData(): BaseEntity {
         const user = new User();
         user.name = this.faker.name.findName();

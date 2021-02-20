@@ -3,6 +3,8 @@ import { Sebha } from '../../src/entities/Sebha';
 import BaseFactory from './BaseFactory';
 
 export class SebhaFactoryClass extends BaseFactory {
+    protected tbName = 'tasabeeh';
+
     getData(): BaseEntity {
         const sebha = new Sebha();
         sebha.body = this.faker.lorem.sentence();

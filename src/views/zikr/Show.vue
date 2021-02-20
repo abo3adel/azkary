@@ -318,6 +318,9 @@
 
             this.afterDataUpdate();
 
+            console.log(this.category);
+            
+
             await loader.hide();
         }
 

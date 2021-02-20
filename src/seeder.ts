@@ -2,7 +2,7 @@ import { SebhaFactory } from './../database/factory/SebhaFactory';
 import { NotifyZikrFactory } from './../database/factory/NotifyZikrFactory';
 import { CategoryType } from './entities/Category';
 import { Category } from '@/entities/Category';
-import { Repository } from 'typeorm';
+import { Repository, getConnection } from 'typeorm';
 import db, { APP_DB_NAME } from './utils/db';
 import faker from 'faker';
 import { ZikrFactory } from '../database/factory/ZikrFactory';
@@ -24,9 +24,9 @@ class Seeder {
     }
 
     private async seedCategories() {
-        this.catRepo = (await db()).getRepository(Category) as Repository<
+        this.catRepo = (await db(APP_DB_NAME)).getRepository(
             Category
-        >;
+        ) as Repository<Category>;
         await this.createCategory(faker.lorem.sentence(), 'morning');
         await this.createCategory(faker.lorem.sentence(), 'night');
         await this.createCategory(faker.lorem.sentence(), 'mosque');
@@ -45,9 +45,32 @@ class Seeder {
         cat.title = title;
         cat.slug = slug;
         cat.type = type;
-        cat.azkar = (await ZikrFactory.count(10).create()) as Zikr[];
+        cat.azkar = (ZikrFactory.setConName(APP_DB_NAME)
+            .count(10)
+            .make()) as Zikr[];
 
-        this.catRepo.save(cat);
+        cat.azkar.forEach((x) => {
+            console.log('asdasdasd'.repeat(15));
+            
+            // @ts-ignore
+            x.categoryId = cat.id;
+
+            getConnection()
+                .createQueryBuilder()
+                .insert()
+                .into('azkar')
+                .values(x)
+                .execute();
+        });
+
+        getConnection()
+            .createQueryBuilder()
+            .insert()
+            .into('categories')
+            .values(cat)
+            .execute();
+
+        // this.catRepo.save(cat);
 
         return cat;
     }

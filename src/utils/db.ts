@@ -16,10 +16,11 @@ export default async function db(conName = APP_DB_NAME): Promise<Connection> {
     try {
         con = getConnection(conName);
     } catch (e) {
-        if (isPlatform('cordova')) {
+        if (isPlatform('capacitor') || isPlatform('mobile')) {
             con = await createConnection({
+                name: conName,
                 type: 'cordova',
-                database: 'test',
+                database: 'my_azkar_db',
                 location: 'default',
                 logging: ['error', 'query', 'schema'],
                 synchronize: true,

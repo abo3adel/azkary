@@ -30,8 +30,7 @@ export class Category extends BaseEntity
     type!: string;
 
     @OneToMany(() => Zikr, zikr => zikr.category, {
-        eager: true,
-        cascade: true,
+        onDelete: 'CASCADE',
     })
     @JoinTable()
     azkar!: Zikr[];

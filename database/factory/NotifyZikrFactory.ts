@@ -3,6 +3,8 @@ import { NotifyZikr } from '../../src/entities/NotifyZikr';
 import BaseFactory from './BaseFactory';
 
 export class NotifyZikrFactoryClass extends BaseFactory {
+    protected tbName = 'notifiable_azkar';
+
     getData(): BaseEntity {
         const du3a = new NotifyZikr();
         du3a.body = this.faker.lorem.sentence();
