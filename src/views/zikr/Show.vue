@@ -319,8 +319,6 @@
             this.afterDataUpdate();
 
             await loader.hide();
-
-            emitter.emit('data-loaded');
         }
 
         afterDataUpdate(): void {
@@ -484,6 +482,7 @@
             setTimeout(() => {
                 this.category.azkar.splice(inx, 1);
                 this.afterDataUpdate();
+                emitter.emit('deleted');
             }, 500);
 
             await loader.hide();

@@ -87,6 +87,13 @@
     @Options({
         components: { Swiper, SwiperSlide },
         emits: EmitsList,
+        watch: {
+            azkar: {
+                handler() {
+                    this.azkarUpdated();
+                },
+            },
+        },
     })
     export default class SideTheme extends Vue.with(Props) {
         // azkarClone: { id: number; count: number }[] = [];
@@ -221,6 +228,18 @@
                 : new Zikr();
         }
 
+        azkarUpdated() {
+            if (this.zikr.id) {
+                this.zikr = Object.assign({}, this.azkar[this.activeIndex]);
+            } else {
+                this.zikr = Object.assign({}, this.azkar[0]);
+            }
+
+            this.bar.animate(
+                (this.zikr.count - this.current.count) / this.zikr.count
+            );
+        }
+
         /**
          * reset zikr item count
          */
@@ -231,9 +250,7 @@
         mounted() {
             this.setProgressBar();
 
-            emitter.on('data-loaded', () => {
-                this.zikr = Object.assign({}, this.azkar[0]);
-            });
+            emitter.on('deleted', () => this.azkarUpdated());
 
             emitter.on('slide-cog', () => {
                 this.opts();
