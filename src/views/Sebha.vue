@@ -65,31 +65,223 @@
                             :style="`height: ${svgHeight}rem`"
                         >
                             <svg
-                                class="w-full -mt-7 waves"
+                                class="w-full"
                                 xmlns="http://www.w3.org/2000/svg"
                                 xmlns:xlink="http://www.w3.org/1999/xlink"
-                                viewBox="0 24 150 28"
                                 preserveAspectRatio="none"
                                 shape-rendering="auto"
+                                viewBox="0 0 120 28"
+                                style="margin-top: -4.5rem;"
+                                v-pre
                             >
                                 <defs>
+                                    <filter id="goo">
+                                        <feGaussianBlur
+                                            in="SourceGraphic"
+                                            stdDeviation="1"
+                                            result="blur"
+                                        />
+                                        <feColorMatrix
+                                            in="blur"
+                                            mode="matrix"
+                                            values="
+              1 0 0 0 0  
+              0 1 0 0 0  
+              0 0 1 0 0  
+              0 0 0 13 -9"
+                                            result="goo"
+                                        />
+                                        <xfeBlend
+                                            in="SourceGraphic"
+                                            in2="goo"
+                                        />
+                                    </filter>
                                     <path
-                                        id="gentle-wave"
-                                        d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+                                        id="wave"
+                                        d="M 0,10 C 80,10 30,15 60,15 90,15 90,10 120,10 150,10 150,15 180,15 210,15 210,10 240,10 v 28 h -240 z"
                                     />
                                 </defs>
-                                <g class="parallax">
-                                    <use
-                                        xlink:href="#gentle-wave"
-                                        x="48"
-                                        y="0"
-                                        fill="var(--ion-color-primary)"
+
+                                <use
+                                    id="wave3"
+                                    class="wave"
+                                    xlink:href="#wave"
+                                    x="0"
+                                    y="-2"
+                                ></use>
+                                <use
+                                    id="wave2"
+                                    class="wave"
+                                    xlink:href="#wave"
+                                    x="0"
+                                    y="0"
+                                ></use>
+
+                                <g class="gooeff" filter="url(#goo)">
+                                    <circle
+                                        class="drop drop1"
+                                        cx="20"
+                                        cy="2"
+                                        r="8.8"
+                                    />
+                                    <circle
+                                        class="drop drop2"
+                                        cx="25"
+                                        cy="2.5"
+                                        r="7.5"
+                                    />
+                                    <circle
+                                        class="drop drop3"
+                                        cx="16"
+                                        cy="2.8"
+                                        r="9.2"
+                                    />
+                                    <circle
+                                        class="drop drop4"
+                                        cx="18"
+                                        cy="2"
+                                        r="8.8"
+                                    />
+                                    <circle
+                                        class="drop drop5"
+                                        cx="22"
+                                        cy="2.5"
+                                        r="7.5"
+                                    />
+                                    <circle
+                                        class="drop drop6"
+                                        cx="26"
+                                        cy="2.8"
+                                        r="9.2"
+                                    />
+                                    <circle
+                                        class="drop drop1"
+                                        cx="5"
+                                        cy="4.4"
+                                        r="8.8"
+                                    />
+                                    <circle
+                                        class="drop drop2"
+                                        cx="5"
+                                        cy="4.1"
+                                        r="7.5"
+                                    />
+                                    <circle
+                                        class="drop drop3"
+                                        cx="8"
+                                        cy="3.8"
+                                        r="9.2"
+                                    />
+                                    <circle
+                                        class="drop drop4"
+                                        cx="3"
+                                        cy="4.4"
+                                        r="8.8"
+                                    />
+                                    <circle
+                                        class="drop drop5"
+                                        cx="7"
+                                        cy="4.1"
+                                        r="7.5"
+                                    />
+                                    <circle
+                                        class="drop drop6"
+                                        cx="10"
+                                        cy="4.3"
+                                        r="9.2"
+                                    />
+
+                                    <circle
+                                        class="drop drop1"
+                                        cx="1.2"
+                                        cy="5.4"
+                                        r="8.8"
+                                    />
+                                    <circle
+                                        class="drop drop2"
+                                        cx="5.2"
+                                        cy="5.1"
+                                        r="7.5"
+                                    />
+                                    <circle
+                                        class="drop drop3"
+                                        cx="10.2"
+                                        cy="5.3"
+                                        r="9.2"
+                                    />
+                                    <circle
+                                        class="drop drop4"
+                                        cx="3.2"
+                                        cy="5.4"
+                                        r="8.8"
+                                    />
+                                    <circle
+                                        class="drop drop5"
+                                        cx="14.2"
+                                        cy="5.1"
+                                        r="7.5"
+                                    />
+                                    <circle
+                                        class="drop drop6"
+                                        cx="17.2"
+                                        cy="4.8"
+                                        r="9.2"
+                                    />
+
+                                    <circle
+                                        class="drop drop1"
+                                        cx="40"
+                                        cy="2"
+                                        r="8.8"
+                                    />
+                                    <circle
+                                        class="drop drop2"
+                                        cx="50"
+                                        cy="2.5"
+                                        r="7.5"
+                                    />
+                                    <circle
+                                        class="drop drop3"
+                                        cx="60"
+                                        cy="2.8"
+                                        r="9.2"
+                                    />
+                                    <circle
+                                        class="drop drop4"
+                                        cx="70"
+                                        cy="2"
+                                        r="8.8"
+                                    />
+                                    <circle
+                                        class="drop drop5"
+                                        cx="80"
+                                        cy="2.5"
+                                        r="7.5"
+                                    />
+                                    <circle
+                                        class="drop drop6"
+                                        cx="90"
+                                        cy="2.8"
+                                        r="9.2"
+                                    />
+                                    <circle
+                                        class="drop drop1"
+                                        cx="100"
+                                        cy="4.4"
+                                        r="8.8"
+                                    />
+                                    <circle
+                                        class="drop drop2"
+                                        cx="110"
+                                        cy="4.1"
+                                        r="7.5"
                                     />
                                     <use
-                                        xlink:href="#gentle-wave"
-                                        x="40"
-                                        y="7"
-                                        fill="var(--ion-color-primary)"
+                                        id="wave1"
+                                        class="wave"
+                                        xlink:href="#wave"
+                                        x="0"
+                                        y="1"
                                     />
                                 </g>
                             </svg>
@@ -282,7 +474,7 @@
          * @returns number
          */
         calcHeight(): number {
-            return 19 / this.sebha.max;
+            return 17 / this.sebha.max;
         }
 
         async onClick() {
@@ -624,32 +816,72 @@
     }
 </script>
 <style scoped>
-    .waves {
-        height: 15vh;
-        margin-bottom: -7px; /*Fix for safari gap*/
-        min-height: 100px;
-        max-height: 150px;
+    .wave {
+        animation: wave 3s linear;
+        animation-iteration-count: infinite;
+        fill: var(--ion-color-primary);
     }
-    .parallax > use {
-        animation: move-forever 10s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+    .drop {
+        fill: var(--ion-color-primary);
+        /* xfill: #99000055; */
+        animation: drop 3.2s linear infinite normal;
+        /* stroke: var(--col-deepblue); */
+        stroke-width: 0.5;
+        transform: translateY(25px);
+        transform-box: fill-box;
+        transform-origin: 50% 100%;
     }
-    .parallax > use:nth-child(1) {
+    .drop2 {
+        animation-delay: 3s;
+        animation-duration: 3s;
+    }
+    .drop3 {
         animation-delay: -2s;
-        animation-duration: 1s;
+        animation-duration: 3.4s;
     }
-    @keyframes move-forever {
+    .drop4 {
+        animation-delay: 1.7s;
+    }
+    .drop5 {
+        animation-delay: 2.7s;
+        animation-duration: 3.1s;
+    }
+    .drop6 {
+        animation-delay: -2.1s;
+        animation-duration: 3.2s;
+    }
+    .gooeff {
+        filter: url(#goo);
+    }
+    #wave2 {
+        animation-duration: 5s;
+        animation-direction: reverse;
+        opacity: 0.6;
+    }
+    #wave3 {
+        animation-duration: 7s;
+        opacity: 0.3;
+    }
+    @keyframes drop {
         0% {
-            transform: translate3d(-90px, 0, 0);
+            transform: translateY(25px);
+        }
+        30% {
+            transform: translateY(-10px) scale(0.1);
+        }
+        30.001% {
+            transform: translateY(25px) scale(1);
+        }
+        70% {
+            transform: translateY(25px);
         }
         100% {
-            transform: translate3d(85px, 0, 0);
+            transform: translateY(-10px) scale(0.1);
         }
     }
-    /*Shrinking for mobile*/
-    @media (max-width: 768px) {
-        .waves {
-            height: 40px;
-            min-height: 40px;
+    @keyframes wave {
+        to {
+            transform: translateX(-100%);
         }
     }
 </style>
