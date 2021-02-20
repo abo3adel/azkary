@@ -358,7 +358,7 @@
                 inputs: [
                     {
                         name: 'body',
-                        type:'textarea',
+                        type: 'textarea',
                         placeholder: 'سبحان الله وبحمده',
                         value: txt,
                         attributes: {
@@ -479,11 +479,14 @@
 
             this.category.azkar[inx].count = 0;
 
-            setTimeout(() => {
-                this.category.azkar.splice(inx, 1);
-                this.afterDataUpdate();
-                emitter.emit('deleted');
-            }, 500);
+            setTimeout(
+                () => {
+                    this.category.azkar.splice(inx, 1);
+                    this.afterDataUpdate();
+                    emitter.emit('deleted');
+                },
+                this.theme.indexOf('slide') > -1 ? 0 : 500
+            );
 
             await loader.hide();
             return;
