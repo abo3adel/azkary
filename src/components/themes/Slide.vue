@@ -185,10 +185,7 @@
                             ? `var(--ion-color-${this.color})`
                             : 'var(--ion-color-primary)',
                     duration: 600,
-                    text: {
-                        autoStyleContainer: false,
-                    },
-                    from: { color: '#3171e0', width: 2 },
+                    from: { color: '#e91e63', width: 2 },
                     to: { color: '#28ba62', width: 7 },
                     step: (state: any, circle: any) => {
                         circle.path.setAttribute('stroke', state.color);

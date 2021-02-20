@@ -53,7 +53,7 @@
                         class="relative m-auto font-semibold"
                         v-show="theme === 'base'"
                     >
-                        <div id="container" class="releative"></div>
+                        <div id="progress-conatainer" class="releative"></div>
                         <sebha-meta :sebha="sebha" />
                     </div>
                     <div
@@ -275,7 +275,7 @@
         }
 
         /**
-         * calculate dev theme container div height
+         * calculate dev theme progress-conatainer div height
          * ?eight is mesured by rem, div max-height -> 20rem
          * ?calculate with 19 to show animation event on last number
          *
@@ -328,7 +328,7 @@
             this.theme = this.theme === 'dev' ? 'base' : 'dev';
 
             if (this.theme === 'base') {
-                if (!this.bar) this.setProgressBar();
+                if (!this.bar) this.setSebhaProgress();
 
                 this.bar?.set(this.sebha.current / this.sebha.max);
             }
@@ -500,9 +500,9 @@
         /**
          * iniate progress bar
          */
-        setProgressBar() {
+        setSebhaProgress() {
             this.bar = new ProgressBar.Circle(
-                document.querySelector('#container'),
+                document.querySelector('#progress-conatainer'),
                 {
                     color: 'var(--ion-color-primary)',
                     strokeWidth: 4,
@@ -510,11 +510,8 @@
                     easing: 'easeInOut',
                     trailColor: 'var(--ion-color-primary)',
                     duration: 600,
-                    text: {
-                        autoStyleContainer: false,
-                    },
-                    from: { color: '#3171e0', width: 2 },
-                    to: { color: '#28ba62', width: 5 },
+                    from: { color: '#e91e63', width: 2 },
+                    to: { color: '#23c92a', width: 5 },
                     step: (state: any, circle: any) => {
                         circle.path.setAttribute('stroke', state.color);
                         circle.path.setAttribute('stroke-width', state.width);
@@ -575,7 +572,7 @@
 
         mounted() {
             if (this.theme !== 'dev') {
-                this.setProgressBar();
+                this.setSebhaProgress();
             }
             this.loadTasabeeh();
         }
