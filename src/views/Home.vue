@@ -70,7 +70,7 @@
                     console.log('chooosed'.repeat(15), r);
                     const contents = await Filesystem.readFile({
                         path: r,
-                        directory: FilesystemDirectory.Documents,
+                        // directory: FilesystemDirectory.Documents,
                         encoding: FilesystemEncoding.UTF8,
                     });
                     console.log(contents);
