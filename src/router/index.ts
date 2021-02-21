@@ -27,12 +27,22 @@ const routes: Array<RouteRecordRaw> = [
                 path: 'sebha',
                 component: () => import('@/views/Sebha.vue'),
             },
-        ],  
+        ],
     },
     {
         path: '/zikr/:slug',
         component: () => import('@/views/zikr/Show.vue'),
         props: true,
+    },
+    {
+        path: '/settings',
+        component: () => import('@/views/setting/Index.vue'),
+        children: [
+            {
+                path: 'sebha',
+                component: () => import('@/views/setting/SebhaSettings.vue'),
+            },
+        ],
     },
 ];
 

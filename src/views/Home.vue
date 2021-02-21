@@ -5,13 +5,25 @@
                 <ion-title>Home</ion-title>
             </ion-toolbar>
         </ion-header>
-        <ion-content :fullscreen="true">
+        <ion-content>
             <ion-header collapse="condense">
-                <ion-toolbar>
-                    <ion-title size="large">Home</ion-title>
-                </ion-toolbar>
+                <ion-title>Home</ion-title>
             </ion-header>
-            <div class="h-full bg-fixed bg-center bg-no-repeat bg-cover main myContent">
+            <ion-toolbar color="light">
+                <ion-buttons slot="start">
+                    <ion-button color="primary">
+                        about
+                    </ion-button>
+                </ion-buttons>
+                <ion-buttons slot="end">
+                    <ion-button color="primary" href="/settings" replace>
+                        settings
+                    </ion-button>
+                </ion-buttons>
+            </ion-toolbar>
+            <div
+                class="h-full bg-fixed bg-center bg-no-repeat bg-cover main myContent"
+            >
                 <ion-button color="primary" fill="solid" @click="seed"
                     >Seed DB</ion-button
                 >
@@ -37,6 +49,9 @@
         IonTitle,
         IonContent,
         IonButton,
+        IonInput,
+        IonButtons,
+        IonLabel,
         isPlatform,
     } from '@ionic/vue';
     import ExploreContainer from '@/components/ExploreContainer.vue';
@@ -71,6 +86,9 @@
             IonContent,
             IonPage,
             IonButton,
+            IonInput,
+            IonButtons,
+            IonLabel,
         },
     })
     export default class Home extends Vue {
@@ -136,11 +154,11 @@
         }
 
         mounted() {
-            Storage.get({ key: 'img' }).then((r) => {
-                const node = document.createElement('style');
-                node.innerHTML = `.myContent{background-image: url('${r.value}')}`;
-                document.documentElement.appendChild(node);
-            });
+            // Storage.get({ key: 'img' }).then((r) => {
+            //     const node = document.createElement('style');
+            //     node.innerHTML = `.myContent{background-image: url('${r.value}')}`;
+            //     document.documentElement.appendChild(node);
+            // });
         }
     }
 </script>

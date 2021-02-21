@@ -22,7 +22,6 @@ module.exports = {
         '**/tests/**/*.spec.ts',
         'vue.config.js',
         'tailwind.config.js',
-        '**/src/views/*.vue'
     ],
     overrides: [
         {
