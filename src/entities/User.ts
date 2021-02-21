@@ -13,12 +13,12 @@ export class User extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column({
-        default: '',
-        nullable: true,
-        length: 50,
-    })
-    name!: string;
+    // @Column({
+    //     default: '',
+    //     nullable: true,
+    //     length: 50,
+    // })
+    // name!: string;
 
     @Column({
         default: 0,

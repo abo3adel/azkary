@@ -4,8 +4,15 @@
             <ion-buttons slot="start">
                 <ion-menu-button></ion-menu-button>
             </ion-buttons>
-            <ion-title>{{ $t('setup.title') }}</ion-title>
-            <ion-icon :icon="cogOutline" slot="end" class="mx-2 text-5xl" />
+            <ion-title
+                ><ion-icon :icon="cogOutline" class="ml-2 text-2xl" />
+                {{ $t('setup.title') }}</ion-title
+            >
+            <ion-buttons slot="end">
+                <ion-button @click.prevent="goToHome">
+                    <ion-icon :icon="homeOutline" />
+                </ion-button>
+            </ion-buttons>
         </ion-toolbar>
         <ion-split-pane content-id="main">
             <ion-content id="main">
@@ -100,10 +107,14 @@
         IonMenu,
         IonHeader,
         IonButtons,
-        menuController,
+        IonButton,
     } from '@ionic/vue';
 
-    import { chevronForwardOutline, cogOutline } from 'ionicons/icons';
+    import {
+        chevronForwardOutline,
+        cogOutline,
+        homeOutline,
+    } from 'ionicons/icons';
 
     @Options({
         components: {
@@ -121,6 +132,7 @@
             IonMenu,
             IonHeader,
             IonButtons,
+            IonButton,
         },
     })
     export default class SettingIndex extends Vue {
@@ -128,6 +140,11 @@
 
         chevronForwardOutline = chevronForwardOutline;
         cogOutline = cogOutline;
+        homeOutline = homeOutline;
+
+        goToHome() {
+            this.$router.replace('/tabs/home');
+        }
 
         beforeMount() {
             this.dir = document.documentElement.dir;
