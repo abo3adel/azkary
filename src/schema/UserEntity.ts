@@ -1,8 +1,8 @@
 import { EntitySchema } from 'typeorm';
 import { BaseColumnSchema } from './BaseColumnSchema';
 
-export interface Fonts {
-    Base: 'base';
+export enum Fonts {
+    Base = 'base',
 }
 
 export interface AzkarCount {
@@ -19,6 +19,7 @@ export interface User {
     fontSize: number;
     fontType: Fonts | string;
     theme: UserTheme | string;
+    dark: boolean;
 
     // sebha
     // sebhaBg: string;
@@ -56,7 +57,7 @@ export const UserEntity = new EntitySchema<User>({
         azkarCount: {
             type: Number,
             unsigned: true,
-            default: 0
+            default: 0,
         },
 
         // app
@@ -65,10 +66,18 @@ export const UserEntity = new EntitySchema<User>({
             unsigned: true,
             default: 1.1,
         },
+        fontType: {
+            type: String,
+            default: Fonts.Base,
+        },
         theme: {
             type: String,
             length: 30,
             default: UserTheme.DevColored,
+        },
+        dark: {
+            type: Boolean,
+            default: false,
         },
 
         // sebha
@@ -119,6 +128,6 @@ export const UserEntity = new EntitySchema<User>({
         autoHide: {
             type: Boolean,
             default: true,
-        }
+        },
     },
 });

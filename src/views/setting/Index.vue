@@ -27,6 +27,20 @@
                 <ion-content :fullscreen="true">
                     <div class="h-full">
                         <ion-list>
+                            <ion-item @click.prevent="goTo('/settings/app')">
+                                <ion-label>{{
+                                    $t('setup.list.app')
+                                }}</ion-label>
+                                <ion-icon
+                                    :icon="chevronForwardOutline"
+                                    slot="end"
+                                    :style="
+                                        dir === 'ltr'
+                                            ? ''
+                                            : 'transform: rotate(180deg)'
+                                    "
+                                />
+                            </ion-item>
                             <ion-item @click.prevent="goTo('/settings/azkar')">
                                 <ion-label>{{
                                     $t('setup.list.azkar')
@@ -60,20 +74,6 @@
                             <ion-item @click.prevent="goTo('/settings/sebha')">
                                 <ion-label>{{
                                     $t('setup.list.sebha')
-                                }}</ion-label>
-                                <ion-icon
-                                    :icon="chevronForwardOutline"
-                                    slot="end"
-                                    :style="
-                                        dir === 'ltr'
-                                            ? ''
-                                            : 'transform: rotate(180deg)'
-                                    "
-                                />
-                            </ion-item>
-                            <ion-item @click.prevent="goTo('/settings/app')">
-                                <ion-label>{{
-                                    $t('setup.list.app')
                                 }}</ion-label>
                                 <ion-icon
                                     :icon="chevronForwardOutline"

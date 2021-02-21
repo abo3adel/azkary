@@ -8,9 +8,8 @@
                 <ion-list>
                     <ion-item>
                         <ion-label>
-                            {{ $t('setup.sebhaAuto') }}
+                            {{ $t('setup.sebha.auto') }}
                         </ion-label>
-                        {{ autoNext ? 'www' : 'eee' }}
                         <ion-toggle
                             @ionChange="updateAutoNext($event.detail)"
                             :checked="autoNext"
@@ -20,7 +19,7 @@
                     </ion-item>
                     <ion-item>
                         <ion-label>
-                            {{ $t('setup.bg') }}
+                            {{ $t('setup.sebha.bg') }}
                         </ion-label>
                         <ion-buttons slot="end">
                             <ion-button
@@ -138,11 +137,11 @@
                 .select('sebhaAutoNext')
                 .execute();
 
-            console.log(res[0], res[0]?.sebhaAutoNext);
+            // console.log(res[0], res[0]?.sebhaAutoNext);
 
             this.autoNext = res[0]?.sebhaAutoNext as boolean;
 
-            console.log(this.autoNext);
+            // console.log(this.autoNext);
 
             this.img =
                 (await Storage.get({ key: 'sebha_img' })).value ?? DEFUALT_BG;

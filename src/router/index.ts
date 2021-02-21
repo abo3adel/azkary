@@ -39,6 +39,14 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/setting/Index.vue'),
         children: [
             {
+                path: '/settings',
+                redirect: '/settings/app',
+            },
+            {
+                path: 'app',
+                component: () => import('@/views/setting/AppSettings.vue'),
+            },
+            {
                 path: 'sebha',
                 component: () => import('@/views/setting/SebhaSettings.vue'),
             },
