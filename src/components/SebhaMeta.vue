@@ -14,7 +14,7 @@
     </div>
 </template>
 <script>
-import { Sebha } from '@/entities/Sebha'
+import { Sebha } from '@/schema/SebhaEntity'
 export default {
     name: 'SebhaMeta',
     props: {

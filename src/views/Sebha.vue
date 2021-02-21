@@ -391,9 +391,11 @@
     import { getConnection, getRepository } from 'typeorm';
     import toast from '@/utils/toast';
     import SebhaMeta from '@/components/SebhaMeta.vue';
-import { SebhaEntity } from '@/schema/SebhaEntity';
+    import { SebhaEntity, Sebha as ISebha } from '@/schema/SebhaEntity';
 
     const { Storage } = Plugins;
+
+    let busy = false;
 
     @Options({
         components: {
@@ -416,7 +418,7 @@ import { SebhaEntity } from '@/schema/SebhaEntity';
         bar: any;
         tasabeeh: Sebha[] = [];
         active = 0;
-        sebha = new Sebha();
+        sebha: ISebha = new Sebha();
         theme = 'base';
         svgHeight = 0;
         color = 'primary';
@@ -448,14 +450,18 @@ import { SebhaEntity } from '@/schema/SebhaEntity';
         }
 
         async loadTasabeeh() {
+            busy = true;
             await loader.show();
-            this.tasabeeh = await (await db()).getRepository<Sebha>('sebha').find();
+            this.tasabeeh = await (await db())
+                .getRepository<Sebha>('sebha')
+                .find();
             await loader.hide();
             this.active = this.tasabeeh.length - 1;
             this.sebha = this.tasabeeh[this.active];
 
             this.bar?.set(this.sebha.current / this.sebha.max);
             this.svgHeight = this.calcHeight() * this.sebha.current;
+            busy = false;
         }
 
         setMenuItemWidth() {
@@ -556,6 +562,7 @@ import { SebhaEntity } from '@/schema/SebhaEntity';
         }
 
         async add() {
+            busy = true;
             const alert = await alertController.create({
                 cssClass: 'ion-alert',
                 header: this.$t('sebha.add.header'),
@@ -584,6 +591,9 @@ import { SebhaEntity } from '@/schema/SebhaEntity';
                         text: this.$t('zikr.add.cancel'),
                         role: 'cancel',
                         cssClass: 'cancelBtn',
+                        handler: () => {
+                            busy = false;
+                        },
                     },
                     {
                         text: this.$t('zikr.add.save'),
@@ -604,7 +614,7 @@ import { SebhaEntity } from '@/schema/SebhaEntity';
                             sebha.max = ev.max;
 
                             sebha = await (await db())
-                                .getRepository(Sebha)
+                                .getRepository(SebhaEntity)
                                 .save(sebha);
 
                             // select it as current active sebha
@@ -616,11 +626,13 @@ import { SebhaEntity } from '@/schema/SebhaEntity';
                             this.updateProgress();
 
                             await loader.hide();
+                            busy = false;
                         },
                     },
                 ],
             });
             await alert.present();
+            // busy = false;
         }
 
         /**
@@ -631,6 +643,7 @@ import { SebhaEntity } from '@/schema/SebhaEntity';
          * @returns void
          */
         async remove() {
+            busy = true;
             const confirm = await Modals.confirm({
                 title: this.$t('sebha.del.conf'),
                 message: this.$t('sebha.del.mess'),
@@ -638,11 +651,14 @@ import { SebhaEntity } from '@/schema/SebhaEntity';
                 cancelButtonTitle: this.$t('sebha.del.cancelBtn'),
             });
 
-            if (!confirm.value) return;
+            if (!confirm.value) {
+                busy = false;
+                return;
+            }
 
             await loader.show();
 
-            await getRepository(Sebha).delete({ id: this.sebha.id });
+            await getRepository(SebhaEntity).delete({ id: this.sebha.id });
 
             this.tasabeeh.splice(this.active, 1);
             this.sebha.current = 0;
@@ -660,12 +676,13 @@ import { SebhaEntity } from '@/schema/SebhaEntity';
                 const sebha = new Sebha();
                 sebha.body = this.$t('sebha.add.pl');
                 sebha.max = 100;
-                this.sebha = await getRepository(Sebha).save(sebha);
+                this.sebha = await getRepository(SebhaEntity).save(sebha);
             }
 
             this.updateProgress();
 
             await loader.hide();
+            busy = false;
         }
 
         /**
@@ -755,7 +772,11 @@ import { SebhaEntity } from '@/schema/SebhaEntity';
             this.bar.text.style.fontSize = 'inherit'; // control with tailwind
         }
 
-        beforeMount() {
+        ionViewWillLeave() {
+            document.removeEventListener('keyup', this.keyboardEv);
+        }
+
+        ionViewWillEnter() {
             Storage.get({ key: 'sebha' }).then(
                 (r) => (this.active = parseInt(r.value ?? '0'))
             );
@@ -767,6 +788,44 @@ import { SebhaEntity } from '@/schema/SebhaEntity';
             Storage.get({ key: 'sebha_color' }).then(
                 (r) => (this.color = r.value ?? 'primary')
             );
+            document.addEventListener('keyup', this.keyboardEv);
+        }
+
+        async keyboardEv(ev: any) {
+            ev.preventDefault();
+            console.log(busy);
+
+            if (ev.keyCode === 77) {
+                // m char key
+                await menuController.toggle();
+                return;
+            }
+
+            if (busy || (await menuController.isOpen().then((r) => r))) return;
+
+            // handle esc buttton
+            // will reset current
+            if (ev.keyCode === 27) {
+                this.resetSebha();
+                return;
+            } else if (ev.keyCode === 46) {
+                // delete button
+                this.remove();
+                return;
+            } else if (ev.keyCode === 78) {
+                // n char key
+                this.add();
+                return;
+            } else if (ev.keyCode === 84) {
+                // t char key
+                this.toggleTheme();
+                return;
+            } else if (ev.keyCode === 67) {
+                // c char key
+                this.toggleColor();
+                return;
+            }
+            this.onClick();
         }
 
         mounted() {
@@ -774,39 +833,6 @@ import { SebhaEntity } from '@/schema/SebhaEntity';
                 this.setSebhaProgress();
             }
             this.loadTasabeeh();
-
-            // listen for keyboard events
-            document.addEventListener('keyup', (ev) => {
-                ev.preventDefault();
-
-                // handle esc buttton
-                // will reset current
-                if (ev.keyCode === 27) {
-                    this.resetSebha();
-                    return;
-                } else if (ev.keyCode === 46) {
-                    // delete button
-                    this.remove();
-                    return;
-                } else if (ev.keyCode === 77) {
-                    // m char key
-                    menuController.toggle();
-                    return;
-                } else if (ev.keyCode === 78) {
-                    // n char key
-                    this.add();
-                    return;
-                } else if (ev.keyCode === 84) {
-                    // t char key
-                    this.toggleTheme();
-                    return;
-                } else if (ev.keyCode === 67) {
-                    // c char key
-                    this.toggleColor();
-                    return;
-                }
-                this.onClick();
-            });
 
             // listen for volume keys
             window.addEventListener('volumebuttonslistener', () => {
