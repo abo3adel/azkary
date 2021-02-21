@@ -32,6 +32,33 @@
                         </ion-buttons>
                     </ion-item>
                 </ion-item-group>
+
+                <ion-item-group>
+                    <ion-item-divider>
+                        <ion-label>{{ $t('setup.app.ftype') }}</ion-label>
+                    </ion-item-divider>
+                    <ion-item>
+                        <ion-select
+                            v-model="fontType"
+                            :ok-text="$t('sebha.del.okBtn')"
+                            :cancel-text="$t('sebha.del.cancelBtn')"
+                            :placeholder="$t('setup.app.ftype')"
+                        >
+                            <ion-select-option v-for="f in fontTypes" :key="f">
+                                {{ f }}
+                            </ion-select-option>
+                        </ion-select>
+                        <ion-buttons slot="end">
+                            <ion-button
+                                color="primary"
+                                @click.prevent="setFontType"
+                                fill="solid"
+                            >
+                                {{ $t('setup.app.save') }}
+                            </ion-button>
+                        </ion-buttons>
+                    </ion-item>
+                </ion-item-group>
             </ion-list>
         </ion-content>
     </ion-page>
@@ -51,11 +78,15 @@
         IonButton,
         IonItemDivider,
         IonItemGroup,
+        IonSelect,
+        IonSelectOption,
     } from '@ionic/vue';
     import loader from '@/utils/loader';
     import { UserEntity, Fonts, UserTheme } from '@/schema/UserEntity';
     import db from '@/utils/db';
     import toast from '@/utils/toast';
+
+    export const FontTypes = ['Cairo', 'Roboto', 'Amiri', 'Uthmani', 'Times'];
 
     @Options({
         components: {
@@ -71,6 +102,8 @@
             IonButton,
             IonItemDivider,
             IonItemGroup,
+            IonSelect,
+            IonSelectOption,
         },
     })
     export default class AppSettinges extends Vue {
@@ -79,6 +112,7 @@
         fontType = Fonts.Base;
         theme = UserTheme.DevColored;
         dark = false;
+        fontTypes = FontTypes;
 
         async loadAppSet() {
             await loader.show();
@@ -110,6 +144,19 @@
 
             await loader.hide();
             this.fontSize = this.fontSizeVal;
+            toast(this.$t('setup.restart'));
+        }
+
+        async setFontType() {
+            await loader.show();
+
+            await (await db())
+                .createQueryBuilder(UserEntity, 'user_set')
+                .update()
+                .set({ fontType: this.fontType })
+                .execute();
+
+            await loader.hide();
             toast(this.$t('setup.restart'));
         }
 

@@ -2,7 +2,7 @@ import { EntitySchema } from 'typeorm';
 import { BaseColumnSchema } from './BaseColumnSchema';
 
 export enum Fonts {
-    Base = 'base',
+    Base = 'Cairo',
 }
 
 export interface AzkarCount {
