@@ -9,7 +9,7 @@
                 {{ $t('setup.title') }}</ion-title
             >
             <ion-buttons slot="end">
-                <ion-button @click.prevent="goToHome">
+                <ion-button @click.prevent="goTo('/tabs/home')">
                     <ion-icon :icon="homeOutline" />
                 </ion-button>
             </ion-buttons>
@@ -27,7 +27,7 @@
                 <ion-content :fullscreen="true">
                     <div class="h-full">
                         <ion-list>
-                            <ion-item href="/settings/azkar">
+                            <ion-item @click.prevent="goTo('/settings/azkar')">
                                 <ion-label>{{
                                     $t('setup.list.azkar')
                                 }}</ion-label>
@@ -41,9 +41,11 @@
                                     "
                                 />
                             </ion-item>
-                            <ion-item href="/settings/notify">
+                            <ion-item
+                                @click.prevent="goTo('/settings/control')"
+                            >
                                 <ion-label>{{
-                                    $t('setup.list.notify')
+                                    $t('setup.list.control')
                                 }}</ion-label>
                                 <ion-icon
                                     :icon="chevronForwardOutline"
@@ -55,7 +57,7 @@
                                     "
                                 />
                             </ion-item>
-                            <ion-item href="/settings/sebha">
+                            <ion-item @click.prevent="goTo('/settings/sebha')">
                                 <ion-label>{{
                                     $t('setup.list.sebha')
                                 }}</ion-label>
@@ -69,7 +71,7 @@
                                     "
                                 />
                             </ion-item>
-                            <ion-item href="/settings/app">
+                            <ion-item @click.prevent="goTo('/settings/app')">
                                 <ion-label>{{
                                     $t('setup.list.app')
                                 }}</ion-label>
@@ -142,8 +144,8 @@
         cogOutline = cogOutline;
         homeOutline = homeOutline;
 
-        goToHome() {
-            this.$router.replace('/tabs/home');
+        goTo(page: string) {
+            this.$router.replace(page);
         }
 
         beforeMount() {
