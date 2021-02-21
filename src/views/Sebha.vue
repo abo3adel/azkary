@@ -44,9 +44,8 @@
         </ion-toolbar>
         <ion-content :fullscreen="true" class="select-none" id="main">
             <div
-                class="flex h-full text-white bg-fixed bg-no-repeat bg-cover"
+                class="flex h-full text-white bg-fixed bg-center bg-no-repeat bg-cover main"
                 @click.prevent="onClick()"
-                style="background-image: url('/assets/img/ka3ba2.jpg')"
             >
                 <div class="flex w-full h-full bg-black bg-opacity-20">
                     <div
@@ -61,11 +60,13 @@
                         v-show="theme === 'dev'"
                     >
                         <div
-                            class="absolute bottom-0 w-full h-5 transition-all duration-500 opacity-95 bg-primary-600"
-                            :style="`height: ${svgHeight}rem`"
+                            class="absolute bottom-0 w-full h-5 duration-500 ease-in-out opacity-95 bg-primary-600"
+                            :style="
+                                `transition-property: height;height: ${svgHeight}rem`
+                            "
                         >
                             <svg
-                                class="w-full"
+                                class="w-full transition-all duration-500"
                                 xmlns="http://www.w3.org/2000/svg"
                                 xmlns:xlink="http://www.w3.org/1999/xlink"
                                 preserveAspectRatio="none"
@@ -313,40 +314,45 @@
                 </ion-fab-button>
             </ion-fab>
         </ion-content>
-        <ion-menu side="start" content-id="main">
+        <ion-menu side="start" content-id="main" class="opacity-80">
             <ion-toolbar color="primary">
                 <ion-title>{{ $t('sebha.menu.title') }}</ion-title>
             </ion-toolbar>
-            <ion-content :fullscreen="true" class="select-none ion-padding">
-                <div
-                    class="relative my-3 overflow-hidden transition-colors duration-500 rounded-md shadow-2xl card hover:cursor-pointer hover:bg-primary-600 hover:text-color"
-                    :class="{ 'bg-primary-600 text-color': s.id === sebha.id }"
-                    v-for="(s, sinx) in tasabeeh"
-                    :key="s.id"
-                    @click.prevent="setSebha(s, sinx)"
-                >
+            <ion-content :fullscreen="true" class="select-none">
+                <div class="ion-padding">
                     <div
-                        class="w-full px-2 bg-primary-600 rounded-tr-md rounded-tl-md text-color"
+                        class="relative my-3 overflow-hidden transition-colors duration-500 rounded-md shadow-2xl card hover:cursor-pointer hover:bg-primary-600 hover:text-color"
+                        :class="{
+                            'bg-primary-600 text-color': s.id === sebha.id,
+                        }"
+                        v-for="(s, sinx) in tasabeeh"
+                        :key="s.id"
+                        @click.prevent="setSebha(s, sinx)"
                     >
-                        {{ s.body }}
-                    </div>
-                    <div class="relative flex flex-wrap p-2 card-body">
-                        <div class="w-1/2 text-center">
-                            {{ $t('sebha.current') }}: {{ s.current }}
-                        </div>
-                        <div class="w-1/2 text-center">
-                            {{ $t('sebha.max') }}: {{ s.max }}
-                        </div>
-                        <div class="w-full text-center">
-                            {{ $t('sebha.total') }}: {{ s.readed }}
-                        </div>
                         <div
-                            class="absolute w-0 h-full transition-all duration-500 bg-primary-600"
-                            :style="
-                                `z-index: -1;width: ${(menuItemWidth / s.max) *
-                                    s.current}px`
-                            "
-                        ></div>
+                            class="w-full px-2 bg-primary-600 rounded-tr-md rounded-tl-md text-color"
+                        >
+                            {{ s.body }}
+                        </div>
+                        <div class="relative flex flex-wrap p-2 card-body">
+                            <div class="w-1/2 text-center">
+                                {{ $t('sebha.current') }}: {{ s.current }}
+                            </div>
+                            <div class="w-1/2 text-center">
+                                {{ $t('sebha.max') }}: {{ s.max }}
+                            </div>
+                            <div class="w-full text-center">
+                                {{ $t('sebha.total') }}: {{ s.readed }}
+                            </div>
+                            <div
+                                class="absolute w-0 h-full transition-all duration-500 bg-primary-600"
+                                :style="
+                                    `z-index: -1;width: ${(menuItemWidth /
+                                        s.max) *
+                                        s.current}px`
+                                "
+                            ></div>
+                        </div>
                     </div>
                 </div>
             </ion-content>
@@ -838,6 +844,14 @@
             window.addEventListener('volumebuttonslistener', () => {
                 // TODO test this on real device
                 this.onClick();
+            });
+
+            // set backgroundImage
+            Storage.get({ key: 'sebha_img' }).then((r) => {
+                const node = document.createElement('style');
+                node.innerHTML = `.main{background-image: url('${r.value ??
+                    '/assets/img/ka3ba2.jpg'}')}`;
+                document.documentElement.appendChild(node);
             });
         }
     }

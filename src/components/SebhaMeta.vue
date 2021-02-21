@@ -14,11 +14,10 @@
     </div>
 </template>
 <script>
-import { Sebha } from '@/schema/SebhaEntity'
 export default {
     name: 'SebhaMeta',
     props: {
-        sebha: {type: Sebha, required: true},
+        sebha: {required: true},
     }
 }
 </script>

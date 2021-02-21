@@ -11,17 +11,20 @@
                     <ion-title size="large">Home</ion-title>
                 </ion-toolbar>
             </ion-header>
-            <ion-button color="primary" fill="solid" @click="seed"
-                >Seed DB</ion-button
-            >
-            <ion-button color="danger" fill="solid" @click="upload"
-                >File</ion-button
-            >
-            <ion-button color="success" fill="solid" @click="logData"
-                >show data</ion-button
-            >
+            <div class="h-full bg-fixed bg-center bg-no-repeat bg-cover main myContent">
+                <ion-button color="primary" fill="solid" @click="seed"
+                    >Seed DB</ion-button
+                >
+                <ion-button color="danger" fill="solid" @click="upload"
+                    >File</ion-button
+                >
+                <ion-input type="file" name="image" @change="upload" />
+                <ion-button color="success" fill="solid" @click="logData"
+                    >show data</ion-button
+                >
 
-            <ExploreContainer name="Home page" />
+                <ExploreContainer name="Home page" />
+            </div>
         </ion-content>
     </ion-page>
 </template>
@@ -34,6 +37,7 @@
         IonTitle,
         IonContent,
         IonButton,
+        isPlatform,
     } from '@ionic/vue';
     import ExploreContainer from '@/components/ExploreContainer.vue';
     import { Options, Vue } from 'vue-class-component';
@@ -46,7 +50,17 @@
     import { CategoryEntity } from '@/schema/CategoryEntity';
     import { ZikrEntity } from '@/schema/ZikrEntity';
 
-    const { Filesystem } = Plugins;
+    const { Filesystem, Storage } = Plugins;
+
+    const convertBlobToBase64 = (blob: Blob) =>
+        new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onerror = reject;
+            reader.onload = () => {
+                resolve(reader.result);
+            };
+            reader.readAsDataURL(blob);
+        });
 
     @Options({
         components: {
@@ -60,6 +74,7 @@
         },
     })
     export default class Home extends Vue {
+        img = '';
         async seed() {
             await clearDB(null, APP_DB_NAME);
             await seeder.run();
@@ -87,18 +102,50 @@
             console.log(az);
         }
 
-        upload() {
-            FileChooser.open()
-                .then(async (r: any) => {
-                    console.log('chooosed'.repeat(15), r);
-                    const contents = await Filesystem.readFile({
-                        path: r,
-                        // directory: FilesystemDirectory.Documents,
-                        encoding: FilesystemEncoding.UTF8,
-                    });
-                    console.log(contents);
-                })
-                .catch((err: any) => console.log(err));
+        async upload(ev: any) {
+            let r = '';
+
+            r = (await FileChooser.open().catch((err: any) =>
+                console.log(err)
+            )) as string;
+
+            if (isPlatform('desktop')) {
+                console.log(ev.target.files);
+                await Storage.set({
+                    key: 'sebha_img',
+                    value: (await convertBlobToBase64(
+                        ev.target.files[0]
+                    )) as string,
+                });
+                this.img = (await convertBlobToBase64(
+                    ev.target.files[0]
+                )) as string;
+                const node = document.createElement('style');
+                node.innerHTML = `.myContent{background-image: url('${this.img}')}`;
+                document.documentElement.appendChild(node);
+                return;
+            }
+
+            console.log('chooosed'.repeat(15), r);
+            const contents = await Filesystem.readFile({
+                path: r as string,
+                // directory: FilesystemDirectory.Documents,
+                encoding: FilesystemEncoding.UTF8,
+            });
+            console.log(contents);
+        }
+
+        mounted() {
+            Storage.get({ key: 'img' }).then((r) => {
+                const node = document.createElement('style');
+                node.innerHTML = `.myContent{background-image: url('${r.value}')}`;
+                document.documentElement.appendChild(node);
+            });
         }
     }
 </script>
+<style>
+    .myContent {
+        --background: red;
+    }
+</style>
