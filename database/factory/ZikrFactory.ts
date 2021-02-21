@@ -1,8 +1,9 @@
-import { Category } from '@/entities/Category';
+// import { Category } from '@/entities/Category';
+import { ZikrEntity } from '@/schema/ZikrEntity';
 import { BaseEntity, Repository } from 'typeorm';
 import { Zikr } from '../../src/entities/Zikr';
 import BaseFactory from './BaseFactory';
-import { CategoryFactory } from './CategoryFactory';
+// import { CategoryFactory } from './CategoryFactory';
 
 export class ZikrFactoryClass extends BaseFactory {
     getData(): BaseEntity {
@@ -20,15 +21,15 @@ export class ZikrFactoryClass extends BaseFactory {
      * @param entity BaseEntity
      * @param repo Repository<BaseEntity>
      */
-    protected async addRelations(
-        entity: BaseEntity,
-        repo: Repository<BaseEntity>
-    ): Promise<BaseEntity> {
-        const category = (await CategoryFactory.create()) as Category;
-        (entity as Zikr).category = category;
-        await repo.save(entity);
-        return entity;
-    }
+    // protected async addRelations(
+    //     entity: BaseEntity,
+    //     repo: Repository<BaseEntity>
+    // ): Promise<BaseEntity> {
+    //     const category = (await CategoryFactory.create()) as Category;
+    //     (entity as Zikr).category = category;
+    //     await repo.save(entity);
+    //     return entity;
+    // }
 }
 
-export const ZikrFactory: ZikrFactoryClass = new ZikrFactoryClass(Zikr);
+export const ZikrFactory: ZikrFactoryClass = new ZikrFactoryClass(ZikrEntity);

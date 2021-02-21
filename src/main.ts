@@ -1,4 +1,4 @@
-import { User } from './entities/User';
+// import { User } from './entities/User';
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
@@ -33,6 +33,7 @@ import db from './utils/db';
 import loader from './utils/loader';
 
 import { Plugins } from '@capacitor/core';
+import { User, UserEntity } from './schema/UserEntity';
 
 const { Storage } = Plugins;
 
@@ -45,13 +46,15 @@ router.isReady().then(async () => {
     if (isPlatform('desktop')) {
         // db();
     }
-    const {value} = await Storage.get({key: 'fontSize'});
+    const { value } = await Storage.get({ key: 'fontSize' });
     if (!value || value === 'undefined') {
         await loader.show();
-        const user = await (await db()).getRepository(User).findOne();
-        await Storage.set({key: 'fontSize', value: `${user?.fontSize}`});
-        await Storage.set({key: 'theme', value: user?.theme as string});
-        await Storage.set({key: 'user', value: JSON.stringify(user)});
+        const user = await (await db())
+            .getRepository<User>(UserEntity)
+            .findOne();
+        await Storage.set({ key: 'fontSize', value: `${user?.fontSize}` });
+        await Storage.set({ key: 'theme', value: user?.theme as string });
+        await Storage.set({ key: 'user', value: JSON.stringify(user) });
     }
 
     app.mount('#app');

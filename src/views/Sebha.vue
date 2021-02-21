@@ -391,6 +391,7 @@
     import { getConnection, getRepository } from 'typeorm';
     import toast from '@/utils/toast';
     import SebhaMeta from '@/components/SebhaMeta.vue';
+import { SebhaEntity } from '@/schema/SebhaEntity';
 
     const { Storage } = Plugins;
 
@@ -448,7 +449,7 @@
 
         async loadTasabeeh() {
             await loader.show();
-            this.tasabeeh = await (await db()).getRepository(Sebha).find();
+            this.tasabeeh = await (await db()).getRepository<Sebha>('sebha').find();
             await loader.hide();
             this.active = this.tasabeeh.length - 1;
             this.sebha = this.tasabeeh[this.active];
@@ -507,7 +508,7 @@
 
             // update db with current value
             await getConnection()
-                .createQueryBuilder(Sebha, 'tasabeeh')
+                .createQueryBuilder(SebhaEntity, 'tasabeeh')
                 .update()
                 .set({ current: this.sebha.current })
                 .where({ id: this.sebha.id })
@@ -675,7 +676,7 @@
 
             await loader.show();
             await getConnection()
-                .createQueryBuilder(Sebha, 'tasabeeh')
+                .createQueryBuilder(SebhaEntity, 'tasabeeh')
                 .update()
                 .set({ current: 0 })
                 .where({ id: this.sebha.id })

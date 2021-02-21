@@ -17,6 +17,9 @@
             <ion-button color="danger" fill="solid" @click="upload"
                 >File</ion-button
             >
+            <ion-button color="success" fill="solid" @click="logData"
+                >show data</ion-button
+            >
 
             <ExploreContainer name="Home page" />
         </ion-content>
@@ -36,13 +39,12 @@
     import { Options, Vue } from 'vue-class-component';
     import seeder from '@/seeder';
     import clearDB from '../../database/clearDB';
-    import { APP_DB_NAME } from '@/utils/db';
+    import db, { APP_DB_NAME } from '@/utils/db';
     import { FileChooser } from '@ionic-native/file-chooser';
-    import {
-        Plugins,
-        FilesystemDirectory,
-        FilesystemEncoding,
-    } from '@capacitor/core';
+    import { Plugins, FilesystemEncoding } from '@capacitor/core';
+    import { UserEntity } from '@/schema/UserEntity';
+    import { CategoryEntity } from '@/schema/CategoryEntity';
+    import { ZikrEntity } from '@/schema/ZikrEntity';
 
     const { Filesystem } = Plugins;
 
@@ -62,6 +64,27 @@
             await clearDB(null, APP_DB_NAME);
             await seeder.run();
             alert('done seeding');
+        }
+
+        async logData() {
+            const con = await db();
+            console.log(await con.getRepository('user').find());
+            console.log(await con.getRepository('category').find());
+            console.log(await con.getRepository('zikr').find());
+            const res = await (await db())
+                .createQueryBuilder(CategoryEntity, 'categories')
+                .leftJoinAndSelect('categories.azkar', 'azkar')
+                .where({ slug: 'morning' })
+                .orderBy('azkar.order', 'ASC')
+                .addOrderBy('azkar.id', 'DESC')
+                .getOneOrFail();
+            console.log(res);
+
+            const az = await con
+                .createQueryBuilder(ZikrEntity, 'zikr')
+                .getRawMany();
+
+            console.log(az);
         }
 
         upload() {

@@ -246,6 +246,8 @@
 
     import { defineAsyncComponent } from 'vue';
     import Loading from '@/components/Loading.vue';
+import { CategoryEntity } from '@/schema/CategoryEntity';
+import { ZikrEntity } from '@/schema/ZikrEntity';
 
     const { Modals, Share, Clipboard, Storage } = Plugins;
 
@@ -283,14 +285,6 @@
     export default class Show extends Vue {
         category: Category = new Category();
         meta: CategoryIcon | null = null;
-
-        addOutline = addOutline;
-        colorPaletteOutline = colorPaletteOutline;
-        reorderFourOutline = reorderFourOutline;
-        checkmarkDoneOutline = checkmarkDoneOutline;
-        arrowBackOutline = arrowBackOutline;
-        cogOutline = cogOutline;
-
         reorder = false;
         oldOrder: Zikr[] = [];
         // will hold basic count for this item
@@ -302,19 +296,32 @@
         readed = 0;
         modal!: HTMLIonModalElement;
 
+        addOutline = addOutline;
+        colorPaletteOutline = colorPaletteOutline;
+        reorderFourOutline = reorderFourOutline;
+        checkmarkDoneOutline = checkmarkDoneOutline;
+        arrowBackOutline = arrowBackOutline;
+        cogOutline = cogOutline;
+
+
         /**
          * load all azkar related to this category
          */
         async loadData() {
             await loader.show(this.loaderTxt);
 
+            // @ts-ignore
             this.category = await (await db())
-                .createQueryBuilder(Category, 'categories')
+                .createQueryBuilder(CategoryEntity, 'categories')
                 .leftJoinAndSelect('categories.azkar', 'azkar')
                 .where({ slug: this.meta?.slug })
                 .orderBy('azkar.order', 'ASC')
                 .addOrderBy('azkar.id', 'DESC')
                 .getOneOrFail();
+
+            // @ts-ignore
+            console.log(this.category);
+            
 
             this.afterDataUpdate();
 
@@ -406,7 +413,7 @@
                                 zikr.category = this.category;
                             }
 
-                            zikr = await getRepository(Zikr).save(zikr);
+                            zikr = await getRepository('zikr').save(zikr);
 
                             // add to current list without
                             // relationship object
@@ -473,7 +480,7 @@
 
             await loader.show();
 
-            await getRepository(Zikr).delete({ id });
+            await getRepository('zikr').delete({ id });
 
             const inx = this.category.azkar.findIndex((x) => x.id === id);
 
@@ -548,7 +555,7 @@
             let y = 0;
             for (const x of this.category.azkar) {
                 await getConnection()
-                    .createQueryBuilder(Zikr, 'azkar')
+                    .createQueryBuilder(ZikrEntity, 'azkar')
                     .update()
                     // set order to current list index
                     // because reorder only affects list index

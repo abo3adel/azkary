@@ -1,3 +1,4 @@
+import { NotifyZikrEntity } from './../../src/schema/NotifyZikrEntity';
 import { BaseEntity } from 'typeorm';
 import { NotifyZikr } from '../../src/entities/NotifyZikr';
 import BaseFactory from './BaseFactory';
@@ -12,4 +13,4 @@ export class NotifyZikrFactoryClass extends BaseFactory {
     }
 }
 
-export const NotifyZikrFactory: NotifyZikrFactoryClass = new NotifyZikrFactoryClass(NotifyZikr)
+export const NotifyZikrFactory: NotifyZikrFactoryClass = new NotifyZikrFactoryClass(NotifyZikrEntity)

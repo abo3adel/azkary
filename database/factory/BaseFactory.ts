@@ -1,3 +1,4 @@
+import { EntitySchema } from 'typeorm';
 import { Sebha } from './../../src/entities/Sebha';
 import { BaseEntity, EntityTarget, Repository } from 'typeorm';
 import faker from 'faker';
@@ -11,7 +12,7 @@ export default abstract class BaseFactory {
     protected repo!: Repository<BaseEntity>;
     protected relationsSize!: number;
 
-    public constructor(entity: EntityTarget<BaseEntity>) {
+    public constructor(entity: EntityTarget<BaseEntity> | EntitySchema) {
         this.entity = entity;
     }
 
@@ -72,10 +73,10 @@ export default abstract class BaseFactory {
         const entities: BaseEntity[] = [];
         for (let i = 0; i < this.size; i++) {
             let ent = entity ?? this.getData();
-            console.error(ent);
             ent = this.relationsSize
                 ? await this.addRelations(ent, repo)
                 : await repo.save(ent);
+            console.error(ent);
             entities.push(ent);
         }
         return entities.length > 1 ? entities : entities[0];

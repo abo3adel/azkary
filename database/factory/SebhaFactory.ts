@@ -1,3 +1,4 @@
+import { SebhaEntity } from './../../src/schema/SebhaEntity';
 import { BaseEntity } from 'typeorm';
 import { Sebha } from '../../src/entities/Sebha';
 import BaseFactory from './BaseFactory';
@@ -12,4 +13,4 @@ export class SebhaFactoryClass extends BaseFactory {
     }
 }
 
-export const SebhaFactory: SebhaFactoryClass = new SebhaFactoryClass(Sebha)
+export const SebhaFactory: SebhaFactoryClass = new SebhaFactoryClass(SebhaEntity)

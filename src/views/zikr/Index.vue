@@ -69,6 +69,7 @@
     import getCategoryIcon, { CategoryIcon } from '@/utils/getCategoryIcon';
 
     import { Plugins } from '@capacitor/core';
+import { CategoryEntity } from '@/schema/CategoryEntity';
     const { LocalNotifications } = Plugins;
 
     @Options({
@@ -94,7 +95,7 @@
             const con = await db();
             const categories = await con
                 .createQueryBuilder()
-                .from(Category, 'Category')
+                .from(CategoryEntity, 'category')
                 .execute();
 
             this.categories = categories;

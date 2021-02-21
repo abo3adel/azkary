@@ -73,6 +73,7 @@
     import toast from '@/utils/toast';
     import { getRepository } from 'typeorm';
     import loader from '@/utils/loader';
+    import { NotifyZikrEntity } from '@/schema/NotifyZikrEntity';
 
     @Options({
         components: {
@@ -99,7 +100,7 @@
          * load all azkar items
          */
         async loadData(): Promise<void> {
-            const repo = (await db()).getRepository(NotifyZikr);
+            const repo = (await db()).getRepository<NotifyZikr>('notify_zikr');
             this.azkar = await repo.find();
         }
 
@@ -112,7 +113,7 @@
             id: number
         ): Promise<void> {
             await (await db())
-                .createQueryBuilder(NotifyZikr, 'notifiable_azkars')
+                .createQueryBuilder(NotifyZikrEntity, 'notifiable_azkars')
                 .update()
                 .set({ notifiable: ev.checked })
                 .where({ id: ev.value })
