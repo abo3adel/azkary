@@ -318,7 +318,11 @@
                     </ion-fab-button>
                 </ion-fab>
             </ion-content>
-            <ion-menu side="start" content-id="sebha-main-content" class="opacity-80">
+            <ion-menu
+                side="start"
+                content-id="sebha-main-content"
+                class="opacity-80"
+            >
                 <ion-toolbar color="primary">
                     <ion-title>{{ $t('sebha.menu.title') }}</ion-title>
                 </ion-toolbar>
@@ -408,6 +412,8 @@
     const { Storage } = Plugins;
 
     let busy = false;
+
+    export const DEFUALT_BG = '/assets/img/ka3ba2.jpg';
 
     @Options({
         components: {
@@ -857,7 +863,7 @@
             Storage.get({ key: 'sebha_img' }).then((r) => {
                 const node = document.createElement('style');
                 node.innerHTML = `.main{background-image: url('${r.value ??
-                    '/assets/img/ka3ba2.jpg'}')}`;
+                    DEFUALT_BG}')}`;
                 document.documentElement.appendChild(node);
             });
         }
