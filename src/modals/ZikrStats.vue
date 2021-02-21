@@ -15,7 +15,11 @@
                         :src="`/assets/icons/${meta.name}.svg`"
                         class="w-14 h-14"
                     ></ion-icon>
-                    <ion-icon v-else :icon="meta.name" class="w-14 h-14"></ion-icon>
+                    <ion-icon
+                        v-else
+                        :icon="meta.name"
+                        class="w-14 h-14"
+                    ></ion-icon>
                 </h1>
                 <h1 class="text-lg">
                     {{ title }}
@@ -88,7 +92,10 @@
                 <div class="w-1/2 font-semibold border-r border-gray-500">
                     {{ $t('zikr.stats.total') }}
                 </div>
-                <div class="w-1/2 text-lg font-bold" :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'">
+                <div
+                    class="w-1/2 text-lg font-bold"
+                    :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
+                >
                     {{ totalCount }}
                 </div>
             </div>
@@ -123,7 +130,8 @@
     import { getConnection } from 'typeorm';
     import { User } from '@/entities/User';
     // @ts-ignore
-    import emitter from 'tiny-emitter/instance'
+    import emitter from 'tiny-emitter/instance';
+    import { UserEntity } from '@/schema/UserEntity';
 
     const { Storage } = Plugins;
 
@@ -135,9 +143,7 @@
             count: { type: Number, default: 1 },
             modal: {},
         },
-        emits: [
-            'go-home'
-        ],
+        emits: ['go-home'],
         data() {
             return {
                 user: {
@@ -161,7 +167,7 @@
 
                 // update user with new values
                 await getConnection()
-                    .createQueryBuilder(User, 'users')
+                    .createQueryBuilder(UserEntity, 'users')
                     .update()
                     .set({ azkarCount: this.user.azkarCount + this.count })
                     .set({ fontSize })
