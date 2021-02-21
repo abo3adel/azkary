@@ -6,7 +6,7 @@
                 : ''
         "
     >
-        <ion-toolbar color="primary" translucent>
+        <ion-toolbar color="primary">
             <ion-buttons slot="start">
                 <ion-menu-button @click="setMenuItemWidth"></ion-menu-button>
             </ion-buttons>
@@ -42,321 +42,326 @@
                 </ion-button>
             </ion-buttons>
         </ion-toolbar>
-        <ion-content :fullscreen="true" class="select-none" id="main">
-            <div
-                class="flex h-full text-white bg-fixed bg-center bg-no-repeat bg-cover main"
-                @click.prevent="onClick()"
-            >
-                <div class="flex w-full h-full bg-black bg-opacity-20">
-                    <div
-                        class="relative m-auto font-semibold"
-                        v-show="theme === 'base'"
-                    >
-                        <div id="progress-conatainer" class="releative"></div>
-                        <sebha-meta :sebha="sebha" />
-                    </div>
-                    <div
-                        class="relative m-auto overflow-hidden border rounded-full w-80 h-80 border-primary-400"
-                        v-show="theme === 'dev'"
-                    >
+        <ion-split-pane content-id="sebha-main-content" class="mt-14">
+            <ion-content class="select-none" id="sebha-main-content">
+                <div
+                    class="flex h-full text-white bg-fixed bg-center bg-no-repeat bg-cover main"
+                    @click.prevent="onClick()"
+                >
+                    <div class="flex w-full h-full bg-black bg-opacity-20">
                         <div
-                            class="absolute bottom-0 w-full h-5 duration-500 ease-in-out opacity-95 bg-primary-600"
-                            :style="
-                                `transition-property: height;height: ${svgHeight}rem`
-                            "
+                            class="relative m-auto font-semibold"
+                            v-show="theme === 'base'"
                         >
-                            <svg
-                                class="w-full transition-all duration-500"
-                                xmlns="http://www.w3.org/2000/svg"
-                                xmlns:xlink="http://www.w3.org/1999/xlink"
-                                preserveAspectRatio="none"
-                                shape-rendering="auto"
-                                viewBox="0 0 120 28"
-                                style="margin-top: -4.5rem;"
-                                v-pre
+                            <div
+                                id="progress-conatainer"
+                                class="releative"
+                            ></div>
+                            <sebha-meta :sebha="sebha" />
+                        </div>
+                        <div
+                            class="relative m-auto overflow-hidden border rounded-full w-80 h-80 border-primary-400"
+                            v-show="theme === 'dev'"
+                        >
+                            <div
+                                class="absolute bottom-0 w-full h-5 duration-500 ease-in-out opacity-95 bg-primary-600"
+                                :style="
+                                    `transition-property: height;height: ${svgHeight}rem`
+                                "
                             >
-                                <defs>
-                                    <filter id="goo">
-                                        <feGaussianBlur
-                                            in="SourceGraphic"
-                                            stdDeviation="1"
-                                            result="blur"
-                                        />
-                                        <feColorMatrix
-                                            in="blur"
-                                            mode="matrix"
-                                            values="
+                                <svg
+                                    class="w-full transition-all duration-500"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    preserveAspectRatio="none"
+                                    shape-rendering="auto"
+                                    viewBox="0 0 120 28"
+                                    style="margin-top: -4.5rem;"
+                                    v-pre
+                                >
+                                    <defs>
+                                        <filter id="goo">
+                                            <feGaussianBlur
+                                                in="SourceGraphic"
+                                                stdDeviation="1"
+                                                result="blur"
+                                            />
+                                            <feColorMatrix
+                                                in="blur"
+                                                mode="matrix"
+                                                values="
               1 0 0 0 0  
               0 1 0 0 0  
               0 0 1 0 0  
               0 0 0 13 -9"
-                                            result="goo"
+                                                result="goo"
+                                            />
+                                            <xfeBlend
+                                                in="SourceGraphic"
+                                                in2="goo"
+                                            />
+                                        </filter>
+                                        <path
+                                            id="wave"
+                                            d="M 0,10 C 80,10 30,15 60,15 90,15 90,10 120,10 150,10 150,15 180,15 210,15 210,10 240,10 v 28 h -240 z"
                                         />
-                                        <xfeBlend
-                                            in="SourceGraphic"
-                                            in2="goo"
-                                        />
-                                    </filter>
-                                    <path
-                                        id="wave"
-                                        d="M 0,10 C 80,10 30,15 60,15 90,15 90,10 120,10 150,10 150,15 180,15 210,15 210,10 240,10 v 28 h -240 z"
-                                    />
-                                </defs>
+                                    </defs>
 
-                                <use
-                                    id="wave3"
-                                    class="wave"
-                                    xlink:href="#wave"
-                                    x="0"
-                                    y="-2"
-                                ></use>
-                                <use
-                                    id="wave2"
-                                    class="wave"
-                                    xlink:href="#wave"
-                                    x="0"
-                                    y="0"
-                                ></use>
-
-                                <g class="gooeff" filter="url(#goo)">
-                                    <circle
-                                        class="drop drop1"
-                                        cx="20"
-                                        cy="2"
-                                        r="8.8"
-                                    />
-                                    <circle
-                                        class="drop drop2"
-                                        cx="25"
-                                        cy="2.5"
-                                        r="7.5"
-                                    />
-                                    <circle
-                                        class="drop drop3"
-                                        cx="16"
-                                        cy="2.8"
-                                        r="9.2"
-                                    />
-                                    <circle
-                                        class="drop drop4"
-                                        cx="18"
-                                        cy="2"
-                                        r="8.8"
-                                    />
-                                    <circle
-                                        class="drop drop5"
-                                        cx="22"
-                                        cy="2.5"
-                                        r="7.5"
-                                    />
-                                    <circle
-                                        class="drop drop6"
-                                        cx="26"
-                                        cy="2.8"
-                                        r="9.2"
-                                    />
-                                    <circle
-                                        class="drop drop1"
-                                        cx="5"
-                                        cy="4.4"
-                                        r="8.8"
-                                    />
-                                    <circle
-                                        class="drop drop2"
-                                        cx="5"
-                                        cy="4.1"
-                                        r="7.5"
-                                    />
-                                    <circle
-                                        class="drop drop3"
-                                        cx="8"
-                                        cy="3.8"
-                                        r="9.2"
-                                    />
-                                    <circle
-                                        class="drop drop4"
-                                        cx="3"
-                                        cy="4.4"
-                                        r="8.8"
-                                    />
-                                    <circle
-                                        class="drop drop5"
-                                        cx="7"
-                                        cy="4.1"
-                                        r="7.5"
-                                    />
-                                    <circle
-                                        class="drop drop6"
-                                        cx="10"
-                                        cy="4.3"
-                                        r="9.2"
-                                    />
-
-                                    <circle
-                                        class="drop drop1"
-                                        cx="1.2"
-                                        cy="5.4"
-                                        r="8.8"
-                                    />
-                                    <circle
-                                        class="drop drop2"
-                                        cx="5.2"
-                                        cy="5.1"
-                                        r="7.5"
-                                    />
-                                    <circle
-                                        class="drop drop3"
-                                        cx="10.2"
-                                        cy="5.3"
-                                        r="9.2"
-                                    />
-                                    <circle
-                                        class="drop drop4"
-                                        cx="3.2"
-                                        cy="5.4"
-                                        r="8.8"
-                                    />
-                                    <circle
-                                        class="drop drop5"
-                                        cx="14.2"
-                                        cy="5.1"
-                                        r="7.5"
-                                    />
-                                    <circle
-                                        class="drop drop6"
-                                        cx="17.2"
-                                        cy="4.8"
-                                        r="9.2"
-                                    />
-
-                                    <circle
-                                        class="drop drop1"
-                                        cx="40"
-                                        cy="2"
-                                        r="8.8"
-                                    />
-                                    <circle
-                                        class="drop drop2"
-                                        cx="50"
-                                        cy="2.5"
-                                        r="7.5"
-                                    />
-                                    <circle
-                                        class="drop drop3"
-                                        cx="60"
-                                        cy="2.8"
-                                        r="9.2"
-                                    />
-                                    <circle
-                                        class="drop drop4"
-                                        cx="70"
-                                        cy="2"
-                                        r="8.8"
-                                    />
-                                    <circle
-                                        class="drop drop5"
-                                        cx="80"
-                                        cy="2.5"
-                                        r="7.5"
-                                    />
-                                    <circle
-                                        class="drop drop6"
-                                        cx="90"
-                                        cy="2.8"
-                                        r="9.2"
-                                    />
-                                    <circle
-                                        class="drop drop1"
-                                        cx="100"
-                                        cy="4.4"
-                                        r="8.8"
-                                    />
-                                    <circle
-                                        class="drop drop2"
-                                        cx="110"
-                                        cy="4.1"
-                                        r="7.5"
-                                    />
                                     <use
-                                        id="wave1"
+                                        id="wave3"
                                         class="wave"
                                         xlink:href="#wave"
                                         x="0"
-                                        y="1"
-                                    />
-                                </g>
-                            </svg>
+                                        y="-2"
+                                    ></use>
+                                    <use
+                                        id="wave2"
+                                        class="wave"
+                                        xlink:href="#wave"
+                                        x="0"
+                                        y="0"
+                                    ></use>
+
+                                    <g class="gooeff" filter="url(#goo)">
+                                        <circle
+                                            class="drop drop1"
+                                            cx="20"
+                                            cy="2"
+                                            r="8.8"
+                                        />
+                                        <circle
+                                            class="drop drop2"
+                                            cx="25"
+                                            cy="2.5"
+                                            r="7.5"
+                                        />
+                                        <circle
+                                            class="drop drop3"
+                                            cx="16"
+                                            cy="2.8"
+                                            r="9.2"
+                                        />
+                                        <circle
+                                            class="drop drop4"
+                                            cx="18"
+                                            cy="2"
+                                            r="8.8"
+                                        />
+                                        <circle
+                                            class="drop drop5"
+                                            cx="22"
+                                            cy="2.5"
+                                            r="7.5"
+                                        />
+                                        <circle
+                                            class="drop drop6"
+                                            cx="26"
+                                            cy="2.8"
+                                            r="9.2"
+                                        />
+                                        <circle
+                                            class="drop drop1"
+                                            cx="5"
+                                            cy="4.4"
+                                            r="8.8"
+                                        />
+                                        <circle
+                                            class="drop drop2"
+                                            cx="5"
+                                            cy="4.1"
+                                            r="7.5"
+                                        />
+                                        <circle
+                                            class="drop drop3"
+                                            cx="8"
+                                            cy="3.8"
+                                            r="9.2"
+                                        />
+                                        <circle
+                                            class="drop drop4"
+                                            cx="3"
+                                            cy="4.4"
+                                            r="8.8"
+                                        />
+                                        <circle
+                                            class="drop drop5"
+                                            cx="7"
+                                            cy="4.1"
+                                            r="7.5"
+                                        />
+                                        <circle
+                                            class="drop drop6"
+                                            cx="10"
+                                            cy="4.3"
+                                            r="9.2"
+                                        />
+
+                                        <circle
+                                            class="drop drop1"
+                                            cx="1.2"
+                                            cy="5.4"
+                                            r="8.8"
+                                        />
+                                        <circle
+                                            class="drop drop2"
+                                            cx="5.2"
+                                            cy="5.1"
+                                            r="7.5"
+                                        />
+                                        <circle
+                                            class="drop drop3"
+                                            cx="10.2"
+                                            cy="5.3"
+                                            r="9.2"
+                                        />
+                                        <circle
+                                            class="drop drop4"
+                                            cx="3.2"
+                                            cy="5.4"
+                                            r="8.8"
+                                        />
+                                        <circle
+                                            class="drop drop5"
+                                            cx="14.2"
+                                            cy="5.1"
+                                            r="7.5"
+                                        />
+                                        <circle
+                                            class="drop drop6"
+                                            cx="17.2"
+                                            cy="4.8"
+                                            r="9.2"
+                                        />
+
+                                        <circle
+                                            class="drop drop1"
+                                            cx="40"
+                                            cy="2"
+                                            r="8.8"
+                                        />
+                                        <circle
+                                            class="drop drop2"
+                                            cx="50"
+                                            cy="2.5"
+                                            r="7.5"
+                                        />
+                                        <circle
+                                            class="drop drop3"
+                                            cx="60"
+                                            cy="2.8"
+                                            r="9.2"
+                                        />
+                                        <circle
+                                            class="drop drop4"
+                                            cx="70"
+                                            cy="2"
+                                            r="8.8"
+                                        />
+                                        <circle
+                                            class="drop drop5"
+                                            cx="80"
+                                            cy="2.5"
+                                            r="7.5"
+                                        />
+                                        <circle
+                                            class="drop drop6"
+                                            cx="90"
+                                            cy="2.8"
+                                            r="9.2"
+                                        />
+                                        <circle
+                                            class="drop drop1"
+                                            cx="100"
+                                            cy="4.4"
+                                            r="8.8"
+                                        />
+                                        <circle
+                                            class="drop drop2"
+                                            cx="110"
+                                            cy="4.1"
+                                            r="7.5"
+                                        />
+                                        <use
+                                            id="wave1"
+                                            class="wave"
+                                            xlink:href="#wave"
+                                            x="0"
+                                            y="1"
+                                        />
+                                    </g>
+                                </svg>
+                            </div>
+                            <sebha-meta :sebha="sebha" />
                         </div>
-                        <sebha-meta :sebha="sebha" />
                     </div>
                 </div>
-            </div>
-            <ion-fab
-                vertical="top"
-                horizontal="end"
-                slot="fixed"
-                @click.prevent="resetSebha"
-                v-if="!locked"
-            >
-                <ion-fab-button>
-                    <ion-icon :icon="closeOutline" />
-                </ion-fab-button>
-            </ion-fab>
-            <ion-fab
-                vertical="top"
-                horizontal="start"
-                slot="fixed"
-                @click.prevent="remove"
-                v-if="!locked"
-            >
-                <ion-fab-button>
-                    <ion-icon :icon="trashBinOutline" />
-                </ion-fab-button>
-            </ion-fab>
-        </ion-content>
-        <ion-menu side="start" content-id="main" class="opacity-80">
-            <ion-toolbar color="primary">
-                <ion-title>{{ $t('sebha.menu.title') }}</ion-title>
-            </ion-toolbar>
-            <ion-content :fullscreen="true" class="select-none">
-                <div class="ion-padding">
-                    <div
-                        class="relative my-3 overflow-hidden transition-colors duration-500 rounded-md shadow-2xl card hover:cursor-pointer hover:bg-primary-600 hover:text-color"
-                        :class="{
-                            'bg-primary-600 text-color': s.id === sebha.id,
-                        }"
-                        v-for="(s, sinx) in tasabeeh"
-                        :key="s.id"
-                        @click.prevent="setSebha(s, sinx)"
-                    >
-                        <div
-                            class="w-full px-2 bg-primary-600 rounded-tr-md rounded-tl-md text-color"
-                        >
-                            {{ s.body }}
-                        </div>
-                        <div class="relative flex flex-wrap p-2 card-body">
-                            <div class="w-1/2 text-center">
-                                {{ $t('sebha.current') }}: {{ s.current }}
-                            </div>
-                            <div class="w-1/2 text-center">
-                                {{ $t('sebha.max') }}: {{ s.max }}
-                            </div>
-                            <div class="w-full text-center">
-                                {{ $t('sebha.total') }}: {{ s.readed }}
-                            </div>
-                            <div
-                                class="absolute w-0 h-full transition-all duration-500 bg-primary-600"
-                                :style="
-                                    `z-index: -1;width: ${(menuItemWidth /
-                                        s.max) *
-                                        s.current}px`
-                                "
-                            ></div>
-                        </div>
-                    </div>
-                </div>
+                <ion-fab
+                    vertical="top"
+                    horizontal="end"
+                    slot="fixed"
+                    @click.prevent="resetSebha"
+                    v-if="!locked"
+                >
+                    <ion-fab-button>
+                        <ion-icon :icon="closeOutline" />
+                    </ion-fab-button>
+                </ion-fab>
+                <ion-fab
+                    vertical="top"
+                    horizontal="start"
+                    slot="fixed"
+                    @click.prevent="remove"
+                    v-if="!locked"
+                >
+                    <ion-fab-button>
+                        <ion-icon :icon="trashBinOutline" />
+                    </ion-fab-button>
+                </ion-fab>
             </ion-content>
-        </ion-menu>
+            <ion-menu side="start" content-id="sebha-main-content" class="opacity-80">
+                <ion-toolbar color="primary">
+                    <ion-title>{{ $t('sebha.menu.title') }}</ion-title>
+                </ion-toolbar>
+                <ion-content :fullscreen="true" class="select-none">
+                    <div class="ion-padding">
+                        <div
+                            class="relative my-3 overflow-hidden transition-colors duration-500 rounded-md shadow-2xl card hover:cursor-pointer hover:bg-primary-600 hover:text-color"
+                            :class="{
+                                'bg-primary-600 text-color': s.id === sebha.id,
+                            }"
+                            v-for="(s, sinx) in tasabeeh"
+                            :key="s.id"
+                            @click.prevent="setSebha(s, sinx)"
+                        >
+                            <div
+                                class="w-full px-2 bg-primary-600 rounded-tr-md rounded-tl-md text-color"
+                            >
+                                {{ s.body }}
+                            </div>
+                            <div class="relative flex flex-wrap p-2 card-body">
+                                <div class="w-1/2 text-center">
+                                    {{ $t('sebha.current') }}: {{ s.current }}
+                                </div>
+                                <div class="w-1/2 text-center">
+                                    {{ $t('sebha.max') }}: {{ s.max }}
+                                </div>
+                                <div class="w-full text-center">
+                                    {{ $t('sebha.total') }}: {{ s.readed }}
+                                </div>
+                                <div
+                                    class="absolute w-0 h-full transition-all duration-500 bg-primary-600"
+                                    :style="
+                                        `z-index: -1;width: ${(menuItemWidth /
+                                            s.max) *
+                                            s.current}px`
+                                    "
+                                ></div>
+                            </div>
+                        </div>
+                    </div>
+                </ion-content>
+            </ion-menu>
+        </ion-split-pane>
     </ion-page>
 </template>
 <script lang="ts">
@@ -374,6 +379,7 @@
         IonTitle,
         IonMenuButton,
         IonMenu,
+        IonSplitPane,
         alertController,
         menuController,
     } from '@ionic/vue';
@@ -417,6 +423,7 @@
             IonTitle,
             IonMenuButton,
             IonMenu,
+            IonSplitPane,
             SebhaMeta,
         },
     })
