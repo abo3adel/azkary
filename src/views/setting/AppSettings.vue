@@ -234,8 +234,6 @@
         colors = ThemeColors;
 
         async loadAppSet() {
-            console.log(this.colors);
-
             await loader.show();
 
             const res = (

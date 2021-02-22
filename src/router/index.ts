@@ -47,6 +47,10 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import('@/views/setting/AppSettings.vue'),
             },
             {
+                path: 'control',
+                component: () => import('@/views/setting/ControlSettings.vue'),
+            },
+            {
                 path: 'sebha',
                 component: () => import('@/views/setting/SebhaSettings.vue'),
             },
