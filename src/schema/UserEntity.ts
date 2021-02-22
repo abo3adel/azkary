@@ -23,6 +23,7 @@ export interface User {
     // app
     fontSize: number;
     fontType: Fonts | string;
+    azkarFont: Fonts | string;
     theme: UserTheme | string;
     dark: boolean;
 
@@ -74,6 +75,10 @@ export const UserEntity = new EntitySchema<User>({
         fontType: {
             type: String,
             default: Fonts.Base,
+        },
+        azkarFont: {
+            type: String,
+            default: Fonts.Amiri,
         },
         theme: {
             type: String,

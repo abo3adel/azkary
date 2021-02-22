@@ -54,13 +54,49 @@
                                 :class="f"
                                 :value="f"
                             >
-                                ٱلرَّحمَٰنِ ٱلرَّحِيمِ
+                                سبحان الله
                             </ion-select-option>
                         </ion-select>
                         <ion-buttons slot="end">
                             <ion-button
                                 color="primary"
-                                @click.prevent="setFontType"
+                                @click.prevent="updateProp({ fontType })"
+                                fill="solid"
+                            >
+                                {{ $t('setup.app.save') }}
+                            </ion-button>
+                        </ion-buttons>
+                    </ion-item>
+                </ion-item-group>
+
+                <ion-item-group>
+                    <ion-item-divider>
+                        <ion-label>{{ $t('setup.app.azkarFont') }}</ion-label>
+                    </ion-item-divider>
+                    <ion-item>
+                        <ion-select
+                            :interface-options="{
+                                cssClass: 'fontType ion-alert',
+                            }"
+                            v-model="azkarFont"
+                            :ok-text="$t('sebha.del.okBtn')"
+                            :cancel-text="$t('sebha.del.cancelBtn')"
+                            :placeholder="$t('setup.app.ftype')"
+                            :style="`font-family: '${azkarFont}'`"
+                        >
+                            <ion-select-option
+                                v-for="f in azkarFonts"
+                                :key="f"
+                                :class="f"
+                                :value="f"
+                            >
+                               ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ
+                            </ion-select-option>
+                        </ion-select>
+                        <ion-buttons slot="end">
+                            <ion-button
+                                color="primary"
+                                @click.prevent="updateProp({ azkarFont })"
                                 fill="solid"
                             >
                                 {{ $t('setup.app.save') }}
@@ -126,9 +162,11 @@
         fontSize = 1.1;
         fontSizeVal = 1.1;
         fontType = Fonts.Base;
+        azkarFont = Fonts.Amiri;
         theme = UserTheme.DevColored;
         dark = false;
         fontTypes = FontTypes;
+        azkarFonts = [Fonts.Amiri, Fonts.Hafs, Fonts.Mirza, Fonts.Ruqaa];
 
         async loadAppSet() {
             await loader.show();
@@ -136,44 +174,36 @@
             const res = (
                 await (await db())
                     .createQueryBuilder(UserEntity, 'user_set')
-                    .select('fontSize, fontType, theme, dark')
+                    .select('fontSize, fontType, azkarFont, theme, dark')
                     .limit(1)
                     .execute()
             )[0];
 
             this.fontSize = res.fontSize;
             this.fontType = res.fontType;
+            this.azkarFont = res.azkarFont;
             this.theme = res.theme;
             this.dark = res.dark;
 
             await loader.hide();
         }
 
-        async setFontSize() {
+        async updateProp(prop: object) {
             await loader.show();
 
             await (await db())
                 .createQueryBuilder(UserEntity, 'user_set')
                 .update()
-                .set({ fontSize: this.fontSizeVal })
+                .set(prop)
                 .execute();
 
             await loader.hide();
-            this.fontSize = this.fontSizeVal;
             toast(this.$t('setup.restart'));
         }
 
-        async setFontType() {
-            await loader.show();
-
-            await (await db())
-                .createQueryBuilder(UserEntity, 'user_set')
-                .update()
-                .set({ fontType: this.fontType })
-                .execute();
-
-            await loader.hide();
-            toast(this.$t('setup.restart'));
+        async setFontSize() {
+            await this.updateProp({ fontSize: this.fontSizeVal });
+            this.fontSize = this.fontSizeVal;
         }
 
         mounted() {
@@ -183,6 +213,9 @@
 </script>
 <style lang="postcss">
     .fontType {
+        .alert-radio-group {
+            max-height: 100%;
+        }
         .select-interface-option {
             .alert-radio-label {
                 font-size: 1.4rem;
