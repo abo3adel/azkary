@@ -5,6 +5,27 @@
         </ion-toolbar>
         <ion-content>
             <ion-list>
+                <ion-item>
+                    <ion-label>
+                        {{ $t('setup.app.lang') }}
+                    </ion-label>
+                    <ion-select
+                        interface="popover"
+                        :interface-options="{
+                            cssClass: 'fontType ion-alert',
+                        }"
+                        v-model="lang"
+                        :placeholder="$t('setup.azkar.lang')"
+                        @ionChange="updateProp({ lang })"
+                    >
+                        <ion-select-option value="ar">
+                            العربية
+                        </ion-select-option>
+                        <ion-select-option value="en">
+                            English
+                        </ion-select-option>
+                    </ion-select>
+                </ion-item>
                 <ion-item-group>
                     <ion-item-divider>
                         <ion-label>{{ $t('setup.app.size') }}</ion-label>
@@ -178,7 +199,7 @@
         IonToggle,
     } from '@ionic/vue';
     import loader from '@/utils/loader';
-    import { UserEntity, Fonts, UserTheme } from '@/schema/UserEntity';
+    import { UserEntity, Fonts } from '@/schema/UserEntity';
     import db from '@/utils/db';
     import toast from '@/utils/toast';
 
@@ -222,6 +243,7 @@
         },
     })
     export default class AppSettinges extends Vue {
+        lang = 'ar';
         fontSize = 1.1;
         fontSizeVal = 1.1;
         fontType = Fonts.Base;
@@ -238,11 +260,12 @@
             const res = (
                 await (await db())
                     .createQueryBuilder(UserEntity, 'user_set')
-                    .select('fontSize, fontType, azkarFont, theme, dark')
+                    .select('lang, fontSize, fontType, azkarFont, theme, dark')
                     .limit(1)
                     .execute()
             )[0];
 
+            this.lang = res.lang;
             this.fontSize = res.fontSize;
             this.fontType = res.fontType;
             this.azkarFont = res.azkarFont;

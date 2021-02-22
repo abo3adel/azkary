@@ -52,7 +52,11 @@ router.isReady().then(async () => {
         const user = await (await db())
             .getRepository<User>(UserEntity)
             .findOne();
+        // @ts-ignore
+        await Storage.set({key: 'dark', value: user?.dark});
+
         await Storage.set({ key: 'fontSize', value: `${user?.fontSize}` });
+        await Storage.set({key: 'fontType', value: user?.fontType as string});
         await Storage.set({ key: 'theme', value: user?.theme as string });
         await Storage.set({ key: 'user', value: JSON.stringify(user) });
     }

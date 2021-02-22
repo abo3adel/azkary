@@ -21,6 +21,7 @@ export interface User {
     azkarCount: number;
 
     // app
+    lang: string;
     fontSize: number;
     fontType: Fonts | string;
     azkarFont: Fonts | string;
@@ -67,6 +68,10 @@ export const UserEntity = new EntitySchema<User>({
         },
 
         // app
+        lang: {
+            type: String,
+            default: 'ar',
+        },
         fontSize: {
             type: Number,
             unsigned: true,
