@@ -62,6 +62,9 @@
     import { CategoryEntity } from '@/schema/CategoryEntity';
     import { ZikrEntity } from '@/schema/ZikrEntity';
 
+    import { Plugins } from '@capacitor/core';
+    const { Storage } = Plugins;
+
     @Options({
         components: {
             ExploreContainer,
@@ -103,12 +106,17 @@
                 .getRawMany();
 
             console.log(az);
+
+            let ev = await Storage.get({key: 'notified'});
+            console.log(ev.value);
+
+            ev = await Storage.get({key: 'notified2'});
+            console.log(ev.value);
+            
         }
 
         // async upload(ev: any) {
         //     let r = '';
-
-            
 
         //     if (isPlatform('desktop')) {
         //         console.log(ev.target.files);
@@ -128,7 +136,7 @@
         //     }
 
         //     console.log('chooosed'.repeat(15), r);
-            
+
         //     console.log(contents);
         // }
 

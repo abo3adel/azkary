@@ -51,6 +51,10 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import('@/views/setting/ControlSettings.vue'),
             },
             {
+                path: 'azkar',
+                component: () => import('@/views/setting/AzkarSettings.vue'),
+            },
+            {
                 path: 'sebha',
                 component: () => import('@/views/setting/SebhaSettings.vue'),
             },

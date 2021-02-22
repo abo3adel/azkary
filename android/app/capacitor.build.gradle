@@ -12,7 +12,7 @@ dependencies {
     implementation project(':capacitor-community-sqlite')
 
 }
-
+apply from: "../../node_modules/cordova-plugin-badge/src/android/badge.gradle"
 
 if (hasProperty('postBuildExtras')) {
   postBuildExtras()

@@ -5,7 +5,6 @@
         </ion-toolbar>
         <ion-content>
             <ion-list>
-                <!-- TODO add dark theme switcher -->
                 <ion-item-group>
                     <ion-item-divider>
                         <ion-label>{{ $t('setup.app.size') }}</ion-label>

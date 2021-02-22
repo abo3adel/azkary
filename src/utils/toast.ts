@@ -4,7 +4,7 @@ const { Toast } = Plugins;
 export default function toast(
     text: string,
     duration: 'short' | 'long' = 'short',
-    position: 'center' | 'bottom' | 'top' = 'center'
+    position: 'center' | 'bottom' | 'top' = 'bottom'
 ) {
     Toast.show({text, duration, position});
 }

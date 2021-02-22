@@ -41,9 +41,11 @@
                                     "
                                 />
                             </ion-item>
-                            <ion-item @click.prevent="goTo('/settings/azkar')">
+                            <ion-item
+                                @click.prevent="goTo('/settings/control')"
+                            >
                                 <ion-label>{{
-                                    $t('setup.list.azkar')
+                                    $t('setup.list.control')
                                 }}</ion-label>
                                 <ion-icon
                                     :icon="chevronForwardOutline"
@@ -55,11 +57,9 @@
                                     "
                                 />
                             </ion-item>
-                            <ion-item
-                                @click.prevent="goTo('/settings/control')"
-                            >
+                            <ion-item @click.prevent="goTo('/settings/azkar')">
                                 <ion-label>{{
-                                    $t('setup.list.control')
+                                    $t('setup.list.azkar')
                                 }}</ion-label>
                                 <ion-icon
                                     :icon="chevronForwardOutline"

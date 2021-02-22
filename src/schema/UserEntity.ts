@@ -126,14 +126,17 @@ export const UserEntity = new EntitySchema<User>({
         morning: {
             type: String,
             nullable: true,
+            default: '2021-02-22T06:30:46.789',
         },
         night: {
             type: String,
             nullable: true,
+            default: '2021-02-22T17:30:46.789'
         },
         notifyCount: {
             type: String,
             nullable: true,
+            default: 13,
         },
         autoHide: {
             type: Boolean,
