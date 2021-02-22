@@ -110,9 +110,6 @@
                         <ion-label>{{ $t('setup.app.look') }}</ion-label>
                     </ion-item-divider>
                     <ion-item>
-                        <!-- <ion-label>
-                            {{ $t('setup.color') }}
-                        </ion-label> -->
                         <ion-select
                             v-model="theme"
                             :interface-options="{
@@ -121,7 +118,9 @@
                             :ok-text="$t('sebha.del.okBtn')"
                             :cancel-text="$t('sebha.del.cancelBtn')"
                             :placeholder="$t('setup.app.ftype')"
-                            :style="`background-color: var(--ion-color-${theme})`"
+                            :style="
+                                `background-color: var(--ion-color-${theme})`
+                            "
                         >
                             <ion-select-option
                                 v-for="c in colors"
@@ -140,6 +139,20 @@
                                 {{ $t('setup.app.save') }}
                             </ion-button>
                         </ion-buttons>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label>
+                            {{ $t('setup.app.dark') }}
+                        </ion-label>
+                        <ion-toggle
+                            @ionChange="
+                                updateProp({ dark: $event.detail.checked })
+                            "
+                            :checked="dark"
+                            color="primary"
+                            :key="dark + Math.random()"
+                        ></ion-toggle>
                     </ion-item>
                 </ion-item-group>
             </ion-list>
@@ -163,6 +176,7 @@
         IonItemGroup,
         IonSelect,
         IonSelectOption,
+        IonToggle,
     } from '@ionic/vue';
     import loader from '@/utils/loader';
     import { UserEntity, Fonts, UserTheme } from '@/schema/UserEntity';
@@ -205,6 +219,7 @@
             IonItemGroup,
             IonSelect,
             IonSelectOption,
+            IonToggle,
         },
     })
     export default class AppSettinges extends Vue {
