@@ -46,19 +46,23 @@ router.isReady().then(async () => {
     if (isPlatform('desktop')) {
         // db();
     }
-    const { value } = await Storage.get({ key: 'fontSize' });
+    const { value } = await Storage.get({ key: 'firstDone' });
     if (!value || value === 'undefined') {
         await loader.show();
-        const user = await (await db())
-            .getRepository<User>(UserEntity)
-            .findOne();
+        const user = (await (await db())
+            .createQueryBuilder(UserEntity, 'user_ent')
+            .select('dark, lang, fontSize, fontType, theme')
+            .execute())[0];
         // @ts-ignore
-        await Storage.set({key: 'dark', value: user?.dark});
+        await Storage.set({ key: 'dark', value: user?.dark });
 
+        await Storage.set({ key: 'lang', value: user?.lang as string });
         await Storage.set({ key: 'fontSize', value: `${user?.fontSize}` });
-        await Storage.set({key: 'fontType', value: user?.fontType as string});
+        await Storage.set({ key: 'fontType', value: user?.fontType as string });
         await Storage.set({ key: 'theme', value: user?.theme as string });
-        await Storage.set({ key: 'user', value: JSON.stringify(user) });
+        // await Storage.set({ key: 'azkarCount', value: `${user?.azkarCount}` });
+
+        await Storage.set({ key: 'firstDone', value: 'yes' });
     }
 
     app.mount('#app');
