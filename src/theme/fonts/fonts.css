@@ -1,0 +1,47 @@
+@font-face {
+    font-family: 'Cairo';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('./fonts/Cairo.ttf') format('woff2');
+}
+
+@font-face {
+    font-family: 'AmiriQuranColored';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('./fonts/AmiriQuranColored.ttf') format('woff2');
+}
+
+@font-face {
+    font-family: 'UthmanicHafs-Ver16';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('./fonts/UthmanicHafs-Ver16.ttf') format('woff2');
+}
+
+@font-face {
+    font-family: 'Tajawal-Regular';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('./fonts/Tajawal-Regular.ttf') format('woff2');
+}
+
+@font-face {
+    font-family: 'Mirza-Regular';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('./fonts/Mirza-Regular.ttf') format('woff2');
+}
+
+@font-face {
+    font-family: 'ArefRuqaa-Regular';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('./fonts/ArefRuqaa-Regular.ttf') format('woff2');
+}

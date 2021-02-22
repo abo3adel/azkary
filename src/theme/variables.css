@@ -272,3 +272,5 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-primary-shade: #cf3c4f;
   --ion-color-primary-tint: #ed576b;
 } */
+
+@import './fonts/fonts.css';

@@ -39,13 +39,22 @@
                     </ion-item-divider>
                     <ion-item>
                         <ion-select
+                            :interface-options="{
+                                cssClass: 'fontType ion-alert',
+                            }"
                             v-model="fontType"
                             :ok-text="$t('sebha.del.okBtn')"
                             :cancel-text="$t('sebha.del.cancelBtn')"
                             :placeholder="$t('setup.app.ftype')"
+                            :style="`font-family: '${fontType}'`"
                         >
-                            <ion-select-option v-for="f in fontTypes" :key="f">
-                                {{ f }}
+                            <ion-select-option
+                                v-for="f in fontTypes"
+                                :key="f"
+                                :class="f"
+                                :value="f"
+                            >
+                                ٱلرَّحمَٰنِ ٱلرَّحِيمِ
                             </ion-select-option>
                         </ion-select>
                         <ion-buttons slot="end">
@@ -86,7 +95,14 @@
     import db from '@/utils/db';
     import toast from '@/utils/toast';
 
-    export const FontTypes = ['Cairo', 'Roboto', 'Amiri', 'Uthmani', 'Times'];
+    export const FontTypes = [
+        Fonts.Base,
+        Fonts.Amiri,
+        Fonts.Hafs,
+        Fonts.Tajawal,
+        Fonts.Mirza,
+        Fonts.Ruqaa,
+    ];
 
     @Options({
         components: {
@@ -165,3 +181,30 @@
         }
     }
 </script>
+<style lang="postcss">
+    .fontType {
+        .select-interface-option {
+            .alert-radio-label {
+                font-size: 1.4rem;
+            }
+        }
+        .Cairo {
+            font-family: 'Cairo';
+        }
+        .AmiriQuranColored {
+            font-family: 'AmiriQuranColored';
+        }
+        .UthmanicHafs-Ver16 {
+            font-family: 'UthmanicHafs-Ver16';
+        }
+        .Tajawal-Regular {
+            font-family: 'Tajawal-Regular';
+        }
+        .Mirza-Regular {
+            font-family: 'Mirza-Regular';
+        }
+        .ArefRuqaa-Regular {
+            font-family: 'ArefRuqaa-Regular';
+        }
+    }
+</style>

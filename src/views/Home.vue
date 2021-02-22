@@ -143,6 +143,6 @@
 </script>
 <style>
     .myContent {
-        --background: red;
+        /* --background: red; */
     }
 </style>
