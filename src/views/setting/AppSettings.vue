@@ -90,13 +90,51 @@
                                 :class="f"
                                 :value="f"
                             >
-                               ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ
+                                ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ
                             </ion-select-option>
                         </ion-select>
                         <ion-buttons slot="end">
                             <ion-button
                                 color="primary"
                                 @click.prevent="updateProp({ azkarFont })"
+                                fill="solid"
+                            >
+                                {{ $t('setup.app.save') }}
+                            </ion-button>
+                        </ion-buttons>
+                    </ion-item>
+                </ion-item-group>
+
+                <ion-item-group>
+                    <ion-item-divider>
+                        <ion-label>{{ $t('setup.app.look') }}</ion-label>
+                    </ion-item-divider>
+                    <ion-item>
+                        <!-- <ion-label>
+                            {{ $t('setup.color') }}
+                        </ion-label> -->
+                        <ion-select
+                            v-model="theme"
+                            :interface-options="{
+                                cssClass: 'fontType ion-alert',
+                            }"
+                            :ok-text="$t('sebha.del.okBtn')"
+                            :cancel-text="$t('sebha.del.cancelBtn')"
+                            :placeholder="$t('setup.app.ftype')"
+                            :style="`background-color: var(--ion-color-${theme})`"
+                        >
+                            <ion-select-option
+                                v-for="c in colors"
+                                :key="c + Math.random()"
+                                :class="c"
+                                :value="c"
+                            >
+                            </ion-select-option>
+                        </ion-select>
+                        <ion-buttons slot="end">
+                            <ion-button
+                                color="primary"
+                                @click.prevent="updateProp({ theme })"
                                 fill="solid"
                             >
                                 {{ $t('setup.app.save') }}
@@ -140,6 +178,17 @@
         Fonts.Ruqaa,
     ];
 
+    export const ThemeColors = [
+        // order by variables.css
+        'primary',
+        'secondary',
+        'tertiary',
+        'success',
+        'warning',
+        'danger',
+        'gold',
+    ];
+
     @Options({
         components: {
             IonPage,
@@ -163,12 +212,15 @@
         fontSizeVal = 1.1;
         fontType = Fonts.Base;
         azkarFont = Fonts.Amiri;
-        theme = UserTheme.DevColored;
+        theme = ThemeColors[0]; // primary as defualt
         dark = false;
         fontTypes = FontTypes;
         azkarFonts = [Fonts.Amiri, Fonts.Hafs, Fonts.Mirza, Fonts.Ruqaa];
+        colors = ThemeColors;
 
         async loadAppSet() {
+            console.log(this.colors);
+
             await loader.show();
 
             const res = (
@@ -221,6 +273,7 @@
                 font-size: 1.4rem;
             }
         }
+        /* font family picker */
         .Cairo {
             font-family: 'Cairo';
         }
@@ -238,6 +291,29 @@
         }
         .ArefRuqaa-Regular {
             font-family: 'ArefRuqaa-Regular';
+        }
+
+        /* color picker */
+        .primary {
+            background: var(--ion-color-primary);
+        }
+        .secondary {
+            background: var(--ion-color-secondary);
+        }
+        .tertiary {
+            background: var(--ion-color-tertiary);
+        }
+        .success {
+            background: var(--ion-color-success);
+        }
+        .warning {
+            background: var(--ion-color-warning);
+        }
+        .danger {
+            background: var(--ion-color-danger);
+        }
+        .gold {
+            background: var(--ion-color-gold);
         }
     }
 </style>
