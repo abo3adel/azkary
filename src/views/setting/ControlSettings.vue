@@ -19,7 +19,7 @@
                             :key="sound + Math.random()"
                         ></ion-toggle>
                     </ion-item>
-                    <ion-item>
+                    <ion-item v-if="isHybird">
                         <ion-label>
                             {{ $t('setup.control.vibration') }}
                         </ion-label>
@@ -32,7 +32,7 @@
                             :key="vibration + Math.random()"
                         ></ion-toggle>
                     </ion-item>
-                    <ion-item>
+                    <ion-item v-if="isHybird">
                         <ion-label>
                             {{ $t('setup.control.hardKeys') }}
                         </ion-label>
@@ -45,7 +45,7 @@
                             :key="hardKeys + Math.random()"
                         ></ion-toggle>
                     </ion-item>
-                    <ion-item>
+                    <ion-item v-if="isHybird">
                         <ion-label>
                             {{ $t('setup.control.touch') }}
                         </ion-label>
@@ -58,7 +58,7 @@
                             :key="touch + Math.random()"
                         ></ion-toggle>
                     </ion-item>
-                    <ion-item>
+                    <ion-item v-if="!isHybird">
                         <ion-label>
                             {{ $t('setup.control.keyboard') }}
                         </ion-label>
