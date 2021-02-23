@@ -146,9 +146,7 @@
         emits: ['go-home'],
         data() {
             return {
-                user: {
-                    azkarCount: 0,
-                },
+                azkarCount: 0,
                 totalCount: 0,
                 doneSaving: false,
 
@@ -159,20 +157,16 @@
         },
         methods: {
             async saveToDB() {
-                this.user = JSON.parse(
-                    (await Storage.get({ key: 'user' })).value
+                this.azkarCount = JSON.parse(
+                    (await Storage.get({ key: 'azkarCount' })).value ?? 0
                 );
-                const fontSize = (await Storage.get({ key: 'fontSize' })).value;
-                const theme = (await Storage.get({ key: 'theme' })).value;
 
-                // update user with new values
-                await getConnection()
-                    .createQueryBuilder(UserEntity, 'users')
-                    .update()
-                    .set({ azkarCount: this.user.azkarCount + this.count })
-                    .set({ fontSize })
-                    .set({ theme })
-                    .execute();
+                // increment azkar count
+                await Storage.set({
+                    key: 'azkarCount',
+                    value: `${this.azkarCount + this.count}`,
+                });
+
                 this.doneSaving = true;
             },
             async goToHome() {
@@ -216,10 +210,10 @@
             },
             getTotalCount() {
                 const intval = setInterval(() => {
-                    if (this.user.id) {
+                    if (this.azkarCount) {
                         clearInterval(intval);
                         this.totalCount = this.formatNum(
-                            this.user.azkarCount + this.count
+                            this.azkarCount + this.count
                         );
                         return;
                     }
