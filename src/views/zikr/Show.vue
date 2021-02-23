@@ -246,8 +246,8 @@
 
     import { defineAsyncComponent } from 'vue';
     import Loading from '@/components/Loading.vue';
-import { CategoryEntity } from '@/schema/CategoryEntity';
-import { ZikrEntity } from '@/schema/ZikrEntity';
+    import { CategoryEntity } from '@/schema/CategoryEntity';
+    import { ZikrEntity } from '@/schema/ZikrEntity';
 
     const { Modals, Share, Clipboard, Storage } = Plugins;
 
@@ -287,9 +287,8 @@ import { ZikrEntity } from '@/schema/ZikrEntity';
         meta: CategoryIcon | null = null;
         reorder = false;
         oldOrder: Zikr[] = [];
-        // will hold basic count for this item
+        // will hold basic (initial) count for this item
         azkarClone: { id: number; count: number }[] = [];
-        loaderTxt = '';
         theme: UserTheme | string = UserTheme.DevColored;
         fontSize = 1.1;
         totalCount = 0;
@@ -303,12 +302,11 @@ import { ZikrEntity } from '@/schema/ZikrEntity';
         arrowBackOutline = arrowBackOutline;
         cogOutline = cogOutline;
 
-
         /**
          * load all azkar related to this category
          */
         async loadData() {
-            await loader.show(this.loaderTxt);
+            await loader.show();
 
             // @ts-ignore
             this.category = await (await db())
@@ -318,10 +316,6 @@ import { ZikrEntity } from '@/schema/ZikrEntity';
                 .orderBy('azkar.order', 'ASC')
                 .addOrderBy('azkar.id', 'DESC')
                 .getOneOrFail();
-
-            // @ts-ignore
-            console.log(this.category);
-            
 
             this.afterDataUpdate();
 
@@ -461,7 +455,7 @@ import { ZikrEntity } from '@/schema/ZikrEntity';
                 this.theme = themes[inx];
             }
 
-            await Storage.set({ key: 'theme', value: this.theme });
+            await Storage.set({ key: 'zikrTheme', value: this.theme });
         }
 
         /**
@@ -550,7 +544,7 @@ import { ZikrEntity } from '@/schema/ZikrEntity';
                 toast(this.$t('zikr.err.noOrdered'));
                 return;
             }
-            await loader.show(this.loaderTxt);
+            await loader.show();
 
             let y = 0;
             for (const x of this.category.azkar) {
@@ -584,7 +578,7 @@ import { ZikrEntity } from '@/schema/ZikrEntity';
             }
 
             this.fontSize += 0.1;
-            Storage.set({ key: 'fontSize', value: `${this.fontSize}` });
+            Storage.set({ key: 'zikrFontSize', value: `${this.fontSize}` });
         }
 
         /**
@@ -599,7 +593,7 @@ import { ZikrEntity } from '@/schema/ZikrEntity';
             }
 
             this.fontSize -= 0.1;
-            Storage.set({ key: 'fontSize', value: `${this.fontSize}` });
+            Storage.set({ key: 'zikrFontSize', value: `${this.fontSize}` });
         }
 
         async onDecree(
@@ -649,24 +643,29 @@ import { ZikrEntity } from '@/schema/ZikrEntity';
             emitter.emit('slide-cog');
         }
 
+        ionViewWillEnter() {
+            this.loadData();
+        }
+
         beforeMount() {
             this.meta = getCategoryIcon().filter(
                 (x) => x.slug === (this.$route.params.slug as string)
             )[0];
 
-            Storage.get({ key: 'theme' }).then(
-                (res) => (this.theme = res.value as string)
+            Storage.get({ key: 'zikrTheme' }).then(
+                (res) => (this.theme = res.value ?? this.theme)
             );
 
             // set font size
-            Storage.get({ key: 'fontSize' }).then(
-                (res) => (this.fontSize = parseFloat(res.value as string))
+            Storage.get({ key: 'zikrFontSize' }).then(
+                (res) =>
+                    (this.fontSize = parseFloat(
+                        res.value ?? `${this.fontSize}`
+                    ))
             );
         }
 
         mounted() {
-            this.loaderTxt = this.$t('loderTxt');
-            this.loadData();
             emitter.on('go-home', async () => {
                 await this.$router.replace('/tabs/zikr');
                 await this.modal?.dismiss();

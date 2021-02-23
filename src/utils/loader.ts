@@ -1,18 +1,25 @@
+import { Plugins } from '@capacitor/core';
 import { loadingController } from '@ionic/vue';
 
-export const LOADER_MESSAGE = 'برجاء الإنتظار...';
+const {Storage} = Plugins;
+
+export const LOADER_MESSAGE_AR = 'يرجى الإنتظار ...';
+export const LOADER_MESSAGE_EN = 'please wait ...';
 
 export class Loader {
     private loader!: HTMLIonLoadingElement | null;
-    private timeout = 50000;
+    private timeout = 8000; // 8 sec
+    private locale = 'ar';
 
-    public async show(
-        message = LOADER_MESSAGE,
-        timeout = this.timeout
-    ): Promise<void> {
+    public constructor() {
+        Storage.get({ key: 'lang' }).then((r) => (this.locale = r.value ?? this.locale));
+    }
+
+    public async show(locale = this.locale): Promise<void> {
+        const message = locale === 'ar' ? LOADER_MESSAGE_AR : LOADER_MESSAGE_EN;
         if (!this.loader) {
             this.loader = await loadingController.create({
-                duration: timeout,
+                duration: this.timeout,
                 message: message,
                 //   translucent: true,
                 cssClass: 'ion-loader',
