@@ -416,7 +416,7 @@
 
     let busy = false;
 
-    export const DEFUALT_BG = '/assets/img/ka3ba2.jpg';
+    export const DEFUALT_BG = '/assets/img/pexels-tessa.jpg';
 
     @Options({
         components: {
