@@ -82,6 +82,7 @@
         azkarClone = prop<{ count: number; id: number }[]>({ required: true });
         color = prop<string>({ required: true });
         theme = prop<string>({ required: true });
+        keyboard = prop<boolean>({ default: true });
     }
 
     @Options({
@@ -240,6 +241,30 @@
             );
         }
 
+        clickEvent(ev: any) {
+            ev.preventDefault();
+            
+            if (!this.keyboard) {
+                document.removeEventListener('keydown', this.clickEvent);
+                return;
+            }
+            
+            if (ev.keyCode === 32) {
+                // space button
+                
+                this.current.count--;
+                this.onClicked(this.current);
+            }
+        }
+
+        addKeyboardEvents() {            
+            if (this.keyboard) {
+                document.addEventListener('keydown', this.clickEvent);
+                return;
+            }
+            document.removeEventListener('keydown', this.clickEvent);
+        }
+
         /**
          * reset zikr item count
          */
@@ -255,6 +280,8 @@
             emitter.on('slide-cog', () => {
                 this.opts();
             });
+
+            this.addKeyboardEvents();
         }
     }
 </script>

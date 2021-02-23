@@ -386,7 +386,6 @@
         IonSplitPane,
         alertController,
         menuController,
-        isPlatform,
     } from '@ionic/vue';
     import {
         colorPaletteOutline,
@@ -409,9 +408,9 @@
     import toast from '@/utils/toast';
     import SebhaMeta from '@/components/SebhaMeta.vue';
     import { SebhaEntity, Sebha as ISebha } from '@/schema/SebhaEntity';
-    import { UserEntity, User } from '@/schema/UserEntity';
     import { Vibration } from '@ionic-native/vibration';
     import sound from '../utils/sound';
+    import { Controls, loadConfigrations } from '../common/ControlConfig';
 
     const { Storage } = Plugins;
 
@@ -447,14 +446,7 @@
         color = 'primary';
         locked = false;
         menuItemWidth = 0;
-        config = {
-            autoNext: true,
-            sound: false,
-            vibration: true,
-            hardKeys: false,
-            touch: true,
-            keyboard: true,
-        };
+        config = Controls;
 
         colorPaletteOutline = colorPaletteOutline;
         colorFillOutline = colorFillOutline;
@@ -519,29 +511,7 @@
         }
 
         async loadConfig() {
-            const toSelect = isPlatform('hybrid')
-                ? 'sebhaAutoNext, sound, vibration, hardKeys, touch'
-                : 'sebhaAutoNext, sound, keyboard';
-            const res = (
-                await (await db())
-                    .createQueryBuilder(UserEntity, 'user_set')
-                    .select(toSelect)
-                    .execute()
-            )[0] as User;
-
-            this.config.autoNext = res.sebhaAutoNext;
-            this.config.sound = res.sound;
-            this.config.vibration = res.vibration;
-            this.config.hardKeys = res.hardKeys;
-            this.config.touch = res.touch;
-            this.config.keyboard = res.keyboard;
-
-            if (this.config.sound) {
-                await sound.addFile(
-                    '/assets/sound/zapsplat_click.mp3',
-                    'click'
-                );
-            }
+            await loadConfigrations(this);
 
             this.loadOnEveryVisit();
         }
@@ -708,6 +678,7 @@
                         }): Promise<void> => {
                             if (!ev.body || !ev.body.length) {
                                 toast(this.$t('sebha.err.noBody'));
+                                busy = false;
                                 return;
                             }
 

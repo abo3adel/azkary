@@ -176,6 +176,7 @@
                     :azkar-clone="azkarClone"
                     :color="meta.color"
                     :theme="theme"
+                    :keyboard="config.keyboard"
                     @edit="
                         add($event.zikr.body, $event.zikr.count, $event.zikr.id)
                     "
@@ -248,8 +249,11 @@
     import Loading from '@/components/Loading.vue';
     import { CategoryEntity } from '@/schema/CategoryEntity';
     import { ZikrEntity } from '@/schema/ZikrEntity';
+    import { Controls, loadConfigrations } from '@/common/ControlConfig';
 
     const { Modals, Share, Clipboard, Storage } = Plugins;
+
+    let busyShow = false;
 
     const BaseTheme = defineAsyncComponent({
         loader: () => import('@/components/themes/Base.vue'),
@@ -294,6 +298,7 @@
         totalCount = 0;
         readed = 0;
         modal!: HTMLIonModalElement;
+        config = Controls;
 
         addOutline = addOutline;
         colorPaletteOutline = colorPaletteOutline;
@@ -319,7 +324,50 @@
 
             this.afterDataUpdate();
 
+            await this.loadConfig();
+            emitter.emit('config');
+
             await loader.hide();
+        }
+
+        async loadConfig() {
+            await loadConfigrations(this);
+
+            if (this.config.keyboard) {
+                document.addEventListener('keyup', this.keyboardEvents);
+            } else {
+                document.removeEventListener('keyup', this.keyboardEvents);
+            }
+        }
+
+        ionViewWillLeave() {
+            document.removeEventListener('keyup', this.keyboardEvents);
+        }
+
+        async keyboardEvents(ev: any) {
+            ev.preventDefault();
+            const kc = ev.keyCode;
+            // console.log(kc);
+
+            if (busyShow) return;
+
+            if (kc === 78) {
+                // n char key
+                this.add();
+                return;
+            } else if (kc === 84) {
+                // t char key
+                this.themeToggle();
+                return;
+            } else if (kc === 187) {
+                // + or = symbol button
+                this.fontIncrese();
+                return;
+            } else if (kc === 189) {
+                // _ or - symbol buttn
+                this.fontDecrese();
+                return;
+            }
         }
 
         afterDataUpdate(): void {
@@ -349,6 +397,8 @@
             count = 1,
             id: number | null = null
         ): Promise<void> {
+            busyShow = true;
+
             if (id) {
                 count = this.azkarClone.find((x) => x.id === id)?.count ?? 1;
             }
@@ -382,6 +432,9 @@
                         text: this.$t('zikr.add.cancel'),
                         role: 'cancel',
                         cssClass: 'cancelBtn',
+                        handler: () => {
+                            busyShow = false;
+                        },
                     },
                     {
                         text: this.$t('zikr.add.save'),
@@ -391,6 +444,7 @@
                             const count = ev.count as number;
                             if (!body || !body.length) {
                                 toast(this.$t('zikr.err.noBody'));
+                                busyShow = false;
                                 return;
                             }
 
@@ -431,13 +485,15 @@
 
                             this.afterDataUpdate();
 
+                            busyShow = false;
+
                             return await loader.hide();
                         },
                     },
                 ],
             });
 
-            alert.present();
+            await alert.present();
         }
 
         async themeToggle() {
@@ -645,6 +701,12 @@
 
         ionViewWillEnter() {
             this.loadData();
+
+            if (this.config.keyboard) {
+                document.addEventListener('keyup', this.keyboardEvents);
+            } else {
+                document.removeEventListener('keyup', this.keyboardEvents);
+            }
         }
 
         beforeMount() {
