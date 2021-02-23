@@ -409,7 +409,8 @@
     import SebhaMeta from '@/components/SebhaMeta.vue';
     import { SebhaEntity, Sebha as ISebha } from '@/schema/SebhaEntity';
     import { UserEntity, User } from '@/schema/UserEntity';
-    import {Vibration} from '@ionic-native/vibration';
+    import { Vibration } from '@ionic-native/vibration';
+    import sound from '../utils/sound';
 
     const { Storage } = Plugins;
 
@@ -517,7 +518,13 @@
             this.config.keyboard = res.keyboard;
 
             console.log(res);
-            
+
+            if (this.config.sound) {
+                await sound.addFile(
+                    '/assets/sound/zapsplat_click.mp3',
+                    'click'
+                );
+            }
 
             this.loadOnEveryVisit();
         }
@@ -557,6 +564,9 @@
         async onClick() {
             // vibrate on click
             if (this.config.vibration) Vibration.vibrate(300);
+
+            // play sound on click
+            if (this.config.sound) sound.play('click');
 
             this.sebha.current++;
 
