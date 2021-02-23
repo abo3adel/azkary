@@ -505,6 +505,18 @@
             await loader.hide();
         }
 
+        async selectNext() {
+            let inx = 0;
+            const len = this.tasabeeh.length - 1;
+            if (this.active >= len) {
+                // if current was last then select first
+            } else {
+                inx = this.active + 1;
+            }
+
+            await this.setSebha(this.tasabeeh[inx], inx);
+        }
+
         async loadConfig() {
             const res = (
                 await (await db())
@@ -588,6 +600,10 @@
 
                 // updated readed value
                 this.sebha.readed++;
+
+                if (this.config.autoNext) {
+                    await this.selectNext();
+                }
 
                 // reset
                 this.sebha.current = 0;
@@ -703,7 +719,7 @@
                             sebha.max = ev.max;
 
                             sebha = await (await db())
-                                .getRepository(SebhaEntity)
+                                .getRepository<Sebha>('sebha')
                                 .save(sebha);
 
                             // select it as current active sebha
@@ -747,28 +763,25 @@
 
             await loader.show();
 
-            await getRepository(SebhaEntity).delete({ id: this.sebha.id });
+            await getRepository<Sebha>('sebha').delete({ id: this.sebha.id });
 
             this.tasabeeh.splice(this.active, 1);
             this.sebha.current = 0;
             this.updateProgress();
-            this.active = this.tasabeeh[this.tasabeeh.length - 1]
-                ? this.tasabeeh.length - 1
-                : 0;
 
             // check if list has any more sebha items
-            if (this.active) {
-                // assign to last item in list
-                this.sebha = this.tasabeeh[this.active - 1];
-            } else {
+            if (!this.tasabeeh.length) {
                 // create new sebha with default values
                 const sebha = new Sebha();
                 sebha.body = this.$t('sebha.add.pl');
                 sebha.max = 100;
-                this.sebha = await getRepository(SebhaEntity).save(sebha);
+                this.sebha = await getRepository<Sebha>('sebha').save(sebha);
+                this.updateProgress();
+                // @ts-ignore
+                this.tasabeeh.push(this.sebha);
+            } else {
+                await this.selectNext();
             }
-
-            this.updateProgress();
 
             await loader.hide();
             busy = false;
