@@ -46,8 +46,8 @@ router.isReady().then(async () => {
     if (isPlatform('desktop')) {
         // db();
     }
-    const { value } = await Storage.get({ key: 'firstDone' });
-    if (!value || value === 'undefined') {
+    // const { value } = await Storage.get({ key: 'firstDone' });
+    // if (!value || value === 'undefined') {
         await loader.show();
         const user = (
             await (await db())
@@ -63,8 +63,8 @@ router.isReady().then(async () => {
         await Storage.set({ key: 'fontType', value: user?.fontType as string });
         await Storage.set({ key: 'theme', value: user?.theme as string });
 
-        await Storage.set({ key: 'firstDone', value: 'yes' });
-    }
+        // await Storage.set({ key: 'firstDone', value: 'yes' });
+    // }
 
     app.mount('#app');
     await loader.hide();

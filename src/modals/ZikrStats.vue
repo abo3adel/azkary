@@ -132,6 +132,7 @@
     // @ts-ignore
     import emitter from 'tiny-emitter/instance';
     import { UserEntity } from '@/schema/UserEntity';
+    import db from '@/utils/db';
 
     const { Storage } = Plugins;
 
@@ -157,15 +158,32 @@
         },
         methods: {
             async saveToDB() {
-                this.azkarCount = JSON.parse(
-                    (await Storage.get({ key: 'azkarCount' })).value ?? 0
+                // this.azkarCount = JSON.parse(
+                //     (await Storage.get({ key: 'azkarCount' })).value ?? 0
+                // );
+
+                // // increment azkar count
+                // await Storage.set({
+                //     key: 'azkarCount',
+                //     value: `${this.azkarCount + this.count}`,
+                // });
+
+                const sql = (await db()).createQueryBuilder(
+                    UserEntity,
+                    'user_set'
                 );
 
-                // increment azkar count
-                await Storage.set({
-                    key: 'azkarCount',
-                    value: `${this.azkarCount + this.count}`,
-                });
+                this.azkarCount = (
+                    await sql.select('azkarCount').execute()
+                )[0].azkarCount;
+
+                // update
+                await (
+                    await db()
+                ).query(
+                    'UPDATE user_settings SET azkarCount = azkarCount + ?',
+                    [this.count]
+                );
 
                 this.doneSaving = true;
             },
@@ -222,7 +240,7 @@
             },
         },
         mounted() {
-            setTimeout(() => this.saveToDB(), 1000);
+            setTimeout(() => this.saveToDB(), 500);
             this.getTotalCount();
         },
         components: { IonContent, IonIcon },
