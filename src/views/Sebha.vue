@@ -408,6 +408,7 @@
     import toast from '@/utils/toast';
     import SebhaMeta from '@/components/SebhaMeta.vue';
     import { SebhaEntity, Sebha as ISebha } from '@/schema/SebhaEntity';
+    import { UserEntity, User } from '@/schema/UserEntity';
 
     const { Storage } = Plugins;
 
@@ -443,6 +444,14 @@
         color = 'primary';
         locked = false;
         menuItemWidth = 0;
+        config = {
+            autoNext: true,
+            sound: false,
+            vibration: true,
+            hardKeys: false,
+            touch: true,
+            keyboard: true,
+        };
 
         colorPaletteOutline = colorPaletteOutline;
         colorFillOutline = colorFillOutline;
@@ -474,13 +483,50 @@
             this.tasabeeh = await (await db())
                 .getRepository<Sebha>('sebha')
                 .find();
-            await loader.hide();
+
             this.active = this.tasabeeh.length - 1;
             this.sebha = this.tasabeeh[this.active];
 
             this.bar?.set(this.sebha.current / this.sebha.max);
             this.svgHeight = this.calcHeight() * this.sebha.current;
             busy = false;
+
+            // load config
+            await this.loadConfig();
+
+            await loader.hide();
+        }
+
+        async loadConfig() {
+            const res = (
+                await (await db())
+                    .createQueryBuilder(UserEntity, 'user_set')
+                    .select(
+                        'sebhaAutoNext, sound, vibration, hardKeys, touch, keyboard'
+                    )
+                    .execute()
+            )[0] as User;
+
+            this.config.autoNext = res.sebhaAutoNext;
+            this.config.sound = res.sound;
+            this.config.vibration = res.vibration;
+            this.config.hardKeys = res.hardKeys;
+            this.config.touch = res.touch;
+            this.config.keyboard = res.keyboard;
+
+            this.loadOnEveryVisit();
+        }
+
+        async loadOnEveryVisit() {
+            this.active = parseInt(
+                (await Storage.get({ key: 'sebha' })).value ?? '0'
+            );
+
+            if (this.config.keyboard) {
+                document.addEventListener('keyup', this.keyboardEv);
+            } else {
+                document.removeEventListener('keyup', this.keyboardEv);
+            }
         }
 
         setMenuItemWidth() {
@@ -796,23 +842,11 @@
         }
 
         ionViewWillEnter() {
-            Storage.get({ key: 'sebha' }).then(
-                (r) => (this.active = parseInt(r.value ?? '0'))
-            );
-
-            Storage.get({ key: 'sebha_theme' }).then(
-                (r) => (this.theme = r.value ?? 'dev')
-            );
-
-            Storage.get({ key: 'sebha_color' }).then(
-                (r) => (this.color = r.value ?? 'primary')
-            );
-            document.addEventListener('keyup', this.keyboardEv);
+            this.loadOnEveryVisit();
         }
 
         async keyboardEv(ev: any) {
             ev.preventDefault();
-            console.log(busy);
 
             if (ev.keyCode === 77) {
                 // m char key
@@ -866,6 +900,14 @@
                     DEFUALT_BG}')}`;
                 document.documentElement.appendChild(node);
             });
+            // set theme
+            Storage.get({ key: 'sebha_theme' }).then(
+                (r) => (this.theme = r.value ?? this.theme)
+            );
+            // set color
+            Storage.get({ key: 'sebha_color' }).then(
+                (r) => (this.color = r.value ?? this.color)
+            );
         }
     }
 </script>

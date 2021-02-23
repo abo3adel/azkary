@@ -112,7 +112,7 @@ export const UserEntity = new EntitySchema<User>({
         },
         hardKeys: {
             type: Boolean,
-            default: true,
+            default: false,
         },
         touch: {
             type: Boolean,
@@ -136,7 +136,7 @@ export const UserEntity = new EntitySchema<User>({
         night: {
             type: String,
             nullable: true,
-            default: '2021-02-22T17:30:46.789'
+            default: '2021-02-22T17:30:46.789',
         },
         notifyCount: {
             type: String,
