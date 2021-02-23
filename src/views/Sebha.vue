@@ -386,6 +386,7 @@
         IonSplitPane,
         alertController,
         menuController,
+        isPlatform,
     } from '@ionic/vue';
     import {
         colorPaletteOutline,
@@ -518,24 +519,22 @@
         }
 
         async loadConfig() {
+            const toSelect = isPlatform('hybrid')
+                ? 'sebhaAutoNext, sound, vibration, hardKeys, touch'
+                : 'sebhaAutoNext, sound, keyboard';
             const res = (
                 await (await db())
                     .createQueryBuilder(UserEntity, 'user_set')
-                    .select(
-                        'sebhaAutoNext, sound, vibration, hardKeys, touch, keyboard'
-                    )
+                    .select(toSelect)
                     .execute()
             )[0] as User;
 
-            // TODO check for platform first
             this.config.autoNext = res.sebhaAutoNext;
             this.config.sound = res.sound;
             this.config.vibration = res.vibration;
             this.config.hardKeys = res.hardKeys;
             this.config.touch = res.touch;
             this.config.keyboard = res.keyboard;
-
-            console.log(res);
 
             if (this.config.sound) {
                 await sound.addFile(
