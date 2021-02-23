@@ -250,6 +250,7 @@
     import { CategoryEntity } from '@/schema/CategoryEntity';
     import { ZikrEntity } from '@/schema/ZikrEntity';
     import { Controls, loadConfigrations } from '@/common/ControlConfig';
+    import { Vibration } from '@ionic-native/vibration';
 
     const { Modals, Share, Clipboard, Storage } = Plugins;
 
@@ -658,6 +659,10 @@
             openDirect = false,
             slide = false
         ) {
+            if (this.config.vibration) {
+                Vibration.vibrate(300);
+            }
+
             this.readed++;
 
             if (count === 0 && !slide) {
