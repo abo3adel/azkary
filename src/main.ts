@@ -37,7 +37,7 @@ import { User, UserEntity } from './schema/UserEntity';
 
 const { Storage } = Plugins;
 
-const app = createApp(App)
+let app = createApp(App)
     .use(IonicVue)
     .use(router)
     .use(i18n);
@@ -48,23 +48,30 @@ router.isReady().then(async () => {
     }
     // const { value } = await Storage.get({ key: 'firstDone' });
     // if (!value || value === 'undefined') {
-        await loader.show();
-        const user = (
-            await (await db())
-                .createQueryBuilder(UserEntity, 'user_ent')
-                .select('dark, lang, fontSize, fontType, theme, azkarCount')
-                .execute()
-        )[0];
-        // @ts-ignore
-        await Storage.set({ key: 'dark', value: user?.dark });
+    await loader.show();
+    const user = (
+        await (await db())
+            .createQueryBuilder(UserEntity, 'user_ent')
+            .select('dark, lang, fontSize, fontType, theme, azkarCount')
+            .execute()
+    )[0];
+    // @ts-ignore
+    // await Storage.set({ key: 'dark', value: user?.dark });
 
-        await Storage.set({ key: 'lang', value: user?.lang as string });
-        await Storage.set({ key: 'fontSize', value: `${user?.fontSize}` });
-        await Storage.set({ key: 'fontType', value: user?.fontType as string });
-        await Storage.set({ key: 'theme', value: user?.theme as string });
+    // await Storage.set({ key: 'lang', value: user?.lang as string });
+    // await Storage.set({ key: 'fontSize', value: `${user?.fontSize}` });
+    // await Storage.set({ key: 'fontType', value: user?.fontType as string });
+    // await Storage.set({ key: 'theme', value: user?.theme as string });
 
-        // await Storage.set({ key: 'firstDone', value: 'yes' });
+    Storage.set({ key: 'firstDone', value: 'yes' });
     // }
+
+    app = app
+        .provide('lang', user.lang ?? 'ar')
+        .provide('dark', user.dark)
+        .provide('fontSize', user.fontSize)
+        .provide('fontType', user.fontType)
+        .provide('theme', user.theme);
 
     app.mount('#app');
     await loader.hide();

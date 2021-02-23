@@ -147,6 +147,8 @@
         }
 
         mounted() {
+            console.log(this.$i18n.locale);
+            
             this.isHybird = isPlatform('hybrid');
             this.loadControls();
         }

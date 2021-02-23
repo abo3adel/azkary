@@ -33,8 +33,8 @@
                     <ion-item>
                         <ion-range
                             min=".9"
-                            max="1.9"
-                            step=".1"
+                            max="1.3"
+                            step=".05"
                             color="primary"
                             :value="fontSize"
                             :key="fontSize"
