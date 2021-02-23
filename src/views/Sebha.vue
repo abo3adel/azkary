@@ -893,9 +893,9 @@
 
             if (busy || (await menuController.isOpen().then((r) => r))) return;
 
-            // handle esc buttton
+            // handle r char button
             // will reset current
-            if (ev.keyCode === 27) {
+            if (ev.keyCode === 82) {
                 this.resetSebha();
                 return;
             } else if (ev.keyCode === 46) {
