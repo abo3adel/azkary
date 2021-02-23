@@ -16,7 +16,7 @@
                     </ion-button>
                 </ion-buttons>
                 <ion-buttons slot="end">
-                    <ion-button color="primary" href="/settings" replace>
+                    <ion-button color="primary" @click="$router.replace('/settings')">
                         settings
                     </ion-button>
                 </ion-buttons>

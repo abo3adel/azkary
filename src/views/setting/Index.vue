@@ -1,16 +1,13 @@
 <template>
     <ion-page>
-        <ion-toolbar color="primary" class="haveBg">
+        <ion-toolbar color="primary">
             <ion-buttons slot="start">
                 <ion-menu-button></ion-menu-button>
             </ion-buttons>
-            <ion-title
-                ><ion-icon :icon="cogOutline" class="ml-2 text-2xl" />
-                {{ $t('setup.title') }}</ion-title
-            >
+            <ion-title> {{ $t('setup.title') }}</ion-title>
             <ion-buttons slot="end">
                 <ion-button @click.prevent="goTo('/tabs/home')">
-                    <ion-icon :icon="homeOutline" />
+                    <ion-icon :icon="home" />
                 </ion-button>
             </ion-buttons>
         </ion-toolbar>
@@ -27,7 +24,10 @@
                 <ion-content :fullscreen="true">
                     <div class="h-full">
                         <ion-list>
-                            <ion-item @click.prevent="goTo('/settings/app')">
+                            <ion-item
+                                @click.prevent="goTo('/settings/app')"
+                                class="hover:cursor-pointer item"
+                            >
                                 <ion-label>{{
                                     $t('setup.list.app')
                                 }}</ion-label>
@@ -43,6 +43,7 @@
                             </ion-item>
                             <ion-item
                                 @click.prevent="goTo('/settings/control')"
+                                class="hover:cursor-pointer item"
                             >
                                 <ion-label>{{
                                     $t('setup.list.control')
@@ -57,7 +58,10 @@
                                     "
                                 />
                             </ion-item>
-                            <ion-item @click.prevent="goTo('/settings/azkar')">
+                            <ion-item
+                                @click.prevent="goTo('/settings/azkar')"
+                                class="hover:cursor-pointer item"
+                            >
                                 <ion-label>{{
                                     $t('setup.list.azkar')
                                 }}</ion-label>
@@ -71,7 +75,10 @@
                                     "
                                 />
                             </ion-item>
-                            <ion-item @click.prevent="goTo('/settings/sebha')">
+                            <ion-item
+                                @click.prevent="goTo('/settings/sebha')"
+                                class="hover:cursor-pointer item"
+                            >
                                 <ion-label>{{
                                     $t('setup.list.sebha')
                                 }}</ion-label>
@@ -110,13 +117,10 @@
         IonHeader,
         IonButtons,
         IonButton,
+        menuController,
     } from '@ionic/vue';
 
-    import {
-        chevronForwardOutline,
-        cogOutline,
-        homeOutline,
-    } from 'ionicons/icons';
+    import { chevronForwardOutline, cogOutline, home } from 'ionicons/icons';
 
     @Options({
         components: {
@@ -142,10 +146,11 @@
 
         chevronForwardOutline = chevronForwardOutline;
         cogOutline = cogOutline;
-        homeOutline = homeOutline;
+        home = home;
 
-        goTo(page: string) {
+        async goTo(page: string) {
             this.$router.replace(page);
+            await menuController.close();
         }
 
         beforeMount() {
@@ -157,3 +162,11 @@
         }
     }
 </script>
+<style lang="postcss" scoped>
+    ion-item.item:hover {
+        --background: rgb(203, 213, 225);
+    }
+    .theme-dark ion-item.item:hover {
+        --background: rgb(51, 65, 85);
+    }
+</style>
