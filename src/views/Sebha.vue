@@ -46,7 +46,7 @@
             <ion-content class="select-none" id="sebha-main-content">
                 <div
                     class="flex h-full text-white bg-fixed bg-center bg-no-repeat bg-cover main"
-                    @click.prevent="onClick()"
+                    @click.prevent="config.touch ? onClick() : null"
                 >
                     <div class="flex w-full h-full bg-black bg-opacity-20">
                         <div
@@ -409,6 +409,7 @@
     import SebhaMeta from '@/components/SebhaMeta.vue';
     import { SebhaEntity, Sebha as ISebha } from '@/schema/SebhaEntity';
     import { UserEntity, User } from '@/schema/UserEntity';
+    import {Vibration} from '@ionic-native/vibration';
 
     const { Storage } = Plugins;
 
@@ -507,12 +508,16 @@
                     .execute()
             )[0] as User;
 
+            // TODO check for platform first
             this.config.autoNext = res.sebhaAutoNext;
             this.config.sound = res.sound;
             this.config.vibration = res.vibration;
             this.config.hardKeys = res.hardKeys;
             this.config.touch = res.touch;
             this.config.keyboard = res.keyboard;
+
+            console.log(res);
+            
 
             this.loadOnEveryVisit();
         }
@@ -550,6 +555,9 @@
         }
 
         async onClick() {
+            // vibrate on click
+            if (this.config.vibration) Vibration.vibrate(300);
+
             this.sebha.current++;
 
             if (this.sebha.current >= this.sebha.max) {
