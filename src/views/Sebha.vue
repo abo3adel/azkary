@@ -477,6 +477,7 @@
             this.active = inx;
             this.updateProgress();
             await this.closeMenu();
+            await Storage.set({ key: 'sebha_active', value: `${inx}` });
         }
 
         async loadTasabeeh() {
@@ -486,7 +487,12 @@
                 .getRepository<Sebha>('sebha')
                 .find();
 
-            this.active = this.tasabeeh.length - 1;
+            // get active sebha index
+            this.active = parseInt(
+                (await Storage.get({ key: 'sebha_active' })).value ??
+                    `${this.tasabeeh.length - 1}`
+            );
+
             this.sebha = this.tasabeeh[this.active];
 
             this.bar?.set(this.sebha.current / this.sebha.max);
