@@ -222,8 +222,8 @@
     })
     export default class AppSettinges extends Vue {
         lang = 'ar';
-        fontSize = 1.1;
-        fontSizeVal = 1.1;
+        fontSize = 1;
+        fontSizeVal = 1;
         fontType = Fonts.Base;
         azkarFont = Fonts.Amiri;
         theme = ThemeColors[0]; // primary as defualt

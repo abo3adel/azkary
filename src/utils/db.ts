@@ -21,7 +21,7 @@ export default async function db(conName = APP_DB_NAME): Promise<Connection> {
     try {
         con = getConnection(conName);
     } catch (e) {
-        if (isPlatform('cordova')) {
+        if (isPlatform('hybrid')) {
             con = await createConnection({
                 name: conName,
                 type: 'cordova',
