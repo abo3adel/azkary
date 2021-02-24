@@ -139,8 +139,8 @@
     import toast from '@/utils/toast';
     import { DateTime } from 'luxon';
 
-    import { Plugins } from '@capacitor/core';
-    const { LocalNotifications } = Plugins;
+    import { Plugins, LocalNotificationActionPerformed } from '@capacitor/core';
+    const { LocalNotifications, Storage } = Plugins;
 
     @Options({
         components: {
@@ -228,6 +228,8 @@
             // console.log(all);
             // const a = await LocalNotifications.getAllScheduled();
             // console.log(a);
+            // const a = await Storage.get({ key: 'done' });
+            // console.log(a.value);
         }
 
         updateDateTime(ev: any) {
@@ -238,6 +240,23 @@
 
         mounted() {
             this.loadAzkarSet();
+
+            // TODO test on real device
+            // open azkar page if clicked
+            LocalNotifications.addListener(
+                'localNotificationActionPerformed',
+                async (ev: LocalNotificationActionPerformed) => {
+                    console.log(ev);
+                    
+                    if (parseInt(ev.actionId) === 1) {
+                        // morning
+                        this.$router.replace('/zikr/morning');
+                    } else if (parseInt(ev.actionId) === 2) {
+                        // night
+                        this.$router.replace('/zikr/night');
+                    }
+                }
+            );
         }
     }
 </script>
