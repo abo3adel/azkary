@@ -67,11 +67,11 @@ router.isReady().then(async () => {
     // }
 
     app = app
-        .provide('lang', user.lang ?? 'ar')
-        .provide('dark', user.dark)
-        .provide('fontSize', user.fontSize)
-        .provide('fontType', user.fontType)
-        .provide('theme', user.theme);
+        .provide('lang', user?.lang ?? 'ar')
+        .provide('dark', user?.dark ?? false)
+        .provide('fontSize', user?.fontSize ?? 1)
+        .provide('fontType', user?.fontType ?? 'Cairo')
+        .provide('theme', user?.theme ?? 'primary');
 
     app.mount('#app');
     await loader.hide();
