@@ -12,6 +12,8 @@ export const Controls = {
     keyboard: true,
 };
 
+export const CLICK_SOUND = '/assets/sound/zapsplat_click.mp3';
+
 export async function loadConfigrations(self: any): Promise<void> {
     const toSelect = isPlatform('hybrid')
         ? 'sebhaAutoNext, sound, vibration, hardKeys, touch'
@@ -31,7 +33,7 @@ export async function loadConfigrations(self: any): Promise<void> {
     self.config.keyboard = res.keyboard;
 
     if (self.config.sound) {
-        await sound.addFile('/assets/sound/zapsplat_click.mp3', 'click');
+        await sound.addFile(CLICK_SOUND, 'click');
     }
 
     return;

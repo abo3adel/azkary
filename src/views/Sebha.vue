@@ -410,12 +410,7 @@
     import { SebhaEntity, Sebha as ISebha } from '@/schema/SebhaEntity';
     import { Vibration } from '@ionic-native/vibration';
     import sound from '../utils/sound';
-    import {
-        Controls,
-        loadConfigrations,
-        CLICK_SOUND,
-        CLICK_SOUND_ID,
-    } from '../common/ControlConfig';
+    import { Controls, loadConfigrations } from '../common/ControlConfig';
 
     const { Storage } = Plugins;
 
@@ -446,12 +441,13 @@
         tasabeeh: Sebha[] = [];
         active = 0;
         sebha: ISebha = new Sebha();
-        theme = 'base';
+        theme = 'dev';
         svgHeight = 0;
         color = 'primary';
         locked = false;
         menuItemWidth = 0;
         config = Controls;
+        sound: any;
 
         colorPaletteOutline = colorPaletteOutline;
         colorFillOutline = colorFillOutline;
@@ -517,10 +513,6 @@
 
         async loadConfig() {
             await loadConfigrations(this);
-
-            if (this.config.sound) {
-                await sound.addFile(CLICK_SOUND, CLICK_SOUND_ID);
-            }
 
             this.loadOnEveryVisit();
         }

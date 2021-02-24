@@ -98,6 +98,9 @@
                             </ion-select>
                         </ion-item>
                     </ion-item-group>
+                    <ion-item color="primary">
+                        <ion-label @click="bend">bend</ion-label>
+                    </ion-item>
                 </ion-list>
             </div>
         </ion-content>
@@ -125,11 +128,6 @@
     import db from '@/utils/db';
     import toast from '@/utils/toast';
     import { DateTime } from 'luxon';
-
-    // import {
-    //     LocalNotifications as cordoveLN,
-    //     ELocalNotificationTriggerUnit,
-    // } from '@ionic-native/local-notifications';
 
     import { Plugins } from '@capacitor/core';
     const { LocalNotifications, Storage } = Plugins;
@@ -191,61 +189,43 @@
         }
 
         async saveNight(ev: { detail: { value: string } }) {
-            // LocalNotifications.schedule({
-            //     title: 'asdsadsad ' + Math.random(),
-            //     text: 'from ---- to',
-            //     trigger: { in: 2, unit: ELocalNotificationTriggerUnit.MINUTE },
-            //     actions: [
-            //         { id: 'yes', title: 'Yes' },
-            //         { id: 'no', title: 'No' },
-            //     ],
-            // });
-            // console.log(await LocalNotifications.getAll());
-            // if (this.night === ev.detail.value) return;
-            // await this.updateProp({ night: ev.detail.value });
-            const notifs = await LocalNotifications.schedule({
+            const dt = DateTime.fromISO(this.night);
+            console.log(dt.toFormat('hh:mm a'), dt.hour, dt.minute);
+
+            LocalNotifications.schedule({
                 notifications: [
                     {
-                        title: 'Title',
-                        body: 'Body' + Math.random(),
-                        id: Math.round(Math.random() * 200),
-                        schedule: { every: 'minute' },
-                        actionTypeId: '',
-                        extra: null,
+                        title: this.$t('app_name'),
+                        body: this.$t('azkar.night'),
+                        id: 55,
+                        schedule: {
+                            every: 'hour',
+                            on: {
+                                minute: dt.minute,
+                            },
+                            // count: 5,
+                        },
+                    },
+                    {
+                        title: this.$t('app_name'),
+                        body: this.$t('azkar.night2'),
+                        id: 550,
+                        schedule: {
+                            at: new Date(Date.now() + 1000 * 5),
+                            every: 'day',
+                            on: {
+                                hour: dt.hour,
+                                minute: dt.minute,
+                            },
+                            // count: 5,
+                        },
                     },
                 ],
             });
-            console.log('scheduled notifications', notifs);
-            const pend = await LocalNotifications.getPending();
-            console.log(pend);
+        }
 
-            // console.log(await LocalNotifications.cancel(pend));
-
-            LocalNotifications.addListener(
-                'localNotificationReceived',
-                async (ev: any) => {
-                    console.log('kjgghjghjg bnvghf');
-
-                    console.log(ev);
-                    await Storage.set({
-                        key: 'notified',
-                        value: JSON.stringify(ev),
-                    });
-                }
-            );
-
-            LocalNotifications.addListener(
-                'localNotificationActionPerformed',
-                async (ev: any) => {
-                    console.log('kjgghjghjg bnvghf');
-
-                    console.log(ev);
-                    await Storage.set({
-                        key: 'notified2',
-                        value: JSON.stringify(ev),
-                    });
-                }
-            );
+        async bend() {
+            console.log(await LocalNotifications.getPending());
         }
 
         updateDateTime(ev: any) {
