@@ -15,7 +15,7 @@ export const Controls = {
 export async function loadConfigrations(self: any): Promise<void> {
     const toSelect = isPlatform('hybrid')
         ? 'sebhaAutoNext, sound, vibration, hardKeys, touch'
-        : 'sebhaAutoNext, sound, keyboard';
+        : 'sebhaAutoNext, sound, keyboard, touch';
     const res = (
         await (await db())
             .createQueryBuilder(UserEntity, 'user_set')
