@@ -6,7 +6,8 @@ import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.Plugin;
 
 import java.util.ArrayList;
-import com.getcapacitor.community.audio.nativeaudio.NativeAudio;
+
+import com.getcapacitor.community.audio.NativeAudio;
 
 public class MainActivity extends BridgeActivity {
   @Override
