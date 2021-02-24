@@ -75,7 +75,7 @@ export const UserEntity = new EntitySchema<User>({
         fontSize: {
             type: Number,
             unsigned: true,
-            default: 1.1,
+            default: 1,
         },
         fontType: {
             type: String,

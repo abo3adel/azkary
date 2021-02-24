@@ -5,6 +5,7 @@
                 ? `--ion-color-primary: var(--ion-color-${color});--ion-color-primary-contrast: var(--ion-color-${color}-contrast)`
                 : ''
         "
+        id="sebhaPage"
     >
         <ion-toolbar color="primary">
             <ion-buttons slot="start">
@@ -906,7 +907,9 @@
                 const node = document.createElement('style');
                 node.innerHTML = `.main{background-image: url('${r.value ??
                     DEFUALT_BG}')}`;
-                document.documentElement.appendChild(node);
+                (document.documentElement.querySelector(
+                    '#sebhaPage'
+                ) as HTMLDivElement).appendChild(node);
             });
             // set theme
             Storage.get({ key: 'sebha_theme' }).then(
