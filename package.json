@@ -12,7 +12,6 @@
     "test": "vue-cli-service test:unit --maxWorkers=1 --detectOpenHandles --colors"
   },
   "dependencies": {
-    "@capacitor-community/sqlite": "^2.9.9",
     "@capacitor/android": "^2.4.6",
     "@capacitor/core": "2.4.6",
     "@ionic-native/core": "^5.31.1",

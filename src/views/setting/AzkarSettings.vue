@@ -49,7 +49,11 @@
                                 :done-text="$t('zikr.del.okBtn')"
                                 v-model="morning"
                                 @ionChange="
-                                    updateProp({ morning: $event.detail.value })
+                                    addNotification(
+                                        1,
+                                        this.$t('azkar.morningTime'),
+                                        $event.detail.value
+                                    )
                                 "
                             />
                         </ion-item>
@@ -65,7 +69,13 @@
                                 :cancel-text="$t('zikr.del.cancelBtn')"
                                 :done-text="$t('zikr.del.okBtn')"
                                 v-model="night"
-                                @ionChange="saveNight"
+                                @ionChange="
+                                    addNotification(
+                                        2,
+                                        this.$t('azkar.nightTime'),
+                                        $event.detail.value
+                                    )
+                                "
                             />
                         </ion-item>
                     </ion-item-group>
@@ -130,7 +140,7 @@
     import { DateTime } from 'luxon';
 
     import { Plugins } from '@capacitor/core';
-    const { LocalNotifications, Storage } = Plugins;
+    const { LocalNotifications } = Plugins;
 
     @Options({
         components: {
@@ -188,36 +198,25 @@
             toast(this.$t('setup.restart'));
         }
 
-        async saveNight(ev: { detail: { value: string } }) {
-            const dt = DateTime.fromISO(this.night);
-            console.log(dt.toFormat('hh:mm a'), dt.hour, dt.minute);
+        async addNotification(id: number, body: string, iso: string) {
+            const dt = DateTime.fromISO(iso);
 
-            LocalNotifications.schedule({
+            // delete old
+            await LocalNotifications.cancel({
+                notifications: [{ id: `${id}` }],
+            });
+
+            await LocalNotifications.schedule({
                 notifications: [
                     {
-                        title: this.$t('app_name'),
-                        body: this.$t('azkar.night'),
-                        id: 55,
+                        id,
+                        title: this.$t('app.name'),
+                        body,
                         schedule: {
-                            every: 'hour',
-                            on: {
-                                minute: dt.minute,
-                            },
-                            // count: 5,
-                        },
-                    },
-                    {
-                        title: this.$t('app_name'),
-                        body: this.$t('azkar.night2'),
-                        id: 550,
-                        schedule: {
-                            at: new Date(Date.now() + 1000 * 5),
-                            every: 'day',
                             on: {
                                 hour: dt.hour,
                                 minute: dt.minute,
                             },
-                            // count: 5,
                         },
                     },
                 ],
@@ -225,7 +224,10 @@
         }
 
         async bend() {
-            console.log(await LocalNotifications.getPending());
+            // const all = await LocalNotifications.getAll();
+            // console.log(all);
+            // const a = await LocalNotifications.getAllScheduled();
+            // console.log(a);
         }
 
         updateDateTime(ev: any) {
