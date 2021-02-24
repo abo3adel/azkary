@@ -104,7 +104,7 @@ export const UserEntity = new EntitySchema<User>({
         // control
         sound: {
             type: Boolean,
-            default: true,
+            default: false,
         },
         vibration: {
             type: Boolean,
