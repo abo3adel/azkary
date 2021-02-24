@@ -143,11 +143,11 @@
                 .execute();
 
             await loader.hide();
-            toast(this.$t('setup.restart'));
+            // toast(this.$t('setup.restart'));
         }
 
         mounted() {
-            console.log(this.$i18n.locale);
+            // console.log(this.$i18n.locale);
             
             this.isHybird = isPlatform('hybrid');
             this.loadControls();

@@ -410,7 +410,12 @@
     import { SebhaEntity, Sebha as ISebha } from '@/schema/SebhaEntity';
     import { Vibration } from '@ionic-native/vibration';
     import sound from '../utils/sound';
-    import { Controls, loadConfigrations } from '../common/ControlConfig';
+    import {
+        Controls,
+        loadConfigrations,
+        CLICK_SOUND,
+        CLICK_SOUND_ID,
+    } from '../common/ControlConfig';
 
     const { Storage } = Plugins;
 
@@ -512,6 +517,10 @@
 
         async loadConfig() {
             await loadConfigrations(this);
+
+            if (this.config.sound) {
+                await sound.addFile(CLICK_SOUND, CLICK_SOUND_ID);
+            }
 
             this.loadOnEveryVisit();
         }
