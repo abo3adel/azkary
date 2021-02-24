@@ -616,7 +616,7 @@
          */
         async toggleColor() {
             const colors = [
-                'primary',
+                'primary-fall',
                 'secondary',
                 'success',
                 'danger',
