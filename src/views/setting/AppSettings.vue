@@ -16,7 +16,7 @@
                         }"
                         v-model="lang"
                         :placeholder="$t('setup.azkar.lang')"
-                        @ionChange="updateProp({ lang })"
+                        @ionChange="updateProp({ lang }, true)"
                     >
                         <ion-select-option value="ar">
                             العربية
@@ -55,18 +55,21 @@
 
                 <ion-item-group>
                     <ion-item-divider>
-                        <ion-label>{{ $t('setup.app.ftype') }}</ion-label>
+                        <ion-label>{{ $t('setup.app.font') }}</ion-label>
                     </ion-item-divider>
                     <ion-item>
+                        <ion-label>{{ $t('setup.app.ftype') }}</ion-label>
                         <ion-select
                             :interface-options="{
                                 cssClass: 'fontType ion-alert',
                             }"
                             v-model="fontType"
+                            slot="end"
                             :ok-text="$t('sebha.del.okBtn')"
                             :cancel-text="$t('sebha.del.cancelBtn')"
                             :placeholder="$t('setup.app.ftype')"
                             :style="`font-family: '${fontType}'`"
+                            @ionChange="updateProp({ fontType })"
                         >
                             <ion-select-option
                                 v-for="f in fontTypes"
@@ -77,32 +80,21 @@
                                 سبحان الله
                             </ion-select-option>
                         </ion-select>
-                        <ion-buttons slot="end">
-                            <ion-button
-                                color="primary"
-                                @click.prevent="updateProp({ fontType })"
-                                fill="solid"
-                            >
-                                {{ $t('setup.app.save') }}
-                            </ion-button>
-                        </ion-buttons>
                     </ion-item>
-                </ion-item-group>
 
-                <ion-item-group>
-                    <ion-item-divider>
-                        <ion-label>{{ $t('setup.app.azkarFont') }}</ion-label>
-                    </ion-item-divider>
                     <ion-item>
+                        <ion-label>{{ $t('setup.app.azkarFont') }}</ion-label>
                         <ion-select
                             :interface-options="{
                                 cssClass: 'fontType ion-alert',
                             }"
                             v-model="azkarFont"
+                            slot="end"
                             :ok-text="$t('sebha.del.okBtn')"
                             :cancel-text="$t('sebha.del.cancelBtn')"
                             :placeholder="$t('setup.app.ftype')"
                             :style="`font-family: '${azkarFont}'`"
+                            @ionChange="updateProp({ azkarFont })"
                         >
                             <ion-select-option
                                 v-for="f in azkarFonts"
@@ -113,15 +105,6 @@
                                 ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ
                             </ion-select-option>
                         </ion-select>
-                        <ion-buttons slot="end">
-                            <ion-button
-                                color="primary"
-                                @click.prevent="updateProp({ azkarFont })"
-                                fill="solid"
-                            >
-                                {{ $t('setup.app.save') }}
-                            </ion-button>
-                        </ion-buttons>
                     </ion-item>
                 </ion-item-group>
 
@@ -130,7 +113,9 @@
                         <ion-label>{{ $t('setup.app.look') }}</ion-label>
                     </ion-item-divider>
                     <ion-item>
+                        <ion-label>{{ $t('setup.app.color') }}</ion-label>
                         <ion-select
+                            slot="end"
                             v-model="theme"
                             :interface-options="{
                                 cssClass: 'fontType ion-alert',
@@ -141,6 +126,7 @@
                             :style="
                                 `background-color: var(--ion-color-${theme})`
                             "
+                            @ionChange="updateProp({ theme })"
                         >
                             <ion-select-option
                                 v-for="c in colors"
@@ -150,15 +136,6 @@
                             >
                             </ion-select-option>
                         </ion-select>
-                        <ion-buttons slot="end">
-                            <ion-button
-                                color="primary"
-                                @click.prevent="updateProp({ theme })"
-                                fill="solid"
-                            >
-                                {{ $t('setup.app.save') }}
-                            </ion-button>
-                        </ion-buttons>
                     </ion-item>
 
                     <ion-item>
@@ -202,6 +179,7 @@
     import { UserEntity, Fonts } from '@/schema/UserEntity';
     import db from '@/utils/db';
     import toast from '@/utils/toast';
+    import { setStyles } from '@/common/styleApp';
 
     export const FontTypes = [
         Fonts.Base,
@@ -214,7 +192,7 @@
 
     export const ThemeColors = [
         // order by variables.css
-        'primary',
+        'primary-fall',
         'secondary',
         'tertiary',
         'success',
@@ -275,7 +253,7 @@
             await loader.hide();
         }
 
-        async updateProp(prop: object) {
+        async updateProp(prop: object, restart = false) {
             await loader.show();
 
             await (await db())
@@ -285,7 +263,23 @@
                 .execute();
 
             await loader.hide();
-            toast(this.$t('setup.restart'));
+
+            if (restart) {
+                toast(this.$t('setup.restart'));
+                return;
+            }
+
+            setStyles(this.theme, this.fontType, `${this.fontSize}`);
+
+            // @ts-ignore
+            if (typeof prop.dark === 'undefined') return;
+
+            // @ts-ignore
+            if (prop.dark) {
+                document.documentElement.classList.add('theme-dark');
+                return;
+            }
+            document.documentElement.classList.remove('theme-dark');
         }
 
         async setFontSize() {
@@ -329,8 +323,8 @@
         }
 
         /* color picker */
-        .primary {
-            background: var(--ion-color-primary);
+        .primary-fall {
+            background: var(--ion-color-primary-fall);
         }
         .secondary {
             background: var(--ion-color-secondary);
