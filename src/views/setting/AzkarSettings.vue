@@ -12,7 +12,7 @@
                         </ion-label>
                         <ion-toggle
                             @ionChange="
-                                updateProp({ enabled: $event.detail.checked })
+                                updateProp({ enabled: $event.detail.checked });enabled = $event.detail.checked;
                             "
                             :checked="enabled"
                             color="primary"
@@ -52,7 +52,8 @@
                                     addNotification(
                                         1,
                                         this.$t('azkar.morningTime'),
-                                        $event.detail.value
+                                        $event.detail.value,
+                                        'morning'
                                     )
                                 "
                             />
@@ -73,7 +74,8 @@
                                     addNotification(
                                         2,
                                         this.$t('azkar.nightTime'),
-                                        $event.detail.value
+                                        $event.detail.value,
+                                        'night'
                                     )
                                 "
                             />
@@ -192,8 +194,8 @@
             await loader.hide();
         }
 
-        async updateProp(prop: object) {
-            await loader.show();
+        async updateProp(prop: object, spinner = true) {
+            if (spinner) await loader.show();
 
             await (await db())
                 .createQueryBuilder(UserEntity, 'user_set')
@@ -201,7 +203,7 @@
                 .set(prop)
                 .execute();
 
-            await loader.hide();
+            if (spinner) await loader.hide();
         }
 
         checkIsEnabled(): boolean {
@@ -210,10 +212,15 @@
             return true;
         }
 
-        async addNotification(id: number, body: string, iso: string) {
+        async addNotification(id: number, body: string, iso: string, prop: string) {
             if (this.checkIsEnabled()) return;
 
+            await loader.show();
+
             const dt = DateTime.fromISO(iso);
+
+            // save to db
+            await this.updateProp({[prop]: iso}, false);
 
             // delete old
             await LocalNotifications.cancel({
@@ -235,6 +242,8 @@
                     },
                 ],
             });
+
+            await loader.hide();
         }
 
         async setNotifyCount(val: number) {
