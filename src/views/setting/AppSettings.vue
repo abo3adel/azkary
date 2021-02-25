@@ -16,7 +16,7 @@
                         }"
                         v-model="lang"
                         :placeholder="$t('setup.azkar.lang')"
-                        @ionChange="updateProp({ lang }, true)"
+                        @ionChange="updateProp({ lang })"
                     >
                         <ion-select-option value="ar">
                             العربية

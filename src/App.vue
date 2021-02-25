@@ -10,7 +10,7 @@
     import 'reflect-metadata';
     import { setStyles } from '@/common/styleApp';
     import { Plugins } from '@capacitor/core';
-import loader from './utils/loader';
+    import loader from './utils/loader';
     const { StatusBar } = Plugins;
 
     export const COLORES = [
@@ -32,7 +32,7 @@ import loader from './utils/loader';
         inject: ['lang', 'dark', 'fontSize', 'fontType', 'theme'],
         async mounted() {
             await loader.show();
-            
+
             // @ts-ignore
             this.$i18n.locale = this.lang;
 
