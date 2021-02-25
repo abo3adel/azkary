@@ -22,6 +22,11 @@
             this.$i18n.locale = this.lang;
 
             // @ts-ignore
+            if (this.lang === 'ar') {
+                document.documentElement.dir = 'rtl';
+            }
+
+            // @ts-ignore
             if (this.dark) {
                 document.documentElement.classList.add('theme-dark');
             }
