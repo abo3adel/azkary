@@ -107,7 +107,10 @@
                 </ion-buttons>
             </ion-toolbar>
         </ion-header>
-        <ion-content :fullscreen="true">
+        <ion-content
+            :fullscreen="true"
+            :style="`font-family: '${azkarFont}', 'AmiriQuranColored';${azkarFont === 'AmiriQuranColored' ? '    line-height: 2.8rem' : ''};`"
+        >
             <ion-reorder-group
                 @ionItemReorder="doReorder($event)"
                 :disabled="!reorder"
@@ -251,6 +254,7 @@
     import { ZikrEntity } from '@/schema/ZikrEntity';
     import { Controls, loadConfigrations } from '@/common/ControlConfig';
     import { Vibration } from '@ionic-native/vibration';
+    import { Fonts } from '@/schema/UserEntity';
 
     const { Modals, Share, Clipboard, Storage } = Plugins;
 
@@ -300,6 +304,7 @@
         readed = 0;
         modal!: HTMLIonModalElement;
         config = Controls;
+        azkarFont: string = Fonts.Amiri;
 
         addOutline = addOutline;
         colorPaletteOutline = colorPaletteOutline;
@@ -332,7 +337,8 @@
         }
 
         async loadConfig() {
-            await loadConfigrations(this);
+            const res = await loadConfigrations(this, ', azkarFont');
+            this.azkarFont = res.azkarFont;
 
             if (this.config.keyboard) {
                 document.addEventListener('keyup', this.keyboardEvents);

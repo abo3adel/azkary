@@ -14,10 +14,10 @@ export const Controls = {
 
 export const CLICK_SOUND = '/assets/sound/zapsplat_click.mp3';
 
-export async function loadConfigrations(self: any): Promise<void> {
+export async function loadConfigrations(self: any, addToSelect = ''): Promise<User> {
     const toSelect = isPlatform('hybrid')
-        ? 'sebhaAutoNext, sound, vibration, hardKeys, touch'
-        : 'sebhaAutoNext, sound, keyboard, touch';
+        ? 'sebhaAutoNext, sound, vibration, hardKeys, touch' + addToSelect
+        : 'sebhaAutoNext, sound, keyboard, touch' + addToSelect;
     const res = (
         await (await db())
             .createQueryBuilder(UserEntity, 'user_set')
@@ -36,5 +36,5 @@ export async function loadConfigrations(self: any): Promise<void> {
         await sound.addFile(CLICK_SOUND, 'click');
     }
 
-    return;
+    return res;
 }
