@@ -82,11 +82,15 @@
                     <ion-item-group>
                         <ion-item-divider>
                             <ion-label>{{
-                                $t('setup.azkar.notifyCount')
+                                $t('setup.azkar.notifyAzkar')
                             }}</ion-label>
                         </ion-item-divider>
                         <ion-item>
+                            <ion-label>{{
+                                $t('setup.azkar.countDay')
+                            }}</ion-label>
                             <ion-select
+                                slot="end"
                                 interface="popover"
                                 :interface-options="{
                                     cssClass: 'fontType ion-alert',
@@ -94,11 +98,12 @@
                                 v-model="notifyCount"
                                 :cancel-text="$t('zikr.del.cancelBtn')"
                                 :ok-text="$t('zikr.del.okBtn')"
-                                :placeholder="$t('setup.azkar.perDay')"
+                                :placeholder="notifyCount"
+                                @ionChange="setNotifyCount($event.detail.value)"
                             >
                                 <ion-select-option
                                     v-for="f in Array(24)
-                                        .fill(0)
+                                        .fill(1)
                                         .map((x, i) => (x += i))"
                                     :key="f"
                                     :value="f"
@@ -108,9 +113,6 @@
                             </ion-select>
                         </ion-item>
                     </ion-item-group>
-                    <ion-item color="primary">
-                        <ion-label @click="bend">bend</ion-label>
-                    </ion-item>
                 </ion-list>
             </div>
         </ion-content>
@@ -134,13 +136,18 @@
         IonSelectOption,
     } from '@ionic/vue';
     import loader from '@/utils/loader';
-    import { UserEntity } from '@/schema/UserEntity';
+    import { UserEntity, User } from '@/schema/UserEntity';
     import db from '@/utils/db';
     import toast from '@/utils/toast';
     import { DateTime } from 'luxon';
 
-    import { Plugins, LocalNotificationActionPerformed } from '@capacitor/core';
-    const { LocalNotifications, Storage } = Plugins;
+    import {
+        Plugins,
+        LocalNotificationActionPerformed,
+        LocalNotification,
+    } from '@capacitor/core';
+    import { NotifyZikrEntity, NotifyZikr } from '@/schema/NotifyZikrEntity';
+    const { LocalNotifications } = Plugins;
 
     @Options({
         components: {
@@ -195,10 +202,17 @@
                 .execute();
 
             await loader.hide();
-            toast(this.$t('setup.restart'));
+        }
+
+        checkIsEnabled(): boolean {
+            if (this.enabled) return false;
+            toast(this.$t('setup.azkar.notEnabled'));
+            return true;
         }
 
         async addNotification(id: number, body: string, iso: string) {
+            if (this.checkIsEnabled()) return;
+
             const dt = DateTime.fromISO(iso);
 
             // delete old
@@ -223,13 +237,56 @@
             });
         }
 
-        async bend() {
-            // const all = await LocalNotifications.getAll();
-            // console.log(all);
-            // const a = await LocalNotifications.getAllScheduled();
-            // console.log(a);
-            // const a = await Storage.get({ key: 'done' });
-            // console.log(a.value);
+        async setNotifyCount(val: number) {
+            if (this.checkIsEnabled()) return;
+
+            await loader.show();
+            await this.updateProp({ notifyCount: val });
+
+            // delete old
+            // all notification azkar ids is more than 100
+            const old = (await LocalNotifications.getPending()).notifications;
+            await LocalNotifications.cancel({
+                notifications: old.filter((x) => parseInt(x.id) > 10),
+            });
+
+            const azkar = (await (await db())
+                .createQueryBuilder<NotifyZikr>(
+                    NotifyZikrEntity,
+                    'azkar_notify'
+                )
+                .select('body')
+                .where({ notifiable: true })
+                .orderBy('RANDOM()')
+                .limit(val)
+                .execute()) as NotifyZikr[];
+
+            const notifications: LocalNotification[] = [];
+            const appName = this.$t('app.name');
+            const at = 24 / val;
+
+            for (let x = 0; x < val; x++) {
+                let azkarInx = x < azkar.length - 1 ? x : 0;
+                const dt = DateTime.now()
+                    .set({ hour: 12 })
+                    .plus({ hours: at * x });
+                notifications.push({
+                    // more than 100 is azkar notifications
+                    id: Math.round(Math.random() * 1000) + x,
+                    title: appName,
+                    body: azkar[azkarInx].body,
+                    schedule: {
+                        on: {
+                            day: dt.day,
+                            hour: dt.hour,
+                        },
+                    },
+                });
+                azkarInx++;
+            }
+
+            await LocalNotifications.schedule({ notifications });
+            await loader.hide();
         }
 
         updateDateTime(ev: any) {
@@ -247,7 +304,7 @@
                 'localNotificationActionPerformed',
                 async (ev: LocalNotificationActionPerformed) => {
                     console.log(ev);
-                    
+
                     if (parseInt(ev.actionId) === 1) {
                         // morning
                         this.$router.replace('/zikr/morning');
