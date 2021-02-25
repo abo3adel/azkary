@@ -528,6 +528,8 @@
             } else {
                 document.removeEventListener('keyup', this.keyboardEv);
             }
+
+            this.toggleTheme(false);
         }
 
         setMenuItemWidth() {
@@ -600,8 +602,10 @@
         /**
          * toggle the avaliable two thems
          */
-        async toggleTheme() {
-            this.theme = this.theme === 'dev' ? 'base' : 'dev';
+        async toggleTheme(toggle = true) {
+            if (toggle) {
+                this.theme = this.theme === 'dev' ? 'base' : 'dev';
+            }
 
             if (this.theme === 'base') {
                 if (!this.bar) this.setSebhaProgress();
