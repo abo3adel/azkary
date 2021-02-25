@@ -14,13 +14,13 @@
     const { StatusBar } = Plugins;
 
     export const COLORES = [
-        { id: 'primary-fall', color: '#2655a8' },
-        { id: 'secondary', color: '#2985af' },
-        { id: 'tertiary', color: '#2d37a3' },
-        { id: 'success', color: '#1d8f4a' },
-        { id: 'warning', color: '#9e7e16' },
-        { id: 'danger', color: '#962534' },
-        { id: 'gold', color: '#916c10' },
+        { id: 'primary-fall', color: '#2655a8', lighter: '#3880ff' },
+        { id: 'secondary', color: '#2985af', lighter: '#3dc2ff' },
+        { id: 'tertiary', color: '#2d37a3', lighter: '#5260ff' },
+        { id: 'success', color: '#1d8f4a' , lighter: '#2dd36f'},
+        { id: 'warning', color: '#9e7e16' , lighter: '#ffc409'},
+        { id: 'danger', color: '#962534' , lighter: '#eb445a'},
+        { id: 'gold', color: '#916c10' , lighter: '#daa520'},
     ];
 
     export default defineComponent({

@@ -51,15 +51,19 @@
                 >
                     <div class="flex w-full h-full bg-black bg-opacity-20">
                         <div
-                            class="relative m-auto font-semibold"
+                            class="relative m-auto overflow-hidden w-80 h-80"
                             v-show="theme === 'base'"
                         >
-                            <div
-                                id="progress-conatainer"
-                                class="releative"
-                            ></div>
-                            <sebha-meta :sebha="sebha" />
+                            <Progress
+                                id="baseSebha"
+                                :color="barColor"
+                                ref="bar"
+                            >
+                                <!-- <sebha-meta :sebha="sebha" /> -->
+                                <span>{{ sebha.current }}/{{ sebha.max }}</span>
+                            </Progress>
                         </div>
+
                         <div
                             class="relative m-auto overflow-hidden border rounded-full w-80 h-80 border-primary-400"
                             v-show="theme === 'dev'"
@@ -298,7 +302,7 @@
                 </div>
                 <ion-fab
                     vertical="top"
-                    horizontal="end"
+                    horizontal="start"
                     slot="fixed"
                     @click.prevent="resetSebha"
                     v-if="!locked"
@@ -309,7 +313,7 @@
                 </ion-fab>
                 <ion-fab
                     vertical="top"
-                    horizontal="start"
+                    horizontal="end"
                     slot="fixed"
                     @click.prevent="remove"
                     v-if="!locked"
@@ -398,8 +402,6 @@
         lockClosedOutline,
         menuOutline,
     } from 'ionicons/icons';
-    // @ts-ignore
-    import ProgressBar from 'progressbar.js/dist/progressbar';
     import { Plugins, Modals } from '@capacitor/core';
 
     import { Sebha } from '@/entities/Sebha';
@@ -412,6 +414,10 @@
     import { Vibration } from '@ionic-native/vibration';
     import sound from '../utils/sound';
     import { Controls, loadConfigrations } from '../common/ControlConfig';
+    import Progress from '@/components/Progress.vue';
+    import { COLORES } from '@/App.vue';
+    // @ts-ignore
+    import emitter from 'tiny-emitter/instance';
 
     const { Storage } = Plugins;
 
@@ -435,16 +441,18 @@
             IonMenu,
             IonSplitPane,
             SebhaMeta,
+            Progress,
         },
     })
     export default class SebhaView extends Vue {
-        bar: any;
+        bar!: Progress;
         tasabeeh: Sebha[] = [];
         active = 0;
         sebha: ISebha = new Sebha();
         theme = 'dev';
         svgHeight = 0;
         color = 'primary';
+        barColor = COLORES[0].color;
         locked = false;
         menuItemWidth = 0;
         config = Controls;
@@ -490,7 +498,10 @@
 
             this.sebha = this.tasabeeh[this.active];
 
-            this.bar?.set(this.sebha.current / this.sebha.max);
+            setTimeout(
+                () => this.bar?.set(this.sebha.current / this.sebha.max),
+                100
+            );
             this.svgHeight = this.calcHeight() * this.sebha.current;
             busy = false;
 
@@ -586,7 +597,7 @@
                 this.svgHeight = -this.calcHeight();
             }
 
-            this.bar?.animate(this.sebha.current / this.sebha.max);
+            this.bar?.set(this.sebha.current / this.sebha.max);
 
             this.svgHeight += this.calcHeight();
 
@@ -608,8 +619,6 @@
             }
 
             if (this.theme === 'base') {
-                if (!this.bar) this.setSebhaProgress();
-
                 this.bar?.set(this.sebha.current / this.sebha.max);
             }
 
@@ -632,11 +641,12 @@
             ];
             let inx = colors.findIndex((x) => x === this.color) + 1;
 
-            if (inx > colors.length) {
+            if (inx >= colors.length) {
                 inx = 0;
             }
 
             this.color = colors[inx];
+            this.setBarColor();
 
             await Storage.set({ key: 'sebha_color', value: this.color });
         }
@@ -780,74 +790,12 @@
             // reset
             this.sebha.current = 0;
             this.updateProgress();
-            this.updateProgress();
             await loader.hide();
         }
 
         updateProgress() {
             this.svgHeight = this.calcHeight() * this.sebha.current;
-            this.bar?.animate(this.sebha.current / this.sebha.max, {
-                duration: 500,
-            });
-        }
-
-        /**
-         * iniate progress bar
-         */
-        setSebhaProgress() {
-            this.bar = new ProgressBar.Circle(
-                document.querySelector('#progress-conatainer'),
-                {
-                    color: 'var(--ion-color-primary)',
-                    strokeWidth: 4,
-                    trailWidth: 1,
-                    easing: 'easeInOut',
-                    trailColor: 'var(--ion-color-primary)',
-                    duration: 600,
-                    from: { color: '#e91e63', width: 2 },
-                    to: { color: '#23c92a', width: 5 },
-                    step: (state: any, circle: any) => {
-                        circle.path.setAttribute('stroke', state.color);
-                        circle.path.setAttribute('stroke-width', state.width);
-                        circle.setText('');
-                        // const value = Math.round(
-                        //     circle.value() * this.sebha.max ?? 10
-                        // );
-                        // const parent = document.querySelector(
-                        //     '.progressbar-text'
-                        // );
-                        // if (!parent) {
-                        //     circle.setText('');
-                        // }
-                        // let header = parent?.querySelector(
-                        //     '#body'
-                        // ) as HTMLDivElement;
-                        // let percent = parent?.querySelector(
-                        //     '#percent'
-                        // ) as HTMLDivElement;
-
-                        // if (!header) {
-                        //     header = document.createElement('div');
-                        //     header.id = 'body';
-                        //     parent?.appendChild(header);
-                        // }
-                        // if (!percent) {
-                        //     percent = document.createElement('div');
-                        //     percent.id = 'percent';
-                        //     parent?.appendChild(percent);
-                        // }
-
-                        // if (value === 0 || !this.sebha.max) {
-                        //     // circle.setText('');
-                        // } else {
-                        //     header.textContent = this.sebha.body;
-                        //     percent.textContent = `${value}/${this.sebha.max ??
-                        //         10}`;
-                        // }
-                    },
-                }
-            );
-            this.bar.text.style.fontSize = 'inherit'; // control with tailwind
+            this.bar?.set(this.sebha.current / this.sebha.max);
         }
 
         ionViewWillLeave() {
@@ -894,10 +842,18 @@
             this.onClick();
         }
 
+        setBarColor() {
+            this.barColor =
+                COLORES.find((x) => x.id === this.color)?.lighter ??
+                this.barColor;
+                console.log(this.barColor, this.color);
+                
+            emitter.emit('color-updated', this.barColor);
+        }
+
         mounted() {
-            if (this.theme !== 'dev') {
-                this.setSebhaProgress();
-            }
+            this.bar = this.$refs.bar as Progress;
+
             this.loadTasabeeh();
 
             // listen for volume keys
@@ -920,9 +876,10 @@
                 (r) => (this.theme = r.value ?? this.theme)
             );
             // set color
-            Storage.get({ key: 'sebha_color' }).then(
-                (r) => (this.color = r.value ?? this.color)
-            );
+            Storage.get({ key: 'sebha_color' }).then((r) => {
+                this.color = r.value ?? this.color;                
+                this.setBarColor();
+            });
         }
     }
 </script>

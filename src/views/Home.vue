@@ -16,7 +16,10 @@
                     </ion-button>
                 </ion-buttons>
                 <ion-buttons slot="end">
-                    <ion-button color="primary" @click="$router.replace('/settings')">
+                    <ion-button
+                        color="primary"
+                        @click="$router.replace('/settings')"
+                    >
                         settings
                     </ion-button>
                 </ion-buttons>
@@ -34,6 +37,18 @@
                 <ion-button color="success" fill="solid" @click="logData"
                     >show data</ion-button
                 >
+                <ion-button
+                    color="success"
+                    fill="solid"
+                    @click="draw(Math.random() * 100)"
+                    >draw</ion-button
+                >
+
+                <div class="relative w-40 h-40">
+                    <Progress id="someOfMe" ref='bar'>
+                        <span>asdasdasd</span>
+                    </Progress>
+                </div>
 
                 <ExploreContainer name="Home page" />
             </div>
@@ -61,9 +76,13 @@
     import db, { APP_DB_NAME } from '@/utils/db';
     import { CategoryEntity } from '@/schema/CategoryEntity';
     import { ZikrEntity } from '@/schema/ZikrEntity';
+    import Progress from '@/components/Progress.vue';
 
     import { Plugins } from '@capacitor/core';
-    const { Storage, StatusBar } = Plugins;
+    const { Storage } = Plugins;
+
+    // @ts-ignore
+    // import CPB from 'cyprobar'
 
     @Options({
         components: {
@@ -77,6 +96,7 @@
             IonInput,
             IonButtons,
             IonLabel,
+            Progress,
         },
     })
     export default class Home extends Vue {
@@ -107,12 +127,11 @@
 
             console.log(az);
 
-            let ev = await Storage.get({key: 'notified'});
+            let ev = await Storage.get({ key: 'notified' });
             console.log(ev.value);
 
-            ev = await Storage.get({key: 'notified2'});
+            ev = await Storage.get({ key: 'notified2' });
             console.log(ev.value);
-            
         }
 
         // async upload(ev: any) {
@@ -140,6 +159,17 @@
         //     console.log(contents);
         // }
 
+        draw(n = 0) {
+
+            (this.$refs.bar as Progress).set(.6)
+            // const shape = document.querySelector(
+            //     'circle.example-indicator'
+            // ) as HTMLDivElement;
+            // // shape.setAttribute('stroke-dashoffset', `${n}`);
+            // const strokeArr = parseInt(shape.style.strokeDasharray);
+            // shape.style.strokeDashoffset = `${(strokeArr - (.8 * strokeArr))}`;
+        }
+
         mounted() {
             // Storage.get({ key: 'img' }).then((r) => {
             //     const node = document.createElement('style');
@@ -147,11 +177,45 @@
             //     document.documentElement.appendChild(node);
             // });
             // StatusBar.setBackgroundColor({color: '#428cff'});
+            // @ts-ignore
+            // window.CPB.draw({
+            //     elementClass: 'example',
+            //     value: 0,
+            //     indicatorColor: 'useGradient',
+            //     indicatorCap: 'round',
+            //     // useText: true,
+            //     // setText: '',
+            //     barSize: 1,
+            //     setGradient: [
+            //         ['#a8e6ce', 0],
+            //         ['#dcedc2', 20],
+            //         ['#ffd385', 40],
+            //         ['#ffaaa6', 60],
+            //         ['#ff8c94', 80],
+            //     ],
+            // });
+            // const el = (document.querySelector('.example svg') as HTMLDivElement);
+            // el.removeAttribute('width')
+            // el.removeAttribute('height');
         }
     }
 </script>
 <style>
-    .myContent {
-        /* --background: red; */
+    circle.example-indicator {
+        /* calculate using: (2 * PI * R) */
+        /* stroke-dasharray: 227; */
+        /* stroke-dashoffset: 0; */
+        transition: all 0.5s;
+        /* animation-iteration-count: infinite; */
+        /* animation-name: rotate;
+            animation-duration: 2s;
+            animation-direction: alternate;
+            animation-timing-function: linear; */
+    }
+
+    @keyframes rotate {
+        to {
+            stroke-dashoffset: 500;
+        }
     }
 </style>
