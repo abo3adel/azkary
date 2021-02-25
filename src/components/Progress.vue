@@ -1,9 +1,10 @@
 <template>
     <div class="relative w-full h-full">
         <div :class="id"></div>
+        <slot></slot>
         <div class="absolute top-0 flex w-full h-full">
             <div class="m-auto">
-                <slot></slot>
+                <slot name="absolute"></slot>
             </div>
         </div>
     </div>

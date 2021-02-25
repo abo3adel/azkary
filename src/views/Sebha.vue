@@ -59,8 +59,7 @@
                                 :color="barColor"
                                 ref="bar"
                             >
-                                <!-- <sebha-meta :sebha="sebha" /> -->
-                                <span>{{ sebha.current }}/{{ sebha.max }}</span>
+                                <sebha-meta :sebha="sebha" />
                             </Progress>
                         </div>
 
@@ -846,8 +845,8 @@
             this.barColor =
                 COLORES.find((x) => x.id === this.color)?.lighter ??
                 this.barColor;
-                console.log(this.barColor, this.color);
-                
+            console.log(this.barColor, this.color);
+
             emitter.emit('color-updated', this.barColor);
         }
 
@@ -877,7 +876,7 @@
             );
             // set color
             Storage.get({ key: 'sebha_color' }).then((r) => {
-                this.color = r.value ?? this.color;                
+                this.color = r.value ?? this.color;
                 this.setBarColor();
             });
         }
