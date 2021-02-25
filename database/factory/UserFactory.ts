@@ -9,7 +9,7 @@ export class UserFactoryClass extends BaseFactory {
         // user.name = this.faker.name.findName();
         user.azkarCount = this.faker.random.number(1000);
         // user.fontSize = 1;
-        user.theme = this.faker.random.objectElement(UserTheme);
+        // user.theme = this.faker.random.objectElement(UserTheme);
         return user;
     }
 }

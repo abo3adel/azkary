@@ -63,7 +63,7 @@
     import { ZikrEntity } from '@/schema/ZikrEntity';
 
     import { Plugins } from '@capacitor/core';
-    const { Storage } = Plugins;
+    const { Storage, StatusBar } = Plugins;
 
     @Options({
         components: {
@@ -146,6 +146,7 @@
             //     node.innerHTML = `.myContent{background-image: url('${r.value}')}`;
             //     document.documentElement.appendChild(node);
             // });
+            // StatusBar.setBackgroundColor({color: '#428cff'});
         }
     }
 </script>

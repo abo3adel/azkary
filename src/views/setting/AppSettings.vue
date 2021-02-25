@@ -126,7 +126,7 @@
                             :style="
                                 `background-color: var(--ion-color-${theme})`
                             "
-                            @ionChange="updateProp({ theme })"
+                            @ionChange="setPRColor"
                         >
                             <ion-select-option
                                 v-for="c in colors"
@@ -174,12 +174,16 @@
         IonSelect,
         IonSelectOption,
         IonToggle,
+        isPlatform,
     } from '@ionic/vue';
     import loader from '@/utils/loader';
-    import { UserEntity, Fonts } from '@/schema/UserEntity';
+    import { UserEntity, Fonts, ThemeColors } from '@/schema/UserEntity';
     import db from '@/utils/db';
     import toast from '@/utils/toast';
     import { setStyles } from '@/common/styleApp';
+    import { Plugins } from '@capacitor/core';
+    import { COLORES } from '@/App.vue';
+    const { StatusBar } = Plugins;
 
     export const FontTypes = [
         Fonts.Base,
@@ -188,17 +192,6 @@
         Fonts.Tajawal,
         Fonts.Mirza,
         Fonts.Ruqaa,
-    ];
-
-    export const ThemeColors = [
-        // order by variables.css
-        'primary-fall',
-        'secondary',
-        'tertiary',
-        'success',
-        'warning',
-        'danger',
-        'gold',
     ];
 
     @Options({
@@ -285,6 +278,20 @@
         async setFontSize() {
             await this.updateProp({ fontSize: this.fontSizeVal });
             this.fontSize = this.fontSizeVal;
+        }
+
+        async setPRColor() {
+            await loader.show();
+
+            await this.updateProp({ theme: this.theme }, false);
+
+            if (!isPlatform('hybrid')) return await loader.hide();
+
+            await StatusBar.setBackgroundColor({
+                color: COLORES.filter((x) => x.id === this.theme)[0].color,
+            });
+
+            await loader.hide();
         }
 
         mounted() {

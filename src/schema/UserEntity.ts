@@ -15,6 +15,17 @@ export interface AzkarCount {
     Short: 5;
 }
 
+export const ThemeColors = [
+    // order by variables.css
+    'primary-fall',
+    'secondary',
+    'tertiary',
+    'success',
+    'warning',
+    'danger',
+    'gold',
+];
+
 export interface User {
     id: number;
     // user
@@ -25,7 +36,7 @@ export interface User {
     fontSize: number;
     fontType: Fonts | string;
     azkarFont: Fonts | string;
-    theme: UserTheme | string;
+    theme: string;
     dark: boolean;
 
     // sebha
@@ -87,8 +98,8 @@ export const UserEntity = new EntitySchema<User>({
         },
         theme: {
             type: String,
-            length: 30,
-            default: UserTheme.DevColored,
+            length: 10,
+            default: ThemeColors[0], // primary
         },
         dark: {
             type: Boolean,
