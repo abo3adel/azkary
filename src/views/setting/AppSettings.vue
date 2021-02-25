@@ -276,7 +276,7 @@
         }
 
         async setFontSize() {
-            await this.updateProp({ fontSize: this.fontSizeVal });
+            await this.updateProp({ fontSize: this.fontSizeVal }, true);
             this.fontSize = this.fontSizeVal;
         }
 
