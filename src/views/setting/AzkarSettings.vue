@@ -11,9 +11,7 @@
                             {{ $t('setup.azkar.enable') }}
                         </ion-label>
                         <ion-toggle
-                            @ionChange="
-                                updateProp({ enabled: $event.detail.checked });enabled = $event.detail.checked;
-                            "
+                            @ionChange="setEnabled($event.detail.checked)"
                             :checked="enabled"
                             color="primary"
                             :key="enabled + Math.random()"
@@ -194,6 +192,35 @@
             await loader.hide();
         }
 
+        async setEnabled(val: boolean) {
+            this.enabled = val;
+
+            await this.updateProp({ enabled: val }, false);
+
+            if (!this.enabled) {
+                // delete all scheduled notifications
+                return await LocalNotifications.cancel(
+                    await LocalNotifications.getPending()
+                );
+            }
+
+            // re schedule all azkar
+            await this.addNotification(
+                1,
+                this.$t('azkar.morningTime'),
+                this.morning,
+                'morning'
+            );
+            await this.addNotification(
+                2,
+                this.$t('azkar.nightTime'),
+                this.night,
+                'night'
+            );
+
+            await this.setNotifyCount(this.notifyCount);
+        }
+
         async updateProp(prop: object, spinner = true) {
             if (spinner) await loader.show();
 
@@ -212,7 +239,12 @@
             return true;
         }
 
-        async addNotification(id: number, body: string, iso: string, prop: string) {
+        async addNotification(
+            id: number,
+            body: string,
+            iso: string,
+            prop: string
+        ) {
             if (this.checkIsEnabled()) return;
 
             await loader.show();
@@ -220,7 +252,7 @@
             const dt = DateTime.fromISO(iso);
 
             // save to db
-            await this.updateProp({[prop]: iso}, false);
+            await this.updateProp({ [prop]: iso }, false);
 
             // delete old
             await LocalNotifications.cancel({
@@ -241,7 +273,7 @@
                         },
                     },
                 ],
-            });
+            });            
 
             await loader.hide();
         }

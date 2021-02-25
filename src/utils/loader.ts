@@ -25,9 +25,8 @@ export class Loader {
                 cssClass: 'ion-loader',
                 backdropDismiss: false,
             });
+            await this.loader.present();
         }
-
-        await this.loader.present();
 
         setTimeout(async () => {
             if (this.loader) {
