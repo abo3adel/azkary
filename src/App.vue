@@ -14,13 +14,13 @@ import loader from './utils/loader';
     const { StatusBar } = Plugins;
 
     export const COLORES = [
-        { id: 'primary', color: '#3880ff' },
-        { id: 'secondary', color: '#3dc2ff' },
-        { id: 'tertiary', color: '#5260ff' },
-        { id: 'success', color: '#2dd36f' },
-        { id: 'warning', color: '#ffc409' },
-        { id: 'danger', color: '#eb445a' },
-        { id: 'gold', color: '#daa520' },
+        { id: 'primary-fall', color: '#2655a8' },
+        { id: 'secondary', color: '#2985af' },
+        { id: 'tertiary', color: '#2d37a3' },
+        { id: 'success', color: '#1d8f4a' },
+        { id: 'warning', color: '#9e7e16' },
+        { id: 'danger', color: '#962534' },
+        { id: 'gold', color: '#916c10' },
     ];
 
     export default defineComponent({

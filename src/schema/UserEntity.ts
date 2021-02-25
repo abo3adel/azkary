@@ -10,11 +10,6 @@ export enum Fonts {
     Ruqaa = 'ArefRuqaa-Regular',
 }
 
-export interface AzkarCount {
-    Long: 32;
-    Short: 5;
-}
-
 export const ThemeColors = [
     // order by variables.css
     'primary-fall',
@@ -54,7 +49,7 @@ export interface User {
     enabled: boolean;
     morning: string;
     night: string;
-    notifyCount: AzkarCount;
+    notifyCount: number;
     autoHide: boolean; // desctop-only
 }
 
