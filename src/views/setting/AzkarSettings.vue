@@ -17,7 +17,7 @@
                             :key="enabled + Math.random()"
                         ></ion-toggle>
                     </ion-item>
-                    <ion-item>
+                    <!-- <ion-item>
                         <ion-label>
                             {{ $t('setup.azkar.autoHide') }}
                         </ion-label>
@@ -29,7 +29,7 @@
                             color="primary"
                             :key="autoHide + Math.random()"
                         ></ion-toggle>
-                    </ion-item>
+                    </ion-item> -->
                     <ion-item-group>
                         <ion-item-divider>
                             <ion-label>{{ $t('setup.azkar.times') }}</ion-label>
