@@ -21,7 +21,7 @@
             "
         >
             <div
-                class="relative w-1/2 overflow-hidden text-center border-r border-current ion-activatable ripple-parent hover:cursor-pointer"
+                class="relative w-1/2 overflow-hidden text-center border-r border-current rtl:border-l rtl:border-r-0 ion-activatable ripple-parent hover:cursor-pointer"
                 @click="
                     z.count--;
                     $emit('decree', z.count, z.id);
