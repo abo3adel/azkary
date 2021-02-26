@@ -241,6 +241,12 @@
     }
 </script>
 <style>
+    @media only screen and (max-width: 768px) and (orientation: portrait) {
+        .swiper-button-prev,
+        .swiper-button-next {
+            display: none !important;
+        }
+    }
     /**
  * Swiper 6.4.14
  * Most modern mobile touch slider and framework with hardware accelerated transitions

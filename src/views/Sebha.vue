@@ -665,7 +665,7 @@
 
             this.color = colors[inx];
             console.log(this.color);
-            
+
             this.setBarColor();
 
             await Storage.set({ key: 'sebha_color', value: this.color });
