@@ -2,7 +2,7 @@
     <ion-page
         :style="
             color !== 'primary'
-                ? `--ion-color-primary, #3880ff: var(--ion-color-${color});--ion-color-primary, #3880ff-contrast: var(--ion-color-${color}-contrast)`
+                ? `--ion-color-primary: var(--ion-color-${color});--ion-color-primary-contrast: var(--ion-color-${color}-contrast)`
                 : ''
         "
         id="sebhaPage"
@@ -664,6 +664,8 @@
             }
 
             this.color = colors[inx];
+            console.log(this.color);
+            
             this.setBarColor();
 
             await Storage.set({ key: 'sebha_color', value: this.color });
