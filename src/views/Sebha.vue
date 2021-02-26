@@ -44,12 +44,12 @@
             </ion-buttons>
         </ion-toolbar>
         <ion-split-pane content-id="sebha-main-content" class="mt-14">
-            <ion-content class="select-none" id="sebha-main-content">
+            <ion-content class="bg-center bg-no-repeat bg-cover select-none sebha-con" id="sebha-main-content">
                 <div
-                    class="flex h-full text-white bg-fixed bg-center bg-no-repeat bg-cover main"
+                    class="flex text-white bg-black main bg-opacity-20"
                     @click.prevent="config.touch ? onClick() : null"
                 >
-                    <div class="flex w-full h-full bg-black bg-opacity-20">
+                    <div class="flex w-full h-full">
                         <div
                             class="relative m-auto overflow-hidden w-80 h-80"
                             v-show="sebhaTheme === 'base'"
@@ -891,8 +891,8 @@
             // set backgroundImage
             Storage.get({ key: 'sebha_img' }).then((r) => {
                 const node = document.createElement('style');
-                node.innerHTML = `.main{background-image: url('${r.value ??
-                    DEFUALT_BG}')}`;
+                node.innerHTML = `ion-content.sebha-con{--background: url('${r.value ??
+                    DEFUALT_BG}') no-repeat}`;
                 (document.documentElement.querySelector(
                     '#sebhaPage'
                 ) as HTMLDivElement).appendChild(node);
@@ -976,6 +976,12 @@
     @keyframes wave {
         to {
             transform: translateX(-100%);
+        }
+    }
+
+    @media only screen and (max-width: 768px) and (orientation: portrait) {
+        .main {
+            height: 100%;
         }
     }
 </style>
