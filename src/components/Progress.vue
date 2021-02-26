@@ -60,13 +60,17 @@
                 this.svg = document.querySelector(
                     `.${this.id} svg`
                 ) as HTMLDivElement;
-                this.svg.removeAttribute('width');
-                this.svg.removeAttribute('height');
+                if (this.svg) {
+                    this.svg.removeAttribute('width');
+                    this.svg.removeAttribute('height');
+                }
 
                 this.shape = this.svg.querySelector(
                     `circle.${this.id}-indicator`
                 ) as HTMLDivElement;
-                this.shape.style.transition = 'all 0.3s ease';
+                if (this.shape) {
+                    this.shape.style.transition = 'all 0.3s ease';
+                }
             }, 100);
         }
 
