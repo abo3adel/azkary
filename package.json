@@ -40,6 +40,7 @@
     "sql.js": "^1.4.0",
     "swiper": "^6.4.14",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
+    "tailwindcss-multi-theme": "^1.0.4",
     "tiny-emitter": "^2.1.0",
     "typeorm": "^0.2.31",
     "volumebuttons": "git+https://github.com/manueldeveloper/cordova-plugin-volume-buttons.git",

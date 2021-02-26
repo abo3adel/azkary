@@ -37,7 +37,9 @@
     </div>
     <div class="flex flex-wrap w-full controls h-1/4">
         <div class="relative w-1/2 mx-auto text-sm text-center">
-            <div id="container" class="w-11/12 mx-auto releative"></div>
+            <div class="w-28 h-28">
+                <Progress id="showZikr" ref="showBar" :gradient="barColor" />
+            </div>
         </div>
         <div class="flex flex-wrap w-1/2 text-base">
             <div class="flex flex-col w-1/2 pl-1 text-left">
@@ -71,11 +73,10 @@
 
     // @ts-ignore
     import { Swiper, SwiperSlide } from 'swiper/vue';
+    import Progress from '@/components/Progress.vue';
+    import { COLORES } from '@/App.vue';
 
     SwiperCore.use([Navigation, Pagination, Virtual, Keyboard]);
-
-    // @ts-ignore
-    import ProgressBar from 'progressbar.js/dist/progressbar';
 
     class Props {
         azkar = prop<Zikr[]>({ required: true, default: [] });
@@ -86,7 +87,7 @@
     }
 
     @Options({
-        components: { Swiper, SwiperSlide },
+        components: { Swiper, SwiperSlide, Progress },
         emits: EmitsList,
         watch: {
             azkar: {
@@ -97,11 +98,14 @@
         },
     })
     export default class SideTheme extends Vue.with(Props) {
-        // azkarClone: { id: number; count: number }[] = [];
+        bar!: Progress;
         swiper: any;
         activeIndex = 0;
-        bar: any;
         zikr: Zikr = new Zikr();
+        barColor = [
+            ['#572c82', 0],
+            ['#49a09d', 50],
+        ];
 
         /**
          * set current viewable zikr item
@@ -122,7 +126,7 @@
             // if user clicked this item and did not finish count
             // then show current count on progress bar
             if (this.zikr.count > this.current.count) {
-                this.bar.animate(
+                this.bar.set(
                     (this.zikr.count - this.current.count) / this.zikr.count
                 );
                 return;
@@ -155,21 +159,18 @@
 
             // calculate progress next value
             // progress range 0 -> 1
-            // ex. 0.1 + 1/15 = 1.6 ~= 2
-            const val = this.bar.value() + 1 / this.zikr.count;
+            const val = this.current.count / this.zikr.count;
 
             if (Math.floor(val) >= zikr.count) {
                 // zikr item is at final count
-                this.bar.animate(1, {
-                    duration: 300,
-                });
+                this.bar.set(1);
 
-                // wait for progress to animate then slide
+                // wait for progress to set then slide
                 setTimeout(() => this.swiper.slideNext(), 305);
                 return;
             }
 
-            this.bar.animate(
+            this.bar.set(
                 (this.zikr.count - this.current.count) / this.zikr.count
             );
         }
@@ -178,39 +179,11 @@
          * iniate progress bar
          */
         setProgressBar() {
-            this.bar = new ProgressBar.Circle(
-                document.querySelector('#container'),
-                {
-                    color:
-                        this.theme === 'slide-colored'
-                            ? `var(--ion-color-${this.color})`
-                            : 'var(--ion-color-primary)',
-                    strokeWidth: 4,
-                    trailWidth: 1,
-                    easing: 'easeInOut',
-                    trailColor:
-                        this.theme === 'slide-colored'
-                            ? `var(--ion-color-${this.color})`
-                            : 'var(--ion-color-primary)',
-                    duration: 600,
-                    from: { color: '#e91e63', width: 2 },
-                    to: { color: '#28ba62', width: 7 },
-                    step: (state: any, circle: any) => {
-                        circle.path.setAttribute('stroke', state.color);
-                        circle.path.setAttribute('stroke-width', state.width);
-                        const value = Math.round(
-                            circle.value() * this.zikr?.count ?? 1
-                        );
-                        if (value === 0) {
-                            circle.setText('');
-                        } else {
-                            circle.setText(`${value}/${this.zikr?.count ?? 1}`);
-                        }
-                    },
-                }
-            );
-            this.bar.svg.style.height = '7rem'; // responsive
-            this.bar.text.style.fontSize = 'inherit'; // control with tailwind
+            this.bar = this.$refs.showBar as Progress;
+
+            const baseColor = COLORES.find((x) => x.id === this.color)?.lighter ?? 'red';
+            this.barColor[1] = [baseColor, 50];
+            this.bar.init('', this.barColor);
         }
 
         opts() {
@@ -236,30 +209,30 @@
                 this.zikr = Object.assign({}, this.azkar[0]);
             }
 
-            this.bar.animate(
+            this.bar.set(
                 (this.zikr.count - this.current.count) / this.zikr.count
             );
         }
 
         clickEvent(ev: any) {
             ev.preventDefault();
-            
+
             if (!this.keyboard) {
                 document.removeEventListener('keydown', this.clickEvent);
                 return;
             }
-            
+
             if (ev.keyCode === 32) {
                 // space button
-                
+
                 this.current.count--;
                 this.onClicked(this.current);
             }
         }
 
-        addKeyboardEvents() {            
+        addKeyboardEvents() {
             if (this.keyboard) {
-                document.addEventListener('keydown', this.clickEvent);
+                // document.addEventListener('keydown', this.clickEvent);
                 return;
             }
             document.removeEventListener('keydown', this.clickEvent);
@@ -282,6 +255,8 @@
             });
 
             this.addKeyboardEvents();
+
+            this.zikr = Object.assign({}, this.azkar[0]);
         }
     }
 </script>

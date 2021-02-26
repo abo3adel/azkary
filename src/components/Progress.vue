@@ -18,7 +18,7 @@
         id = prop<string>({ default: `progress${Math.random()}` });
         color = prop<string>({ default: '#000' });
         bg = prop<string>({ default: '#00000024' });
-        gradient = prop<string[]>({ default: [] });
+        gradient = prop<(string | number)[][]>({ default: [] });
     }
 
     @Options({})
@@ -36,7 +36,11 @@
             this.shape.style.strokeDashoffset = `${strokeArr - n * strokeArr}`;
         }
 
-        init(color = this.color) {
+        getVal(): number {
+            return this.value;
+        }
+
+        init(color = this.color, gradient = this.gradient) {
             // @ts-ignore
             window.CPB.draw({
                 elementClass: this.id,
@@ -47,8 +51,8 @@
                 barSize: 1,
                 useText: true,
                 setText: '',
-                setGradient: this.gradient,
-                useGradient: this.gradient.length
+                setGradient: gradient,
+                useGradient: this.gradient.length,
             });
 
             setTimeout(() => {
