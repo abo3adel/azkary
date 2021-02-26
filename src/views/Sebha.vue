@@ -540,6 +540,21 @@
                 document.removeEventListener('keyup', this.keyboardEv);
             }
 
+            // listen for volume keys
+            if (this.config.hardKeys) {
+                // @ts-ignore
+                window.addEventListener(
+                    'volumebuttonslistener',
+                    this.addHardKeysEv
+                );
+            } else {
+                // @ts-ignore
+                window.removeEventListener(
+                    'volumebuttonslistener',
+                    this.addHardKeysEv
+                );
+            }
+
             this.togglesebhaTheme(false);
         }
 
@@ -565,7 +580,7 @@
 
         async onClick() {
             // vibrate on click
-            if (this.config.vibration) Vibration.vibrate(300);
+            if (this.config.vibration) Vibration.vibrate(30);
 
             // play sound on click
             if (this.config.sound) sound.play('click');
@@ -803,6 +818,12 @@
 
         ionViewWillLeave() {
             document.removeEventListener('keyup', this.keyboardEv);
+
+            // @ts-ignore
+            window.removeEventListener(
+                'volumebuttonslistener',
+                this.addHardKeysEv
+            );
         }
 
         ionViewWillEnter() {
@@ -849,22 +870,19 @@
             // @ts-ignore
             const color = this.color === 'primary' ? this.theme : this.color;
             this.barColor =
-                COLORES.find((x) => x.id === color)?.lighter ??
-                this.barColor;
+                COLORES.find((x) => x.id === color)?.lighter ?? this.barColor;
 
             emitter.emit('color-updated', this.barColor);
+        }
+
+        addHardKeysEv(add = true) {
+            this.onClick();
         }
 
         mounted() {
             this.bar = this.$refs.bar as Progress;
 
             this.loadTasabeeh();
-
-            // listen for volume keys
-            window.addEventListener('volumebuttonslistener', () => {
-                // TODO test this on real device
-                this.onClick();
-            });
 
             // set backgroundImage
             Storage.get({ key: 'sebha_img' }).then((r) => {

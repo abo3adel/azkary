@@ -680,7 +680,7 @@
             slide = false
         ) {
             if (this.config.vibration) {
-                Vibration.vibrate(300);
+                Vibration.vibrate(30);
             }
 
             this.readed++;
