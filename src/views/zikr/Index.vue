@@ -29,18 +29,20 @@
                         :router-link="`/zikr/${cat.slug}`"
                         size="large"
                     >
-                        <span class="absolute left-0">
+                        <ion-label class="w-full text-left rtl:text-right">
                             {{ $t(`zikr.cat.${cat.slug}`) }}
-                        </span>
+                        </ion-label>
                         <ion-icon
                             v-if="icons[inx].type === 'svg'"
                             :src="`/assets/icons/${icons[inx].name}.svg`"
-                            class="absolute right-0 text-4xl"
+                            class="text-5xl"
+                            slot="end"
                         ></ion-icon>
                         <ion-icon
                             v-else
                             :icon="icons[inx].name"
-                            class="absolute right-0 text-4xl"
+                            class="text-5xl"
+                            slot="end"
                         ></ion-icon>
                     </ion-button>
                 </div>
@@ -64,6 +66,7 @@
         IonButton,
         IonRippleEffect,
         IonIcon,
+        IonLabel,
     } from '@ionic/vue';
     import getCategoryIcon, { CategoryIcon } from '@/utils/getCategoryIcon';
     import { CategoryEntity } from '@/schema/CategoryEntity';
@@ -81,6 +84,7 @@
             IonButton,
             IonRippleEffect,
             IonIcon,
+            IonLabel,
         },
     })
     export default class ZikrIndex extends Vue {

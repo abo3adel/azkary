@@ -13,19 +13,19 @@
             </ion-buttons>
             <ion-buttons slot="end">
                 <ion-button color="light" @click="add">
-                    <ion-icon :icon="addOutline" />
+                    <ion-icon slot='start' :icon="addOutline" />
                     <ion-label class="hidden sm:inline-block">
                         {{ $t('sebha.add') }}
                     </ion-label>
                 </ion-button>
                 <ion-button color="light" @click.prevent="togglesebhaTheme">
-                    <ion-icon :icon="colorPaletteOutline" />
+                    <ion-icon slot='start' :icon="colorPaletteOutline" />
                     <ion-label class="hidden sm:inline-block">
                         {{ $t('sebha.sebhaTheme') }}
                     </ion-label>
                 </ion-button>
                 <ion-button color="light" @click="toggleColor">
-                    <ion-icon :icon="colorFillOutline" />
+                    <ion-icon slot='start' :icon="colorFillOutline" />
                     <ion-label class="hidden sm:inline-block">
                         {{ $t('sebha.color') }}
                     </ion-label>
@@ -35,8 +35,8 @@
                     @click="locked = !locked"
                     class="mx-auto"
                 >
-                    <ion-icon :icon="lockOpenOutline" v-if="!locked" />
-                    <ion-icon :icon="lockClosedOutline" v-else />
+                    <ion-icon slot='start' :icon="lockOpenOutline" v-if="!locked" />
+                    <ion-icon slot='start' :icon="lockClosedOutline" v-else />
                     <ion-label class="hidden sm:inline-block">
                         {{ $t('sebha.lock') }}
                     </ion-label>
@@ -307,7 +307,7 @@
                     v-if="!locked"
                 >
                     <ion-fab-button>
-                        <ion-icon :icon="closeOutline" />
+                        <ion-icon slot='start' :icon="closeOutline" />
                     </ion-fab-button>
                 </ion-fab>
                 <ion-fab
@@ -318,7 +318,7 @@
                     v-if="!locked"
                 >
                     <ion-fab-button>
-                        <ion-icon :icon="trashBinOutline" />
+                        <ion-icon slot='start' :icon="trashBinOutline" />
                     </ion-fab-button>
                 </ion-fab>
             </ion-content>

@@ -81,7 +81,9 @@
             <div
                 class="flex flex-wrap p-2 text-center border border-gray-500 rounded-lg shadow-2xl"
             >
-                <div class="w-1/2 font-semibold border-r border-gray-500">
+                <div
+                    class="w-1/2 font-semibold border-r border-gray-500 rtl:border-l rtl:border-r-0"
+                >
                     {{ $t('zikr.stats.added') }}
                 </div>
                 <div class="w-1/2 text-lg font-bold">{{ count }}+</div>
@@ -89,7 +91,9 @@
             <div
                 class="flex flex-wrap p-2 my-5 text-center border border-gray-500 rounded-lg shadow-2xl"
             >
-                <div class="w-1/2 font-semibold border-r border-gray-500">
+                <div
+                    class="w-1/2 font-semibold border-r border-gray-500 rtl:border-l rtl:border-r-0"
+                >
                     {{ $t('zikr.stats.total') }}
                 </div>
                 <div

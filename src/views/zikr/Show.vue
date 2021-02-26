@@ -38,7 +38,7 @@
                         @click="toggleReorder()"
                         v-if="theme.indexOf('slide') < 0"
                     >
-                        <ion-icon :icon="reorderFourOutline"></ion-icon>
+                        <ion-icon slot='start' :icon="reorderFourOutline" />
                         <span class="hidden sm:inline-block">
                             {{ $t('zikr.show.reorder') }}
                         </span>
@@ -51,7 +51,7 @@
                         "
                         @click="add()"
                     >
-                        <ion-icon :icon="addOutline"></ion-icon>
+                        <ion-icon :icon="addOutline" slot='start' />
                         <span class="hidden sm:inline-block">
                             {{ $t('zikr.show.add') }}
                         </span>
@@ -64,7 +64,7 @@
                         "
                         @click="themeToggle()"
                     >
-                        <ion-icon :icon="colorPaletteOutline"></ion-icon>
+                        <ion-icon :icon="colorPaletteOutline" slot='start' />
                         <span class="hidden sm:inline-block">
                             {{ $t('zikr.show.brush') }}
                         </span>
@@ -102,7 +102,7 @@
                         @click.prevent="slideCog()"
                         v-if="theme.indexOf('slide') > -1"
                     >
-                        <ion-icon :icon="cogOutline"></ion-icon>
+                        <ion-icon :icon="cogOutline" slot='start' />
                         <span class="hidden sm:inline-block">
                             {{ $t('zikr.show.slideCog') }}
                         </span>
@@ -308,7 +308,7 @@
         oldOrder: Zikr[] = [];
         // will hold basic (initial) count for this item
         azkarClone: { id: number; count: number }[] = [];
-        theme: UserTheme | string = UserTheme.DevColored;
+        theme: UserTheme | string = UserTheme.SlideColored;
         fontSize = 1.1;
         totalCount = 0;
         readed = 0;
