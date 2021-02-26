@@ -4,7 +4,7 @@
             class="relative shadow-sm select-none header h-2/5"
             :style="
                 meta.color.length
-                    ? `background: linear-gradient(60deg, var(--ion-color-primary) 0%, var(--ion-color-${meta.color}) 100% );`
+                    ? `background: linear-gradient(60deg, var(--ion-color-primary, #3880ff) 0%, var(--ion-color-${meta.color}, #2dd36f) 100% );`
                     : ''
             "
         >
@@ -126,15 +126,10 @@
         chevronBackOutline,
     } from 'ionicons/icons';
     import { defineComponent } from 'vue';
-    import { Plugins } from '@capacitor/core';
-    import { getConnection } from 'typeorm';
-    import { User } from '@/entities/User';
     // @ts-ignore
     import emitter from 'tiny-emitter/instance';
     import { UserEntity } from '@/schema/UserEntity';
     import db from '@/utils/db';
-
-    const { Storage } = Plugins;
 
     export default defineComponent({
         name: 'ZikrStats',
@@ -250,8 +245,8 @@
     .header {
         background: linear-gradient(
             60deg,
-            var(--ion-color-primary) 0%,
-            var(--ion-color-danger) 100%
+            var(--ion-color-primary, #3880ff) 0%,
+            var(--ion-color-danger, #eb445a) 100%
         );
     }
     .waves {
