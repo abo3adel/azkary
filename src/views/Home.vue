@@ -12,10 +12,13 @@
             <ion-header collapse="condense">
                 <ion-title>Home</ion-title>
             </ion-header>
-            <ion-toolbar style="--background: transparent;">
+            <ion-toolbar :color="bg">
                 <ion-buttons slot="start">
-                    <ion-button color="primary">
-                        <ion-icon :icon="informationOutline" slot="start" />
+                    <ion-button color="light">
+                        <ion-icon
+                            :icon="informationCircleOutline"
+                            slot="start"
+                        />
                         <ion-label class="hidden sm:inline-block"
                             >about</ion-label
                         >
@@ -23,7 +26,7 @@
                 </ion-buttons>
                 <ion-buttons slot="end">
                     <ion-button
-                        color="primary"
+                        color="light"
                         @click.prevent="$router.replace('/settings')"
                     >
                         <ion-icon :icon="cogOutline" slot="start" />
@@ -33,8 +36,17 @@
                     </ion-button>
                 </ion-buttons>
             </ion-toolbar>
-            <div class="h-full">
-                <!--  -->
+            <div
+                class="pb-8"
+                :style="`background-color: var(--ion-color-${bg})`"
+            >
+                <h1
+                    style="font-family: 'ArefRuqaa-Regular';"
+                    class="text-6xl text-center text-white"
+                >
+                    أذكارى
+                </h1>
+                <p class="pt-2 text-center text-gray-200" style="font-family: 'ArefRuqaa-Regular';">عطر فمك بذكر الله</p>
             </div>
         </ion-content>
     </ion-page>
@@ -55,7 +67,7 @@
         // isPlatform,
     } from '@ionic/vue';
     import { Options, Vue } from 'vue-class-component';
-    import { cogOutline, informationOutline } from 'ionicons/icons';
+    import { cogOutline, informationCircleOutline } from 'ionicons/icons';
     import getHijirDate from '@/common/getHijirDate';
 
     // import { Plugins } from '@capacitor/core';
@@ -78,13 +90,19 @@
     })
     export default class Home extends Vue {
         hijir = '';
+        bg = 'gold';
 
         cogOutline = cogOutline;
-        informationOutline = informationOutline;
+        informationCircleOutline = informationCircleOutline;
 
         async mounted() {
             // @ts-ignore
             this.hijir = getHijirDate(this.lang);
+            console.log(new Date().getHours());
+
+            if (new Date().getHours() > 12) {
+                this.bg = 'tertiary';
+            }
         }
     }
 </script>
