@@ -3,6 +3,9 @@
         <ion-header>
             <ion-toolbar color="primary" class="haveBg">
                 <ion-title>Home</ion-title>
+                <ion-label slot="end" class="mx-1">
+                    {{ hijir }}
+                </ion-label>
             </ion-toolbar>
         </ion-header>
         <ion-content>
@@ -13,7 +16,9 @@
                 <ion-buttons slot="start">
                     <ion-button color="primary">
                         <ion-icon :icon="informationOutline" slot="start" />
-                        <ion-label class="hidden sm:inline-block">about</ion-label>
+                        <ion-label class="hidden sm:inline-block"
+                            >about</ion-label
+                        >
                     </ion-button>
                 </ion-buttons>
                 <ion-buttons slot="end">
@@ -21,8 +26,10 @@
                         color="primary"
                         @click.prevent="$router.replace('/settings')"
                     >
-                        <ion-icon :icon="cogOutline" slot='start' />
-                        <ion-label class="hidden sm:inline-block">settings</ion-label>
+                        <ion-icon :icon="cogOutline" slot="start" />
+                        <ion-label class="hidden sm:inline-block"
+                            >settings</ion-label
+                        >
                     </ion-button>
                 </ion-buttons>
             </ion-toolbar>
@@ -49,6 +56,7 @@
     } from '@ionic/vue';
     import { Options, Vue } from 'vue-class-component';
     import { cogOutline, informationOutline } from 'ionicons/icons';
+    import getHijirDate from '@/common/getHijirDate';
 
     // import { Plugins } from '@capacitor/core';
     // const { Storage } = Plugins;
@@ -66,13 +74,17 @@
             IonLabel,
             IonIcon,
         },
+        inject: ['lang'],
     })
     export default class Home extends Vue {
+        hijir = '';
+
         cogOutline = cogOutline;
         informationOutline = informationOutline;
 
-        mounted() {
-            //
+        async mounted() {
+            // @ts-ignore
+            this.hijir = getHijirDate(this.lang);
         }
     }
 </script>
