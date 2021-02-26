@@ -292,4 +292,10 @@
             min-height: 40px;
         }
     }
+
+    @media screen and (max-width: 768px) and (orientation: landscape) {
+        .pt-10 {
+            padding-top: 0 !important;
+        }
+    }
 </style>
