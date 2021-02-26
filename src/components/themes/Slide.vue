@@ -8,7 +8,7 @@
         "
     >
         <swiper
-            class="h-full text-center"
+            class="h-full text-center swiper"
             :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
             navigation
             virtual
@@ -181,7 +181,8 @@
         setProgressBar() {
             this.bar = this.$refs.showBar as Progress;
 
-            const baseColor = COLORES.find((x) => x.id === this.color)?.lighter ?? 'red';
+            const baseColor =
+                COLORES.find((x) => x.id === this.color)?.lighter ?? 'red';
             this.barColor[1] = [baseColor, 50];
             this.bar.init('', this.barColor);
         }
@@ -214,30 +215,6 @@
             );
         }
 
-        clickEvent(ev: any) {
-            ev.preventDefault();
-
-            if (!this.keyboard) {
-                document.removeEventListener('keydown', this.clickEvent);
-                return;
-            }
-
-            if (ev.keyCode === 32) {
-                // space button
-
-                this.current.count--;
-                this.onClicked(this.current);
-            }
-        }
-
-        addKeyboardEvents() {
-            if (this.keyboard) {
-                // document.addEventListener('keydown', this.clickEvent);
-                return;
-            }
-            document.removeEventListener('keydown', this.clickEvent);
-        }
-
         /**
          * reset zikr item count
          */
@@ -254,7 +231,10 @@
                 this.opts();
             });
 
-            this.addKeyboardEvents();
+            emitter.on('space-clicked', () => {
+                this.current.count--;
+                this.onClicked(this.current);
+            });
 
             this.zikr = Object.assign({}, this.azkar[0]);
         }

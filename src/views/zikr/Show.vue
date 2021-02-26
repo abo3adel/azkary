@@ -109,7 +109,13 @@
         </ion-header>
         <ion-content
             :fullscreen="true"
-            :style="`font-family: '${azkarFont}', 'AmiriQuranColored';${azkarFont === 'AmiriQuranColored' ? '    line-height: 2.8rem' : ''};`"
+            :style="
+                `font-family: '${azkarFont}', 'AmiriQuranColored';${
+                    azkarFont === 'AmiriQuranColored'
+                        ? '    line-height: 2.8rem'
+                        : ''
+                };`
+            "
         >
             <ion-reorder-group
                 @ionItemReorder="doReorder($event)"
@@ -374,6 +380,10 @@
                 // _ or - symbol buttn
                 this.fontDecrese();
                 return;
+            } else if (ev.keyCode === 32) {
+                // space button
+
+                emitter.emit('space-clicked');
             }
         }
 
