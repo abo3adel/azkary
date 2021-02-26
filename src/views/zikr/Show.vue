@@ -7,6 +7,7 @@
                         <ion-icon
                             slot="icon-only"
                             :icon="arrowBackOutline"
+                            class="rtl:transform rtl:rotate-180"
                         ></ion-icon>
                     </ion-button>
                 </ion-buttons>
@@ -16,12 +17,14 @@
                 <ion-icon
                     v-if="meta.type === 'svg'"
                     :src="`/assets/icons/${meta.name}.svg`"
-                    class="absolute right-0 text-5xl top-2"
+                    class="absolute text-5xl top-1"
+                    :style="lang === 'ar' ? 'left: 0' : 'right: 0'"
                 ></ion-icon>
                 <ion-icon
                     v-else
                     :icon="meta.name"
-                    class="absolute right-0 text-5xl top-2"
+                    class="absolute text-5xl top-1"
+                    :style="lang === 'ar' ? 'left: 0' : 'right: 0'"
                 ></ion-icon>
             </ion-toolbar>
             <ion-toolbar color="light">
@@ -296,6 +299,7 @@
             IonFab,
             IonSlides,
         },
+        inject: ['lang'],
     })
     export default class Show extends Vue {
         category: Category = new Category();

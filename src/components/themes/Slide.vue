@@ -42,11 +42,11 @@
             </div>
         </div>
         <div class="flex flex-wrap w-1/2 text-base">
-            <div class="flex flex-col w-1/2 pl-1 text-left">
+            <div class="flex flex-col w-1/2 pl-1 text-left rtl:text-right">
                 <span class="text-lg">{{ $t('zikr.count') }}</span>
                 <span class="text-xl font-semibold">{{ current.count }}</span>
             </div>
-            <div class="w-1/2 pr-1 text-base text-right">
+            <div class="w-1/2 pr-1 text-base text-right rtl:text-left">
                 <span class="text-3xl font-semibold">{{
                     activeIndex + 1
                 }}</span>

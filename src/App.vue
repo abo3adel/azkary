@@ -39,6 +39,7 @@
             // @ts-ignore
             if (this.lang === 'ar') {
                 document.documentElement.dir = 'rtl';
+                document.documentElement.classList.add('theme-rtl');
             }
 
             // @ts-ignore

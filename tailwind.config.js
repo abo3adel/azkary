@@ -4,6 +4,7 @@ module.exports = {
     purge: ['src/**/*.vue', 'public/**/*.html', 'src/**/*.ts'],
     darkMode: 'class', // or 'media' or 'class'
     theme: {
+        themeVariants: ['rtl'],
         extend: {
             colors: {
                 primary: {
@@ -50,7 +51,10 @@ module.exports = {
             opacity: ['responsive', 'hover', 'focus', 'disabled'],
             outline: ['hover', 'focus', 'disabled'],
             textColor: ['hover', 'disabled', 'group-hover'],
+            textAlign: ['rtl'],
+            transform: ['rtl'],
+            rotate: ['rtl'],
         },
     },
-    plugins: [],
+    plugins: [require('tailwindcss-multi-theme')],
 };
