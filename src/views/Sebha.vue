@@ -331,7 +331,7 @@
                     <ion-title>{{ $t('sebha.menu.title') }}</ion-title>
                 </ion-toolbar>
                 <ion-content :fullscreen="true" class="select-none">
-                    <div class="ion-padding">
+                    <div class="p-1">
                         <div
                             class="relative my-3 overflow-hidden transition-colors duration-500 rounded-md shadow-2xl card hover:cursor-pointer hover:bg-primary-600 hover:text-color"
                             :class="{
@@ -342,7 +342,7 @@
                             @click.prevent="setSebha(s, sinx)"
                         >
                             <div
-                                class="w-full px-2 bg-primary-600 rounded-tr-md rounded-tl-md text-color"
+                                class="w-full px-2 py-1 bg-primary-600 rounded-tr-md rounded-tl-md text-color"
                             >
                                 {{ s.body }}
                             </div>
@@ -356,15 +356,17 @@
                                 <div class="w-full text-center">
                                     {{ $t('sebha.total') }}: {{ s.readed }}
                                 </div>
-                                <div
-                                    class="absolute w-0 h-full transition-all duration-500 bg-primary-600"
-                                    :style="
-                                        `z-index: -1;width: ${(menuItemWidth /
-                                            s.max) *
-                                            s.current}px`
-                                    "
-                                ></div>
                             </div>
+                            <div
+                                class="absolute bottom-0 w-0 h-2 transition-all duration-500 rounded-sm bg-primary-600"
+                                :style="
+                                    `z-index: -1;width: ${(menuItemWidth /
+                                        s.max) *
+                                        s.current}px;
+                                    background: linear-gradient(90deg, rgba(255,255,255,0.3) 50%, var(--ion-color-primary) 50%, rgba(0,0,0,0) 0), var(--ion-color-primary);
+                                    background-size:1rem auto;`
+                                "
+                            ></div>
                         </div>
                     </div>
                 </ion-content>
@@ -499,8 +501,8 @@
             this.sebha = this.tasabeeh[this.active];
 
             setTimeout(
-                () => this.bar?.set(this.sebha.current / this.sebha.max),
-                100
+                () => this.bar.set(this.sebha.current / this.sebha.max),
+                50
             );
             this.svgHeight = this.calcHeight() * this.sebha.current;
             busy = false;
@@ -600,12 +602,12 @@
                 // updated readed value
                 this.sebha.readed++;
 
-                if (this.config.autoNext) {
-                    await this.selectNext();
-                }
-
                 // reset
                 this.sebha.current = 0;
+                if (this.config.autoNext) {
+                    return await this.selectNext();
+                }
+
                 this.updateProgress();
                 // will be incremented below
                 // then set after increment to zero

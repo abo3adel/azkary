@@ -41,6 +41,10 @@
         }
 
         init(color = this.color, gradient = this.gradient) {
+            const el = document.querySelector(`.${this.id}`) as HTMLDivElement;
+
+            if (!el) return;
+
             // @ts-ignore
             window.CPB.draw({
                 elementClass: this.id,
