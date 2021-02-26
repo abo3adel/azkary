@@ -54,6 +54,7 @@ module.exports = {
             textAlign: ['rtl'],
             transform: ['rtl'],
             rotate: ['rtl'],
+            borderWidth: ['rtl'],
         },
     },
     plugins: [require('tailwindcss-multi-theme')],
