@@ -178,3 +178,11 @@
         }
     }
 </script>
+<style scoped>
+    .segment-button-checked ion-label {
+        background-color: var(--ion-color-primary, #3880ff);
+        color: var(--ion-color-primary-contrast, #ffffff);
+        padding: 0.5rem;
+        border-radius: 6px;
+    }
+</style>
