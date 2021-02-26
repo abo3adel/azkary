@@ -20,7 +20,7 @@
                 <div
                     v-for="(cat, inx) in categories"
                     :key="cat.id"
-                    class="w-full"
+                    class="w-full haveBg"
                 >
                     <ion-button
                         :color="icons[inx].color"
