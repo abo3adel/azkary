@@ -18,10 +18,10 @@
                         {{ $t('sebha.add') }}
                     </ion-label>
                 </ion-button>
-                <ion-button color="light" @click.prevent="toggleTheme">
+                <ion-button color="light" @click.prevent="togglesebhaTheme">
                     <ion-icon :icon="colorPaletteOutline" />
                     <ion-label class="hidden sm:inline-block">
-                        {{ $t('sebha.theme') }}
+                        {{ $t('sebha.sebhaTheme') }}
                     </ion-label>
                 </ion-button>
                 <ion-button color="light" @click="toggleColor">
@@ -52,7 +52,7 @@
                     <div class="flex w-full h-full bg-black bg-opacity-20">
                         <div
                             class="relative m-auto overflow-hidden w-80 h-80"
-                            v-show="theme === 'base'"
+                            v-show="sebhaTheme === 'base'"
                         >
                             <Progress
                                 id="baseSebha"
@@ -65,7 +65,7 @@
 
                         <div
                             class="relative m-auto overflow-hidden border rounded-full w-80 h-80 border-primary-400"
-                            v-show="theme === 'dev'"
+                            v-show="sebhaTheme === 'dev'"
                         >
                             <div
                                 class="absolute bottom-0 w-full h-5 duration-500 ease-in-out opacity-95 bg-primary-600"
@@ -442,13 +442,14 @@
             SebhaMeta,
             Progress,
         },
+        inject: ['theme'],
     })
     export default class SebhaView extends Vue {
         bar!: Progress;
         tasabeeh: Sebha[] = [];
         active = 0;
         sebha: ISebha = new Sebha();
-        theme = 'dev';
+        sebhaTheme = 'dev';
         svgHeight = 0;
         color = 'primary';
         barColor = COLORES[0].color;
@@ -539,7 +540,7 @@
                 document.removeEventListener('keyup', this.keyboardEv);
             }
 
-            this.toggleTheme(false);
+            this.togglesebhaTheme(false);
         }
 
         setMenuItemWidth() {
@@ -552,7 +553,7 @@
         }
 
         /**
-         * calculate dev theme progress-conatainer div height
+         * calculate dev sebhaTheme progress-conatainer div height
          * ?eight is mesured by rem, div max-height -> 20rem
          * ?calculate with 19 to show animation event on last number
          *
@@ -612,21 +613,24 @@
         /**
          * toggle the avaliable two thems
          */
-        async toggleTheme(toggle = true) {
+        async togglesebhaTheme(toggle = true) {
             if (toggle) {
-                this.theme = this.theme === 'dev' ? 'base' : 'dev';
+                this.sebhaTheme = this.sebhaTheme === 'dev' ? 'base' : 'dev';
             }
 
-            if (this.theme === 'base') {
+            if (this.sebhaTheme === 'base') {
                 this.bar?.set(this.sebha.current / this.sebha.max);
             }
 
-            // save current theme
-            await Storage.set({ key: 'sebha_theme', value: this.theme });
+            // save current sebhaTheme
+            await Storage.set({
+                key: 'sebha_sebhaTheme',
+                value: this.sebhaTheme,
+            });
         }
 
         /**
-         * toggle between avaliable theme colors
+         * toggle between avaliable sebhaTheme colors
          */
         async toggleColor() {
             const colors = [
@@ -634,7 +638,7 @@
                 'secondary',
                 'success',
                 'danger',
-                'warn',
+                'warning',
                 'gold',
                 'tertiary',
             ];
@@ -831,7 +835,7 @@
                 return;
             } else if (ev.keyCode === 84) {
                 // t char key
-                this.toggleTheme();
+                this.togglesebhaTheme();
                 return;
             } else if (ev.keyCode === 67) {
                 // c char key
@@ -842,10 +846,11 @@
         }
 
         setBarColor() {
+            // @ts-ignore
+            const color = this.color === 'primary' ? this.theme : this.color;
             this.barColor =
-                COLORES.find((x) => x.id === this.color)?.lighter ??
+                COLORES.find((x) => x.id === color)?.lighter ??
                 this.barColor;
-            console.log(this.barColor, this.color);
 
             emitter.emit('color-updated', this.barColor);
         }
@@ -870,9 +875,9 @@
                     '#sebhaPage'
                 ) as HTMLDivElement).appendChild(node);
             });
-            // set theme
-            Storage.get({ key: 'sebha_theme' }).then(
-                (r) => (this.theme = r.value ?? this.theme)
+            // set sebhaTheme
+            Storage.get({ key: 'sebha_sebhaTheme' }).then(
+                (r) => (this.sebhaTheme = r.value ?? this.sebhaTheme)
             );
             // set color
             Storage.get({ key: 'sebha_color' }).then((r) => {

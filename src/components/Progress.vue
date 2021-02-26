@@ -74,13 +74,8 @@
             this.init();
 
             emitter.on('color-updated', (color: string) => {
-                console.log(this.value);
-
                 this.init(color);
             });
         }
     }
 </script>
-<style scoped>
-    /*  */
-</style>
