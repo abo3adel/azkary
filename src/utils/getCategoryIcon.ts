@@ -42,7 +42,7 @@ export default function getCategoryIcon(): CategoryIcon[] {
         {
             type: 'svg',
             name: 'julus',
-            color: 'primary',
+            color: 'warning',
             slug: 'salat',
         },
     ];

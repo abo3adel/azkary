@@ -65,12 +65,8 @@
         IonRippleEffect,
         IonIcon,
     } from '@ionic/vue';
-
     import getCategoryIcon, { CategoryIcon } from '@/utils/getCategoryIcon';
-
-    import { Plugins } from '@capacitor/core';
-import { CategoryEntity } from '@/schema/CategoryEntity';
-    const { LocalNotifications } = Plugins;
+    import { CategoryEntity } from '@/schema/CategoryEntity';
 
     @Options({
         components: {
