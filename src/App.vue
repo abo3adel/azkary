@@ -11,16 +11,17 @@
     import { setStyles } from '@/common/styleApp';
     import { Plugins } from '@capacitor/core';
     import loader from './utils/loader';
-    const { StatusBar } = Plugins;
+    import seeder from './seeder';
+    const { StatusBar, Storage } = Plugins;
 
     export const COLORES = [
         { id: 'primary-fall', color: '#2655a8', lighter: '#3880ff' },
         { id: 'secondary', color: '#2985af', lighter: '#3dc2ff' },
         { id: 'tertiary', color: '#2d37a3', lighter: '#5260ff' },
-        { id: 'success', color: '#1d8f4a' , lighter: '#2dd36f'},
-        { id: 'warning', color: '#9e7e16' , lighter: '#ffc409'},
-        { id: 'danger', color: '#962534' , lighter: '#eb445a'},
-        { id: 'gold', color: '#916c10' , lighter: '#daa520'},
+        { id: 'success', color: '#1d8f4a', lighter: '#2dd36f' },
+        { id: 'warning', color: '#9e7e16', lighter: '#ffc409' },
+        { id: 'danger', color: '#962534', lighter: '#eb445a' },
+        { id: 'gold', color: '#916c10', lighter: '#daa520' },
     ];
 
     export default defineComponent({
@@ -30,8 +31,23 @@
             IonRouterOutlet,
         },
         inject: ['lang', 'dark', 'fontSize', 'fontType', 'theme'],
+        data() {
+            return {
+                // 
+            };
+        },
         async mounted() {
-            await loader.show();
+            // await loader.show();
+
+            // first type run
+            const { value } = await Storage.get({ key: 'firstDone' });
+            if (!value || value === 'undefined') {
+                // seed db
+
+                Storage.set({ key: 'firstDone', value: 'yes' });
+
+                await seeder.run();
+            }
 
             // @ts-ignore
             this.$i18n.locale = this.lang;
@@ -56,13 +72,13 @@
                 this.fontSize
             );
 
-            if (!isPlatform('hybrid')) return await loader.hide();
-
-            // set statusbar background color
-            StatusBar.setBackgroundColor({
-                // @ts-ignore
-                color: COLORES.filter((x) => x.id === this.theme)[0].color,
-            });
+            if (isPlatform('hybrid')) {
+                // set statusbar background color
+                StatusBar.setBackgroundColor({
+                    // @ts-ignore
+                    color: COLORES.filter((x) => x.id === this.theme)[0].color,
+                });
+            }
 
             await loader.hide();
         },

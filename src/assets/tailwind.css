@@ -17,10 +17,10 @@ ion-toolbar.haveBg * {
 }
 
 .ion-loader {
-    --background: var(--ion-color-primary);
-    --spinner-color: var(--ion-color-primary-contrast);
+    --background: var(--ion-color-primary, #3880ff);
+    --spinner-color: var(--ion-color-primary-contrast, #ffffff);
 
-    color: var(--ion-color-primary-contrast);
+    color: var(--ion-color-primary-contrast, #ffffff);
 }
 /* .ion-alert .alert-wrapper {
     --background: #e5e5e5;
@@ -36,12 +36,12 @@ ion-toolbar.haveBg * {
     }
     .submitBtn {
         @apply font-semibold transition duration-300;
-        color: var(--ion-color-primary);
+        color: var(--ion-color-primary, #3880ff);
         &:hover,
         &:focus,
         &:active {
-            background: var(--ion-color-primary);
-            color: var(--ion-color-primary-contrast);
+            background: var(--ion-color-primary, #3880ff);
+            color: var(--ion-color-primary-contrast, #ffffff);
         }
     }
 }

@@ -2,7 +2,7 @@
     <ion-page
         :style="
             color !== 'primary'
-                ? `--ion-color-primary: var(--ion-color-${color});--ion-color-primary-contrast: var(--ion-color-${color}-contrast)`
+                ? `--ion-color-primary, #3880ff: var(--ion-color-${color});--ion-color-primary, #3880ff-contrast: var(--ion-color-${color}-contrast)`
                 : ''
         "
         id="sebhaPage"
@@ -891,10 +891,10 @@
     .wave {
         animation: wave 3s linear;
         animation-iteration-count: infinite;
-        fill: var(--ion-color-primary);
+        fill: var(--ion-color-primary, #3880ff);
     }
     .drop {
-        fill: var(--ion-color-primary);
+        fill: var(--ion-color-primary, #3880ff);
         /* xfill: #99000055; */
         animation: drop 3.2s linear infinite normal;
         /* stroke: var(--col-deepblue); */

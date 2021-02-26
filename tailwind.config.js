@@ -8,11 +8,11 @@ module.exports = {
         extend: {
             colors: {
                 primary: {
-                    '400': 'var(--ion-color-primary-tint)',
-                    '600': 'var(--ion-color-primary)',
-                    '800': 'var(--ion-color-primary-shade)',
+                    '400': 'var(--ion-color-primary-tint, #4c8dff)',
+                    '600': 'var(--ion-color-primary, #3880ff)',
+                    '800': 'var(--ion-color-primary-shade, #3171e0)',
                 },
-                color: 'var(--ion-color-primary-contrast)',
+                color: 'var(--ion-color-primary-contrast, #ffffff)',
                 // primary: 'var(--ion-color-primary)',
                 gray: colors.blueGray,
                 teal: colors.teal,

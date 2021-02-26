@@ -34,6 +34,7 @@ import loader from './utils/loader';
 
 import { Plugins } from '@capacitor/core';
 import { User, UserEntity } from './schema/UserEntity';
+import seeder from './seeder';
 
 const { Storage } = Plugins;
 
@@ -46,35 +47,25 @@ router.isReady().then(async () => {
     if (isPlatform('desktop')) {
         // db();
     }
-    // const { value } = await Storage.get({ key: 'firstDone' });
-    // if (!value || value === 'undefined') {
+
     await loader.show();
+
     const user = (
         await (await db())
             .createQueryBuilder(UserEntity, 'user_ent')
             .select('dark, lang, fontSize, fontType, theme, azkarCount')
             .execute()
     )[0];
-    // @ts-ignore
-    // await Storage.set({ key: 'dark', value: user?.dark });
-
-    // await Storage.set({ key: 'lang', value: user?.lang as string });
-    // await Storage.set({ key: 'fontSize', value: `${user?.fontSize}` });
-    // await Storage.set({ key: 'fontType', value: user?.fontType as string });
-    // await Storage.set({ key: 'theme', value: user?.theme as string });
-
-    Storage.set({ key: 'firstDone', value: 'yes' });
-    // }
 
     app = app
-        .provide('lang', user?.lang ?? 'ar')
+        .provide('lang', user?.lang ?? navigator.language ?? 'ar')
         .provide('dark', user?.dark ?? false)
         .provide('fontSize', user?.fontSize ?? 1)
         .provide('fontType', user?.fontType ?? 'Cairo')
         .provide('theme', user?.theme ?? 'primary');
 
     app.mount('#app');
-    await loader.hide();
+    // await loader.hide();
 
     // Call the element loader after the platform has been bootstrapped
     defineCustomElements(window);

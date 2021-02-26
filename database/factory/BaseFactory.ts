@@ -76,7 +76,7 @@ export default abstract class BaseFactory {
             ent = this.relationsSize
                 ? await this.addRelations(ent, repo)
                 : await repo.save(ent);
-            console.error(ent);
+            // console.error(ent);
             entities.push(ent);
         }
         return entities.length > 1 ? entities : entities[0];
