@@ -5,6 +5,16 @@
                 <h3 class="p-4 pb-8 uppercase">
                     {{ $t('zikr.toolbar') }}
                 </h3>
+                <ion-buttons slot="end">
+                    <ion-button
+                        type="button"
+                        tab="notify"
+                        @click.prevent="$router.replace('/tabs/notify')"
+                    >
+                        <ion-icon slot="end" src="/assets/icons/ramadan.svg"  style="font-size: 2.3rem;"/>
+                        <ion-label>{{$t('zikr.notify.title')}}</ion-label>
+                    </ion-button>
+                </ion-buttons>
             </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true">

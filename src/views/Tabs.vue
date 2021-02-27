@@ -10,9 +10,9 @@
                     <ion-icon src="/assets/icons/night-mode.svg" />
                 </ion-tab-button>
 
-                <ion-tab-button tab="notify" href="/tabs/notify">
+                <!-- <ion-tab-button tab="notify" href="/tabs/notify">
                     <ion-icon src="/assets/icons/ramadan.svg" />
-                </ion-tab-button>
+                </ion-tab-button> -->
 
                 <ion-tab-button tab="sebha" href="/tabs/sebha">
                     <ion-icon src="/assets/icons/prayer-beads.svg" />
