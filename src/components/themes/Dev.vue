@@ -82,6 +82,9 @@
                 @apply font-semibold;
             }
         }
+        button.addSebhaBtn * {
+            @apply text-pink-600;
+        }
         button.editBtn * {
             @apply text-blue-600;
         }

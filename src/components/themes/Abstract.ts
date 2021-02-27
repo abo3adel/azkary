@@ -6,9 +6,10 @@ import {
     trashBinOutline,
     shareSocialOutline,
     closeOutline,
+    sendOutline,
 } from 'ionicons/icons';
 
-export const EmitsList = ['decree', 'edit', 'share', 'remove'];
+export const EmitsList = ['decree', 'edit', 'share', 'remove', 'addToSebha'];
 
 export class Props {
     z = prop<Zikr>({ required: true });
@@ -21,6 +22,14 @@ export async function showOprs(zikr: Zikr, self: Vue): Promise<void> {
         cssClass: 'opr-actions',
         backdropDismiss: true,
         buttons: [
+            {
+                text: self.$t('show.item.addSebha'),
+                icon: sendOutline,
+                cssClass: 'addSebhaBtn',
+                handler: async () => {
+                    self.$emit('addToSebha', { zikr });
+                },
+            },
             {
                 text: self.$t('show.item.edit'),
                 icon: createOutline,

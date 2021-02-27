@@ -5,9 +5,18 @@
                 color="primary"
                 @click="$emit('share', { body: z.body })"
             >
-                <ion-icon class="mx-1" :icon="shareSocialOutline"></ion-icon>
+                <ion-icon slot='start' :icon="shareSocialOutline"></ion-icon>
                 <ion-label class="hidden sm:inline-block">
                     {{ $t('show.item.share') }}
+                </ion-label>
+            </ion-item-option>
+            <ion-item-option
+                color="tertiary"
+                @click="$emit('addToSebha', { zikr: z })"
+            >
+                <ion-icon slot='start' :icon="sendOutline"></ion-icon>
+                <ion-label class="hidden sm:inline-block">
+                    {{ $t('show.item.addSebha') }}
                 </ion-label>
             </ion-item-option>
         </ion-item-options>
@@ -38,7 +47,7 @@
                 color="secondary"
                 @click="$emit('edit', { zikr: z })"
             >
-                <ion-icon class="mx-1" :icon="createOutline"></ion-icon>
+                <ion-icon slot='start' :icon="createOutline"></ion-icon>
                 <ion-label class="hidden sm:inline-block">
                     {{ $t('show.item.edit') }}
                 </ion-label>
@@ -47,7 +56,7 @@
                 color="danger"
                 @click="$emit('remove', { id: z.id })"
             >
-                <ion-icon class="mx-1" :icon="trashBinOutline"></ion-icon>
+                <ion-icon slot='start' :icon="trashBinOutline"></ion-icon>
                 <ion-label class="hidden sm:inline-block">
                     {{ $t('show.item.delete') }}
                 </ion-label>
@@ -71,6 +80,7 @@
         shareSocialOutline,
         trashBinOutline,
         createOutline,
+        sendOutline,
     } from 'ionicons/icons';
     import { EmitsList, Props as Abstract } from './Abstract';
 
@@ -95,5 +105,6 @@
         shareSocialOutline = shareSocialOutline;
         trashBinOutline = trashBinOutline;
         createOutline = createOutline;
+        sendOutline = sendOutline;
     }
 </script>

@@ -133,6 +133,7 @@
                             :z="z"
                             :zinx="zinx"
                             :color="meta.color"
+                            @add-to-sebha="addToSebha($event.zikr)"
                             @edit="
                                 add(
                                     $event.zikr.body,
@@ -157,6 +158,7 @@
                             :z="z"
                             :theme="theme"
                             :color="meta.color"
+                            @add-to-sebha="addToSebha($event.zikr)"
                             @edit="
                                 add(
                                     $event.zikr.body,
@@ -189,6 +191,7 @@
                     :color="meta.color"
                     :theme="theme"
                     :keyboard="config.keyboard"
+                    @add-to-sebha="addToSebha($event.zikr)"
                     @edit="
                         add($event.zikr.body, $event.zikr.count, $event.zikr.id)
                     "
@@ -265,6 +268,7 @@
     import { Vibration } from '@ionic-native/vibration';
     import { Fonts } from '@/schema/UserEntity';
     import share from '@/utils/share';
+    import { Sebha, SebhaEntity } from '@/schema/SebhaEntity';
 
     const { Modals, Share, Clipboard, Storage } = Plugins;
 
@@ -516,6 +520,30 @@
             });
 
             await alert.present();
+        }
+
+        /**
+         * add this zikr item to tasabeeh
+         */
+        async addToSebha(zikr: Zikr) {
+            zikr =
+                (await getRepository<Zikr>('zikr').findOne({ id: zikr.id })) ??
+                zikr;
+
+            const done = await getConnection()
+                .createQueryBuilder<Sebha>(SebhaEntity, 'tasabeeh_ins')
+                .insert()
+                .values({
+                    body: zikr.body,
+                    max: zikr.count,
+                })
+                .execute();
+
+            console.log(done);
+
+            if (done.identifiers[0].id) {
+                toast(this.$t('zikr.sebha.done'));
+            }
         }
 
         async themeToggle() {
