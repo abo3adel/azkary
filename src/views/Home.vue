@@ -112,9 +112,9 @@
 
         async mounted() {
             // @ts-ignore
-            this.hijir = getHijirDate(this.lang);
+            this.hijir = getHijirDate(this.lang);            
 
-            if (new Date().getHours() > 12) {
+            if (new Date().getHours() > 18 && new Date().getHours() > 4) {
                 this.bg = 'tertiary';
             }
 

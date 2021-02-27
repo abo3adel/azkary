@@ -14,7 +14,11 @@
                     class="absolute"
                     :style="lang === 'ar' ? 'left: 0.5rem;' : 'right: 0.5rem;'"
                 >
-                    <ion-button>
+                    <ion-button
+                        type="button"
+                        :disabled="!ar"
+                        @click.prevent="shareIt"
+                    >
                         <ion-icon slot="start" :icon="shareSocialOutline" />
                         <ion-label class="hidden sm:inline-block">
                             {{ $t('home.btn.copy') }}
@@ -100,6 +104,7 @@
         language,
         alertCircleOutline,
     } from 'ionicons/icons';
+    import share from '@/utils/share';
 
     class Props {
         cls = prop<string>({ default: 'pt-3' });
@@ -129,6 +134,12 @@
         shareSocialOutline = shareSocialOutline;
         language = language;
         alertCircleOutline = alertCircleOutline;
+
+        shareIt() {
+            if (!this.ar) return;
+
+            share(this, this.ar, this.$t('home.share'));
+        }
 
         async mounted() {
             // const net = await Network.getStatus();

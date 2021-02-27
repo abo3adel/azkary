@@ -38,7 +38,7 @@
                         @click="toggleReorder()"
                         v-if="theme.indexOf('slide') < 0"
                     >
-                        <ion-icon slot='start' :icon="reorderFourOutline" />
+                        <ion-icon slot="start" :icon="reorderFourOutline" />
                         <span class="hidden sm:inline-block">
                             {{ $t('zikr.show.reorder') }}
                         </span>
@@ -51,7 +51,7 @@
                         "
                         @click="add()"
                     >
-                        <ion-icon :icon="addOutline" slot='start' />
+                        <ion-icon :icon="addOutline" slot="start" />
                         <span class="hidden sm:inline-block">
                             {{ $t('zikr.show.add') }}
                         </span>
@@ -64,7 +64,7 @@
                         "
                         @click="themeToggle()"
                     >
-                        <ion-icon :icon="colorPaletteOutline" slot='start' />
+                        <ion-icon :icon="colorPaletteOutline" slot="start" />
                         <span class="hidden sm:inline-block">
                             {{ $t('zikr.show.brush') }}
                         </span>
@@ -102,7 +102,7 @@
                         @click.prevent="slideCog()"
                         v-if="theme.indexOf('slide') > -1"
                     >
-                        <ion-icon :icon="cogOutline" slot='start' />
+                        <ion-icon :icon="cogOutline" slot="start" />
                         <span class="hidden sm:inline-block">
                             {{ $t('zikr.show.slideCog') }}
                         </span>
@@ -140,7 +140,7 @@
                                     $event.zikr.id
                                 )
                             "
-                            @share="share($event.body)"
+                            @share="shareIt($event.body)"
                             @remove="remove($event.id)"
                             @decree="onDecree(z.count, z.id)"
                         >
@@ -164,7 +164,7 @@
                                     $event.zikr.id
                                 )
                             "
-                            @share="share($event.body)"
+                            @share="shareIt($event.body)"
                             @remove="remove($event.id)"
                             @decree="onDecree(z.count, z.id)"
                         >
@@ -192,7 +192,7 @@
                     @edit="
                         add($event.zikr.body, $event.zikr.count, $event.zikr.id)
                     "
-                    @share="share($event.body)"
+                    @share="shareIt($event.body)"
                     @remove="remove($event.id)"
                     @decree="
                         onDecree($event.count, $event.id, $event.open, true)
@@ -264,6 +264,7 @@
     import { Controls, loadConfigrations } from '@/common/ControlConfig';
     import { Vibration } from '@ionic-native/vibration';
     import { Fonts } from '@/schema/UserEntity';
+    import share from '@/utils/share';
 
     const { Modals, Share, Clipboard, Storage } = Plugins;
 
@@ -573,21 +574,8 @@
         /**
          * share zikr item
          */
-        async share(text: string) {
-            // TODO test in native app
-            try {
-                await Share.share({
-                    title: this.$t('zikr.share.dtitle'),
-                    text: text,
-                    url: '',
-                    dialogTitle: this.$t('zikr.share.dtitle'),
-                });
-            } catch (e) {
-                await Clipboard.write({
-                    string: text,
-                });
-                toast(this.$t('copied.done'));
-            }
+        async shareIt(text: string) {
+            await share(this, text, this.$t('zikr.share.dtitle'));
         }
 
         /**
