@@ -30,7 +30,7 @@
             </div>
         </div>
         <div class="p-2">
-            <div class="text-xl text-right" :style="sty">
+            <div class="text-right" :style="sty">
                 <p
                     class="w-11/12 mx-auto font-semibold text-center text-red-600"
                     v-if="error.ar"
@@ -42,7 +42,7 @@
                     />
                     {{ $t('home.errNet') }}
                 </p>
-                <p>
+                <p v-else>
                     <span v-if="ar.length || !loading" dir="rtl">
                         {{ ar }}
                     </span>
@@ -54,7 +54,7 @@
                         ></ion-spinner>
                     </span>
                 </p>
-                <slot name="meta" />
+                <slot name="meta" v-if="ar" />
             </div>
             <hr class="w-1/2 my-3 border border-gray-400" v-if="showEn" />
             <div class="text-lg text-left" v-if="showEn">
@@ -69,7 +69,7 @@
                     />
                     {{ $t('home.errNet') }}
                 </p>
-                <p>
+                <p v-else>
                     <span v-if="en.length || !loading" dir="ltr">
                         {{ en }}
                     </span>
@@ -81,6 +81,7 @@
                         ></ion-spinner>
                     </span>
                 </p>
+                <slot name="meta-en" v-if="en" />
             </div>
         </div>
     </div>
@@ -99,8 +100,6 @@
         language,
         alertCircleOutline,
     } from 'ionicons/icons';
-    import { Plugins } from '@capacitor/core';
-    const { Network } = Plugins;
 
     class Props {
         cls = prop<string>({ default: 'pt-3' });
@@ -108,6 +107,15 @@
         sty = prop<string>({ default: '' });
         ar = prop<string>({ default: '' });
         en = prop<string>({ default: '' });
+        error = prop<{
+            ar: boolean | string;
+            en: boolean | string;
+        }>({
+            default: {
+                ar: false,
+                en: false,
+            },
+        });
     }
 
     @Options({
@@ -117,21 +125,16 @@
     export default class TxtCard extends Vue.with(Props) {
         loading = true;
         showEn = false;
-        error = {
-            ar: false,
-            en: false,
-        };
 
         shareSocialOutline = shareSocialOutline;
         language = language;
         alertCircleOutline = alertCircleOutline;
 
         async mounted() {
-            const net = await Network.getStatus();
-            if (!net.connected) {
-                this.error = { ar: true, en: true };
-            }
-
+            // const net = await Network.getStatus();
+            // if (!net.connected) {
+            //     this.error = { ar: true, en: true };
+            // }
             // this.loading = false;
         }
     }
