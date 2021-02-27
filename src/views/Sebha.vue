@@ -307,7 +307,7 @@
                     v-if="!locked"
                 >
                     <ion-fab-button>
-                        <ion-icon slot='start' :icon="closeOutline" />
+                        <ion-icon :icon="closeOutline" />
                     </ion-fab-button>
                 </ion-fab>
                 <ion-fab
@@ -318,7 +318,7 @@
                     v-if="!locked"
                 >
                     <ion-fab-button>
-                        <ion-icon slot='start' :icon="trashBinOutline" />
+                        <ion-icon :icon="trashBinOutline" />
                     </ion-fab-button>
                 </ion-fab>
             </ion-content>
