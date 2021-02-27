@@ -13,15 +13,17 @@
     </txt-card>
 </template>
 <script lang="ts">
-    import { Options, Vue } from 'vue-class-component';
-    import { Fonts } from '@/schema/UserEntity';
+    import { Options, Vue, prop } from 'vue-class-component';
     import TxtCard from '@/components/TxtCard.vue';
     import { Plugins } from '@capacitor/core';
     const { Storage, Network } = Plugins;
 
+    class Props {
+        azkarFont = prop<string>({required: true})
+    }
+
     @Options({ components: { TxtCard } })
-    export default class Quran extends Vue {
-        azkarFont: string = Fonts.Amiri;
+    export default class Quran extends Vue.with(Props) {
         quran = {
             ar: '',
             en: '',
@@ -30,10 +32,6 @@
         };
 
         async mounted() {
-            this.azkarFont =
-                (await Storage.get({ key: 'azkarFont' })).value ??
-                this.azkarFont;
-
             const net = (await Network.getStatus()).connected;
             if (!net) {
                 // load from local storage

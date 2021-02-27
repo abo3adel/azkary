@@ -53,9 +53,9 @@
                     عطر فمك بذكر اللّه
                 </p>
             </div>
-            <quran />
+            <quran :azkar-font="azkarFont" />
 
-            <hadith />
+            <hadith :azkar-font="azkarFont" />
         </ion-content>
     </ion-page>
 </template>
@@ -82,7 +82,8 @@
     import Quran from '@/components/home/Quran.vue';
     import Hadith from '@/components/home/Hadith.vue';
 
-    import { Plugins, Network } from '@capacitor/core';
+    import { Plugins } from '@capacitor/core';
+    import { Fonts } from '@/schema/UserEntity';
     const { Storage } = Plugins;
 
     @Options({
@@ -106,32 +107,22 @@
     export default class Home extends Vue {
         hijir = '';
         bg = 'gold';
+        azkarFont: string = Fonts.Amiri;
 
         cogOutline = cogOutline;
         informationCircleOutline = informationCircleOutline;
 
         async mounted() {
+            this.azkarFont =
+                (await Storage.get({ key: 'azkarFont' })).value ??
+                this.azkarFont;
+
             // @ts-ignore
-            this.hijir = getHijirDate(this.lang);            
+            this.hijir = getHijirDate(this.lang);
 
             if (new Date().getHours() > 18 && new Date().getHours() > 4) {
                 this.bg = 'tertiary';
             }
-
-            const net = (await Network.getStatus()).connected;
-            if (!net) {
-                // load from local storage
-                // or show error
-            }
-
-            // hadith
-            // const hadith = await (
-            //     await fetch('https://api.sunnah.com/v1/hadiths/random', {
-            //         headers: {
-            //             'X-API-Key': 'SqD712P3E82xnwOAEOkGd5JZH8s9wRR24TqNFzjk',
-            //         },
-            //     })
-            // ).json();
         }
     }
 </script>
