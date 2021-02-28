@@ -9,9 +9,19 @@ import { Du3aEntity } from '@/schema/Du3aEntity';
 
 export const TEST_DB_NAME = 'test';
 export const APP_DB_NAME = 'default';
-export const ENTITIES = [UserEntity, CategoryEntity, ZikrEntity, NotifyZikrEntity, SebhaEntity, Du3aEntity];
+export const ENTITIES = [
+    UserEntity,
+    CategoryEntity,
+    ZikrEntity,
+    NotifyZikrEntity,
+    SebhaEntity,
+    Du3aEntity,
+];
 
-export default async function db(conName = APP_DB_NAME): Promise<Connection> {
+export default async function db(
+    conName = APP_DB_NAME,
+    log = false
+): Promise<Connection> {
     let con: Connection;
 
     try {
@@ -23,7 +33,7 @@ export default async function db(conName = APP_DB_NAME): Promise<Connection> {
                 type: 'cordova',
                 database: 'my_azkar_db',
                 location: 'default',
-                logging: ['error', 'query', 'schema'],
+                logging: log ? ['error', 'query', 'schema'] : false,
                 synchronize: true,
                 entities: ENTITIES,
             });
@@ -33,7 +43,7 @@ export default async function db(conName = APP_DB_NAME): Promise<Connection> {
                 type: 'sqljs',
                 autoSave: true,
                 location: 'browser',
-                logging: ['error', 'query', 'schema'],
+                logging: log ? ['error', 'query', 'schema'] : false,
                 synchronize: true,
                 entities: ENTITIES,
             });
