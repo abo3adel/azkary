@@ -3,14 +3,14 @@ import { SebhaFactory } from './../database/factory/SebhaFactory';
 import { NotifyZikrFactory } from './../database/factory/NotifyZikrFactory';
 import { CategoryType } from './entities/Category';
 import { Category } from '@/entities/Category';
-import { EntitySchema, Repository, Connection } from 'typeorm';
+import { Repository, Connection, BaseEntity } from 'typeorm';
 import db, { APP_DB_NAME } from './utils/db';
 import faker from 'faker';
 import { ZikrFactory } from '../database/factory/ZikrFactory';
 import { Zikr } from './entities/Zikr';
 import { UserFactory } from '../database/factory/UserFactory';
 import { CategoryEntity } from './schema/CategoryEntity';
-import { ZikrEntity, Zikr as IZikr } from './schema/ZikrEntity';
+import { ZikrEntity } from './schema/ZikrEntity';
 import { Du3a, Du3aEntity } from './schema/Du3aEntity';
 
 class Seeder {
@@ -72,29 +72,35 @@ class Seeder {
         cat.title = title;
         cat.slug = slug;
         cat.type = type;
-        cat = await this.catRepo.save(cat);
+        await this.catRepo.save(cat);
 
-        let list = ZikrFactory.setConName(APP_DB_NAME)
-            .count(10)
-            .make() as Zikr[];
-        let repo = this.con.getRepository(ZikrEntity);
+        cat = (
+            await (await db(APP_DB_NAME))
+                .getRepository<Category>('category')
+                .find({ take: 1, order: { id: 'DESC' } })
+        )[0];
+
+        let list: Zikr[] | Du3a[], repo: Repository<Du3a | Zikr>;
 
         if (type === CategoryType.Du3a) {
             // @ts-ignore
             list = Du3aFactory.setConName(APP_DB_NAME)
                 .count(15)
                 .make();
-            // @ts-ignore
-            repo = this.con.getRepository(Du3aEntity);
+            repo = this.con.getRepository(Du3aEntity) as Repository<Du3a>;
+        } else {
+            list = ZikrFactory.setConName(APP_DB_NAME)
+                .count(10)
+                .make() as Zikr[];
+            repo = this.con.getRepository(ZikrEntity) as Repository<Zikr>;
         }
 
-        list.forEach(async (x) => {
+        list.forEach(async (x: Zikr | Du3a) => {
             x.category = cat;
             // @ts-ignore
             x.categoryId = cat.id;
             await repo.save(x);
         });
-
         return cat;
     }
 }
