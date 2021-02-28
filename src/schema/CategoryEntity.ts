@@ -44,6 +44,12 @@ export const CategoryEntity = new EntitySchema<Category>({
             inverseSide: 'category',
             onDelete: 'CASCADE',
         },
+        ad3ia: {
+            type: 'one-to-many',
+            target: 'du3a',
+            inverseSide: 'category',
+            onDelete: 'CASCADE',
+        },
     },
     indices: [
         {
@@ -55,6 +61,6 @@ export const CategoryEntity = new EntitySchema<Category>({
             name: 'category_type_inx',
             columns: ['type'],
             synchronize: true,
-        }
-    ]
+        },
+    ],
 });

@@ -1,4 +1,3 @@
-import { Category } from './CategoryEntity';
 import { EntitySchema } from 'typeorm';
 import { BaseColumnSchema } from './BaseColumnSchema';
 
@@ -6,7 +5,7 @@ export class Du3a {
     id!: number;
     body!: string;
     meta!: string;
-    category!: Category;
+    category!: any;
 }
 
 export const Du3aEntity = new EntitySchema<Du3a>({
