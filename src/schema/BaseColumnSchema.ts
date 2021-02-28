@@ -2,7 +2,8 @@ import { EntitySchemaColumnOptions } from 'typeorm';
 
 export const BaseColumnSchema = {
     id: {
-        type: Number,
+        type: 'int',
+        unsigned: true,
         primary: true,
         generated: true,
     } as EntitySchemaColumnOptions,

@@ -11,8 +11,12 @@
                         tab="notify"
                         @click.prevent="$router.replace('/tabs/notify')"
                     >
-                        <ion-icon slot="end" src="/assets/icons/ramadan.svg"  style="font-size: 2.3rem;"/>
-                        <ion-label>{{$t('zikr.notify.title')}}</ion-label>
+                        <ion-icon
+                            slot="end"
+                            src="/assets/icons/ramadan.svg"
+                            style="font-size: 2.3rem;"
+                        />
+                        <ion-label>{{ $t('zikr.notify.title') }}</ion-label>
                     </ion-button>
                 </ion-buttons>
             </ion-toolbar>
@@ -79,7 +83,7 @@
         IonLabel,
     } from '@ionic/vue';
     import getCategoryIcon, { CategoryIcon } from '@/utils/getCategoryIcon';
-    import { CategoryEntity } from '@/schema/CategoryEntity';
+    import { CategoryEntity, CategoryType } from '@/schema/CategoryEntity';
 
     @Options({
         components: {
@@ -104,9 +108,8 @@
         async loadCategories() {
             const con = await db();
             const categories = await con
-                .createQueryBuilder()
-                .from(CategoryEntity, 'category')
-                .execute();
+                .getRepository<Category>('category')
+                .find({type: CategoryType.Zikr});
 
             this.categories = categories;
         }

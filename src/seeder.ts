@@ -1,3 +1,4 @@
+import { Du3aFactory } from './../database/factory/Du3aFactory';
 import { SebhaFactory } from './../database/factory/SebhaFactory';
 import { NotifyZikrFactory } from './../database/factory/NotifyZikrFactory';
 import { CategoryType } from './entities/Category';
@@ -10,6 +11,7 @@ import { Zikr } from './entities/Zikr';
 import { UserFactory } from '../database/factory/UserFactory';
 import { CategoryEntity } from './schema/CategoryEntity';
 import { ZikrEntity, Zikr as IZikr } from './schema/ZikrEntity';
+import { Du3a, Du3aEntity } from './schema/Du3aEntity';
 
 class Seeder {
     private catRepo!: Repository<any>;
@@ -29,12 +31,35 @@ class Seeder {
 
     private async seedCategories() {
         this.catRepo = (await db()).getRepository(CategoryEntity);
+        // azkar
         await this.createCategory(faker.lorem.sentence(), 'morning');
         await this.createCategory(faker.lorem.sentence(), 'night');
         await this.createCategory(faker.lorem.sentence(), 'mosque');
         await this.createCategory(faker.lorem.sentence(), 'wake-up');
         await this.createCategory(faker.lorem.sentence(), 'sleep');
         await this.createCategory(faker.lorem.sentence(), 'salat');
+
+        // du3a
+        await this.createCategory(
+            faker.lorem.sentence(),
+            'prophet',
+            CategoryType.Du3a
+        );
+        await this.createCategory(
+            faker.lorem.sentence(),
+            'quranic',
+            CategoryType.Du3a
+        );
+        await this.createCategory(
+            faker.lorem.sentence(),
+            'many',
+            CategoryType.Du3a
+        );
+        await this.createCategory(
+            faker.lorem.sentence(),
+            'any',
+            CategoryType.Du3a
+        );
         return true;
     }
 
@@ -47,17 +72,27 @@ class Seeder {
         cat.title = title;
         cat.slug = slug;
         cat.type = type;
-        const azkar = ZikrFactory.setConName(APP_DB_NAME)
+        cat = await this.catRepo.save(cat);
+
+        let list = ZikrFactory.setConName(APP_DB_NAME)
             .count(10)
             .make() as Zikr[];
-        cat = await this.catRepo.save(cat);
-        const z = this.con.getRepository(ZikrEntity);
+        let repo = this.con.getRepository(ZikrEntity);
 
-        azkar.forEach(async (x) => {
+        if (type === CategoryType.Du3a) {
+            // @ts-ignore
+            list = Du3aFactory.setConName(APP_DB_NAME)
+                .count(15)
+                .make();
+            // @ts-ignore
+            repo = this.con.getRepository(Du3aEntity);
+        }
+
+        list.forEach(async (x) => {
             x.category = cat;
             // @ts-ignore
             x.categoryId = cat.id;
-            await z.save(x);
+            await repo.save(x);
         });
 
         return cat;

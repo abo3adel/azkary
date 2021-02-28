@@ -6,7 +6,8 @@ export interface Category {
     title: string;
     slug: string;
     type: string;
-    azkar: [];
+    azkar?: [];
+    ad3ia?: [];
 }
 
 export enum CategoryType {
@@ -29,6 +30,12 @@ export const CategoryEntity = new EntitySchema<Category>({
             length: 30,
             unique: true,
         },
+        type: {
+            type: String,
+            length: 10,
+            nullable: true,
+            default: CategoryType.Zikr,
+        },
     },
     relations: {
         azkar: {
@@ -36,6 +43,18 @@ export const CategoryEntity = new EntitySchema<Category>({
             target: 'zikr',
             inverseSide: 'category',
             onDelete: 'CASCADE',
+        },
+    },
+    indices: [
+        {
+            name: 'categoey_slug_inx',
+            columns: ['slug'],
+            synchronize: true,
+        },
+        {
+            name: 'category_type_inx',
+            columns: ['type'],
+            synchronize: true,
         }
-    }
+    ]
 });

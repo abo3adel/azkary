@@ -1,19 +1,15 @@
 import { SebhaEntity } from './../schema/SebhaEntity';
 import { UserEntity } from '../schema/UserEntity';
 import { isPlatform } from '@ionic/vue';
-// import { Sebha } from './../entities/Sebha';
-// import { NotifyZikr } from '../entities/NotifyZikr';
-// import { Zikr } from './../entities/Zikr';
-// import { Category } from './../entities/Category';
-// import { User } from '../entities/User';
 import { Connection, createConnection, getConnection } from 'typeorm';
 import { CategoryEntity } from '@/schema/CategoryEntity';
 import { ZikrEntity } from '@/schema/ZikrEntity';
 import { NotifyZikrEntity } from '@/schema/NotifyZikrEntity';
+import { Du3aEntity } from '@/schema/Du3aEntity';
 
 export const TEST_DB_NAME = 'test';
 export const APP_DB_NAME = 'default';
-export const ENTITIES = [UserEntity, CategoryEntity, ZikrEntity, NotifyZikrEntity, SebhaEntity];
+export const ENTITIES = [UserEntity, CategoryEntity, ZikrEntity, NotifyZikrEntity, SebhaEntity, Du3aEntity];
 
 export default async function db(conName = APP_DB_NAME): Promise<Connection> {
     let con: Connection;
