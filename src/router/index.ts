@@ -17,11 +17,13 @@ const routes: Array<RouteRecordRaw> = [
             },
             {
                 path: 'zikr',
-                component: () => import('@/views/zikr/Index.vue'),
+                props: { type: 'zikr' },
+                component: () => import('@/views/items/Index.vue'),
             },
             {
-                path: 'notify',
-                component: () => import('@/views/Notify.vue'),
+                path: 'du3a',
+                props: { type: 'du3a' },
+                component: () => import('@/views/items/Index.vue'),
             },
             {
                 path: 'sebha',
@@ -31,7 +33,7 @@ const routes: Array<RouteRecordRaw> = [
     },
     {
         path: '/zikr/:slug',
-        component: () => import('@/views/zikr/Show.vue'),
+        component: () => import('@/views/items/Show.vue'),
         props: true,
     },
     {

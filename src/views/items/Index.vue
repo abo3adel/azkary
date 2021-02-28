@@ -65,7 +65,7 @@
     </ion-page>
 </template>
 <script lang="ts">
-    import { Options, Vue } from 'vue-class-component';
+    import { Options, Vue, prop } from 'vue-class-component';
     import db from '@/utils/db';
     import { Category } from '@/entities/Category';
     import {
@@ -85,6 +85,10 @@
     import getCategoryIcon, { CategoryIcon } from '@/utils/getCategoryIcon';
     import { CategoryEntity, CategoryType } from '@/schema/CategoryEntity';
 
+    class Props {
+        type = prop<string>({ default: CategoryType.Zikr });
+    }
+
     @Options({
         components: {
             IonToolbar,
@@ -101,7 +105,7 @@
             IonLabel,
         },
     })
-    export default class ZikrIndex extends Vue {
+    export default class ZikrIndex extends Vue.with(Props) {
         categories: Category[] = [];
         icons: CategoryIcon[] = getCategoryIcon();
 
@@ -109,7 +113,9 @@
             const con = await db();
             const categories = await con
                 .getRepository<Category>('category')
-                .find({type: CategoryType.Zikr});
+                .find({
+                    type: this.type ?? CategoryType.Zikr,
+                });
 
             this.categories = categories;
         }

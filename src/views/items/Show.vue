@@ -186,7 +186,7 @@
                 :style="`font-size: ${fontSize}rem`"
             >
                 <slide-theme
-                    :azkar="category.azkar"
+                    :azkar="category.ad3ia"
                     :azkar-clone="azkarClone"
                     :color="meta.color"
                     :theme="theme"
@@ -269,8 +269,9 @@
     import { Fonts } from '@/schema/UserEntity';
     import share from '@/utils/share';
     import { Sebha, SebhaEntity } from '@/schema/SebhaEntity';
+import { Du3a } from '@/schema/Du3aEntity';
 
-    const { Modals, Share, Clipboard, Storage } = Plugins;
+    const { Modals, Storage } = Plugins;
 
     let busyShow = false;
 
@@ -337,11 +338,19 @@
             // @ts-ignore
             this.category = await (await db())
                 .createQueryBuilder(CategoryEntity, 'categories')
-                .leftJoinAndSelect('categories.azkar', 'azkar')
+                .leftJoinAndSelect('categories.ad3ia', 'ad3ia_sel')
                 .where({ slug: this.meta?.slug })
-                .orderBy('azkar.order', 'ASC')
-                .addOrderBy('azkar.id', 'DESC')
+                .orderBy('ad3ia_sel.order', 'ASC')
+                .addOrderBy('ad3ia_sel.id', 'DESC')
                 .getOneOrFail();
+
+            // Hack solution
+            // @ts-ignore
+            this.category.azkar = this.category.ad3ia.map((x) => {
+                // @ts-ignore
+                x.count = 1;
+                return x;
+            });
 
             this.afterDataUpdate();
 
