@@ -22,6 +22,9 @@
         { id: 'warning', color: '#9e7e16', lighter: '#ffc409' },
         { id: 'danger', color: '#962534', lighter: '#eb445a' },
         { id: 'gold', color: '#916c10', lighter: '#daa520' },
+        { id: 'teal', color: '#1abc7e', lighter: '#31c38b' },
+        { id: 'pink', color: '#e91e63', lighter: '#eb3573' },
+        { id: 'purple', color: '#9c27b0', lighter: '#a63db8' },
     ];
 
     export default defineComponent({
@@ -33,7 +36,7 @@
         inject: ['lang', 'dark', 'fontSize', 'fontType', 'theme'],
         data() {
             return {
-                // 
+                //
             };
         },
         async mounted() {

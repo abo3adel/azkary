@@ -19,6 +19,9 @@ export const ThemeColors = [
     'warning',
     'danger',
     'gold',
+    'teal',
+    'pink',
+    'purple',
 ];
 
 export interface User {

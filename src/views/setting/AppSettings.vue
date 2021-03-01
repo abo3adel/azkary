@@ -351,5 +351,14 @@
         .gold {
             background: var(--ion-color-gold);
         }
+        .teal {
+            background: var(--ion-color-teal);
+        }
+        .pink {
+            background: var(--ion-color-pink);
+        }
+        .purple {
+            background: var(--ion-color-purple);
+        }
     }
 </style>
