@@ -38,13 +38,12 @@ class Seeder {
         await this.createCategory(faker.lorem.sentence(), 'wake-up');
         await this.createCategory(faker.lorem.sentence(), 'sleep');
         await this.createCategory(faker.lorem.sentence(), 'salat');
+        await this.createCategory(faker.lorem.sentence(), 'hajj');
+        await this.createCategory(faker.lorem.sentence(), 'mix');
+        await this.createCategory(faker.lorem.sentence(), 'ablution');
+        await this.createCategory(faker.lorem.sentence(), 'food');
 
         // du3a
-        await this.createCategory(
-            faker.lorem.sentence(),
-            'prophet',
-            CategoryType.Du3a
-        );
         await this.createCategory(
             faker.lorem.sentence(),
             'quranic',
@@ -52,12 +51,37 @@ class Seeder {
         );
         await this.createCategory(
             faker.lorem.sentence(),
-            'many',
+            'prophet_mohamed',
             CategoryType.Du3a
         );
         await this.createCategory(
             faker.lorem.sentence(),
-            'any',
+            'prophets',
+            CategoryType.Du3a
+        );
+        await this.createCategory(
+            faker.lorem.sentence(),
+            'mix',
+            CategoryType.Du3a
+        );
+        await this.createCategory(
+            faker.lorem.sentence(),
+            'quran_end',
+            CategoryType.Du3a
+        );
+        await this.createCategory(
+            faker.lorem.sentence(),
+            'du3a_favour',
+            CategoryType.Du3a
+        );
+        await this.createCategory(
+            faker.lorem.sentence(),
+            'roqia_shar3ia',
+            CategoryType.Du3a
+        );
+        await this.createCategory(
+            faker.lorem.sentence(),
+            'death',
             CategoryType.Du3a
         );
         return true;

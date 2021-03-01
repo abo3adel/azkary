@@ -1,4 +1,3 @@
-import { CategoryEntity } from './CategoryEntity';
 import { EntitySchema } from 'typeorm';
 import { BaseColumnSchema } from './BaseColumnSchema';
 
@@ -8,6 +7,7 @@ export interface Zikr {
     count: number;
     byUser: boolean;
     order: number;
+    meta: string;
     category: any;
 }
 
@@ -32,6 +32,10 @@ export const ZikrEntity = new EntitySchema<Zikr>({
             type: Number,
             unsigned: true,
         },
+        meta: {
+            type: String,
+            nullable: true,
+        }
     },
     relations: {
         category: {

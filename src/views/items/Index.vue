@@ -125,6 +125,9 @@
         }
 
         mounted() {
+            if (this.type === CategoryType.Du3a) {
+                this.icons = this.icons.slice(10);
+            }
             this.loadCategories();
         }
     }

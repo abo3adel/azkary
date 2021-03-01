@@ -9,6 +9,7 @@ export interface CategoryIcon {
 
 export default function getCategoryIcon(): CategoryIcon[] {
     return [
+        // azkar
         {
             type: 'icon',
             name: sunnyOutline,
@@ -47,27 +48,77 @@ export default function getCategoryIcon(): CategoryIcon[] {
         },
         {
             type: 'svg',
-            name: '',
-            color: 'gold',
-            slug: 'prophet',
+            name: 'julus',
+            color: 'pink',
+            slug: 'hajj',
         },
         {
             type: 'svg',
+            name: 'julus',
+            color: 'teal',
+            slug: 'mix',
+        },
+        {
+            type: 'svg',
+            name: 'julus',
+            color: 'purple',
+            slug: 'ablution',
+        },
+        {
+            type: 'svg',
+            name: 'julus',
+            color: 'secondary',
+            slug: 'food',
+        },
+
+        // ad3ia
+        {
+            type: 'svg',
             name: '',
-            color: 'danger',
+            color: 'gold',
             slug: 'quranic',
         },
         {
             type: 'svg',
             name: '',
-            color: 'warning',
-            slug: 'many',
+            color: 'success',
+            slug: 'prophet_mohamed',
         },
         {
             type: 'svg',
             name: '',
-            color: 'success',
-            slug: 'any',
+            color: 'purple',
+            slug: 'prophets',
+        },
+        {
+            type: 'svg',
+            name: '',
+            color: 'danger',
+            slug: 'mix',
+        },
+        {
+            type: 'svg',
+            name: '',
+            color: 'warning',
+            slug: 'quran_end',
+        },
+        {
+            type: 'svg',
+            name: '',
+            color: 'secondary',
+            slug: 'du3a_favour',
+        },
+        {
+            type: 'svg',
+            name: '',
+            color: 'pink',
+            slug: 'roqia_shar3ia',
+        },
+        {
+            type: 'svg',
+            name: '',
+            color: 'tertiary',
+            slug: 'death',
         },
     ];
 }

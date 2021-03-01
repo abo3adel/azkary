@@ -21,6 +21,9 @@ export class Zikr extends BaseEntity
     @Column('integer')
     order!: number;
 
+    @Column('string')
+    meta!: string;
+
     @ManyToOne(() => Category, category => category.azkar, {
         onDelete: 'CASCADE'
     })
