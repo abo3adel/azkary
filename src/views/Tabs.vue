@@ -10,9 +10,9 @@
                     <ion-icon src="/assets/icons/night-mode.svg" />
                 </ion-tab-button>
 
-                <!-- <ion-tab-button tab="notify" href="/tabs/notify">
-                    <ion-icon src="/assets/icons/ramadan.svg" />
-                </ion-tab-button> -->
+                <ion-tab-button tab="du3a" href="/tabs/du3a">
+                    <ion-icon src="/assets/icons/muslim-man-praying.svg" />
+                </ion-tab-button>
 
                 <ion-tab-button tab="sebha" href="/tabs/sebha">
                     <ion-icon src="/assets/icons/prayer-beads.svg" />
@@ -30,15 +30,13 @@
         IonIcon,
         IonPage,
     } from '@ionic/vue';
-    import { ellipse, square, triangle, home } from 'ionicons/icons';
+    import { triangle, home } from 'ionicons/icons';
 
     export default {
         name: 'Tabs',
         components: { IonTabs, IonTabBar, IonTabButton, IonIcon, IonPage },
         setup() {
             return {
-                ellipse,
-                square,
                 triangle,
                 home,
             };

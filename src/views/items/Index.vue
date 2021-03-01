@@ -5,20 +5,22 @@
                 <h3 class="p-4 pb-8 uppercase">
                     {{ $t('zikr.toolbar') }}
                 </h3>
-                <ion-buttons slot="end">
-                    <ion-button
-                        type="button"
-                        tab="notify"
-                        @click.prevent="$router.replace('/tabs/notify')"
-                    >
-                        <ion-icon
-                            slot="end"
-                            src="/assets/icons/ramadan.svg"
-                            style="font-size: 2.3rem;"
-                        />
-                        <ion-label>{{ $t('zikr.notify.title') }}</ion-label>
-                    </ion-button>
-                </ion-buttons>
+                <template v-if="type === 'zikr'">
+                    <ion-buttons slot="end">
+                        <ion-button
+                            type="button"
+                            tab="notify"
+                            @click.prevent="$router.replace('/tabs/notify')"
+                        >
+                            <ion-icon
+                                slot="end"
+                                src="/assets/icons/ramadan.svg"
+                                style="font-size: 2.3rem;"
+                            />
+                            <ion-label>{{ $t('zikr.notify.title') }}</ion-label>
+                        </ion-button>
+                    </ion-buttons>
+                </template>
             </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true">
@@ -40,24 +42,26 @@
                         :color="icons[inx].color"
                         expand="block"
                         class="mb-5"
-                        :router-link="`/zikr/${cat.slug}`"
+                        :router-link="`/${type}/${cat.slug}`"
                         size="large"
                     >
                         <ion-label class="w-full text-left rtl:text-right">
                             {{ $t(`zikr.cat.${cat.slug}`) }}
                         </ion-label>
-                        <ion-icon
-                            v-if="icons[inx].type === 'svg'"
-                            :src="`/assets/icons/${icons[inx].name}.svg`"
-                            class="text-5xl"
-                            slot="end"
-                        ></ion-icon>
-                        <ion-icon
-                            v-else
-                            :icon="icons[inx].name"
-                            class="text-5xl"
-                            slot="end"
-                        ></ion-icon>
+                        <template v-if="type === 'zikr'">
+                            <ion-icon
+                                v-if="icons[inx].type === 'svg'"
+                                :src="`/assets/icons/${icons[inx].name}.svg`"
+                                class="text-5xl"
+                                slot="end"
+                            ></ion-icon>
+                            <ion-icon
+                                v-else
+                                :icon="icons[inx].name"
+                                class="text-5xl"
+                                slot="end"
+                            ></ion-icon>
+                        </template>
                     </ion-button>
                 </div>
             </div>

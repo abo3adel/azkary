@@ -64,10 +64,13 @@
                 this.svg = document.querySelector(
                     `.${this.id} svg`
                 ) as HTMLDivElement;
-                if (this.svg) {
-                    this.svg.removeAttribute('width');
-                    this.svg.removeAttribute('height');
+
+                if (!this.svg) {
+                    return;
                 }
+
+                this.svg.removeAttribute('width');
+                this.svg.removeAttribute('height');
 
                 this.shape = this.svg.querySelector(
                     `circle.${this.id}-indicator`

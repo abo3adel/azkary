@@ -5,6 +5,7 @@ export class Du3a {
     id!: number;
     body!: string;
     meta!: string;
+    order!: number;
     category!: any;
 }
 
@@ -18,6 +19,11 @@ export const Du3aEntity = new EntitySchema<Du3a>({
         },
         meta: {
             type: String,
+            nullable: true,
+        },
+        order: {
+            type: Number,
+            unsigned: true,
             nullable: true,
         },
     },

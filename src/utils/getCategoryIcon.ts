@@ -45,5 +45,29 @@ export default function getCategoryIcon(): CategoryIcon[] {
             color: 'warning',
             slug: 'salat',
         },
+        {
+            type: 'svg',
+            name: '',
+            color: 'gold',
+            slug: 'prophet',
+        },
+        {
+            type: 'svg',
+            name: '',
+            color: 'danger',
+            slug: 'quranic',
+        },
+        {
+            type: 'svg',
+            name: '',
+            color: 'warning',
+            slug: 'many',
+        },
+        {
+            type: 'svg',
+            name: '',
+            color: 'success',
+            slug: 'any',
+        },
     ];
 }

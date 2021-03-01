@@ -1,3 +1,4 @@
+import { CategoryType } from '@/schema/CategoryEntity';
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import Tabs from '../views/Tabs.vue';
@@ -17,12 +18,12 @@ const routes: Array<RouteRecordRaw> = [
             },
             {
                 path: 'zikr',
-                props: { type: 'zikr' },
+                props: { type: CategoryType.Zikr },
                 component: () => import('@/views/items/Index.vue'),
             },
             {
                 path: 'du3a',
-                props: { type: 'du3a' },
+                props: { type: CategoryType.Du3a },
                 component: () => import('@/views/items/Index.vue'),
             },
             {
@@ -34,7 +35,12 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/zikr/:slug',
         component: () => import('@/views/items/Show.vue'),
-        props: true,
+        props: { type: CategoryType.Zikr },
+    },
+    {
+        path: '/du3a/:slug',
+        component: () => import('@/views/items/Show.vue'),
+        props: { type: CategoryType.Du3a },
     },
     {
         path: '/settings',

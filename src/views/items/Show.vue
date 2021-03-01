@@ -186,7 +186,7 @@
                 :style="`font-size: ${fontSize}rem`"
             >
                 <slide-theme
-                    :azkar="category.ad3ia"
+                    :azkar="category.azkar"
                     :azkar-clone="azkarClone"
                     :color="meta.color"
                     :theme="theme"
@@ -217,7 +217,7 @@
     </ion-page>
 </template>
 <script lang="ts">
-    import { Options, Vue } from 'vue-class-component';
+    import { Options, Vue, prop } from 'vue-class-component';
 
     import {
         IonPage,
@@ -237,6 +237,7 @@
         modalController,
         IonSlides,
     } from '@ionic/vue';
+    import { AlertInput } from '@ionic/core/dist/types/components/alert/alert-interface';
     import { Category } from '@/entities/Category';
     import db from '@/utils/db';
     import getCategoryIcon, { CategoryIcon } from '@/utils/getCategoryIcon';
@@ -262,14 +263,14 @@
 
     import { defineAsyncComponent } from 'vue';
     import Loading from '@/components/Loading.vue';
-    import { CategoryEntity } from '@/schema/CategoryEntity';
+    import { CategoryEntity, CategoryType } from '@/schema/CategoryEntity';
     import { ZikrEntity } from '@/schema/ZikrEntity';
     import { Controls, loadConfigrations } from '@/common/ControlConfig';
     import { Vibration } from '@ionic-native/vibration';
     import { Fonts } from '@/schema/UserEntity';
     import share from '@/utils/share';
     import { Sebha, SebhaEntity } from '@/schema/SebhaEntity';
-import { Du3a } from '@/schema/Du3aEntity';
+    import { Du3aEntity } from '@/schema/Du3aEntity';
 
     const { Modals, Storage } = Plugins;
 
@@ -283,6 +284,10 @@ import { Du3a } from '@/schema/Du3aEntity';
         loader: () => import('@/components/themes/Slide.vue'),
         loadingComponent: Loading,
     });
+
+    class Props {
+        type = prop<string>({ default: CategoryType.Zikr });
+    }
 
     @Options({
         components: {
@@ -307,7 +312,7 @@ import { Du3a } from '@/schema/Du3aEntity';
         },
         inject: ['lang'],
     })
-    export default class Show extends Vue {
+    export default class Show extends Vue.with(Props) {
         category: Category = new Category();
         meta: CategoryIcon | null = null;
         reorder = false;
@@ -338,19 +343,26 @@ import { Du3a } from '@/schema/Du3aEntity';
             // @ts-ignore
             this.category = await (await db())
                 .createQueryBuilder(CategoryEntity, 'categories')
-                .leftJoinAndSelect('categories.ad3ia', 'ad3ia_sel')
+                .leftJoinAndSelect(
+                    `categories.${
+                        this.type === CategoryType.Zikr ? 'azkar' : 'ad3ia'
+                    }`,
+                    'items'
+                )
                 .where({ slug: this.meta?.slug })
-                .orderBy('ad3ia_sel.order', 'ASC')
-                .addOrderBy('ad3ia_sel.id', 'DESC')
+                .orderBy('items.order', 'ASC')
+                .addOrderBy('items.id', 'DESC')
                 .getOneOrFail();
 
-            // Hack solution
-            // @ts-ignore
-            this.category.azkar = this.category.ad3ia.map((x) => {
+            if (this.type === CategoryType.Du3a) {
+                // Hack solution
                 // @ts-ignore
-                x.count = 1;
-                return x;
-            });
+                this.category.azkar = this.category.ad3ia.map((x) => {
+                    // @ts-ignore
+                    x.count = 1;
+                    return x;
+                });
+            }
 
             this.afterDataUpdate();
 
@@ -438,30 +450,36 @@ import { Du3a } from '@/schema/Du3aEntity';
                 count = this.azkarClone.find((x) => x.id === id)?.count ?? 1;
             }
 
+            const inputs: AlertInput[] = [
+                {
+                    name: 'body',
+                    type: 'textarea',
+                    placeholder: 'سبحان الله وبحمده',
+                    value: txt,
+                    attributes: {
+                        dir: 'rtl',
+                    },
+                },
+                {
+                    name: 'count',
+                    type: 'number',
+                    min: 1,
+                    placeholder: this.$t('zikr.add.countPH'),
+                    value: count,
+                    attributes: {
+                        inputmode: 'numeric',
+                    },
+                },
+            ];
+
+            if (this.type === CategoryType.Du3a) {
+                inputs.splice(1);
+            }
+
             const alert = await alertController.create({
                 cssClass: 'ion-alert',
                 header: this.$t('zikr.add.header'),
-                inputs: [
-                    {
-                        name: 'body',
-                        type: 'textarea',
-                        placeholder: 'سبحان الله وبحمده',
-                        value: txt,
-                        attributes: {
-                            dir: 'rtl',
-                        },
-                    },
-                    {
-                        name: 'count',
-                        type: 'number',
-                        min: 1,
-                        placeholder: this.$t('zikr.add.countPH'),
-                        value: count,
-                        attributes: {
-                            inputmode: 'numeric',
-                        },
-                    },
-                ],
+                inputs,
                 buttons: [
                     {
                         text: this.$t('zikr.add.cancel'),
@@ -496,7 +514,7 @@ import { Du3a } from '@/schema/Du3aEntity';
                                 zikr.category = this.category;
                             }
 
-                            zikr = await getRepository('zikr').save(zikr);
+                            zikr = await getRepository(this.type).save(zikr);
 
                             // add to current list without
                             // relationship object
@@ -508,7 +526,7 @@ import { Du3a } from '@/schema/Du3aEntity';
                                     (x) => {
                                         if (x.id === id) {
                                             x.body = body;
-                                            x.count = count;
+                                            x.count = count ?? 1;
                                         }
 
                                         return x;
@@ -536,19 +554,19 @@ import { Du3a } from '@/schema/Du3aEntity';
          */
         async addToSebha(zikr: Zikr) {
             zikr =
-                (await getRepository<Zikr>('zikr').findOne({ id: zikr.id })) ??
-                zikr;
+                (await getRepository<Zikr>(this.type).findOne(
+                    { id: zikr.id },
+                    { select: ['body', 'id'] }
+                )) ?? zikr;
 
             const done = await getConnection()
                 .createQueryBuilder<Sebha>(SebhaEntity, 'tasabeeh_ins')
                 .insert()
                 .values({
                     body: zikr.body,
-                    max: zikr.count,
+                    max: zikr?.count ?? 1,
                 })
                 .execute();
-
-            console.log(done);
 
             if (done.identifiers[0].id) {
                 toast(this.$t('zikr.sebha.done'));
@@ -570,7 +588,7 @@ import { Du3a } from '@/schema/Du3aEntity';
                 this.theme = themes[inx];
             }
 
-            await Storage.set({ key: 'zikrTheme', value: this.theme });
+            await Storage.set({ key: `${this.type}Theme`, value: this.theme });
         }
 
         /**
@@ -589,7 +607,7 @@ import { Du3a } from '@/schema/Du3aEntity';
 
             await loader.show();
 
-            await getRepository('zikr').delete({ id });
+            await getRepository(this.type).delete({ id });
 
             const inx = this.category.azkar.findIndex((x) => x.id === id);
 
@@ -648,11 +666,18 @@ import { Du3a } from '@/schema/Du3aEntity';
             }
             await loader.show();
 
+            const sql =
+                this.type === CategoryType.Zikr
+                    ? getConnection()
+                          .createQueryBuilder(ZikrEntity, 'items')
+                          .update()
+                    : getConnection()
+                          .createQueryBuilder(Du3aEntity, 'items')
+                          .update();
+
             let y = 0;
             for (const x of this.category.azkar) {
-                await getConnection()
-                    .createQueryBuilder(ZikrEntity, 'azkar')
-                    .update()
+                await sql
                     // set order to current list index
                     // because reorder only affects list index
                     .set({ order: y })
@@ -680,7 +705,10 @@ import { Du3a } from '@/schema/Du3aEntity';
             }
 
             this.fontSize += 0.1;
-            Storage.set({ key: 'zikrFontSize', value: `${this.fontSize}` });
+            Storage.set({
+                key: `${this.type}FontSize`,
+                value: `${this.fontSize}`,
+            });
         }
 
         /**
@@ -695,7 +723,10 @@ import { Du3a } from '@/schema/Du3aEntity';
             }
 
             this.fontSize -= 0.1;
-            Storage.set({ key: 'zikrFontSize', value: `${this.fontSize}` });
+            Storage.set({
+                key: `${this.type}FontSize`,
+                value: `${this.fontSize}`,
+            });
         }
 
         async onDecree(
@@ -723,6 +754,11 @@ import { Du3a } from '@/schema/Du3aEntity';
                 return;
             }
 
+            if (this.type === CategoryType.Du3a) {
+                this.$router.replace(`/tabs/${this.type}`);
+                return;
+            }
+
             this.modal = await modalController.create({
                 component: ZikrStats,
                 backdropDismiss: false,
@@ -738,7 +774,7 @@ import { Du3a } from '@/schema/Du3aEntity';
 
         async goBack() {
             if (!this.readed) {
-                await this.$router.replace('/tabs/zikr');
+                await this.$router.replace(`/tabs/${this.type}`);
                 return;
             }
 
@@ -764,12 +800,12 @@ import { Du3a } from '@/schema/Du3aEntity';
                 (x) => x.slug === (this.$route.params.slug as string)
             )[0];
 
-            Storage.get({ key: 'zikrTheme' }).then(
+            Storage.get({ key: `${this.type}Theme` }).then(
                 (res) => (this.theme = res.value ?? this.theme)
             );
 
             // set font size
-            Storage.get({ key: 'zikrFontSize' }).then(
+            Storage.get({ key: `${this.type}FontSize` }).then(
                 (res) =>
                     (this.fontSize = parseFloat(
                         res.value ?? `${this.fontSize}`
@@ -779,7 +815,7 @@ import { Du3a } from '@/schema/Du3aEntity';
 
         mounted() {
             emitter.on('go-home', async () => {
-                await this.$router.replace('/tabs/zikr');
+                await this.$router.replace(`/tabs/${this.type}`);
                 await this.modal?.dismiss();
             });
         }
