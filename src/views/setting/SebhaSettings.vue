@@ -161,11 +161,11 @@
                 })
             ).data;
 
-            console.log(
-                contents,
-                contents.toString(),
-                convertBlobToBase64(contents)
-            );
+            // console.log(
+            //     contents,
+            //     contents.toString(),
+            //     convertBlobToBase64(contents)
+            // );
 
             this.saveImage((await convertBlobToBase64(contents)) as string);
         }
@@ -192,7 +192,7 @@
         }
 
         async updateAutoNext(ev: { checked: boolean }) {
-            console.log(this.autoNext, 'from upad');
+            // console.log(this.autoNext, 'from upad');
 
             await loader.show();
 
