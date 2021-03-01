@@ -12,10 +12,12 @@ export class ZikrFactoryClass extends BaseFactory {
         zikr.count = 1;
         zikr.byUser = this.faker.random.boolean();
         zikr.order = this.faker.random.number(100);
+        zikr.meta = this.faker.random.boolean()
+            ? this.faker.lorem.sentence()
+            : undefined;
         return zikr;
     }
 
-    
     /**
      * add relations to this entity instance and save it
      * @param entity BaseEntity

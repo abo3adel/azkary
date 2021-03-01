@@ -5,7 +5,7 @@
                 color="primary"
                 @click="$emit('share', { body: z.body })"
             >
-                <ion-icon slot='start' :icon="shareSocialOutline"></ion-icon>
+                <ion-icon slot="start" :icon="shareSocialOutline"></ion-icon>
                 <ion-label class="hidden sm:inline-block">
                     {{ $t('show.item.share') }}
                 </ion-label>
@@ -14,7 +14,7 @@
                 color="tertiary"
                 @click="$emit('addToSebha', { zikr: z })"
             >
-                <ion-icon slot='start' :icon="sendOutline"></ion-icon>
+                <ion-icon slot="start" :icon="sendOutline"></ion-icon>
                 <ion-label class="hidden sm:inline-block">
                     {{ $t('show.item.addSebha') }}
                 </ion-label>
@@ -29,14 +29,20 @@
             :color="zinx % 2 == 0 ? 'light' : ''"
             dir="rtl"
         >
-            <ion-label style="white-space: break-spaces;word-wrap: break-all;">
+            <ion-label style="white-space: break-spaces;overflow-wrap: break-word;">
+                <p
+                    class="text-sm text-primary-600"
+                    :style="`color: var(--ion-color-${color})`"
+                >
+                    {{ z.meta }}
+                </p>
                 {{ z.body }}
             </ion-label>
             <ion-ripple-effect></ion-ripple-effect>
             <ion-note
                 slot="end"
                 :color="color"
-                class="px-2 m-0 font-bold text-md"
+                class="px-2 m-0 text-lg font-bold"
             >
                 {{ z.count }}
             </ion-note>
@@ -47,7 +53,7 @@
                 color="secondary"
                 @click="$emit('edit', { zikr: z })"
             >
-                <ion-icon slot='start' :icon="createOutline"></ion-icon>
+                <ion-icon slot="start" :icon="createOutline"></ion-icon>
                 <ion-label class="hidden sm:inline-block">
                     {{ $t('show.item.edit') }}
                 </ion-label>
@@ -56,7 +62,7 @@
                 color="danger"
                 @click="$emit('remove', { id: z.id })"
             >
-                <ion-icon slot='start' :icon="trashBinOutline"></ion-icon>
+                <ion-icon slot="start" :icon="trashBinOutline"></ion-icon>
                 <ion-label class="hidden sm:inline-block">
                     {{ $t('show.item.delete') }}
                 </ion-label>

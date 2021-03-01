@@ -7,7 +7,7 @@ export interface Zikr {
     count: number;
     byUser: boolean;
     order: number;
-    meta: string;
+    meta?: string;
     category: any;
 }
 

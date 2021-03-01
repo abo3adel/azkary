@@ -4,7 +4,7 @@ import { BaseColumnSchema } from './BaseColumnSchema';
 export class Du3a {
     id!: number;
     body!: string;
-    meta!: string;
+    meta?: string;
     order!: number;
     category!: any;
 }

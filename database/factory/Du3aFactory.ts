@@ -5,6 +5,9 @@ export class Du3aFactoryClass extends BaseFactory {
     getData(): any {
         const du3a = new Du3a();
         du3a.body = this.faker.lorem.sentence();
+        du3a.meta = this.faker.random.boolean()
+            ? this.faker.lorem.sentence()
+            : undefined;
         return du3a;
     }
 }

@@ -61,7 +61,7 @@ class Seeder {
         );
         await this.createCategory(
             faker.lorem.sentence(),
-            'mix',
+            'mix_du3a',
             CategoryType.Du3a
         );
         await this.createCategory(

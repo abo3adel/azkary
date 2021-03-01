@@ -28,7 +28,17 @@
                 "
             >
                 <div class="flex h-full overflow-auto">
-                    <div class="m-auto">
+                    <div class="m-auto break-words">
+                        <p
+                            class="text-sm text-primary-600"
+                            :style="
+                                theme === 'slide-colored'
+                                    ? `color: var(--ion-color-${color})`
+                                    : ''
+                            "
+                        >
+                            {{ z.meta }}
+                        </p>
                         {{ z.body }}
                     </div>
                 </div>

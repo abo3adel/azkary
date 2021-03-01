@@ -1,13 +1,23 @@
 <template>
     <div class="relative w-11/12 mx-auto mt-4 mb-8" v-if="z.count > 0">
         <div
-            class="relative px-3 pt-2 pb-4 overflow-hidden bg-gray-100 border border-gray-500 rounded-md shadow-2xl select-none hover:cursor-pointer ion-activatable ripple-parent "
+            class="relative px-3 pt-2 pb-4 overflow-hidden break-words bg-gray-100 border border-gray-500 rounded-md shadow-2xl select-none hover:cursor-pointer ion-activatable ripple-parent"
             @click="
                 z.count--;
                 $emit('decree', z.count, z.id);
             "
             dir="rtl"
         >
+            <p
+                class="text-sm text-primary-600"
+                :style="
+                    theme === 'dev-colored'
+                        ? `color: var(--ion-color-${color})`
+                        : ''
+                "
+            >
+                {{ z.meta }}
+            </p>
             {{ z.body }}
             <slot name="order"></slot>
             <ion-ripple-effect></ion-ripple-effect>
