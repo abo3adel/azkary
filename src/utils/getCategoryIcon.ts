@@ -94,7 +94,7 @@ export default function getCategoryIcon(): CategoryIcon[] {
             type: 'svg',
             name: '',
             color: 'danger',
-            slug: 'mix',
+            slug: 'mix_du3a',
         },
         {
             type: 'svg',

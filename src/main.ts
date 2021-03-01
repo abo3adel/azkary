@@ -48,7 +48,7 @@ router.isReady().then(async () => {
         // db();
     }
 
-    await loader.show();
+    // await loader.show();
 
     const user = (
         await (await db())

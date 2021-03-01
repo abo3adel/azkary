@@ -1,17 +1,22 @@
 <template>
     <ion-app>
         <ion-router-outlet />
+        <div class="w-full h-full" v-if="firstTime">
+            <first-time-slides @start="firstTime = false" />
+        </div>
     </ion-app>
 </template>
 
 <script lang="ts">
     import { IonApp, IonRouterOutlet, isPlatform } from '@ionic/vue';
-    import { defineComponent } from 'vue';
+    import { defineComponent, defineAsyncComponent } from 'vue';
     import 'reflect-metadata';
     import { setStyles } from '@/common/styleApp';
     import { Plugins } from '@capacitor/core';
     import loader from './utils/loader';
     import seeder from './seeder';
+    import Loading from '@/components/Loading.vue';
+
     const { StatusBar, Storage } = Plugins;
 
     export const COLORES = [
@@ -27,26 +32,33 @@
         { id: 'purple', color: '#9c27b0', lighter: '#a63db8' },
     ];
 
+    const FirstSlides = defineAsyncComponent({
+        loader: () => import('@/components/FirstTimeSlides.vue'),
+        // loadingComponent: Loading,
+    });
+
     export default defineComponent({
         name: 'App',
         components: {
             IonApp,
             IonRouterOutlet,
+            'first-time-slides': FirstSlides,
         },
         inject: ['lang', 'dark', 'fontSize', 'fontType', 'theme'],
         data() {
             return {
-                //
+                firstTime: false,
             };
         },
         async mounted() {
-            // await loader.show();
+            await loader.show();
 
             // first type run
             const { value } = await Storage.get({ key: 'firstDone' });
             if (!value || value === 'undefined') {
-                // seed db
+                this.firstTime = true;
 
+                // seed db
                 Storage.set({ key: 'firstDone', value: 'yes' });
 
                 await seeder.run();

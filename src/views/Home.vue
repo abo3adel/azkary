@@ -77,15 +77,12 @@
     import { Options, Vue } from 'vue-class-component';
     import { cogOutline, informationCircleOutline } from 'ionicons/icons';
     import getHijirDate from '@/common/getHijirDate';
-    // import { Fonts } from '@/schema/UserEntity';
     import TxtCard from '@/components/TxtCard.vue';
     import Quran from '@/components/home/Quran.vue';
     import Hadith from '@/components/home/Hadith.vue';
 
-    import { Plugins } from '@capacitor/core';
     import { Fonts, UserEntity } from '@/schema/UserEntity';
     import db from '@/utils/db';
-    const { Storage } = Plugins;
 
     @Options({
         components: {
