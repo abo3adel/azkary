@@ -25,18 +25,21 @@
                 z.count--;
                 $emit('decree', z.count, z.id);
             "
+            style="font-family: inherit"
             class="select-none hover:cursor-pointer ion-activatable ripple-parent"
             :color="zinx % 2 == 0 ? 'light' : ''"
             dir="rtl"
         >
-            <ion-label style="white-space: break-spaces;overflow-wrap: break-word;">
+            <ion-label
+                style="white-space: break-spaces;overflow-wrap: break-word;"
+            >
                 <p
                     class="text-sm text-primary-600"
                     :style="`color: var(--ion-color-${color})`"
                 >
                     {{ z.meta }}
                 </p>
-                {{ z.body }}
+                <span v-html="highlite(z.body)"></span>
             </ion-label>
             <ion-ripple-effect></ion-ripple-effect>
             <ion-note
@@ -88,7 +91,7 @@
         createOutline,
         sendOutline,
     } from 'ionicons/icons';
-    import { EmitsList, Props as Abstract } from './Abstract';
+    import { EmitsList, Props as Abstract, highliteText } from './Abstract';
 
     class Props extends Abstract {
         zinx = prop<number>({ required: true });
@@ -112,5 +115,9 @@
         trashBinOutline = trashBinOutline;
         createOutline = createOutline;
         sendOutline = sendOutline;
+
+        highlite(txt: string) {
+            return highliteText(txt, '', this.color);
+        }
     }
 </script>

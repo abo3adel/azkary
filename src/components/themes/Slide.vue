@@ -39,7 +39,7 @@
                         >
                             {{ z.meta }}
                         </p>
-                        {{ z.body }}
+                        <span v-html="highlite(z.body)"></span>
                     </div>
                 </div>
             </swiper-slide>
@@ -67,7 +67,7 @@
 </template>
 <script lang="ts">
     import { Options, Vue, prop } from 'vue-class-component';
-    import { EmitsList, showOprs } from './Abstract';
+    import { EmitsList, showOprs, highliteText } from './Abstract';
     import { Zikr } from '@/entities/Zikr';
 
     // @ts-ignore
@@ -223,6 +223,10 @@
             this.bar.set(
                 (this.zikr.count - this.current.count) / this.zikr.count
             );
+        }
+
+        highlite(txt: string) {
+            return highliteText(txt, this.theme, this.color);
         }
 
         /**

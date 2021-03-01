@@ -64,3 +64,19 @@ export async function showOprs(zikr: Zikr, self: Vue): Promise<void> {
     });
     await actionSheet.present();
 }
+
+export function highliteText(
+    txt: string,
+    theme: string,
+    color: string
+): string {
+    txt = txt.replace(
+        'اللَّهُمَّ',
+        `<span class='text-primary-600' style="${
+            theme.indexOf('colored') > -1
+                ? `color: var(--ion-color-${color})`
+                : ''
+        }">اللَّهُمَّ</span>`
+    );
+    return txt;
+}
