@@ -4,6 +4,7 @@ import { BaseColumnSchema } from './BaseColumnSchema';
 export enum Fonts {
     Base = 'Cairo',
     Amiri = 'AmiriQuranColored',
+    AmiriUnColored = 'AmiriQuran',
     Hafs = 'UthmanicHafs-Ver16',
     Tajawal = 'Tajawal-Regular',
     Mirza = 'Mirza-Regular',

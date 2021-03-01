@@ -7,6 +7,14 @@
 }
 
 @font-face {
+    font-family: 'AmiriQuran';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('./fonts/AmiriQuran.ttf') format('woff2');
+}
+
+@font-face {
     font-family: 'AmiriQuranColored';
     font-style: normal;
     font-weight: 400;

@@ -215,6 +215,31 @@ http://ionicframework.com/docs/theming/ */
     --ion-color-danger-shade: #e04055;
     --ion-color-danger-tint: #ff5b71;
 
+    
+    /** teal **/
+    --ion-color-teal: #4df5b4;
+    --ion-color-teal-rgb: 26, 188, 126;
+    --ion-color-teal-contrast: #ffffff;
+    --ion-color-teal-contrast-rgb: 0, 0, 0;
+    --ion-color-teal-shade: #32d194;
+    --ion-color-teal-tint: #54c298;
+
+    /** pink **/
+    --ion-color-pink: #f74681;
+    --ion-color-pink-rgb: 233, 30, 99;
+    --ion-color-pink-contrast: #ffffff;
+    --ion-color-pink-contrast-rgb: 255, 255, 255;
+    --ion-color-pink-shade: #d43469;
+    --ion-color-pink-tint: #dd7396;
+
+    /** purple **/
+    --ion-color-purple: #e35afc;
+    --ion-color-purple-rgb: 156, 39, 176;
+    --ion-color-purple-contrast: #ffffff;
+    --ion-color-purple-contrast-rgb: 255, 255, 255;
+    --ion-color-purple-shade: #9c27b0;
+    --ion-color-purple-tint: #d465e7;
+
     --ion-color-dark: #f4f5f8;
     --ion-color-dark-rgb: 244, 245, 248;
     --ion-color-dark-contrast: #000000;

@@ -114,7 +114,7 @@
             :fullscreen="true"
             :style="
                 `font-family: '${azkarFont}', 'AmiriQuranColored';${
-                    azkarFont === 'AmiriQuranColored'
+                    azkarFont.indexOf('AmiriQuran') > -1
                         ? '    line-height: 2.8rem'
                         : ''
                 };`

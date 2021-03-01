@@ -188,6 +188,7 @@
     export const FontTypes = [
         Fonts.Base,
         Fonts.Amiri,
+        Fonts.AmiriUnColored,
         Fonts.Hafs,
         Fonts.Tajawal,
         Fonts.Mirza,
@@ -222,7 +223,7 @@
         theme = ThemeColors[0]; // primary as defualt
         dark = false;
         fontTypes = FontTypes;
-        azkarFonts = [Fonts.Amiri, Fonts.Hafs, Fonts.Mirza, Fonts.Ruqaa];
+        azkarFonts = [Fonts.AmiriUnColored, Fonts.Amiri, Fonts.Hafs, Fonts.Mirza, Fonts.Ruqaa];
         colors = ThemeColors;
 
         async loadAppSet() {
@@ -315,6 +316,9 @@
         }
         .AmiriQuranColored {
             font-family: 'AmiriQuranColored';
+        }
+        .AmiriQuran {
+            font-family: 'AmiriQuran';
         }
         .UthmanicHafs-Ver16 {
             font-family: 'UthmanicHafs-Ver16';

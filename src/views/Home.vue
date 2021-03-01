@@ -83,7 +83,8 @@
     import Hadith from '@/components/home/Hadith.vue';
 
     import { Plugins } from '@capacitor/core';
-    import { Fonts } from '@/schema/UserEntity';
+    import { Fonts, UserEntity } from '@/schema/UserEntity';
+    import db from '@/utils/db';
     const { Storage } = Plugins;
 
     @Options({
@@ -114,8 +115,12 @@
 
         async mounted() {
             this.azkarFont =
-                (await Storage.get({ key: 'azkarFont' })).value ??
-                this.azkarFont;
+                (
+                    await (await db())
+                        .createQueryBuilder(UserEntity, 'user_ent')
+                        .select(['azkarFont'])
+                        .execute()
+                )[0]?.azkarFont ?? this.azkarFont;
 
             // @ts-ignore
             this.hijir = getHijirDate(this.lang);

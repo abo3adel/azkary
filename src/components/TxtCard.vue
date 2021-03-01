@@ -2,6 +2,7 @@
     <div
         class="w-11/12 mx-auto bg-gray-200 rounded-md shadow-lg card dark:bg-gray-700"
         :class="cls"
+        style="background-color: var(--ion-item-background)"
     >
         <div
             class="flex rounded-md rounded-bl-none rounded-br-none bg-primary-600 text-color"
