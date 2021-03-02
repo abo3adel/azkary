@@ -1,17 +1,19 @@
 {
-    "appId": "io.ionic.starter",
-    "appName": "myAzkar",
-    "bundledWebRuntime": false,
-    "npmClient": "npm",
-    "webDir": "dist",
-    "plugins": {
-        "SplashScreen": {
-            "launchShowDuration": 4000
-        }
-    },
-    "cordova": {},
-    "server": {
-        "url": "http://192.168.1.7:8100",
-        "cleartext": true
+  "appId": "io.ionic.starter",
+  "appName": "myAzkar",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 4000
     }
+  },
+  "cordova": {},
+  "server": {
+    "url": "http://192.168.1.7:8100",
+    "cleartext": true,
+    "originalUrl": "http://192.168.1.7:8100",
+    "originalCleartext": true
+  }
 }

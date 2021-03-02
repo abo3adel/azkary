@@ -271,6 +271,7 @@
     import share from '@/utils/share';
     import { Sebha, SebhaEntity } from '@/schema/SebhaEntity';
     import { Du3aEntity } from '@/schema/Du3aEntity';
+    import confirmAppExit from '@/utils/confirmAppExit';
 
     const { Modals, Storage } = Plugins;
 
@@ -381,10 +382,6 @@
             } else {
                 document.removeEventListener('keyup', this.keyboardEvents);
             }
-        }
-
-        ionViewWillLeave() {
-            document.removeEventListener('keyup', this.keyboardEvents);
         }
 
         async keyboardEvents(ev: any) {
@@ -785,6 +782,22 @@
             emitter.emit('slide-cog');
         }
 
+        backButtonEv(ev: any) {
+            ev.detail.register(8, async () => {
+                if (this.$route.path.indexOf('/tabs/') > -1) {
+                    await confirmAppExit(this);
+                    return;
+                }
+
+                if (this.modal?.isConnected) {
+                    await this.$router.replace(`/tabs/${this.type}`);
+                    await this.modal?.dismiss();
+                    return;
+                }
+                await this.goBack();
+            });
+        }
+
         ionViewWillEnter() {
             this.loadData();
 
@@ -793,6 +806,14 @@
             } else {
                 document.removeEventListener('keyup', this.keyboardEvents);
             }
+
+            document.addEventListener('ionBackButton', this.backButtonEv);
+        }
+
+        ionViewWillLeave() {
+            document.removeEventListener('keyup', this.keyboardEvents);
+
+            document.removeEventListener('ionBackButton', this.backButtonEv);
         }
 
         beforeMount() {
@@ -813,8 +834,8 @@
             );
         }
 
-        mounted() {
-            emitter.on('go-home', async () => {
+        async mounted() {
+            await emitter.on('go-home', async () => {
                 await this.$router.replace(`/tabs/${this.type}`);
                 await this.modal?.dismiss();
             });

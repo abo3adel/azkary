@@ -14,8 +14,8 @@
     import { setStyles } from '@/common/styleApp';
     import { Plugins } from '@capacitor/core';
     import loader from './utils/loader';
+    import confirmAppExit from './utils/confirmAppExit';
     import seeder from './seeder';
-    import Loading from '@/components/Loading.vue';
 
     const { StatusBar, Storage } = Plugins;
 
@@ -49,6 +49,11 @@
             return {
                 firstTime: false,
             };
+        },
+        methods: {
+            async confirmExit() {
+                await confirmAppExit(this);
+            },
         },
         async mounted() {
             await loader.show();
@@ -94,6 +99,23 @@
                     color: COLORES.filter((x) => x.id === this.theme)[0].color,
                 });
             }
+
+            document.addEventListener('ionBackButton', (ev: any) => {
+                ev.detail.register(5, async () => {
+                    if (
+                        !window.history.length ||
+                        window.history.length < 2 ||
+                        this.$route.path.indexOf('tabs') > -1
+                    ) {
+                        await this.confirmExit();
+                        return;
+                    }                    
+                });
+
+                ev.detail.register(10, (processNextHandler: any) => {
+                    processNextHandler();
+                });
+            });
 
             await loader.hide();
         },

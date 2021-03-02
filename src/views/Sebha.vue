@@ -13,19 +13,19 @@
             </ion-buttons>
             <ion-buttons slot="end">
                 <ion-button color="light" @click="add">
-                    <ion-icon slot='start' :icon="addOutline" />
+                    <ion-icon slot="start" :icon="addOutline" />
                     <ion-label class="hidden sm:inline-block">
                         {{ $t('sebha.add') }}
                     </ion-label>
                 </ion-button>
                 <ion-button color="light" @click.prevent="togglesebhaTheme">
-                    <ion-icon slot='start' :icon="colorPaletteOutline" />
+                    <ion-icon slot="start" :icon="colorPaletteOutline" />
                     <ion-label class="hidden sm:inline-block">
                         {{ $t('sebha.sebhaTheme') }}
                     </ion-label>
                 </ion-button>
                 <ion-button color="light" @click="toggleColor">
-                    <ion-icon slot='start' :icon="colorFillOutline" />
+                    <ion-icon slot="start" :icon="colorFillOutline" />
                     <ion-label class="hidden sm:inline-block">
                         {{ $t('sebha.color') }}
                     </ion-label>
@@ -35,8 +35,12 @@
                     @click="locked = !locked"
                     class="mx-auto"
                 >
-                    <ion-icon slot='start' :icon="lockOpenOutline" v-if="!locked" />
-                    <ion-icon slot='start' :icon="lockClosedOutline" v-else />
+                    <ion-icon
+                        slot="start"
+                        :icon="lockOpenOutline"
+                        v-if="!locked"
+                    />
+                    <ion-icon slot="start" :icon="lockClosedOutline" v-else />
                     <ion-label class="hidden sm:inline-block">
                         {{ $t('sebha.lock') }}
                     </ion-label>
@@ -44,7 +48,10 @@
             </ion-buttons>
         </ion-toolbar>
         <ion-split-pane content-id="sebha-main-content" class="mt-14">
-            <ion-content class="bg-center bg-cover select-none sebha-con" id="sebha-main-content">
+            <ion-content
+                class="bg-center bg-cover select-none sebha-con"
+                id="sebha-main-content"
+            >
                 <div
                     class="flex w-full h-full text-white bg-black main bg-opacity-20"
                     @click.prevent="config.touch ? onClick() : null"
