@@ -223,7 +223,13 @@
         theme = ThemeColors[0]; // primary as defualt
         dark = false;
         fontTypes = FontTypes;
-        azkarFonts = [Fonts.AmiriUnColored, Fonts.Amiri, Fonts.Hafs, Fonts.Mirza, Fonts.Ruqaa];
+        azkarFonts = [
+            Fonts.AmiriUnColored,
+            Fonts.Amiri,
+            Fonts.Hafs,
+            Fonts.Mirza,
+            Fonts.Ruqaa,
+        ];
         colors = ThemeColors;
 
         async loadAppSet() {
@@ -271,6 +277,14 @@
             // @ts-ignore
             if (prop.dark) {
                 document.documentElement.classList.add('theme-dark');
+
+                // change font from AmiriQuranColored to AmiriQuran
+                // because Colored not working with dark mode
+                if (this.azkarFont === Fonts.Amiri) {
+                    await this.updateProp({ azkarFont: Fonts.AmiriUnColored });
+                    this.azkarFont = Fonts.AmiriUnColored;
+                }
+
                 return;
             }
             document.documentElement.classList.remove('theme-dark');
