@@ -14,21 +14,21 @@
             <ion-buttons slot="end">
                 <ion-button color="light" @click="add">
                     <ion-icon slot="start" :icon="addOutline" />
-                    <ion-label class="hidden sm:inline-block">
-                        {{ $t('sebha.add') }}
-                    </ion-label>
+                    <span class="hidden sm:inline-block">
+                        {{ $t('sebha.addt') }}
+                    </span>
                 </ion-button>
                 <ion-button color="light" @click.prevent="togglesebhaTheme">
                     <ion-icon slot="start" :icon="colorPaletteOutline" />
-                    <ion-label class="hidden sm:inline-block">
+                    <span class="hidden sm:inline-block">
                         {{ $t('sebha.sebhaTheme') }}
-                    </ion-label>
+                    </span>
                 </ion-button>
                 <ion-button color="light" @click="toggleColor">
                     <ion-icon slot="start" :icon="colorFillOutline" />
-                    <ion-label class="hidden sm:inline-block">
+                    <span class="hidden sm:inline-block">
                         {{ $t('sebha.color') }}
-                    </ion-label>
+                    </span>
                 </ion-button>
                 <ion-button
                     color="light"
@@ -41,9 +41,9 @@
                         v-if="!locked"
                     />
                     <ion-icon slot="start" :icon="lockClosedOutline" v-else />
-                    <ion-label class="hidden sm:inline-block">
-                        {{ $t('sebha.lock') }}
-                    </ion-label>
+                    <span class="hidden sm:inline-block">
+                        {{ locked ? $t('sebha.unlock') : $t('sebha.lock') }}
+                    </span>
                 </ion-button>
             </ion-buttons>
         </ion-toolbar>
@@ -722,7 +722,7 @@
                             max: number;
                         }): Promise<void> => {
                             if (!ev.body || !ev.body.length) {
-                                toast(this.$t('sebha.err.noBody'));
+                                toast(this.$t('zikr.err.noBody'));
                                 busy = false;
                                 return;
                             }
@@ -765,10 +765,10 @@
         async remove() {
             busy = true;
             const confirm = await Modals.confirm({
-                title: this.$t('sebha.del.conf'),
-                message: this.$t('sebha.del.mess'),
-                okButtonTitle: this.$t('sebha.del.okBtn'),
-                cancelButtonTitle: this.$t('sebha.del.cancelBtn'),
+                title: this.$t('zikr.del.conf'),
+                message: this.$t('sebha.delMess'),
+                okButtonTitle: this.$t('zikr.del.okBtn'),
+                cancelButtonTitle: this.$t('zikr.del.cancelBtn'),
             });
 
             if (!confirm.value) {
