@@ -36,14 +36,16 @@ export default function getHijirDate(lang = 'ar') {
     const day = DateTime.now()
         .setLocale(lang)
         .toFormat('EEE');
-    let date = `${day} ${hijir.day} `;
+
+    const num = new Intl.NumberFormat(lang === 'ar' ? 'ar-EG' : 'en-US');
+    let date = `${day} ${num.format(hijir.day)} `;
 
     date +=
         lang === 'ar'
-            ? HIJIR_MONTHS_AR[hijir.month -1]
-            : HIJIR_MONTHS_EN[hijir.month -1];
+            ? HIJIR_MONTHS_AR[hijir.month - 1]
+            : HIJIR_MONTHS_EN[hijir.month - 1];
 
-    date += ` ${hijir.year} `;
+    date += ` ${num.format(hijir.year).replace('٬', '').replace(',', '')} `;
 
     return date;
 }
