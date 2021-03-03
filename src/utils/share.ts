@@ -33,6 +33,6 @@ export default async function share(
         await Clipboard.write({
             string: body,
         });
-        toast(self.$t('copied.done'));
+        toast(self.$t('app.copied'));
     }
 }

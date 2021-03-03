@@ -122,7 +122,7 @@
                             }"
                             :ok-text="$t('zikr.del.okBtn')"
                             :cancel-text="$t('zikr.del.cancelBtn')"
-                            :placeholder="$t('setup.app.ftype')"
+                            :placeholder="$t('setup.app.color')"
                             :style="
                                 `background-color: var(--ion-color-${theme})`
                             "

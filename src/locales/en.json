@@ -1,169 +1,169 @@
 {
-    "name": "",
-    "loaderTxt": "",
+    "name": "MyAzkar",
+    "loaderTxt": "Please wait...",
     "app": {
-        "slideName": "",
+        "slideName": "App",
         "slide": {
-            "azkar": "",
-            "azkarMess": "",
-            "ad3ia": "",
-            "sebha": "",
-            "sebhaMess": "",
-            "pc": "",
-            "pcMess": "",
-            "pcCopy": "",
-            "start": ""
+            "azkar": "Muslim Azkar",
+            "azkarMess": "Read a collection of Azkar(prayers)",
+            "ad3ia": "Prayer",
+            "sebha": "Electronic Sebha(rosary)",
+            "sebhaMess": "with the ability to add more",
+            "pc": "Available for PC",
+            "pcMess": "this app is also available for pc",
+            "pcCopy": "copy link",
+            "start": "Begin"
         },
-        "copied": ""
+        "copied": "Copied"
     },
     "home": {
-        "hadith": "",
-        "quran": "",
+        "hadith": "Hadith Sharif",
+        "quran": "Holy Quran",
         "btn": {
-            "share": "",
-            "trans": "",
-            "about": "",
-            "settings": ""
+            "share": "Share",
+            "trans": "Translate",
+            "about": "About",
+            "settings": "Settings"
         },
-        "errNet": ""
+        "errNet": "an error occurred while trying to connect to the internet"
     },
     "show": {
         "item": {
-            "share": "",
-            "addSebha": "",
-            "edit": "",
-            "del": "",
-            "close": ""
+            "share": "Share",
+            "addSebha": "Add to Sebha",
+            "edit": "Edit",
+            "del": "Delete",
+            "close": "close"
         }
     },
     "zikr": {
-        "count": "",
-        "opr": "",
-        "toolbar": "",
+        "count": "Repetition",
+        "opr": "Control",
+        "toolbar": "Muslim Azkar(prayers)",
         "stats": {
-            "calc": "",
-            "added": "",
-            "total": ""
+            "calc": "Azkar Calculator",
+            "added": "Added Azkar",
+            "total": "Total Readed Azkar"
         },
         "notify": {
-            "title": ""
+            "title": "Azkar Notifications"
         },
         "cat": {
-            "morning": "",
-            "night": "",
-            "mosque": "",
-            "wake-up": "",
-            "sleep": "",
-            "salat": "",
-            "hajj": "",
-            "mix": "",
-            "ablution": "",
-            "food": "",
+            "morning": "Morning Prayers",
+            "night": "Evening Prayers",
+            "mosque": "Mosque Prayers",
+            "wake-up": "Waking up Prayers",
+            "sleep": "Sleeping Prayers",
+            "salat": "Salat Prayers",
+            "hajj": "Pilgrimage Prayers",
+            "mix": "Various Prayers",
+            "ablution": "Ablution Prayers",
+            "food": "Food Prayers",
 
-            "quranic": "",
-            "prophet_mohamed": "",
-            "prophets": "",
-            "mix_du3a": "",
-            "quran_end": "",
-            "du3a_favour": "",
-            "roqia_shar3ia": "",
-            "death": ""
+            "quranic": "the Qur'an supplications",
+            "prophet_mohamed": "Prophet Muhammed (ﷺ) Supplications",
+            "prophets": "all prophet`s (عليهم السلام) Supplications",
+            "mix_du3a": "Various Supplications",
+            "quran_end": "Supplication after Completing a Reading of the Qur'an",
+            "du3a_favour": "The Virtue of supplication",
+            "roqia_shar3ia": "Ruqyah Al Shariah",
+            "death": "Supplications for Dead One"
         },
         "show": {
-            "reorder": "",
-            "addt": "",
-            "brush": "",
-            "font": "",
-            "slideCog": "",
-            "add": {
-                "countPH": "",
-                "header": "",
-                "cancel": "",
-                "save": ""
-            },
-            "err": {
-                "noBody": "",
-                "noOrder": "",
-                "font-increse": "",
-                "font-decrese": ""
-            },
-            "sebhaDone": "",
-            "del": {
-                "conf": "",
-                "mess": "",
-                "okBtn": "",
-                "cancelBtn": ""
-            },
-            "share": {
-                "dtitle": ""
-            }
+            "reorder": "Reorder",
+            "addt": "Add new Zikr",
+            "brush": "Change Theme",
+            "font": "A",
+            "slideCog": "Control"
+        },
+        "add": {
+            "countPH": "Repetition",
+            "header": "Add new Zikr",
+            "cancel": "Cancel",
+            "save": "Save"
+        },
+        "err": {
+            "noBody": "please add zikr",
+            "noOrder": "you didn`t change any item order",
+            "font-increse": "Sorry, the font cannot be enlarged more than this",
+            "font-decrese": "Sorry, the font cannot be smaller than this"
+        },
+        "sebhaDone": "Successfully Done",
+        "del": {
+            "conf": "Please Confirm:",
+            "mess": "Are you sure to remove this?",
+            "okBtn": "Confirm",
+            "cancelBtn": "Cancel"
+        },
+        "share": {
+            "dtitle": "Share"
         }
     },
     "notify": {
-        "byApp": "",
-        "byUser": ""
+        "byApp": "App Prayers",
+        "byUser": "User Prayers"
     },
     "sebha": {
-        "addt": "",
-        "sebhaTheme": "",
-        "color": "",
-        "lock": "",
-        "unlock": "",
-        "max": "",
-        "total": "",
-        "current": "",
-        "delMess": "",
+        "addt": "Add new Sebha",
+        "sebhaTheme": "Change Theme",
+        "color": "Change Primary Color",
+        "lock": "Lock",
+        "unlock": "UnLock",
+        "max": "Max",
+        "total": "Total Times Completed",
+        "current": "Current",
+        "delMess": "Are you sure you want to remove this sebha(rosary)?",
         "add": {
-            "header": "",
-            "pl": "",
-            "max": ""
+            "header": "Add new",
+            "pl": "Sebha body",
+            "max": "Max"
         },
         "menu": {
-            "current": ""
+            "current": "Current"
         }
     },
     "setup": {
-        "title": "",
-        "restart": "",
+        "title": "Settings",
+        "restart": "please, restart app",
         "app": {
-            "lang": "",
-            "size": "",
-            "save": "",
-            "font": "",
-            "ftype": "",
-            "azkarFont": "",
-            "look": "",
-            "color": "",
-            "dark": ""
+            "lang": "Language",
+            "size": "Font Size",
+            "save": "Save",
+            "font": "Font",
+            "ftype": "Font Type",
+            "azkarFont": "Prayers Font Type",
+            "look": "Theme",
+            "color": "Change Primary Color",
+            "dark": "Night Mode"
         },
         "azkar": {
-            "enable": "",
-            "autoHide": "",
-            "times": "",
-            "morning": "",
-            "night": "",
-            "morningTime": "",
-            "nightTime": "",
-            "notEnabled": "",
-            "countDay": ""
+            "enable": "Enable Notifications",
+            "autoHide": "Auto Hide",
+            "times": "Notifications Times",
+            "morning": "Morning prayers",
+            "night": "Evening prayers",
+            "morningTime": "Notifications Time for Morning prayers",
+            "nightTime": "Notifications Time for Evening prayers",
+            "notEnabled": "Prayers Notifications are not enabled",
+            "countDay": "Notifications per day"
         },
         "control": {
-            "sound": "",
-            "vibration": "",
-            "hardKeys": "",
-            "touch": "",
-            "keyboard": ""
+            "sound": "Play sound on tab",
+            "vibration": "vibrate on tab",
+            "hardKeys": "use Volume keys to control sebha",
+            "touch": "tab to increment sebha",
+            "keyboard": "Enable Keyboard"
         },
         "list": {
-            "app": "",
-            "control": "",
-            "azkar": "",
-            "sebha": ""
+            "app": "Application Settings",
+            "control": "Control Settings",
+            "azkar": "Azkar(prayers) Settings",
+            "sebha": "Sebha(rosary) Settings"
         },
         "sebha": {
-            "auto": "",
-            "bg": "",
-            "chooseBg": ""
+            "auto": "Automatically select next sebha",
+            "bg": "Background Image",
+            "chooseBg": "Choose Image"
         }
     }
 }
