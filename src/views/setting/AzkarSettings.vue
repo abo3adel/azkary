@@ -263,7 +263,7 @@
                 notifications: [
                     {
                         id,
-                        title: this.$t('app.name'),
+                        title: this.$t('name'),
                         body,
                         schedule: {
                             on: {
@@ -303,7 +303,7 @@
                 .execute()) as NotifyZikr[];
 
             const notifications: LocalNotification[] = [];
-            const appName = this.$t('app.name');
+            const appName = this.$t('name');
             const at = 24 / val;
 
             for (let x = 0; x < val; x++) {

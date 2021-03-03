@@ -1,9 +1,9 @@
 <template>
     <ion-loading
         :is-open="true"
-        :message="$t('loderTxt')"
+        :message="$t('loaderTxt')"
         cssClass="ion-loader"
-        duration="5000"
+        duration="2000"
     >
     </ion-loading>
 </template>

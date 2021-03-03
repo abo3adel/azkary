@@ -566,7 +566,7 @@
                 .execute();
 
             if (done.identifiers[0].id) {
-                toast(this.$t('zikr.show.sebhaDone'));
+                toast(this.$t('zikr.sebhaDone'));
             }
         }
 
@@ -658,7 +658,7 @@
                 (x, inx) => x.id !== this.oldOrder[inx].id
             );
             if (!changed) {
-                toast(this.$t('zikr.err.noOrdered'));
+                toast(this.$t('zikr.err.noOrder'));
                 return;
             }
             await loader.show();

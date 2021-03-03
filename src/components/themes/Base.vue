@@ -67,7 +67,7 @@
             >
                 <ion-icon slot="start" :icon="trashBinOutline"></ion-icon>
                 <ion-label class="hidden sm:inline-block">
-                    {{ $t('show.item.delete') }}
+                    {{ $t('show.item.del') }}
                 </ion-label>
             </ion-item-option>
         </ion-item-options>

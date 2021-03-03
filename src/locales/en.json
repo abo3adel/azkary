@@ -40,6 +40,7 @@
         "count": "Repetition",
         "opr": "Control",
         "toolbar": "Muslim Azkar(prayers)",
+        "sebhaDone": "Successfully Done",
         "stats": {
             "calc": "Azkar Calculator",
             "added": "Added Azkar",
@@ -88,7 +89,6 @@
             "font-increse": "Sorry, the font cannot be enlarged more than this",
             "font-decrese": "Sorry, the font cannot be smaller than this"
         },
-        "sebhaDone": "Successfully Done",
         "del": {
             "conf": "Please Confirm:",
             "mess": "Are you sure to remove this?",
@@ -119,7 +119,8 @@
             "max": "Max"
         },
         "menu": {
-            "current": "Current"
+            "current": "Current",
+            "title": "Select Sebha item"
         }
     },
     "setup": {
@@ -145,7 +146,8 @@
             "morningTime": "Notifications Time for Morning prayers",
             "nightTime": "Notifications Time for Evening prayers",
             "notEnabled": "Prayers Notifications are not enabled",
-            "countDay": "Notifications per day"
+            "countDay": "Notifications per day",
+            "notifyAzkar": "Azkar Notifications"
         },
         "control": {
             "sound": "Play sound on tab",
