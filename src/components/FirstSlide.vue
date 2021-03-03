@@ -4,10 +4,10 @@
             src="/assets/slides/icon.svg"
             width="20"
             height="20"
-            class="icon"
+            class="icon animate-pulse"
         />
     </div>
-    <h1 class="mt-3 text-3xl">{{ $t('app.slideName') }}</h1>
+    <h1 class="mt-3 text-5xl">{{ $t('app.slideName') }}</h1>
 </template>
 <script>
     export default {

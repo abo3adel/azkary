@@ -139,10 +139,10 @@
     });
 </script>
 <style>
-img.icon {
-    width: 100% !important;
-    height: 100% !important;
-    margin-right: auto;
-    margin-left: auto;
-}
+    img.icon {
+        width: 100% !important;
+        height: 100% !important;
+        margin-right: auto;
+        margin-left: auto;
+    }
 </style>

@@ -2,7 +2,7 @@
     "name": "MyAzkar",
     "loaderTxt": "Please wait...",
     "app": {
-        "slideName": "App",
+        "slideName": "MyAzkar Application",
         "slide": {
             "azkar": "Muslim Azkar",
             "azkarMess": "Read a collection of Azkar(prayers)",
