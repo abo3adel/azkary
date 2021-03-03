@@ -1,11 +1,30 @@
 <template>
     <ion-page>
+        <ion-toolbar color="primary" class="haveBg">
+            <ion-buttons slot="start">
+                <ion-button
+                    color="light"
+                    @click.prevent="$router.replace('/tabs/zikr/')"
+                >
+                    <ion-icon
+                        slot="icon-only"
+                        :icon="arrowBackOutline"
+                        class="rtl:transform rtl:rotate-180"
+                    ></ion-icon>
+                </ion-button>
+            </ion-buttons>
+            <ion-title>{{ $t('setup.azkar.notifyAzkar') }}</ion-title>
+            <ion-icon
+                slot="end"
+                src="/assets/icons/ramadan.svg"
+                style="font-size: 2.5rem;"
+            />
+        </ion-toolbar>
         <ion-toolbar>
             <ion-segment
                 @ionChange="segmentChanged($event.detail)"
                 :value="active"
                 color="primary"
-                :swipe-gesture="true"
                 class="shadow-lg"
             >
                 <ion-segment-button value="app">
@@ -64,10 +83,13 @@
         IonItem,
         IonFab,
         IonFabButton,
+        IonButtons,
+        IonButton,
+        IonTitle,
         IonIcon,
         alertController,
     } from '@ionic/vue';
-    import { addOutline } from 'ionicons/icons';
+    import { addOutline, arrowBackOutline } from 'ionicons/icons';
     import db from '@/utils/db';
     import { NotifyZikr } from '@/entities/NotifyZikr';
     import toast from '@/utils/toast';
@@ -87,6 +109,9 @@
             IonItem,
             IonFab,
             IonFabButton,
+            IonButtons,
+            IonButton,
+            IonTitle,
             IonIcon,
         },
     })
@@ -95,6 +120,7 @@
         active = 'user';
 
         addOutline = addOutline;
+        arrowBackOutline = arrowBackOutline;
 
         /**
          * load all azkar items

@@ -33,6 +33,10 @@ const routes: Array<RouteRecordRaw> = [
         ],
     },
     {
+        path: '/notifiy_azkar',
+        component: () => import('@/views/Notify.vue'),
+    },
+    {
         path: '/zikr/:slug',
         component: () => import('@/views/items/Show.vue'),
         props: { type: CategoryType.Zikr },

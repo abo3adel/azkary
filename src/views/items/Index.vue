@@ -10,7 +10,7 @@
                         <ion-button
                             type="button"
                             tab="notify"
-                            @click.prevent="$router.replace('/tabs/notify')"
+                            @click.prevent="$router.replace('/notifiy_azkar')"
                         >
                             <ion-icon
                                 slot="end"
