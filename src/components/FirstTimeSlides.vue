@@ -7,15 +7,7 @@
     >
         <ion-slide class="">
             <div class="slide">
-                <div class="w-1/2 mx-auto">
-                    <img
-                        src="/assets/slides/icon.svg"
-                        width="20"
-                        height="20"
-                        class="w-8 h-8"
-                    />
-                </div>
-                <h1 class="mt-3 text-3xl">{{ $t('app.slideName') }}</h1>
+                <first-slide />
             </div>
         </ion-slide>
 
@@ -110,6 +102,7 @@
 <script lang="ts">
     import { Options, Vue } from 'vue-class-component';
     import { IonSlides, IonSlide, IonButton } from '@ionic/vue';
+    import FirstSlide from '@/components/FirstSlide.vue';
 
     import { Plugins } from '@capacitor/core';
     import toast from '@/utils/toast';
@@ -117,8 +110,8 @@
     const { Clipboard } = Plugins;
 
     @Options({
-        components: { IonSlides, IonSlide, IonButton },
-        emits: ['start'],
+        components: { IonSlides, IonSlide, IonButton, FirstSlide },
+        emits: ['start', 'hideSlide'],
     })
     export default class FirstTimeSlides extends Vue {
         slideOpts = {
@@ -135,6 +128,10 @@
             });
 
             toast(this.$t('app.copied'));
+        }
+
+        mounted() {
+            setTimeout(() => this.$emit('hideSlide'), 400);
         }
     }
 </script>

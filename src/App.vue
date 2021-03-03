@@ -1,9 +1,21 @@
 <template>
     <ion-app>
-        <ion-router-outlet />
-        <div class="w-full h-full" v-if="firstTime">
-            <first-time-slides @start="firstTime = false" />
+        <div
+            class="relative z-10 flex items-center justify-center flex-shrink-0 w-full h-full text-center bg-gradient-to-tr from-gray-50 to-gray-200"
+            v-if="slide"
+        >
+            <div class="w-full">
+                <first-slide />
+            </div>
         </div>
+
+        <div class="absolute w-full h-full" v-if="firstTime">
+            <first-time-slides
+                @start="firstTime = false"
+                @hide-slide="slide = false"
+            />
+        </div>
+        <ion-router-outlet />
     </ion-app>
 </template>
 
@@ -16,6 +28,7 @@
     import loader from './utils/loader';
     import confirmAppExit from './utils/confirmAppExit';
     import seeder from './seeder';
+    import FirstSlide from '@/components/FirstSlide.vue';
 
     const { StatusBar, Storage } = Plugins;
 
@@ -40,6 +53,7 @@
     export default defineComponent({
         name: 'App',
         components: {
+            FirstSlide,
             IonApp,
             IonRouterOutlet,
             'first-time-slides': FirstSlides,
@@ -48,6 +62,7 @@
         data() {
             return {
                 firstTime: false,
+                slide: true,
             };
         },
         methods: {
@@ -109,7 +124,7 @@
                     ) {
                         await this.confirmExit();
                         return;
-                    }                    
+                    }
                 });
 
                 ev.detail.register(10, (processNextHandler: any) => {
@@ -117,7 +132,17 @@
                 });
             });
 
+            if (value) this.slide = false;
+
             await loader.hide();
         },
     });
 </script>
+<style>
+img.icon {
+    width: 100% !important;
+    height: 100% !important;
+    margin-right: auto;
+    margin-left: auto;
+}
+</style>
