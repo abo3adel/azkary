@@ -1,10 +1,169 @@
 {
-  "hello": "hello i18n !!",
-  "loaderTxt": "برجاء الإنتظار ...",
-  "zikr": {
-    "repellendus-iste-exp": "repellendus-iste Easdasdasdxp",
+    "name": "",
+    "loaderTxt": "",
+    "app": {
+        "slideName": "",
+        "slide": {
+            "azkar": "",
+            "azkarMess": "",
+            "ad3ia": "",
+            "sebha": "",
+            "sebhaMess": "",
+            "pc": "",
+            "pcMess": "",
+            "pcCopy": "",
+            "start": ""
+        },
+        "copied": ""
+    },
+    "home": {
+        "hadith": "",
+        "quran": "",
+        "btn": {
+            "share": "",
+            "trans": "",
+            "about": "",
+            "settings": ""
+        },
+        "errNet": ""
+    },
     "show": {
-      "font": "A"
+        "item": {
+            "share": "",
+            "addSebha": "",
+            "edit": "",
+            "del": "",
+            "close": ""
+        }
+    },
+    "zikr": {
+        "count": "",
+        "opr": "",
+        "toolbar": "",
+        "stats": {
+            "calc": "",
+            "added": "",
+            "total": ""
+        },
+        "notify": {
+            "title": ""
+        },
+        "cat": {
+            "morning": "",
+            "night": "",
+            "mosque": "",
+            "wake-up": "",
+            "sleep": "",
+            "salat": "",
+            "hajj": "",
+            "mix": "",
+            "ablution": "",
+            "food": "",
+
+            "quranic": "",
+            "prophet_mohamed": "",
+            "prophets": "",
+            "mix_du3a": "",
+            "quran_end": "",
+            "du3a_favour": "",
+            "roqia_shar3ia": "",
+            "death": ""
+        },
+        "show": {
+            "reorder": "",
+            "addt": "",
+            "brush": "",
+            "font": "",
+            "slideCog": "",
+            "add": {
+                "countPH": "",
+                "header": "",
+                "cancel": "",
+                "save": ""
+            },
+            "err": {
+                "noBody": "",
+                "noOrder": "",
+                "font-increse": "",
+                "font-decrese": ""
+            },
+            "sebhaDone": "",
+            "del": {
+                "conf": "",
+                "mess": "",
+                "okBtn": "",
+                "cancelBtn": ""
+            },
+            "share": {
+                "dtitle": ""
+            }
+        }
+    },
+    "notify": {
+        "byApp": "",
+        "byUser": ""
+    },
+    "sebha": {
+        "addt": "",
+        "sebhaTheme": "",
+        "color": "",
+        "lock": "",
+        "unlock": "",
+        "max": "",
+        "total": "",
+        "current": "",
+        "delMess": "",
+        "add": {
+            "header": "",
+            "pl": "",
+            "max": ""
+        },
+        "menu": {
+            "current": ""
+        }
+    },
+    "setup": {
+        "title": "",
+        "restart": "",
+        "app": {
+            "lang": "",
+            "size": "",
+            "save": "",
+            "font": "",
+            "ftype": "",
+            "azkarFont": "",
+            "look": "",
+            "color": "",
+            "dark": ""
+        },
+        "azkar": {
+            "enable": "",
+            "autoHide": "",
+            "times": "",
+            "morning": "",
+            "night": "",
+            "morningTime": "",
+            "nightTime": "",
+            "notEnabled": "",
+            "countDay": ""
+        },
+        "control": {
+            "sound": "",
+            "vibration": "",
+            "hardKeys": "",
+            "touch": "",
+            "keyboard": ""
+        },
+        "list": {
+            "app": "",
+            "control": "",
+            "azkar": "",
+            "sebha": ""
+        },
+        "sebha": {
+            "auto": "",
+            "bg": "",
+            "chooseBg": ""
+        }
     }
-  }
 }

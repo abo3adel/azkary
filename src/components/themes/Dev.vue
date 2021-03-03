@@ -25,6 +25,7 @@
         </div>
         <div
             class="relative flex flex-wrap w-11/12 p-1 py-1 mx-auto -m-3 text-sm rounded-md shadow-2xl select-none bg-primary-600 footer text-color"
+            style="font-family: var(--ion-default-font)"
             :style="
                 theme === 'dev-colored'
                     ? `background: var(--ion-color-${color})`

@@ -35,7 +35,7 @@
                                     :icon="cloudUploadOutline"
                                 />
                                 <label for="myImg" class="w-full">
-                                    {{ $t('setup.chooseBg') }}
+                                    {{ $t('setup.sebha.chooseBg') }}
                                 </label>
 
                                 <input

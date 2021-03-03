@@ -7,14 +7,11 @@
         <div
             class="flex rounded-md rounded-bl-none rounded-br-none bg-primary-600 text-color"
         >
-            <h5 class="w-3/4 px-2 text-lg text-left header rtl:text-right">
+            <h5 class="w-2/3 px-2 text-lg text-left header rtl:text-right">
                 {{ title }}
             </h5>
-            <div class="w-1/4 text-left">
-                <ion-buttons
-                    class="absolute"
-                    :style="lang === 'ar' ? 'left: 0.5rem;' : 'right: 0.5rem;'"
-                >
+            <div class="w-1/3 text-left">
+                <ion-buttons class="justify-end">
                     <ion-button
                         type="button"
                         :disabled="!ar"
@@ -22,7 +19,7 @@
                     >
                         <ion-icon slot="start" :icon="shareSocialOutline" />
                         <ion-label class="hidden sm:inline-block">
-                            {{ $t('home.btn.copy') }}
+                            {{ $t('home.btn.share') }}
                         </ion-label>
                     </ion-button>
                     <ion-button type="button" @click.prevent="showEn = !showEn">
@@ -139,7 +136,7 @@
         shareIt() {
             if (!this.ar) return;
 
-            share(this, this.ar, this.$t('home.share'));
+            share(this, this.ar, this.$t('home.btn.share'));
         }
 
         async mounted() {

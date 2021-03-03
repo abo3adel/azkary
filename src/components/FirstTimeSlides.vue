@@ -40,7 +40,11 @@
                 </div>
                 <h2 class="block text-2xl">{{ $t('app.slide.ad3ia') }}</h2>
                 <p>
-                    {{ $t('app.slide.ad3iaMess') }}
+                    <small>(</small>
+                        <span style="font-family: 'AmiriQuranColored'">
+                            وَقَالَ رَبُّكُمُ ادْعُونِي أَسْتَجِبْ لَكُمْ
+                        </span>
+                    <small>)</small>
                 </p>
             </div>
         </ion-slide>

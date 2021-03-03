@@ -81,7 +81,7 @@
                             >
                                 <ion-label>{{
                                     $t('setup.list.sebha')
-                                }}</ion-label>
+                                }}</ion-label> 
                                 <ion-icon
                                     :icon="chevronForwardOutline"
                                     slot="end"

@@ -53,7 +53,7 @@
                     >
                         <ion-icon :icon="addOutline" slot="start" />
                         <span class="hidden sm:inline-block">
-                            {{ $t('zikr.show.add') }}
+                            {{ $t('zikr.show.addt') }}
                         </span>
                     </ion-button>
                     <ion-button
@@ -566,7 +566,7 @@
                 .execute();
 
             if (done.identifiers[0].id) {
-                toast(this.$t('zikr.sebha.done'));
+                toast(this.$t('zikr.show.sebhaDone'));
             }
         }
 

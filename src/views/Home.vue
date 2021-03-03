@@ -2,7 +2,7 @@
     <ion-page>
         <ion-header>
             <ion-toolbar color="primary" class="haveBg">
-                <ion-title>{{ $t('app.name') }}</ion-title>
+                <ion-title>{{ $t('name') }}</ion-title>
                 <ion-label slot="end" class="mx-1">
                     {{ hijir }}
                 </ion-label>
@@ -10,7 +10,7 @@
         </ion-header>
         <ion-content>
             <ion-header collapse="condense">
-                <ion-title>{{ $t('app.name') }}</ion-title>
+                <ion-title>{{ $t('name') }}</ion-title>
             </ion-header>
             <ion-toolbar :color="bg">
                 <ion-buttons slot="start">

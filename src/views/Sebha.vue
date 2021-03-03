@@ -71,7 +71,7 @@
                         </div>
 
                         <div
-                            class="relative m-auto overflow-hidden border rounded-full w-80 h-80 border-primary-400"
+                            class="relative m-auto overflow-hidden border rounded-full w-96 h-96 border-primary-400"
                             v-show="sebhaTheme === 'dev'"
                         >
                             <div

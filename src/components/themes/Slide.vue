@@ -45,7 +45,7 @@
             </swiper-slide>
         </swiper>
     </div>
-    <div class="flex flex-wrap w-full controls h-1/4">
+    <div class="flex flex-wrap w-full controls h-1/4" style="font-family: var(--ion-default-font)">
         <div class="relative w-1/2 mx-auto text-sm text-center">
             <div class="w-28 h-28">
                 <Progress id="showZikr" ref="showBar" :gradient="barColor" />

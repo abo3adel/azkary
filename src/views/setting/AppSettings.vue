@@ -15,7 +15,7 @@
                             cssClass: 'fontType ion-alert',
                         }"
                         v-model="lang"
-                        :placeholder="$t('setup.azkar.lang')"
+                        :placeholder="$t('setup.app.lang')"
                         @ionChange="updateProp({ lang })"
                     >
                         <ion-select-option value="ar">
@@ -65,8 +65,8 @@
                             }"
                             v-model="fontType"
                             slot="end"
-                            :ok-text="$t('sebha.del.okBtn')"
-                            :cancel-text="$t('sebha.del.cancelBtn')"
+                            :ok-text="$t('zikr.del.okBtn')"
+                            :cancel-text="$t('zikr.del.cancelBtn')"
                             :placeholder="$t('setup.app.ftype')"
                             :style="`font-family: '${fontType}'`"
                             @ionChange="updateProp({ fontType })"
@@ -90,8 +90,8 @@
                             }"
                             v-model="azkarFont"
                             slot="end"
-                            :ok-text="$t('sebha.del.okBtn')"
-                            :cancel-text="$t('sebha.del.cancelBtn')"
+                            :ok-text="$t('zikr.del.okBtn')"
+                            :cancel-text="$t('zikr.del.cancelBtn')"
                             :placeholder="$t('setup.app.ftype')"
                             :style="`font-family: '${azkarFont}'`"
                             @ionChange="updateProp({ azkarFont })"
@@ -120,8 +120,8 @@
                             :interface-options="{
                                 cssClass: 'fontType ion-alert',
                             }"
-                            :ok-text="$t('sebha.del.okBtn')"
-                            :cancel-text="$t('sebha.del.cancelBtn')"
+                            :ok-text="$t('zikr.del.okBtn')"
+                            :cancel-text="$t('zikr.del.cancelBtn')"
                             :placeholder="$t('setup.app.ftype')"
                             :style="
                                 `background-color: var(--ion-color-${theme})`

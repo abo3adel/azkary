@@ -49,7 +49,7 @@
                                 @ionChange="
                                     addNotification(
                                         1,
-                                        this.$t('azkar.morningTime'),
+                                        this.$t('setup.azkar.morningTime'),
                                         $event.detail.value,
                                         'morning'
                                     )
@@ -71,7 +71,7 @@
                                 @ionChange="
                                     addNotification(
                                         2,
-                                        this.$t('azkar.nightTime'),
+                                        this.$t('setup.azkar.nightTime'),
                                         $event.detail.value,
                                         'night'
                                     )
@@ -207,13 +207,13 @@
             // re schedule all azkar
             await this.addNotification(
                 1,
-                this.$t('azkar.morningTime'),
+                this.$t('setup.azkar.morningTime'),
                 this.morning,
                 'morning'
             );
             await this.addNotification(
                 2,
-                this.$t('azkar.nightTime'),
+                this.$t('setup.azkar.nightTime'),
                 this.night,
                 'night'
             );
@@ -294,7 +294,7 @@
             const azkar = (await (await db())
                 .createQueryBuilder<NotifyZikr>(
                     NotifyZikrEntity,
-                    'azkar_notify'
+                    'setup.azkar_notify'
                 )
                 .select('body')
                 .where({ notifiable: true })

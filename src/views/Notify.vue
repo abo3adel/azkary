@@ -9,10 +9,10 @@
                 class="shadow-lg"
             >
                 <ion-segment-button value="app">
-                    <ion-label>{{ $t('du3a.byApp') }}</ion-label>
+                    <ion-label>{{ $t('notify.byApp') }}</ion-label>
                 </ion-segment-button>
                 <ion-segment-button value="user">
-                    <ion-label>{{ $t('du3a.byUser') }}</ion-label>
+                    <ion-label>{{ $t('notify.byUser') }}</ion-label>
                 </ion-segment-button>
             </ion-segment>
         </ion-toolbar>
