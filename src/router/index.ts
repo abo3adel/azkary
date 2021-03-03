@@ -33,6 +33,10 @@ const routes: Array<RouteRecordRaw> = [
         ],
     },
     {
+        path: '/about',
+        component: () => import('@/views/About.vue'),
+    },
+    {
         path: '/notifiy_azkar',
         component: () => import('@/views/Notify.vue'),
     },

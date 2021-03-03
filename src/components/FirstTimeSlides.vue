@@ -107,9 +107,9 @@
     import { Options, Vue } from 'vue-class-component';
     import { IonSlides, IonSlide, IonButton } from '@ionic/vue';
     import FirstSlide from '@/components/FirstSlide.vue';
+    import toast from '@/utils/toast';
 
     import { Plugins } from '@capacitor/core';
-    import toast from '@/utils/toast';
 
     const { Clipboard } = Plugins;
 
