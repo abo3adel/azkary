@@ -9,28 +9,34 @@
             "
         >
             <div class="text-center inner-header hero text-color">
-                <h1 class="w-11/12 pt-10 mx-auto text-center">
-                    <ion-icon
-                        v-if="meta.type === 'svg'"
-                        :src="`/assets/icons/${meta.name}.svg`"
-                        class="w-14 h-14"
-                    ></ion-icon>
-                    <ion-icon
-                        v-else
-                        :icon="meta.name"
-                        class="w-14 h-14"
-                    ></ion-icon>
-                </h1>
-                <h1 class="text-lg">
-                    {{ title }}
-                </h1>
-                <h1 class="pt-6 text-3xl">
-                    <ion-icon
-                        :icon="calculatorOutline"
-                        class="w-8 h-8 mx-1 align-middle"
-                    ></ion-icon>
-                    {{ $t('zikr.stats.calc') }}
-                </h1>
+                <div class="relative flex flex-wrap">
+                    <div class="w-full">
+                        <h1 class="w-11/12 pt-10 mx-auto text-center">
+                            <ion-icon
+                                v-if="meta.type === 'svg'"
+                                :src="`/assets/icons/${meta.name}.svg`"
+                                class="w-14 h-14"
+                            ></ion-icon>
+                            <ion-icon
+                                v-else
+                                :icon="meta.name"
+                                class="w-14 h-14"
+                            ></ion-icon>
+                        </h1>
+                        <h1 class="text-lg">
+                            {{ $t(`zikr.cat.${meta.slug}`) }}
+                        </h1>
+                    </div>
+                    <div class="w-full">
+                        <h1 class="pt-6 text-3xl">
+                            <ion-icon
+                                :icon="calculatorOutline"
+                                class="w-8 h-8 mx-1 align-middle"
+                            ></ion-icon>
+                            {{ $t('zikr.stats.calc') }}
+                        </h1>
+                    </div>
+                </div>
                 <div class="absolute bottom-0 left-0 w-full">
                     <svg
                         class="relative w-full waves"
@@ -69,7 +75,7 @@
                                 xlink:href="#gentle-wave"
                                 x="40"
                                 y="7"
-                                fill="var(--ion-background-color)"
+                                fill="rgba(255, 255, 255, .7)"
                             />
                         </g>
                     </svg>
@@ -300,6 +306,9 @@
     @media screen and (max-width: 768px) and (orientation: landscape) {
         .pt-10 {
             padding-top: 0 !important;
+        }
+        .flex.flex-wrap div.w-full {
+            width: 50%;
         }
     }
 </style>
