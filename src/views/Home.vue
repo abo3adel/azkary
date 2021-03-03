@@ -2,7 +2,7 @@
     <ion-page>
         <ion-header>
             <ion-toolbar color="primary" class="haveBg">
-                <ion-title>Home</ion-title>
+                <ion-title>{{ $t('app.name') }}</ion-title>
                 <ion-label slot="end" class="mx-1">
                     {{ hijir }}
                 </ion-label>
@@ -10,7 +10,7 @@
         </ion-header>
         <ion-content>
             <ion-header collapse="condense">
-                <ion-title>Home</ion-title>
+                <ion-title>{{ $t('app.name') }}</ion-title>
             </ion-header>
             <ion-toolbar :color="bg">
                 <ion-buttons slot="start">
@@ -19,9 +19,9 @@
                             :icon="informationCircleOutline"
                             slot="start"
                         />
-                        <ion-label class="hidden sm:inline-block"
-                            >about</ion-label
-                        >
+                        <ion-label class="hidden sm:inline-block">{{
+                            $t('home.btn.about')
+                        }}</ion-label>
                     </ion-button>
                 </ion-buttons>
                 <ion-buttons slot="end">
@@ -30,9 +30,9 @@
                         @click.prevent="$router.replace('/settings')"
                     >
                         <ion-icon :icon="cogOutline" slot="start" />
-                        <ion-label class="hidden sm:inline-block"
-                            >settings</ion-label
-                        >
+                        <ion-label class="hidden sm:inline-block">
+                            {{ $t('home.btn.settings') }}
+                        </ion-label>
                     </ion-button>
                 </ion-buttons>
             </ion-toolbar>
