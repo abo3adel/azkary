@@ -24,11 +24,15 @@
             const du3a = await (await db()).query(
                 'SELECT body FROM ad3ia WHERE id < 150 ORDER BY RANDOM() LIMIT 1'
             );
-            this.ar = du3a[0].body;            
+            this.ar =
+                du3a[0]?.body ??
+                'اللَّهُمَّ إِنِّي أَسْأَلُكَ الجَنَّة وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ وَعَمَلٍ ، وَأَعُوذُ بِكَ مَنَ النَّارِ وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ وَعَمَلٍ.';
         }
 
         mounted() {
-            this.loadDu3a();
+            setTimeout(async () => {
+                await this.loadDu3a();
+            }, 800);
         }
     }
 </script>
