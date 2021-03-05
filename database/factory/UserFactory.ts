@@ -7,7 +7,7 @@ export class UserFactoryClass extends BaseFactory {
     getData(): BaseEntity {
         const user = new User();
         // user.name = this.faker.name.findName();
-        user.azkarCount = this.faker.random.number(1000);
+        // user.azkarCount = this.faker.random.number(1000);
         // user.fontSize = 1;
         // user.theme = this.faker.random.objectElement(UserTheme);
         return user;

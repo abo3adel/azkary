@@ -151,7 +151,7 @@ export const UserEntity = new EntitySchema<User>({
         notifyCount: {
             type: String,
             nullable: true,
-            default: 13,
+            default: 5,
         },
         autoHide: {
             type: Boolean,

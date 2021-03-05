@@ -136,7 +136,7 @@
         IonSelectOption,
     } from '@ionic/vue';
     import loader from '@/utils/loader';
-    import { UserEntity, User } from '@/schema/UserEntity';
+    import { UserEntity } from '@/schema/UserEntity';
     import db from '@/utils/db';
     import toast from '@/utils/toast';
     import { DateTime } from 'luxon';
@@ -171,7 +171,7 @@
         autoHide = true;
         morning = '2021-02-22T06:30:46.789';
         night = '2021-02-22T17:30:46.789';
-        notifyCount = 13;
+        notifyCount = 5;
 
         async loadAzkarSet() {
             await loader.show();
@@ -187,7 +187,7 @@
             this.morning = res.morning;
             this.night = res.night;
             this.notifyCount = res.notifyCount;
-            this.autoHide = res.autoHide;
+            this.autoHide = res.autoHide;            
 
             await loader.hide();
         }
@@ -273,7 +273,7 @@
                         },
                     },
                 ],
-            });            
+            });
 
             await loader.hide();
         }

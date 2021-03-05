@@ -117,7 +117,7 @@
     import { IonSlides, IonSlide, IonButton } from '@ionic/vue';
     import FirstSlide from '@/components/FirstSlide.vue';
     import toast from '@/utils/toast';
-    import { Plugins } from '@capacitor/core';
+    import { Plugins, LocalNotifications } from '@capacitor/core';
     import getCategoryIcon from '@/utils/getCategoryIcon';
     import Axios from 'axios';
     import db from '@/utils/db';
@@ -126,7 +126,8 @@
     import seeder from '@/seeder';
     import { getRepository } from 'typeorm';
     import { NotifyZikr } from '@/schema/NotifyZikrEntity';
-import { Sebha } from '@/entities/Sebha';
+    import { Sebha } from '@/entities/Sebha';
+    import { DateTime } from 'luxon';
 
     const { Clipboard } = Plugins;
 
@@ -210,13 +211,76 @@ import { Sebha } from '@/entities/Sebha';
             const tasabeeh = await Axios.get('/assets/data/tasabeeh.json');
             if (tasabeeh && tasabeeh.data) {
                 const repo = getRepository<Sebha>('sebha');
-                for (const {body, max} of tasabeeh.data) {
-                    repo.insert({body, max})
+                for (const { body, max } of tasabeeh.data) {
+                    repo.insert({ body, max });
                 }
             }
 
             // seed user configrations table with default values
             await seeder.run();
+
+            // iniate notifications
+            await this.addNotification(
+                1,
+                this.$t('setup.azkar.morningTime'),
+                '2021-02-22T06:30:46.789'
+            );
+
+            await this.addNotification(
+                2,
+                this.$t('setup.azkar.nightTime'),
+                '2021-02-22T17:30:46.789'
+            );
+
+            // set notify azkar
+            for (let i = 0; i < 5; i++) {
+                const dt = DateTime.now()
+                    .set({ hour: 12 })
+                    .plus({ hours: 5 * i });
+                await this.addNotification(
+                    // more than 100 is azkar notifications
+                    Math.round(Math.random() * 1000) + i,
+                    notify.data[i].text,
+                    null,
+                    this.$t('name'),
+                    dt.hour,
+                    dt.minute
+                );
+            }
+        }
+
+        async addNotification(
+            id: number,
+            body: string,
+            iso: string | null,
+            title: string = this.$t('name'),
+            hour?: number,
+            minute?: number
+        ) {
+            let dt = { hour: 0, minute: 0 };
+
+            if (iso) {
+                dt = DateTime.fromISO(iso as string);
+            } else {
+                dt.hour = hour as number;
+                dt.minute = minute as number;
+            }
+
+            await LocalNotifications.schedule({
+                notifications: [
+                    {
+                        id,
+                        title,
+                        body,
+                        schedule: {
+                            on: {
+                                hour: dt.hour,
+                                minute: dt.minute,
+                            },
+                        },
+                    },
+                ],
+            });
         }
 
         mounted() {
