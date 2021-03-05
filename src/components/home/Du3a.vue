@@ -30,9 +30,7 @@
         }
 
         mounted() {
-            setTimeout(async () => {
-                await this.loadDu3a();
-            }, 800);
+            this.loadDu3a();
         }
     }
 </script>

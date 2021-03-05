@@ -667,17 +667,13 @@
 
             const sql =
                 this.type === CategoryType.Zikr
-                    ? getConnection()
-                          .createQueryBuilder(ZikrEntity, 'items')
-                          .update()
-                    : getConnection()
-                          .createQueryBuilder(Du3aEntity, 'items')
-                          .update();
+                    ? getConnection().createQueryBuilder(ZikrEntity, 'items')
+                    : getConnection().createQueryBuilder(Du3aEntity, 'items');
 
             let y = 1;
-            for (const x of this.category.azkar) { 
-                // TODO fix y is saved as 1 in all entries
+            for (const x of this.category.azkar) {
                 await sql
+                    .update()
                     // set order to current list index
                     // because reorder only affects list index
                     .set({ order: y })
@@ -735,6 +731,14 @@
             openDirect = false,
             slide = false
         ) {
+            // disable if reorder is enabled
+            if (this.reorder) {
+                const inx = this.category.azkar.findIndex((x) => x.id === id);
+
+                this.category.azkar[inx].count++;
+                return;
+            }
+
             if (this.config.vibration) {
                 Vibration.vibrate(30);
             }
