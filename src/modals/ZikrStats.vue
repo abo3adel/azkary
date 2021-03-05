@@ -163,24 +163,15 @@
         },
         methods: {
             async saveToDB() {
-                // this.azkarCount = JSON.parse(
-                //     (await Storage.get({ key: 'azkarCount' })).value ?? 0
-                // );
-
-                // // increment azkar count
-                // await Storage.set({
-                //     key: 'azkarCount',
-                //     value: `${this.azkarCount + this.count}`,
-                // });
-
                 const sql = (await db()).createQueryBuilder(
                     UserEntity,
                     'user_set'
                 );
 
-                this.azkarCount = (
-                    await sql.select('azkarCount').execute()
-                )[0].azkarCount;
+                this.azkarCount = parseInt(
+                    (await sql.select('azkarCount').execute())[0].azkarCount ??
+                        '0'
+                );
 
                 // update
                 await (
@@ -233,7 +224,7 @@
             },
             getTotalCount() {
                 const intval = setInterval(() => {
-                    if (this.azkarCount) {
+                    if (this.azkarCount >= 0) {
                         clearInterval(intval);
                         this.totalCount = this.formatNum(
                             this.azkarCount + this.count
