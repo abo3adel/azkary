@@ -11,11 +11,10 @@
             "sebhaMess": "with the ability to add more",
             "pc": "Available for PC",
             "pcMess": "this app is also available for pc",
-            "pcCopy": "copy link",
+            "pcCopy": "open link",
             "start": "Begin"
         },
-        "download": "Download",
-        "copied": "Copied"
+        "download": "Download"
     },
     "home": {
         "hadith": "Hadith Sharif",

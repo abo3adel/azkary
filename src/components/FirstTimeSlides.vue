@@ -82,7 +82,7 @@
                 </p>
                 <ion-button
                     color="primary"
-                    @click.prevent="copyLink"
+                    @click.prevent="openLink"
                     class="mt-3"
                 >
                     {{ $t('app.slide.pcCopy') }}
@@ -111,7 +111,6 @@
     import { Options, Vue } from 'vue-class-component';
     import { IonSlides, IonSlide, IonButton } from '@ionic/vue';
     import FirstSlide from '@/components/FirstSlide.vue';
-    import toast from '@/utils/toast';
     import { Plugins, LocalNotifications } from '@capacitor/core';
     import getCategoryIcon from '@/utils/getCategoryIcon';
     import Axios from 'axios';
@@ -123,9 +122,8 @@
     import { NotifyZikr } from '@/schema/NotifyZikrEntity';
     import { Sebha } from '@/entities/Sebha';
     import { DateTime } from 'luxon';
-    import loader from '@/utils/loader';
 
-    const { Clipboard, SplashScreen } = Plugins;
+    const { SplashScreen } = Plugins;
 
     @Options({
         components: { IonSlides, IonSlide, IonButton, FirstSlide },
@@ -140,12 +138,8 @@
             },
         };
 
-        copyLink() {
-            Clipboard.write({
-                string: 'http://abo3adel.github.io',
-            });
-
-            toast(this.$t('app.copied'));
+        openLink() {
+            window.open('http://abo3adel.github.io', '_blank');
         }
 
         async seedDB() {
