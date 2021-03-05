@@ -1,13 +1,13 @@
-class Sound {
+export class Sound {
     private audio: any;
 
     constructor() {
         this.audio = null;
     }
 
-    public async addFile(path: string, id: string) {
-        this.audio = new Audio(path);
-
+    public async addFile(path: string, volume: number) {
+        this.audio = new Audio(path);        
+        this.audio.volume = volume;
     }
 
     public play(assetId: string) {

@@ -673,7 +673,6 @@
             }
 
             this.color = colors[inx];
-            // console.log(this.color);
 
             this.setBarColor();
 

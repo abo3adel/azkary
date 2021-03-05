@@ -44,6 +44,7 @@ export interface User {
 
     // control
     sound: boolean;
+    volume: number;
     vibration: boolean;
     hardKeys: boolean;
     touch: boolean;
@@ -115,6 +116,11 @@ export const UserEntity = new EntitySchema<User>({
         sound: {
             type: Boolean,
             default: false,
+        },
+        volume: {
+            type: Number,
+            default: 0.5,
+            unsigned: true,
         },
         vibration: {
             type: Boolean,
