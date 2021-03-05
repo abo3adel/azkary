@@ -31,6 +31,7 @@
                     <div class="m-auto break-words">
                         <p
                             class="text-sm text-primary-600"
+                            style="font-family: var(--ion-default-font)"
                             :style="
                                 theme === 'slide-colored'
                                     ? `color: var(--ion-color-${color})`

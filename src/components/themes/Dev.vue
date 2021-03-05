@@ -11,6 +11,7 @@
         >
             <p
                 class="text-sm text-primary-600"
+                style="font-family: var(--ion-default-font)"
                 :style="
                     theme === 'dev-colored'
                         ? `color: var(--ion-color-${color})`
