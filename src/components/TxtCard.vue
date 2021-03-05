@@ -14,7 +14,6 @@
                 <ion-buttons class="justify-end">
                     <ion-button
                         type="button"
-                        :disabled="!ar"
                         @click.prevent="shareIt"
                     >
                         <ion-icon slot="start" :icon="shareSocialOutline" />
