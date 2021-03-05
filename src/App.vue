@@ -131,7 +131,7 @@
 
             if (value) {
                 this.slide = false;
-                setTimeout(() => SplashScreen.hide(), 200);
+                setTimeout(() => SplashScreen.hide(), 100);
             }
         },
     });

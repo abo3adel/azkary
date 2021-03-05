@@ -100,10 +100,7 @@
                         class="w-8 h-8"
                     />
                 </div>
-                <ion-button
-                    color="primary"
-                    @click.prevent="$emit('start')"
-                >
+                <ion-button color="primary" @click.prevent="$emit('start')">
                     {{ $t('app.slide.start') }}
                 </ion-button>
             </div>
@@ -126,8 +123,9 @@
     import { NotifyZikr } from '@/schema/NotifyZikrEntity';
     import { Sebha } from '@/entities/Sebha';
     import { DateTime } from 'luxon';
+    import loader from '@/utils/loader';
 
-    const { Clipboard } = Plugins;
+    const { Clipboard, SplashScreen } = Plugins;
 
     @Options({
         components: { IonSlides, IonSlide, IonButton, FirstSlide },
@@ -284,7 +282,10 @@
         mounted() {
             setTimeout(() => this.$emit('hideSlide'), 900);
 
-            setTimeout(() => this.seedDB(), 100);
+            setTimeout(() => {
+                this.seedDB();
+                SplashScreen.hide();
+            }, 100);
         }
     }
 </script>
