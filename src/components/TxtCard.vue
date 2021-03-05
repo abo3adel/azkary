@@ -22,7 +22,7 @@
                             {{ $t('home.btn.share') }}
                         </ion-label>
                     </ion-button>
-                    <ion-button type="button" @click.prevent="showEn = !showEn">
+                    <ion-button type="button" v-show="!disableEn" @click.prevent="!disableEn ? showEn = !showEn : null">
                         <ion-icon slot="start" :icon="language" />
                         <ion-label class="hidden sm:inline-block">
                             {{ $t('home.btn.trans') }}
@@ -110,6 +110,7 @@
         sty = prop<string>({ default: '' });
         ar = prop<string>({ default: '' });
         en = prop<string>({ default: '' });
+        disableEn = prop<boolean>({default: false});
         error = prop<{
             ar: boolean | string;
             en: boolean | string;

@@ -14,7 +14,10 @@
             </ion-header>
             <ion-toolbar :color="bg">
                 <ion-buttons slot="start">
-                    <ion-button color="light" @click.prevent="$router.replace('/about')">
+                    <ion-button
+                        color="light"
+                        @click.prevent="$router.replace('/about')"
+                    >
                         <ion-icon
                             :icon="informationCircleOutline"
                             slot="start"
@@ -56,6 +59,8 @@
             <quran :azkar-font="azkarFont" />
 
             <hadith :azkar-font="azkarFont" />
+
+            <du3a :azkar-font="azkarFont" />
         </ion-content>
     </ion-page>
 </template>
@@ -80,6 +85,7 @@
     import TxtCard from '@/components/TxtCard.vue';
     import Quran from '@/components/home/Quran.vue';
     import Hadith from '@/components/home/Hadith.vue';
+    import Du3a from '@/components/home/Du3a.vue';
 
     import { Fonts, UserEntity } from '@/schema/UserEntity';
     import db from '@/utils/db';
@@ -99,6 +105,7 @@
             TxtCard,
             Quran,
             Hadith,
+            Du3a,
         },
         inject: ['lang'],
     })
@@ -124,7 +131,7 @@
 
             if (new Date().getHours() > 18 && new Date().getHours() > 4) {
                 this.bg = 'tertiary';
-            }            
+            }
         }
     }
 </script>

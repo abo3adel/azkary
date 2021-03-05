@@ -284,7 +284,7 @@
         }
 
         mounted() {
-            setTimeout(() => this.$emit('hideSlide'), 600);
+            setTimeout(() => this.$emit('hideSlide'), 900);
 
             setTimeout(() => this.seedDB(), 100);
         }
