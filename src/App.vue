@@ -30,7 +30,7 @@
     import seeder from './seeder';
     import FirstSlide from '@/components/FirstSlide.vue';
 
-    const { StatusBar, Storage } = Plugins;
+    const { StatusBar, Storage, SplashScreen } = Plugins;
 
     export const COLORES = [
         { id: 'primary-fall', color: '#2655a8', lighter: '#3880ff' },
@@ -71,8 +71,6 @@
             },
         },
         async mounted() {
-            await loader.show();
-
             // first type run
             const { value } = await Storage.get({ key: 'firstDone' });
             if (!value || value === 'undefined') {
@@ -131,9 +129,10 @@
                 });
             });
 
-            if (value) this.slide = false;
-
-            await loader.hide();
+            if (value) {
+                this.slide = false;
+                setTimeout(() => SplashScreen.hide(), 200);
+            }
         },
     });
 </script>

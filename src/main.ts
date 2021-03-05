@@ -3,9 +3,13 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 
-import { IonicVue, isPlatform } from '@ionic/vue';
+import { IonicVue } from '@ionic/vue';
 
 import i18n from './i18n';
+
+import db from './utils/db';
+
+import { UserEntity } from './schema/UserEntity';
 
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
 
@@ -29,14 +33,6 @@ import '@ionic/vue/css/display.css';
 import './theme/variables.css';
 
 import './assets/tailwind.css';
-import db from './utils/db';
-import loader from './utils/loader';
-
-import { Plugins } from '@capacitor/core';
-import { User, UserEntity } from './schema/UserEntity';
-import seeder from './seeder';
-
-const { Storage } = Plugins;
 
 let app = createApp(App)
     .use(IonicVue)
@@ -44,12 +40,6 @@ let app = createApp(App)
     .use(i18n);
 
 router.isReady().then(async () => {
-    if (isPlatform('desktop')) {
-        // db();
-    }
-
-    // await loader.show();
-
     const user = (
         await (await db())
             .createQueryBuilder(UserEntity, 'user_ent')
@@ -65,7 +55,6 @@ router.isReady().then(async () => {
         .provide('theme', user?.theme ?? 'primary');
 
     app.mount('#app');
-    // await loader.hide();
 
     // Call the element loader after the platform has been bootstrapped
     defineCustomElements(window);
