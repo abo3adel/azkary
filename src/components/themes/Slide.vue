@@ -186,7 +186,11 @@
                 this.bar.set(1);
 
                 // wait for progress to set then slide
-                setTimeout(() => this.swiper.slideNext(), 305);
+                try {
+                    setTimeout(() => this.swiper.slideNext(), 305);
+                } catch (e) {
+                    //
+                }
                 return;
             }
 
