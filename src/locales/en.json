@@ -14,7 +14,8 @@
             "pcCopy": "open link",
             "start": "Begin"
         },
-        "download": "Download"
+        "download": "Download",
+        "copied": "copied"
     },
     "home": {
         "hadith": "Hadith Sharif",
