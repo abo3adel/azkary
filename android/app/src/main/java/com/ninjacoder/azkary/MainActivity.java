@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package com.ninjacoder.azkary;
 
 import android.os.Bundle;
 

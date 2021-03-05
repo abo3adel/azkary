@@ -1,9 +1,10 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "myAzkar",
+  "appId": "com.ninjacoder.azkary",
+  "appName": "azkary",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "dist",
+  "hideLogs": true,
   "plugins": {
     "SplashScreen": {
       "launchShowDuration": 4000,
