@@ -113,11 +113,13 @@
         <ion-content
             :fullscreen="true"
             :style="
-                `font-family: '${azkarFont}', 'AmiriQuranColored';${
+                `font-family: '${azkarFont}', 'AmiriQuranColored';
+                ${
                     azkarFont.indexOf('AmiriQuran') > -1
                         ? '    line-height: 2.8rem'
                         : ''
-                };`
+                };
+                --ion-azkar-font: '${azkarFont}', 'AmiriQuranColored';`
             "
         >
             <ion-reorder-group
