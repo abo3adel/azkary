@@ -21,8 +21,8 @@
                         class="w-8 h-8"
                     />
                 </div>
-                <h2 class="block text-5xl">{{ $t('app.slide.azkar') }}</h2>
-                <p class="mt-4 text-2xl">
+                <h2 class="block text-3xl">{{ $t('app.slide.azkar') }}</h2>
+                <p class="mt-4 text-lg">
                     {{ $t('app.slide.azkarMess') }}
                 </p>
             </div>
@@ -38,8 +38,8 @@
                         class="w-8 h-8"
                     />
                 </div>
-                <h2 class="block text-5xl">{{ $t('app.slide.ad3ia') }}</h2>
-                <p class="mt-4 text-2xl">
+                <h2 class="block text-3xl">{{ $t('app.slide.ad3ia') }}</h2>
+                <p class="mt-4 text-lg">
                     <small>(</small>
                     <span style="font-family: 'AmiriQuranColored'">
                         وَقَالَ رَبُّكُمُ ادْعُونِي أَسْتَجِبْ لَكُمْ
@@ -59,8 +59,8 @@
                         class="w-8 h-8"
                     />
                 </div>
-                <h2 class="block text-5xl">{{ $t('app.slide.sebha') }}</h2>
-                <p class="mt-4 text-2xl">
+                <h2 class="block text-3xl">{{ $t('app.slide.sebha') }}</h2>
+                <p class="mt-4 text-lg">
                     {{ $t('app.slide.sebhaMess') }}
                 </p>
             </div>
@@ -76,13 +76,12 @@
                         class="w-8 h-8"
                     />
                 </div>
-                <h2 class="block text-5xl">{{ $t('app.slide.pc') }}</h2>
-                <p class="mt-4 text-2xl">
+                <h2 class="block text-3xl">{{ $t('app.slide.pc') }}</h2>
+                <p class="mt-4 text-lg">
                     {{ $t('app.slide.pcMess') }}
                 </p>
                 <ion-button
                     color="primary"
-                    size="large"
                     @click.prevent="copyLink"
                     class="mt-3"
                 >
@@ -103,7 +102,6 @@
                 </div>
                 <ion-button
                     color="primary"
-                    size="large"
                     @click.prevent="$emit('start')"
                 >
                     {{ $t('app.slide.start') }}

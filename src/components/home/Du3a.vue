@@ -1,6 +1,6 @@
 <template>
     <txt-card
-        :sty="`font-family: '${azkarFont}';line-height: 1.5rem;`"
+        :sty="`font-family: '${azkarFont}';line-height: 2.2rem;`"
         cls="mt-5 text-sm"
         :title="$t('home.du3a')"
         :ar="ar"

@@ -7,7 +7,7 @@
         <div
             class="flex rounded-md rounded-bl-none rounded-br-none bg-primary-600 text-color"
         >
-            <h5 class="w-2/3 px-2 text-lg text-left header rtl:text-right">
+            <h5 class="w-2/3 p-2 text-left header rtl:text-right">
                 {{ title }}
             </h5>
             <div class="w-1/3 text-left">
