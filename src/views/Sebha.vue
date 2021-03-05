@@ -584,7 +584,7 @@
          * @returns number
          */
         calcHeight(): number {
-            return 17 / this.sebha.max;
+            return 20 / this.sebha.max;
         }
 
         async onClick() {
@@ -673,7 +673,7 @@
             }
 
             this.color = colors[inx];
-            console.log(this.color);
+            // console.log(this.color);
 
             this.setBarColor();
 

@@ -2,7 +2,7 @@
     <div class="absolute top-0 flex w-full h-full">
         <div class="m-auto">
             <div class="flex flex-col text-center">
-                <div class="mx-10 font-semibold break-all">
+                <div class="mx-10 font-semibold break-words">
                     {{ sebha.body }}
                 </div>
                 <div>
