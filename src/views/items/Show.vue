@@ -672,8 +672,9 @@
                           .createQueryBuilder(Du3aEntity, 'items')
                           .update();
 
-            let y = 0;
-            for (const x of this.category.azkar) {
+            let y = 1;
+            for (const x of this.category.azkar) { 
+                // TODO fix y is saved as 1 in all entries
                 await sql
                     // set order to current list index
                     // because reorder only affects list index

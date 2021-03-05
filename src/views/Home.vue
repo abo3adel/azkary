@@ -83,6 +83,7 @@
 
     import { Fonts, UserEntity } from '@/schema/UserEntity';
     import db from '@/utils/db';
+import { getRepository } from 'typeorm';
 
     @Options({
         components: {
@@ -125,6 +126,9 @@
             if (new Date().getHours() > 18 && new Date().getHours() > 4) {
                 this.bg = 'tertiary';
             }
+
+            console.log(await getRepository('zikr').find());
+            
         }
     }
 </script>

@@ -3,7 +3,7 @@ import { BaseColumnSchema } from './BaseColumnSchema';
 
 export interface Category {
     id: number;
-    title: string;
+    // title: string;
     slug: string;
     type: string;
     azkar?: [];
@@ -21,10 +21,10 @@ export const CategoryEntity = new EntitySchema<Category>({
     tableName: 'categories',
     columns: {
         ...BaseColumnSchema,
-        title: {
-            type: String,
-            length: 20,
-        },
+        // title: {
+        //     type: String,
+        //     length: 20,
+        // },
         slug: {
             type: String,
             length: 30,

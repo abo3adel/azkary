@@ -78,10 +78,9 @@
             if (!value || value === 'undefined') {
                 this.firstTime = true;
 
-                // seed db
                 Storage.set({ key: 'firstDone', value: 'yes' });
 
-                await seeder.run();
+                // db seeding in firstTimeSlides component
             }
 
             // @ts-ignore

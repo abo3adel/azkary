@@ -6,7 +6,7 @@ export interface Zikr {
     body: string;
     count: number;
     byUser: boolean;
-    order: number;
+    order?: number;
     meta?: string;
     category: any;
 }
@@ -31,6 +31,7 @@ export const ZikrEntity = new EntitySchema<Zikr>({
         order: {
             type: Number,
             unsigned: true,
+            nullable: true
         },
         meta: {
             type: String,

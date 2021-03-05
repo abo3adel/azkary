@@ -19,13 +19,13 @@ class Seeder {
     async run(): Promise<void> {
         this.con = await db();
         await UserFactory.setConName(APP_DB_NAME).create();
-        await this.seedCategories();
-        await NotifyZikrFactory.setConName(APP_DB_NAME)
-            .count(20)
-            .create();
-        await SebhaFactory.setConName(APP_DB_NAME)
-            .count(3)
-            .create();
+        // await this.seedCategories();
+        // await NotifyZikrFactory.setConName(APP_DB_NAME)
+            // .count(20)
+            // .create();
+        // await SebhaFactory.setConName(APP_DB_NAME)
+        //     .count(3)
+        //     .create();
         return;
     }
 
