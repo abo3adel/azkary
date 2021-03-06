@@ -37,7 +37,8 @@
             "edit": "Edit",
             "del": "Delete",
             "close": "close"
-        }
+        },
+        "close": "cancel"
     },
     "du3a": {
         "toolbar": "Ad3ia(supplications)"
@@ -87,7 +88,8 @@
             "countPH": "Repetition",
             "header": "Add new Zikr",
             "cancel": "Cancel",
-            "save": "Save"
+            "save": "Save",
+            "meta": "Title"
         },
         "err": {
             "noBody": "please add zikr",

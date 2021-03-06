@@ -481,7 +481,7 @@
                 {
                     name: 'meta',
                     type: 'text',
-                    placeholder: this.$t('show.add.meta'),
+                    placeholder: this.$t('zikr.add.meta'),
                     value: meta,
                     attributes: {
                         dir: 'rtl',
@@ -934,8 +934,10 @@
                 await this.modal?.dismiss();
             });
 
-            // @ts-ignore
-            this.sheet.buttons = this.getButtons();
+            setTimeout(() => {
+                // @ts-ignore
+                this.sheet.buttons = this.getButtons();
+            }, 500);
         }
     }
 </script>
