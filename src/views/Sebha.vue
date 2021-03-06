@@ -12,12 +12,12 @@
                 <ion-menu-button @click="setMenuItemWidth"></ion-menu-button>
             </ion-buttons>
             <ion-buttons slot="end">
-                <ion-button color="light" @click="add">
+                <!-- <ion-button color="light" @click="add">
                     <ion-icon slot="start" :icon="addOutline" />
                     <span class="hidden sm:inline-block">
                         {{ $t('sebha.addt') }}
                     </span>
-                </ion-button>
+                </ion-button> -->
                 <ion-button color="light" @click.prevent="togglesebhaTheme">
                     <ion-icon slot="start" :icon="colorPaletteOutline" />
                     <span class="hidden sm:inline-block">
@@ -328,6 +328,30 @@
                         <ion-icon :icon="trashBinOutline" />
                     </ion-fab-button>
                 </ion-fab>
+
+                <!-- bottom fabs -->
+                <ion-fab
+                    vertical="bottom"
+                    horizontal="start"
+                    slot="fixed"
+                    @click.prevent="add"
+                    v-if="!locked"
+                >
+                    <ion-fab-button>
+                        <ion-icon :icon="addOutline" />
+                    </ion-fab-button>
+                </ion-fab>
+                <ion-fab
+                    vertical="bottom"
+                    horizontal="end"
+                    slot="fixed"
+                    @click.prevent="add(null, true)"
+                    v-if="!locked"
+                >
+                    <ion-fab-button>
+                        <ion-icon :icon="createOutline" />
+                    </ion-fab-button>
+                </ion-fab>
             </ion-content>
             <ion-menu
                 side="start"
@@ -409,6 +433,7 @@
         lockOpenOutline,
         lockClosedOutline,
         menuOutline,
+        createOutline,
     } from 'ionicons/icons';
     import { Plugins, Modals } from '@capacitor/core';
 
@@ -475,6 +500,7 @@
         lockOpenOutline = lockOpenOutline;
         lockClosedOutline = lockClosedOutline;
         menuOutline = menuOutline;
+        createOutline = createOutline;
 
         async openMenu() {
             await menuController.open();
@@ -679,8 +705,9 @@
             await Storage.set({ key: 'sebha_color', value: this.color });
         }
 
-        async add() {
+        async add(ev: any = null, isEdit = false) {
             busy = true;
+
             const alert = await alertController.create({
                 cssClass: 'ion-alert',
                 header: this.$t('sebha.add.header'),
@@ -689,15 +716,17 @@
                         type: 'textarea',
                         name: 'body',
                         placeholder: this.$t('sebha.add.pl'),
+                        value: isEdit ? this.sebha.body : '',
                         attributes: {
                             dir: 'rtl',
+                            rows: 5,
                         },
                     },
                     {
                         type: 'number',
                         name: 'max',
                         placeholder: this.$t('sebha.add.max'),
-                        value: 100,
+                        value: isEdit ? this.sebha.max : 100,
                         attributes: {
                             dir: 'rtl',
                             inputmode: 'numeric',
@@ -731,14 +760,29 @@
                             let sebha = new Sebha();
                             sebha.body = ev.body;
                             sebha.max = ev.max;
+                            sebha.current = 0;
+                            sebha.readed = this.sebha.readed;
+
+                            if (isEdit) sebha.id = this.sebha.id;
 
                             sebha = await (await db())
                                 .getRepository<Sebha>('sebha')
                                 .save(sebha);
 
                             // select it as current active sebha
-                            this.tasabeeh.push(sebha);
-                            this.active = this.tasabeeh.length - 1;
+                            if (isEdit) {
+                                this.tasabeeh = this.tasabeeh.map((t) => {
+                                    if (t.id === sebha.id) {
+                                        t.body = sebha.body;
+                                        t.max = sebha.max;
+                                    }
+
+                                    return t;
+                                });
+                            } else {
+                                this.tasabeeh.push(sebha);
+                                this.active = this.tasabeeh.length - 1;
+                            }
                             this.sebha = sebha;
 
                             // reset progress
