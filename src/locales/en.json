@@ -15,7 +15,8 @@
             "start": "Begin"
         },
         "download": "Download",
-        "copied": "copied"
+        "copied": "copied",
+        "confirmExit": "Are you sure you want to exit app?"
     },
     "home": {
         "hadith": "Hadith Sharif",
@@ -153,6 +154,7 @@
         },
         "control": {
             "sound": "Play sound on tab",
+            "volume": "Sound Volume",
             "vibration": "vibrate on tab",
             "hardKeys": "use Volume keys to control sebha",
             "touch": "tab to increment sebha",
