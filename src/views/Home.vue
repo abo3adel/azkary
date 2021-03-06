@@ -15,7 +15,7 @@
             <ion-toolbar :color="bg">
                 <ion-buttons slot="start">
                     <ion-button
-                        class='text-white'
+                        class="text-white"
                         @click.prevent="$router.replace('/about')"
                     >
                         <ion-icon
@@ -29,7 +29,7 @@
                 </ion-buttons>
                 <ion-buttons slot="end">
                     <ion-button
-                        class='text-white'
+                        class="text-white"
                         @click.prevent="$router.replace('/settings')"
                     >
                         <ion-icon :icon="cogOutline" slot="start" />
@@ -129,8 +129,16 @@
             // @ts-ignore
             this.hijir = getHijirDate(this.lang);
 
-            if (new Date().getHours() > 18 && new Date().getHours() > 4) {
+            const hour = new Date().getHours();
+
+            if (hour >= 7 && hour < 12) {
+                this.bg = 'warning';
+            } else if (hour >= 12 && hour <= 17) {
+                this.bg = 'gold';
+            } else if (hour >= 18) {
                 this.bg = 'tertiary';
+            } else {
+                this.bg = 'purple';
             }
         }
     }
