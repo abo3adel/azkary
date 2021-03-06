@@ -3,7 +3,7 @@
         <ion-header>
             <ion-toolbar color="primary" class="haveBg">
                 <h3 class="p-4 pb-8 uppercase">
-                    {{ $t('zikr.toolbar') }}
+                    {{ $t(`${type}.toolbar`) }}
                 </h3>
                 <template v-if="type === 'zikr'">
                     <ion-buttons slot="end">

@@ -39,6 +39,9 @@
             "close": "close"
         }
     },
+    "du3a": {
+        "toolbar": "Ad3ia(supplications)"
+    },
     "zikr": {
         "count": "Repetition",
         "opr": "Control",
