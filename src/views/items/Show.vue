@@ -140,6 +140,7 @@
                                 add(
                                     $event.zikr.body,
                                     $event.zikr.count,
+                                    $event.zikr.meta,
                                     $event.zikr.id
                                 )
                             "
@@ -447,6 +448,7 @@
         async add(
             txt = '',
             count = 1,
+            meta?: string,
             id: number | null = null
         ): Promise<void> {
             busyShow = true;
@@ -463,6 +465,7 @@
                     value: txt,
                     attributes: {
                         dir: 'rtl',
+                        rows: 5,
                     },
                 },
                 {
@@ -475,10 +478,19 @@
                         inputmode: 'numeric',
                     },
                 },
+                {
+                    name: 'meta',
+                    type: 'text',
+                    placeholder: this.$t('show.add.meta'),
+                    value: meta,
+                    attributes: {
+                        dir: 'rtl',
+                    },
+                },
             ];
 
             if (this.type === CategoryType.Du3a) {
-                inputs.splice(1);
+                inputs.splice(1, 1);
             }
 
             const alert = await alertController.create({
@@ -497,9 +509,13 @@
                     {
                         text: this.$t('zikr.add.save'),
                         cssClass: 'submitBtn',
-                        handler: async (ev): Promise<void> => {
-                            const body = ev.body as string;
-                            const count = ev.count as number;
+                        handler: async (ev: {
+                            body: string;
+                            count: number;
+                            meta?: string;
+                        }): Promise<void> => {
+                            const { body, count, meta } = ev;
+
                             if (!body || !body.length) {
                                 toast(this.$t('zikr.err.noBody'));
                                 busyShow = false;
@@ -511,6 +527,7 @@
                             let zikr = new Zikr();
                             zikr.body = body.trim();
                             zikr.count = count > 0 ? count : 1;
+                            zikr.meta = (meta ?? '').trim();
                             if (id) {
                                 zikr.id = id;
                             } else {
@@ -532,6 +549,7 @@
                                         if (x.id === id) {
                                             x.body = body;
                                             x.count = count ?? 1;
+                                            x.meta = meta ?? '';
                                         }
 
                                         return x;
@@ -818,6 +836,7 @@
                         await this.add(
                             this.sheet.zikr.body,
                             this.sheet.zikr.count,
+                            this.sheet.zikr.meta,
                             this.sheet.zikr.id
                         );
                     },
