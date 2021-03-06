@@ -122,6 +122,7 @@
     import { NotifyZikr } from '@/schema/NotifyZikrEntity';
     import { Sebha } from '@/entities/Sebha';
     import { DateTime } from 'luxon';
+    import { User } from '@/schema/UserEntity';
 
     const { SplashScreen } = Plugins;
 
@@ -207,7 +208,9 @@
             }
 
             // seed user configrations table with default values
-            await seeder.run();
+            await (await db()).getRepository<User>('user').insert({
+                azkarCount: 0,
+            });
 
             // iniate notifications
             await this.addNotification(
