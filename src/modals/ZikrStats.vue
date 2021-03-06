@@ -152,7 +152,7 @@
         emits: ['go-home'],
         data() {
             return {
-                azkarCount: 0,
+                azkarCount: -5,
                 totalCount: 0,
                 doneSaving: false,
 
