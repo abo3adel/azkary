@@ -15,7 +15,7 @@
             <ion-toolbar :color="bg">
                 <ion-buttons slot="start">
                     <ion-button
-                        color="light"
+                        class='text-white'
                         @click.prevent="$router.replace('/about')"
                     >
                         <ion-icon
@@ -29,7 +29,7 @@
                 </ion-buttons>
                 <ion-buttons slot="end">
                     <ion-button
-                        color="light"
+                        class='text-white'
                         @click.prevent="$router.replace('/settings')"
                     >
                         <ion-icon :icon="cogOutline" slot="start" />

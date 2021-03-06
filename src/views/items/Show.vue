@@ -7,7 +7,7 @@
                         <ion-icon
                             slot="icon-only"
                             :icon="arrowBackOutline"
-                            class="rtl:transform rtl:rotate-180"
+                            class="text-white rtl:transform rtl:rotate-180"
                         ></ion-icon>
                     </ion-button>
                 </ion-buttons>
