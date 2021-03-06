@@ -58,7 +58,7 @@
             </div>
             <quran :azkar-font="azkarFont" />
 
-            <hadith :azkar-font="azkarFont" />
+            <!-- <hadith :azkar-font="azkarFont" /> -->
 
             <du3a :azkar-font="azkarFont" />
         </ion-content>
@@ -84,7 +84,7 @@
     import getHijirDate from '@/common/getHijirDate';
     import TxtCard from '@/components/TxtCard.vue';
     import Quran from '@/components/home/Quran.vue';
-    import Hadith from '@/components/home/Hadith.vue';
+    // import Hadith from '@/components/home/Hadith.vue';
     import Du3a from '@/components/home/Du3a.vue';
 
     import { Fonts, UserEntity } from '@/schema/UserEntity';
@@ -104,7 +104,7 @@
             IonIcon,
             TxtCard,
             Quran,
-            Hadith,
+            // Hadith,
             Du3a,
         },
         inject: ['lang'],

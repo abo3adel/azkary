@@ -123,8 +123,8 @@
                 return;
             }
 
-            const surah = this.random(2, 50);
-            const aya = this.random(1, this.ayaCount[surah]);
+            const surah = this.random(2, 53);
+            const aya = this.random(1, this.ayaCount[surah-1]);
 
             // load quran
             let res = await (

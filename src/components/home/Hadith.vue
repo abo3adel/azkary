@@ -18,6 +18,7 @@
 
     import TxtCard from '@/components/TxtCard.vue';
     import { Plugins } from '@capacitor/core';
+    import axios from 'axios';
     const { Storage, Network } = Plugins;
 
     class Props {
@@ -62,7 +63,25 @@
                 return;
             }
 
-            const id = HadithIds[Math.floor(Math.random() * 1795)];
+            // const id = HadithIds[Math.floor(Math.random() * 1795)];
+            // const appKey = 'asd';
+            // const res = await axios.get(
+            //     'https://api.sunnah.com/v1/hadiths/random',
+            //     { headers: { 'X-API-Key': appKey } }
+            // );
+
+            // console.log(res);
+
+            // const res = await (
+            //     await fetch(
+            //         'https://api.sunnah.com/v1/hadiths/random',
+            //         {headers: {
+            //            'X-API-Key': appKey
+            //         }}
+            //     )
+            // ).json();
+
+            // console.log(res);
 
             // let res = await (
             //     await fetch(
