@@ -160,17 +160,8 @@
                             :z="z"
                             :theme="theme"
                             :color="meta.color"
-                            @add-to-sebha="addToSebha($event.zikr)"
-                            @edit="
-                                add(
-                                    $event.zikr.body,
-                                    $event.zikr.count,
-                                    $event.zikr.id
-                                )
-                            "
-                            @share="shareIt($event.body)"
-                            @remove="remove($event.id)"
                             @decree="onDecree(z.count, z.id)"
+                            @opts="runOpts($event)"
                         >
                             <template #order>
                                 <ion-reorder
@@ -193,15 +184,10 @@
                     :color="meta.color"
                     :theme="theme"
                     :keyboard="config.keyboard"
-                    @add-to-sebha="addToSebha($event.zikr)"
-                    @edit="
-                        add($event.zikr.body, $event.zikr.count, $event.zikr.id)
-                    "
-                    @share="shareIt($event.body)"
-                    @remove="remove($event.id)"
                     @decree="
                         onDecree($event.count, $event.id, $event.open, true)
                     "
+                    @opts="runOpts($event.zikr)"
                 />
             </div>
             <ion-fab
@@ -216,6 +202,14 @@
                 </ion-fab-button>
             </ion-fab>
         </ion-content>
+        <ion-action-sheet
+            :is-open="sheet.show"
+            css-class="opr-actions"
+            :backdrop-dismiss="true"
+            :buttons="sheet.buttons"
+            @onDidDismiss="sheet.show = false"
+        >
+        </ion-action-sheet>
     </ion-page>
 </template>
 <script lang="ts">
@@ -234,6 +228,7 @@
         IonButtons,
         IonButton,
         IonFabButton,
+        IonActionSheet,
         IonFab,
         alertController,
         modalController,
@@ -250,6 +245,11 @@
         checkmarkDoneOutline,
         arrowBackOutline,
         cogOutline,
+        createOutline,
+        trashBinOutline,
+        shareSocialOutline,
+        closeOutline,
+        sendOutline,
     } from 'ionicons/icons';
     import toast from '@/utils/toast';
     import { Zikr } from '@/entities/Zikr';
@@ -310,6 +310,7 @@
             IonButtons,
             IonButton,
             IonFabButton,
+            IonActionSheet,
             IonFab,
             IonSlides,
         },
@@ -329,6 +330,11 @@
         modal!: HTMLIonModalElement;
         config = Controls;
         azkarFont: string = Fonts.Amiri;
+        sheet = {
+            show: false,
+            zikr: new Zikr(),
+            buttons: [],
+        };
 
         addOutline = addOutline;
         colorPaletteOutline = colorPaletteOutline;
@@ -789,6 +795,58 @@
             emitter.emit('slide-cog');
         }
 
+        runOpts(zikr: Zikr) {
+            this.sheet.zikr = zikr;
+            this.sheet.show = true;
+        }
+
+        getButtons() {
+            return [
+                {
+                    text: this.$t('show.item.addSebha'),
+                    icon: sendOutline,
+                    cssClass: 'addSebhaBtn',
+                    handler: async () => {
+                        await this.addToSebha(this.sheet.zikr);
+                    },
+                },
+                {
+                    text: this.$t('show.item.edit'),
+                    icon: createOutline,
+                    cssClass: 'editBtn',
+                    handler: async () => {
+                        await this.add(
+                            this.sheet.zikr.body,
+                            this.sheet.zikr.count,
+                            this.sheet.zikr.id
+                        );
+                    },
+                },
+                {
+                    text: this.$t('show.item.share'),
+                    icon: shareSocialOutline,
+                    cssClass: 'shareBtn',
+                    handler: async () => {
+                        await this.shareIt(this.sheet.zikr.body);
+                    },
+                },
+                {
+                    text: this.$t('show.item.del'),
+                    icon: trashBinOutline,
+                    cssClass: 'deleteBtn',
+                    handler: async () => {
+                        await this.remove(this.sheet.zikr.id);
+                    },
+                },
+                {
+                    text: this.$t('show.close'),
+                    icon: closeOutline,
+                    role: 'cancel',
+                    cssClass: 'cancelBtn',
+                },
+            ];
+        }
+
         backButtonEv(ev: any) {
             ev.detail.register(8, async () => {
                 if (this.$route.path.indexOf('/tabs/') > -1) {
@@ -846,6 +904,9 @@
                 await this.$router.replace(`/tabs/${this.type}`);
                 await this.modal?.dismiss();
             });
+
+            // @ts-ignore
+            this.sheet.buttons = this.getButtons();
         }
     }
 </script>

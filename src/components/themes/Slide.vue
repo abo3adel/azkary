@@ -71,7 +71,7 @@
 </template>
 <script lang="ts">
     import { Options, Vue, prop } from 'vue-class-component';
-    import { EmitsList, showOprs, highliteText } from './Abstract';
+    import { EmitsList, highliteText } from './Abstract';
     import { Zikr } from '@/entities/Zikr';
 
     // @ts-ignore
@@ -212,7 +212,7 @@
         }
 
         opts() {
-            showOprs(this.current, this);
+            this.$emit('opts', { zikr: this.current });
         }
 
         /**

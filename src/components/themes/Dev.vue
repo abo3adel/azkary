@@ -68,7 +68,7 @@
     import { Vue, Options, prop } from 'vue-class-component';
     import { cogOutline } from 'ionicons/icons';
     import { IonRippleEffect, IonIcon, IonLabel } from '@ionic/vue';
-    import { EmitsList, Props as Abstract, showOprs, highliteText } from './Abstract';
+    import { EmitsList, Props as Abstract, highliteText } from './Abstract';
     import { Zikr } from '@/entities/Zikr';
 
     class Props extends Abstract {
@@ -83,7 +83,7 @@
         cogOutline = cogOutline;
 
         async opts(zikr: Zikr) {
-            showOprs(zikr, this);
+            this.$emit('opts', zikr);
         }
 
         highlite(txt: string) {

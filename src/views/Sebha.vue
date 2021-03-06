@@ -892,6 +892,7 @@
         mounted() {
             this.bar = this.$refs.bar as Progress;
 
+            // TODO load on every visit
             this.loadTasabeeh();
 
             // set backgroundImage
