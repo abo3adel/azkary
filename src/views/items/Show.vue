@@ -394,8 +394,8 @@
 
         async keyboardEvents(ev: any) {
             ev.preventDefault();
+
             const kc = ev.keyCode;
-            // console.log(kc);
 
             if (busyShow) return;
 
@@ -864,6 +864,10 @@
         }
 
         ionViewWillEnter() {
+            this.readed = 0;
+            this.totalCount = 0;
+            this.azkarClone = [];
+
             this.loadData();
 
             if (this.config.keyboard) {
@@ -879,6 +883,12 @@
             document.removeEventListener('keyup', this.keyboardEvents);
 
             document.removeEventListener('ionBackButton', this.backButtonEv);
+
+            // unsubscripe all emitter events
+            emitter.off('space-clicked');
+            emitter.off('confing');
+            emitter.off('deleted');
+            emitter.off('slide-cog');
         }
 
         beforeMount() {

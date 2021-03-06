@@ -54,12 +54,6 @@ export default function getCategoryIcon(): CategoryIcon[] {
         },
         {
             type: 'svg',
-            name: 'dua-hands',
-            color: 'teal',
-            slug: 'mix',
-        },
-        {
-            type: 'svg',
             name: 'wudu',
             color: 'purple',
             slug: 'ablution',
@@ -69,6 +63,12 @@ export default function getCategoryIcon(): CategoryIcon[] {
             name: 'dates',
             color: 'secondary',
             slug: 'food',
+        },
+        {
+            type: 'svg',
+            name: 'dua-hands',
+            color: 'teal',
+            slug: 'mix',
         },
 
         // ad3ia
