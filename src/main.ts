@@ -48,7 +48,7 @@ router.isReady().then(async () => {
     )[0];
 
     app = app
-        .provide('lang', user?.lang ?? navigator.language ?? 'ar')
+        .provide('lang', user?.lang ?? 'ar')
         .provide('dark', user?.dark ?? false)
         .provide('fontSize', user?.fontSize ?? 1)
         .provide('fontType', user?.fontType ?? 'Cairo')

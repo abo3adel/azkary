@@ -81,7 +81,7 @@ export const UserEntity = new EntitySchema<User>({
         // app
         lang: {
             type: String,
-            default: navigator.language ?? 'ar',
+            default: 'ar',
         },
         fontSize: {
             type: Number,
