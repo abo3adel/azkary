@@ -836,8 +836,9 @@
             );
         }
 
-        ionViewWillEnter() {
-            this.loadOnEveryVisit();
+        async ionViewWillEnter() {
+            await this.loadTasabeeh();
+            await this.loadOnEveryVisit();
         }
 
         async keyboardEv(ev: any) {
@@ -891,9 +892,6 @@
 
         mounted() {
             this.bar = this.$refs.bar as Progress;
-
-            // TODO load on every visit
-            this.loadTasabeeh();
 
             // set backgroundImage
             Storage.get({ key: 'sebha_img' }).then((r) => {
