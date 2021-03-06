@@ -561,7 +561,7 @@
             zikr =
                 (await getRepository<Zikr>(this.type).findOne(
                     { id: zikr.id },
-                    { select: ['body', 'id'] }
+                    { select: ['body', 'count', 'id'] }
                 )) ?? zikr;
 
             const done = await getConnection()
