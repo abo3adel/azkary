@@ -13,21 +13,19 @@ export function highliteText(
     theme: string,
     color: string
 ): string {
+    const tag = (txt: any) =>
+        `<span class='text-primary-600' style="${
+            theme.indexOf('colored') > -1
+                ? `color: var(--ion-color-${color})`
+                : ''
+        }">${txt}</span>`;
+
     return txt
-        .replace(
-            'اللَّهُمَّ',
-            `<span class='text-primary-600' style="${
-                theme.indexOf('colored') > -1
-                    ? `color: var(--ion-color-${color})`
-                    : ''
-            }">اللَّهُمَّ</span>`
-        )
-        .replace(
-            'رَبَّنَا',
-            `<span class='text-primary-600' style="${
-                theme.indexOf('colored') > -1
-                    ? `color: var(--ion-color-${color})`
-                    : ''
-            }">رَبَّنَا</span>`
-        );
+        .trim()
+        .replace(/^اللَّهُمَّ/u, tag('اللَّهُمَّ'))
+        .replace(/^اللّهُـمَّ/u, tag('اللّهُـمَّ'))
+        .replace(/^اللّهـمَّ/u, tag('اللّهـمَّ'))
+        .replace(/^اللَّهُمَّ/u, tag('اللَّهُمَّ'))
+        .replace(/^(?:")رَبَّنَا/u, tag('رَبَّنَا'))
+        .replace(/^(?:")ربَّنَا/u, tag('ربَّنَا'));
 }
