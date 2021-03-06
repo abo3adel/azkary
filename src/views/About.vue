@@ -20,7 +20,7 @@
         <ion-content class="text-center ion-padding">
             <div class="w-1/3 mx-auto">
                 <img
-                    src="/assets/icon/android-chrome-256x256.png"
+                    src="/assets/icon/android-chrome-192x192.png"
                     class="object-cover w-full h-full"
                 />
             </div>
