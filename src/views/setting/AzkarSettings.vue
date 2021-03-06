@@ -271,6 +271,7 @@
                                 minute: dt.minute,
                             },
                         },
+                        autoCancel: true,
                     },
                 ],
             });

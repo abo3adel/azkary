@@ -8,10 +8,6 @@ const myCapacitorApp = createCapacitorElectronApp({
             width: 680,
         },
     },
-    trayMenu: {
-        useTrayMenu: true,
-        trayIconPath: '/assets/appIcon.ico',
-    },
     splashScreen: {
       useSplashScreen: true,
     }
