@@ -119,14 +119,14 @@
                         ? '    line-height: 2.8rem'
                         : ''
                 };
-                --ion-azkar-font: '${azkarFont}', 'AmiriQuranColored';`
+                --ion-azkar-font: '${azkarFont}', 'AmiriQuranColored';
+                --azkar-font-size: ${fontSize}rem`
             "
         >
             <ion-reorder-group
                 @ionItemReorder="doReorder($event)"
                 :disabled="!reorder"
                 class="font-size-updater"
-                :style="`font-size: ${fontSize}rem`"
                 v-if="['base', 'dev', 'dev-colored'].indexOf(theme) > -1"
             >
                 <template v-for="(z, zinx) in category.azkar" :key="z.id">

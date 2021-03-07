@@ -39,7 +39,10 @@
                 >
                     {{ z.meta }}
                 </p>
-                <span style="font-family: var(--ion-azkar-font)" v-html="highlite(z.body)"></span>
+                <span
+                    style="font-family: var(--ion-azkar-font);font-size: var(--azkar-font-size)"
+                    v-html="highlite(z.body)"
+                ></span>
             </ion-label>
             <ion-ripple-effect></ion-ripple-effect>
             <ion-note

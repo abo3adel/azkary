@@ -20,7 +20,10 @@
             >
                 {{ z.meta }}
             </p>
-            <span v-html="highlite(z.body)"></span>
+            <span
+                style="font-size: var(--azkar-font-size)"
+                v-html="highlite(z.body)"
+            ></span>
             <slot name="order"></slot>
             <ion-ripple-effect></ion-ripple-effect>
         </div>

@@ -18,7 +18,7 @@ export function highliteText(
             theme.indexOf('colored') > -1
                 ? `color: var(--ion-color-${color})`
                 : ''
-        }">${txt}</span>`;
+        };font-size: var(--azkar-font-size)">${txt}</span>`;
 
     return txt
         .trim()

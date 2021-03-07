@@ -40,7 +40,10 @@
                         >
                             {{ z.meta }}
                         </p>
-                        <span v-html="highlite(z.body)"></span>
+                        <span
+                            style="font-size: var(--azkar-font-size)"
+                            v-html="highlite(z.body)"
+                        ></span>
                     </div>
                 </div>
             </swiper-slide>
