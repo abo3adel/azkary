@@ -435,7 +435,7 @@
         menuOutline,
         createOutline,
     } from 'ionicons/icons';
-    import { Plugins, Modals } from '@capacitor/core';
+    import { Plugins } from '@capacitor/core';
 
     import { Sebha } from '@/entities/Sebha';
     import db from '@/utils/db';
@@ -452,7 +452,7 @@
     // @ts-ignore
     import emitter from 'tiny-emitter/instance';
 
-    const { Storage } = Plugins;
+    const { Storage, Modals } = Plugins;
 
     let busy = false;
 
