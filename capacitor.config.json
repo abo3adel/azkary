@@ -1,17 +1,23 @@
 {
-  "appId": "com.ninjacoder.azkary",
-  "appName": "azkary",
-  "bundledWebRuntime": false,
-  "npmClient": "npm",
-  "webDir": "dist",
-  "hideLogs": true,
-  "plugins": {
-    "SplashScreen": {
-      "launchShowDuration": 4000,
-      "backgroundColor": "#128257",
-      "showSpinner": true,
-      "autoHide": false
+    "appId": "com.ninjacoder.azkary",
+    "appName": "azkary",
+    "bundledWebRuntime": false,
+    "npmClient": "npm",
+    "webDir": "dist",
+    "hideLogs": true,
+    "plugins": {
+        "SplashScreen": {
+            "launchShowDuration": 4000,
+            "backgroundColor": "#128257",
+            "showSpinner": true,
+            "autoHide": false
+        }
+    },
+    "cordova": {},
+    "server": {
+        "url": "http://192.168.1.12:8100",
+        "cleartext": true,
+        "originalUrl": "http://192.168.1.12:8100",
+        "originalCleartext": true
     }
-  },
-  "cordova": {}
 }

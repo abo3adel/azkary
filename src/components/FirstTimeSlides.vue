@@ -109,7 +109,7 @@
 </template>
 <script lang="ts">
     import { Options, Vue } from 'vue-class-component';
-    import { IonSlides, IonSlide, IonButton } from '@ionic/vue';
+    import { IonSlides, IonSlide, IonButton, isPlatform } from '@ionic/vue';
     import FirstSlide from '@/components/FirstSlide.vue';
     import { Plugins, LocalNotifications } from '@capacitor/core';
     import getCategoryIcon from '@/utils/getCategoryIcon';
@@ -117,14 +117,14 @@
     import db from '@/utils/db';
     import { Zikr } from '@/schema/ZikrEntity';
     import { Category } from '@/schema/CategoryEntity';
-    import seeder from '@/seeder';
     import { getRepository } from 'typeorm';
     import { NotifyZikr } from '@/schema/NotifyZikrEntity';
     import { Sebha } from '@/entities/Sebha';
     import { DateTime } from 'luxon';
     import { User } from '@/schema/UserEntity';
+    import { COLORES } from '@/App.vue';
 
-    const { SplashScreen } = Plugins;
+    const { SplashScreen, StatusBar } = Plugins;
 
     @Options({
         components: { IonSlides, IonSlide, IonButton, FirstSlide },
@@ -282,6 +282,14 @@
             setTimeout(() => {
                 this.seedDB();
                 SplashScreen.hide();
+
+                if (isPlatform('hybrid')) {
+                    // set statusbar background color
+                    StatusBar.setBackgroundColor({
+                        // @ts-ignore
+                        color: '#2655a8',
+                    });
+                }
             }, 100);
         }
     }

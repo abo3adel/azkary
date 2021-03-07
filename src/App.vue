@@ -25,9 +25,7 @@
     import 'reflect-metadata';
     import { setStyles } from '@/common/styleApp';
     import { Plugins } from '@capacitor/core';
-    import loader from './utils/loader';
     import confirmAppExit from './utils/confirmAppExit';
-    import seeder from './seeder';
     import FirstSlide from '@/components/FirstSlide.vue';
 
     const { StatusBar, Storage, SplashScreen } = Plugins;
@@ -104,7 +102,7 @@
                 this.fontSize
             );
 
-            if (isPlatform('hybrid')) {
+            if (isPlatform('hybrid') && value) {
                 // set statusbar background color
                 StatusBar.setBackgroundColor({
                     // @ts-ignore
