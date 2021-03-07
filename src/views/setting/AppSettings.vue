@@ -16,7 +16,7 @@
                         }"
                         v-model="lang"
                         :placeholder="$t('setup.app.lang')"
-                        @ionChange="updateProp({ lang })"
+                        @ionChange="updateProp({ lang }, true)"
                     >
                         <ion-select-option value="ar">
                             العربية
@@ -179,7 +179,6 @@
     import loader from '@/utils/loader';
     import { UserEntity, Fonts, ThemeColors } from '@/schema/UserEntity';
     import db from '@/utils/db';
-    import toast from '@/utils/toast';
     import { setStyles } from '@/common/styleApp';
     import { Plugins } from '@capacitor/core';
     import { COLORES } from '@/App.vue';
@@ -194,6 +193,8 @@
         Fonts.Mirza,
         Fonts.Ruqaa,
     ];
+
+    let appBusy = true;
 
     @Options({
         components: {
@@ -250,10 +251,14 @@
             this.theme = res.theme;
             this.dark = res.dark;
 
+            setTimeout(() => appBusy = false, 500);
+
             await loader.hide();
         }
 
         async updateProp(prop: object, restart = false) {
+            if (appBusy) return;
+
             await loader.show();
 
             await (await db())
@@ -265,7 +270,7 @@
             await loader.hide();
 
             if (restart) {
-                toast(this.$t('setup.restart'));
+                window.location.reload();                
                 return;
             }
 

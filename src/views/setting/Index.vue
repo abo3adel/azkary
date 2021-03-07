@@ -156,10 +156,6 @@
         beforeMount() {
             this.dir = document.documentElement.dir;
         }
-
-        mounted() {
-            console.log(document.documentElement.dir);
-        }
     }
 </script>
 <style lang="postcss" scoped>
