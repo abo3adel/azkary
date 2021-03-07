@@ -16,6 +16,7 @@
     import { Options, Vue, prop } from 'vue-class-component';
     import TxtCard from '@/components/TxtCard.vue';
     import { Plugins } from '@capacitor/core';
+    import axios, { AxiosResponse } from 'axios';
     const { Storage, Network } = Plugins;
 
     class Props {
@@ -93,55 +94,73 @@
             ];
         }
 
-        async mounted() {
-            const net = (await Network.getStatus()).connected;
-            if (!net) {
-                // load from local storage
-                // or show error
+        async offline() {
+            let { value } = await Storage.get({ key: 'quran_aya' });
 
-                let { value } = await Storage.get({ key: 'quran_aya' });
-
-                if (!value) {
-                    // @ts-ignore
-                    this.quran.ar = false;
-                    // @ts-ignore
-                    this.quran.en = false;
-                    return;
-                }
-
-                value = JSON.parse(value);
-
+            if (!value) {
                 // @ts-ignore
-                this.quran.ar = value.ar;
+                this.quran.ar = false;
                 // @ts-ignore
-                this.quran.en = value.en;
-                // @ts-ignore
-                this.quran.surah = value.surah;
-                // @ts-ignore
-                this.quran.num = value.num;
-
+                this.quran.en = false;
                 return;
             }
 
+            value = JSON.parse(value);
+
+            // @ts-ignore
+            if (!value.ar.length) {
+                // @ts-ignore
+                this.quran.ar = false;
+                // @ts-ignore
+                this.quran.en = false;
+                return;
+            }
+
+            // @ts-ignore
+            this.quran.ar = value.ar;
+            // @ts-ignore
+            this.quran.en = value.en;
+            // @ts-ignore
+            this.quran.surah = value.surah;
+            // @ts-ignore
+            this.quran.num = value.num;
+
+            return;
+        }
+
+        async mounted() {
+            const net = (await Network.getStatus()).connected;
+
+            if (!net) {
+                // load from local storage
+                // or show error
+                return await this.offline();
+            }
+
             const surah = this.random(2, 53);
-            const aya = this.random(3, this.ayaCount[surah-1]);
+            const aya = this.random(3, this.ayaCount[surah - 1]);
 
             // load quran
-            let res = await (
-                await fetch(
-                    `http://api.alquran.cloud/v1/ayah/${surah}:${aya}/ar.asad`
-                )
-            ).json();
+            let res = await axios
+                .get(`http://api.alquran.cloud/v1/ayah/${surah}:${aya}/ar.asad`)
+                .catch((e) => null);
+            if (!res) {
+                return await this.offline();
+            }
+
             this.quran.ar = res.data.text;
             this.quran.surah = res.data.surah.name;
             this.quran.num = res.data.numberInSurah;
 
-            res = await (
-                await fetch(
-                    `http://api.alquran.cloud/v1/ayah/${surah}:${aya}/en.asad`
-                )
-            ).json();
-            this.quran.en = res.data.text;
+            res = await axios
+                .get(`http://api.alquran.cloud/v1/ayah/${surah}:${aya}/en.asad`)
+                .catch((e) => null);
+            if (!res) {
+                // @ts-ignore
+                this.quran.en = false;
+                return;
+            }
+            this.quran.en = (res as AxiosResponse).data.text;
 
             // this.quran.ar =
             //     'اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ';
