@@ -24,11 +24,6 @@
                         <ion-buttons slot="end">
                             <ion-button
                                 color="primary"
-                                @click="
-                                    platform === 'hybird'
-                                        ? uploadFromHybird($event)
-                                        : null
-                                "
                             >
                                 <ion-icon
                                     class="mx-1"
@@ -44,7 +39,6 @@
                                     name="image"
                                     @change="uploadFromDescTop"
                                     style="display: none;"
-                                    v-if="platform !== 'hybird'"
                                 />
                             </ion-button>
                         </ion-buttons>
@@ -89,10 +83,9 @@
     import { UserEntity } from '@/schema/UserEntity';
     import loader from '@/utils/loader';
 
-    import { Plugins, FilesystemEncoding } from '@capacitor/core';
-    import { FileChooser } from '@ionic-native/file-chooser';
+    import { Plugins } from '@capacitor/core';
     import { DEFUALT_BG } from '../Sebha.vue';
-    const { Storage, Filesystem } = Plugins;
+    const { Storage } = Plugins;
 
     const convertBlobToBase64 = (blob: any) =>
         new Promise((resolve, reject) => {
@@ -137,11 +130,7 @@
                 .select('sebhaAutoNext')
                 .execute();
 
-            // console.log(res[0], res[0]?.sebhaAutoNext);
-
             this.autoNext = res[0]?.sebhaAutoNext as boolean;
-
-            // console.log(this.autoNext);
 
             this.img =
                 (await Storage.get({ key: 'sebha_img' })).value ?? DEFUALT_BG;
@@ -149,26 +138,30 @@
             await loader.hide();
         }
 
-        async uploadFromHybird(ev: any) {
-            const r = (await FileChooser.open().catch((err: any) =>
-                console.log(err)
-            )) as string;
+        // async uploadFromHybird(ev: any) {
+        //     const r = (await FileChooser.open().catch((err: any) =>
+        //         console.log(err)
+        //     )) as string;
 
-            const contents = await (
-                await Filesystem.readFile({
-                    path: r as string,
-                    encoding: FilesystemEncoding.UTF8,
-                })
-            ).data;
+        //     // const contents = await await Filesystem.readFile({
+        //     //     path: r as string,
+        //     //     encoding: FilesystemEncoding.UTF8,
+        //     // });
 
-            // console.log(
-            //     contents,
-            //     contents.toString(),
-            //     convertBlobToBase64(contents)
-            // );
+        //     console.log(File.applicationDirectory);
+            
 
-            this.saveImage((await convertBlobToBase64(contents)) as string);
-        }
+        //     console.log(File.readAsBinaryString('', r));
+            
+
+        //     // console.log(
+        //     //     contents,
+        //     //     contents.toString(),
+        //     //     convertBlobToBase64(contents)
+        //     // );
+
+        //     // this.saveImage((await convertBlobToBase64(contents)) as string);
+        // }
 
         async uploadFromDescTop(ev: any) {
             // id user did not select any image
