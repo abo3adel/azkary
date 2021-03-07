@@ -495,7 +495,7 @@
 
             const alert = await alertController.create({
                 cssClass: 'ion-alert',
-                header: this.$t('zikr.add.header'),
+                header: this.$t(`${this.type}.add.header`),
                 inputs,
                 buttons: [
                     {

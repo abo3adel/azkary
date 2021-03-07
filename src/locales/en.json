@@ -41,7 +41,10 @@
         "close": "cancel"
     },
     "du3a": {
-        "toolbar": "Ad3ia(supplications)"
+        "toolbar": "Ad3ia(supplications)",
+        "add": {
+            "header": "Add new Du3a"
+        }
     },
     "zikr": {
         "count": "Repetition",
