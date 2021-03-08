@@ -20,8 +20,12 @@
     @Options({ components: { TxtCard } })
     export default class Du3a extends Vue.with(Props) {
         ar = '';
+        busy = false;
 
         async loadDu3a() {
+            if (this.busy) return;
+
+            this.busy = true;
             this.ar = '';
             const du3a = await (await db()).query(
                 'SELECT body FROM ad3ia WHERE id < 150 ORDER BY RANDOM() LIMIT 1'
@@ -33,6 +37,7 @@
                         'اللَّهُمَّ إِنِّي أَسْأَلُكَ الجَنَّة وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ وَعَمَلٍ ، وَأَعُوذُ بِكَ مَنَ النَّارِ وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ وَعَمَلٍ.'),
                 300
             );
+            this.busy = false;
         }
 
         mounted() {

@@ -32,6 +32,7 @@
             surah: '',
             num: '',
         };
+        busy = false;
 
         random(min: number, max: number): number {
             return Math.floor(Math.random() * (max - min + 1) + min);
@@ -126,12 +127,19 @@
             // @ts-ignore
             this.quran.num = value.num;
 
+            this.busy = false;
+
             return;
         }
 
         async loadQuranAya() {
+            if (this.busy) return;
+
+            // reset
+            this.busy = true;
             this.quran.ar = '';
             this.quran.en = '';
+
             const net = (await Network.getStatus()).connected;
 
             if (!net) {
@@ -182,10 +190,11 @@
                     num: this.quran.num,
                 }),
             });
+            this.busy = false;
         }
 
         async mounted() {
-            this.loadQuranAya;
+            this.loadQuranAya();
         }
     }
 </script>
