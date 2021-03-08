@@ -71,7 +71,8 @@
                         </div>
 
                         <div
-                            class="relative m-auto overflow-hidden border rounded-full w-96 h-96 border-primary-400"
+                            class="relative m-auto overflow-hidden border rounded-full w-96 h-96"
+                            style="border-color: var(--ion-color-primary)"
                             v-show="sebhaTheme === 'dev'"
                         >
                             <div
