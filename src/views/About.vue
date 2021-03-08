@@ -72,13 +72,13 @@
                         >flaticon.com</a
                     >.
                 </p>
-                <hr class="w-1/2 my-1 border border-gray-500" />
+                <!-- <hr class="w-1/2 my-1 border border-gray-500" />
                 <p>
                     Made with <span class="text-red-500">&hearts;</span> by
                     <a href="http://abo3adel.github.io/" target="_blank"
                         >TheNinjaCoder</a
                     >
-                </p>
+                </p> -->
             </div>
         </div>
     </ion-page>
