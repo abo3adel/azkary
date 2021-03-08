@@ -622,6 +622,14 @@
 
             this.sebha.current++;
 
+            // update db with current value
+            await getConnection()
+                .createQueryBuilder(SebhaEntity, 'tasabeeh')
+                .update()
+                .set({ current: this.sebha.current })
+                .where({ id: this.sebha.id })
+                .execute();
+
             if (this.sebha.current >= this.sebha.max) {
                 this.bar?.set(1);
                 this.svgHeight = 20;
@@ -650,14 +658,6 @@
             this.bar?.set(this.sebha.current / this.sebha.max);
 
             this.svgHeight += this.calcHeight();
-
-            // update db with current value
-            await getConnection()
-                .createQueryBuilder(SebhaEntity, 'tasabeeh')
-                .update()
-                .set({ current: this.sebha.current })
-                .where({ id: this.sebha.id })
-                .execute();
         }
 
         /**
