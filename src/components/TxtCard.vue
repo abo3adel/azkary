@@ -28,6 +28,12 @@
                             {{ $t('home.btn.trans') }}
                         </ion-label>
                     </ion-button>
+                    <ion-button type="button" @click.prevent="$emit('refresh')">
+                        <ion-icon slot="start" :icon="refreshOutline" />
+                        <ion-label class="hidden sm:inline-block">
+                            {{ $t('home.btn.refresh') }}
+                        </ion-label>
+                    </ion-button>
                 </ion-buttons>
             </div>
         </div>
@@ -59,7 +65,7 @@
                 </p>
                 <slot name="meta" v-if="ar" />
             </div>
-            <hr class="w-1/2 my-3 border border-gray-400" v-if="showEn" />
+            <hr class="w-3/4 mx-auto my-3 border border-gray-400" v-if="showEn" />
             <div class="text-lg text-left" v-if="showEn">
                 <p
                     class="w-11/12 mx-auto font-semibold text-center text-red-600"
@@ -103,6 +109,7 @@
         shareSocialOutline,
         language,
         alertCircleOutline,
+        refreshOutline,
     } from 'ionicons/icons';
     import share from '@/utils/share';
 
@@ -127,6 +134,7 @@
     @Options({
         components: { IonButtons, IonButton, IonLabel, IonSpinner, IonIcon },
         inject: ['lang'],
+        emits: ['refresh']
     })
     export default class TxtCard extends Vue.with(Props) {
         loading = true;
@@ -135,6 +143,7 @@
         shareSocialOutline = shareSocialOutline;
         language = language;
         alertCircleOutline = alertCircleOutline;
+        refreshOutline = refreshOutline;
 
         shareIt() {
             if (!this.ar) return;

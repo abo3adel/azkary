@@ -5,6 +5,7 @@
         :title="$t('home.du3a')"
         :ar="ar"
         :disable-en="true"
+        @refresh="loadDu3a"
     >
     </txt-card>
 </template>
@@ -21,12 +22,17 @@
         ar = '';
 
         async loadDu3a() {
+            this.ar = '';
             const du3a = await (await db()).query(
                 'SELECT body FROM ad3ia WHERE id < 150 ORDER BY RANDOM() LIMIT 1'
             );
-            this.ar =
-                du3a[0]?.body ??
-                'اللَّهُمَّ إِنِّي أَسْأَلُكَ الجَنَّة وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ وَعَمَلٍ ، وَأَعُوذُ بِكَ مَنَ النَّارِ وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ وَعَمَلٍ.';
+            setTimeout(
+                () =>
+                    (this.ar =
+                        du3a[0]?.body ??
+                        'اللَّهُمَّ إِنِّي أَسْأَلُكَ الجَنَّة وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ وَعَمَلٍ ، وَأَعُوذُ بِكَ مَنَ النَّارِ وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ وَعَمَلٍ.'),
+                300
+            );
         }
 
         mounted() {

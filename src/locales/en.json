@@ -25,6 +25,7 @@
         "btn": {
             "share": "Share",
             "trans": "Translate",
+            "refresh": "Refresh",
             "about": "About",
             "settings": "Settings"
         },

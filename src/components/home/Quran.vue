@@ -6,6 +6,7 @@
         :ar="quran.ar"
         :en="quran.en"
         :error="{ ar: quran.ar === false, en: quran.en === false }"
+        @refresh="loadQuranAya"
     >
         <template #meta>
             <p class="text-left">({{ quran.surah }} - {{ quran.num }})</p>
@@ -128,7 +129,9 @@
             return;
         }
 
-        async mounted() {
+        async loadQuranAya() {
+            this.quran.ar = '';
+            this.quran.en = '';
             const net = (await Network.getStatus()).connected;
 
             if (!net) {
@@ -179,6 +182,10 @@
                     num: this.quran.num,
                 }),
             });
+        }
+
+        async mounted() {
+            this.loadQuranAya;
         }
     }
 </script>
