@@ -12,16 +12,17 @@
             </h5>
             <div class="w-1/3 text-left">
                 <ion-buttons class="justify-end">
-                    <ion-button
-                        type="button"
-                        @click.prevent="shareIt"
-                    >
+                    <ion-button type="button" @click.prevent="shareIt">
                         <ion-icon slot="start" :icon="shareSocialOutline" />
                         <ion-label class="hidden sm:inline-block">
                             {{ $t('home.btn.share') }}
                         </ion-label>
                     </ion-button>
-                    <ion-button type="button" v-show="!disableEn" @click.prevent="!disableEn ? showEn = !showEn : null">
+                    <ion-button
+                        type="button"
+                        v-show="!disableEn"
+                        @click.prevent="!disableEn ? (showEn = !showEn) : null"
+                    >
                         <ion-icon slot="start" :icon="language" />
                         <ion-label class="hidden sm:inline-block">
                             {{ $t('home.btn.trans') }}
@@ -34,6 +35,7 @@
             <div class="text-right" :style="sty">
                 <p
                     class="w-11/12 mx-auto font-semibold text-center text-red-600"
+                    style="font-family: var(--ion-font-family)"
                     v-if="error.ar"
                 >
                     <ion-icon
@@ -61,6 +63,7 @@
             <div class="text-lg text-left" v-if="showEn">
                 <p
                     class="w-11/12 mx-auto font-semibold text-center text-red-600"
+                    style="font-family: var(--ion-font-family)"
                     v-if="error.en"
                 >
                     <ion-icon
@@ -109,7 +112,7 @@
         sty = prop<string>({ default: '' });
         ar = prop<string>({ default: '' });
         en = prop<string>({ default: '' });
-        disableEn = prop<boolean>({default: false});
+        disableEn = prop<boolean>({ default: false });
         error = prop<{
             ar: boolean | string;
             en: boolean | string;
