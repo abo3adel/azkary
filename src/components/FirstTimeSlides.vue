@@ -281,7 +281,7 @@
 
             setTimeout(() => {
                 this.seedDB();
-                SplashScreen.hide();
+                setTimeout(() => SplashScreen.hide(), 500);
 
                 if (isPlatform('hybrid')) {
                     // set statusbar background color

@@ -128,8 +128,10 @@
             });
 
             if (value) {
-                this.slide = false;
-                setTimeout(() => SplashScreen.hide(), 100);
+                setTimeout(() => {
+                    SplashScreen.hide();
+                    this.slide = false;
+                }, 300);
             }
         },
     });
