@@ -251,7 +251,7 @@
             this.theme = res.theme;
             this.dark = res.dark;
 
-            setTimeout(() => appBusy = false, 500);
+            setTimeout(() => appBusy = false, 800);
 
             await loader.hide();
         }
@@ -269,7 +269,7 @@
 
             await loader.hide();
 
-            if (restart) {
+            if (restart) {                
                 window.location.reload();                
                 return;
             }
