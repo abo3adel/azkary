@@ -947,7 +947,7 @@
             Storage.get({ key: 'sebha_img' }).then((r) => {
                 const node = document.createElement('style');
                 node.innerHTML = `ion-content.sebha-con{--background: url('${r.value ??
-                    DEFUALT_BG}')}`;
+                    DEFUALT_BG}') repeat fixed center center}`;
                 (document.documentElement.querySelector(
                     '#sebhaPage'
                 ) as HTMLDivElement).appendChild(node);
