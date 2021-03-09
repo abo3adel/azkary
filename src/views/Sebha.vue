@@ -30,11 +30,7 @@
                         {{ $t('sebha.color') }}
                     </span>
                 </ion-button>
-                <ion-button
-                    color="light"
-                    @click="locked = !locked"
-                    class="mx-auto"
-                >
+                <ion-button color="light" @click="toggleLocked" class="mx-auto">
                     <ion-icon
                         slot="start"
                         :icon="lockOpenOutline"
@@ -547,7 +543,7 @@
             await loader.hide();
         }
 
-        async selectNext() {            
+        async selectNext() {
             let inx = 0;
             const len = this.tasabeeh.length - 1;
             if (this.active >= len) {
@@ -940,6 +936,15 @@
             this.onClick();
         }
 
+        async toggleLocked() {
+            await Storage.set({
+                key: 'sebha_locked',
+                value: this.locked ? 'off' : 'on',
+            });
+
+            this.locked = !this.locked;
+        }
+
         mounted() {
             this.bar = this.$refs.bar as Progress;
 
@@ -960,6 +965,11 @@
             Storage.get({ key: 'sebha_color' }).then((r) => {
                 this.color = r.value ?? this.color;
                 this.setBarColor();
+            });
+
+            // set locked
+            Storage.get({ key: 'sebha_locked' }).then((r) => {
+                this.locked = r.value === 'on' ? true : false;
             });
         }
     }
