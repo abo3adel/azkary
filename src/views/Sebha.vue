@@ -547,7 +547,7 @@
             await loader.hide();
         }
 
-        async selectNext() {
+        async selectNext() {            
             let inx = 0;
             const len = this.tasabeeh.length - 1;
             if (this.active >= len) {
@@ -567,7 +567,7 @@
 
         async loadOnEveryVisit() {
             this.active = parseInt(
-                (await Storage.get({ key: 'sebha' })).value ?? '0'
+                (await Storage.get({ key: 'sebha_active' })).value ?? '0'
             );
 
             if (this.config.keyboard) {
