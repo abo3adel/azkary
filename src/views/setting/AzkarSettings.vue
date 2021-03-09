@@ -187,7 +187,7 @@
             this.morning = res.morning;
             this.night = res.night;
             this.notifyCount = res.notifyCount;
-            this.autoHide = res.autoHide;            
+            this.autoHide = res.autoHide;
 
             await loader.hide();
         }
@@ -246,6 +246,15 @@
             prop: string
         ) {
             if (this.checkIsEnabled()) return;
+
+            // @ts-ignore
+            const perm = (await LocalNotifications.requestPermissions()) as {
+                results: string[];
+            };            
+
+            if (!perm || perm.results[0] === 'granted') {
+                return;
+            }
 
             await loader.show();
 
@@ -332,9 +341,7 @@
         }
 
         updateDateTime(ev: any) {
-            console.log(this.morning, ev.detail);
             const dt = DateTime.fromISO(this.morning);
-            console.log(dt.toFormat('hh:mm a'));
         }
 
         mounted() {

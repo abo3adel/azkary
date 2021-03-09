@@ -111,7 +111,7 @@
     import { Options, Vue } from 'vue-class-component';
     import { IonSlides, IonSlide, IonButton, isPlatform } from '@ionic/vue';
     import FirstSlide from '@/components/FirstSlide.vue';
-    import { Plugins, LocalNotifications } from '@capacitor/core';
+    import { Plugins } from '@capacitor/core';
     import getCategoryIcon from '@/utils/getCategoryIcon';
     import Axios from 'axios';
     import db from '@/utils/db';
@@ -124,7 +124,7 @@
     import { User } from '@/schema/UserEntity';
     import { COLORES } from '@/App.vue';
 
-    const { SplashScreen, StatusBar } = Plugins;
+    const { SplashScreen, StatusBar, LocalNotifications } = Plugins;
 
     @Options({
         components: { IonSlides, IonSlide, IonButton, FirstSlide },
@@ -250,6 +250,15 @@
             hour?: number,
             minute?: number
         ) {
+            // @ts-ignore
+            const perm = (await LocalNotifications.requestPermissions()) as {
+                results: string[];
+            };            
+
+            if (!perm || perm.results[0] === 'granted') {
+                return;
+            }
+
             let dt = { hour: 0, minute: 0 };
 
             if (iso) {
@@ -277,7 +286,7 @@
         }
 
         mounted() {
-            setTimeout(() => this.$emit('hideSlide'), 900);
+            setTimeout(() => this.$emit('hideSlide'), 1100);
 
             setTimeout(() => {
                 this.seedDB();
