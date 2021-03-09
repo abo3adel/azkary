@@ -251,7 +251,7 @@
             this.theme = res.theme;
             this.dark = res.dark;
 
-            setTimeout(() => appBusy = false, 800);
+            setTimeout(() => (appBusy = false), 600);
 
             await loader.hide();
         }
@@ -269,8 +269,8 @@
 
             await loader.hide();
 
-            if (restart) {                
-                window.location.reload();                
+            if (restart) {
+                window.location.reload();
                 return;
             }
 
@@ -312,6 +312,10 @@
             });
 
             await loader.hide();
+        }
+
+        ionViewWillEnter() {
+            appBusy = true;
         }
 
         mounted() {
