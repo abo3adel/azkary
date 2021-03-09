@@ -627,7 +627,12 @@
             await getConnection()
                 .createQueryBuilder(SebhaEntity, 'tasabeeh')
                 .update()
-                .set({ current: this.sebha.current })
+                .set({
+                    current:
+                        this.sebha.current >= this.sebha.max
+                            ? 0
+                            : this.sebha.current,
+                })
                 .where({ id: this.sebha.id })
                 .execute();
 
