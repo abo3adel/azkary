@@ -44,7 +44,7 @@
                 >
                     <ion-label
                         class="font-semibold"
-                        style="white-space: normal;word-break: break-all;"
+                        style="white-space: normal;word-break: break-word;"
                     >
                         {{ du.body }}
                     </ion-label>
