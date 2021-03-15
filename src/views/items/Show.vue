@@ -11,9 +11,11 @@
                         ></ion-icon>
                     </ion-button>
                 </ion-buttons>
-                <h3 class="px-4 uppercase">
-                    {{ $t(`zikr.cat.${meta.slug}`) }}
-                </h3>
+                <ion-title>
+                    <span class='text-sm uppercase'>
+                        {{ $t(`zikr.cat.${meta.slug}`) }}
+                    </span>
+                </ion-title>
                 <ion-icon
                     v-if="meta.type === 'svg'"
                     :src="`/assets/icons/${meta.name}.svg`"
@@ -221,6 +223,7 @@
         IonBackButton,
         IonToolbar,
         IonHeader,
+        IonTitle,
         IonContent,
         IonLabel,
         IonReorderGroup,
@@ -303,6 +306,7 @@
             IonBackButton,
             IonToolbar,
             IonHeader,
+            IonTitle,
             IonContent,
             IonLabel,
             IonReorderGroup,

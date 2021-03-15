@@ -2,9 +2,11 @@
     <ion-page>
         <ion-header>
             <ion-toolbar color="primary" class="haveBg">
-                <h3 class="p-4 pb-8 uppercase">
-                    {{ $t(`${type}.toolbar`) }}
-                </h3>
+                <ion-title>
+                    <span class="uppercase">
+                        {{ $t(`${type}.toolbar`) }}
+                    </span>
+                </ion-title>
                 <template v-if="type === 'zikr'">
                     <ion-buttons slot="end">
                         <ion-button
@@ -26,9 +28,11 @@
         <ion-content :fullscreen="true">
             <ion-header collapse="condense">
                 <ion-toolbar color="primary">
-                    <h3 class="p-4 pb-8 uppercase">
-                        {{ $t('zikr.toolbar') }}
-                    </h3>
+                    <ion-title>
+                        <span class="uppercase">
+                            {{ $t(`${type}.toolbar`) }}
+                        </span>
+                    </ion-title>
                 </ion-toolbar>
             </ion-header>
 
@@ -77,6 +81,7 @@
         IonBackButton,
         IonPage,
         IonHeader,
+        IonTitle,
         IonContent,
         IonButtons,
         IonList,
@@ -99,6 +104,7 @@
             IonBackButton,
             IonPage,
             IonHeader,
+            IonTitle,
             IonContent,
             IonButtons,
             IonList,
