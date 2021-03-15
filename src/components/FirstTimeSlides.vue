@@ -137,6 +137,7 @@
                 type: 'bullets',
                 clickable: true,
             },
+            keyboard: true,
         };
 
         openLink() {
