@@ -495,7 +495,7 @@
 
             const alert = await alertController.create({
                 cssClass: 'ion-alert',
-                header: this.$t(`${this.type}.add.header`),
+                header: this.$t(`${this.type}.${id ? 'edit' : 'add'}.header`),
                 inputs,
                 buttons: [
                     {

@@ -45,6 +45,9 @@
         "toolbar": "Ad3ia(supplications)",
         "add": {
             "header": "Add new Du3a"
+        },
+        "edit": {
+            "header": "Edit Du3a"
         }
     },
     "zikr": {
@@ -83,7 +86,7 @@
         },
         "show": {
             "reorder": "Reorder",
-            "addt": "Add new Zikr",
+            "addt": "Add",
             "brush": "Change Theme",
             "font": "A",
             "slideCog": "Control"
@@ -94,6 +97,9 @@
             "cancel": "Cancel",
             "save": "Save",
             "meta": "Title"
+        },
+        "edit": {
+            "header": "Edit Zikr"
         },
         "err": {
             "noBody": "please add zikr",
