@@ -18,7 +18,7 @@
             <ion-menu side="start" content-id="main">
                 <ion-header>
                     <ion-toolbar color="primary">
-                        <ion-title>Start Menu</ion-title>
+                        <ion-title>;</ion-title>
                     </ion-toolbar>
                 </ion-header>
                 <ion-content :fullscreen="true">
@@ -27,6 +27,7 @@
                             <ion-item
                                 @click.prevent="goTo('/settings/app')"
                                 class="hover:cursor-pointer item"
+                                :color="active === '/settings/app' ? 'primary' : ''"
                             >
                                 <ion-label>{{
                                     $t('setup.list.app')
@@ -44,6 +45,7 @@
                             <ion-item
                                 @click.prevent="goTo('/settings/control')"
                                 class="hover:cursor-pointer item"
+                                :color="active === '/settings/control' ? 'primary' : ''"
                             >
                                 <ion-label>{{
                                     $t('setup.list.control')
@@ -61,6 +63,7 @@
                             <ion-item
                                 @click.prevent="goTo('/settings/azkar')"
                                 class="hover:cursor-pointer item"
+                                :color="active === '/settings/azkar' ? 'primary' : ''"
                             >
                                 <ion-label>{{
                                     $t('setup.list.azkar')
@@ -78,6 +81,7 @@
                             <ion-item
                                 @click.prevent="goTo('/settings/sebha')"
                                 class="hover:cursor-pointer item"
+                                :color="active === '/settings/sebha' ? 'primary' : ''"
                             >
                                 <ion-label>{{
                                     $t('setup.list.sebha')
@@ -143,18 +147,24 @@
     })
     export default class SettingIndex extends Vue {
         dir = 'rtl';
+        active = '/settings/app';
 
         chevronForwardOutline = chevronForwardOutline;
         cogOutline = cogOutline;
         home = home;
 
-        async goTo(page: string) {
+        async goTo(page: string) {            
+            this.active = page;
             this.$router.replace(page);
             await menuController.close();
         }
 
         beforeMount() {
             this.dir = document.documentElement.dir;
+        }
+
+        mounted() {
+            this.active = location.pathname;
         }
     }
 </script>
