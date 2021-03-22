@@ -12,7 +12,7 @@
                     </ion-button>
                 </ion-buttons>
                 <ion-title>
-                    <span class='text-sm uppercase'>
+                    <span class="text-sm uppercase">
                         {{ $t(`zikr.cat.${meta.slug}`) }}
                     </span>
                 </ion-title>
@@ -265,7 +265,7 @@
     // @ts-ignore
     import emitter from 'tiny-emitter/instance';
 
-    import DevTheme from '@/components/themes/Dev.vue';
+    import SlideTheme from '@/components/themes/Slide.vue';
 
     import { defineAsyncComponent } from 'vue';
     import Loading from '@/components/Loading.vue';
@@ -287,8 +287,8 @@
         loader: () => import('@/components/themes/Base.vue'),
         loadingComponent: Loading,
     });
-    const SlideTheme = defineAsyncComponent({
-        loader: () => import('@/components/themes/Slide.vue'),
+    const DevTheme = defineAsyncComponent({
+        loader: () => import('@/components/themes/Dev.vue'),
         loadingComponent: Loading,
     });
 
@@ -298,9 +298,9 @@
 
     @Options({
         components: {
+            SlideTheme,
             BaseTheme,
             DevTheme,
-            SlideTheme,
             Loading,
             IonPage,
             IonBackButton,
