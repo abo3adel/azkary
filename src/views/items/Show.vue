@@ -12,9 +12,9 @@
                     </ion-button>
                 </ion-buttons>
                 <ion-title>
-                    <span class="text-sm uppercase">
+                    <h3 class="text-md uppercase">
                         {{ $t(`zikr.cat.${meta.slug}`) }}
-                    </span>
+                    </h3>
                 </ion-title>
                 <ion-icon
                     v-if="meta.type === 'svg'"
