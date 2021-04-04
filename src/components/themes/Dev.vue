@@ -94,28 +94,3 @@
         }
     }
 </script>
-<style lang="postcss">
-    .opr-actions {
-        button {
-            @apply transition duration-300 ease-in;
-            &:hover {
-                @apply font-semibold;
-            }
-        }
-        button.addSebhaBtn * {
-            @apply text-pink-600;
-        }
-        button.editBtn * {
-            @apply text-blue-600;
-        }
-        button.shareBtn * {
-            @apply text-teal-600;
-        }
-        button.deleteBtn * {
-            @apply text-red-600;
-        }
-        button.cancelBtn * {
-            @apply text-orange-600;
-        }
-    }
-</style>

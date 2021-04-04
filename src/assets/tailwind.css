@@ -55,3 +55,27 @@
 }
 
 .ldBar{position:relative}.ldBar.label-center>.ldBar-label{position:absolute;top:50%;left:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%);text-shadow:0 0 3px #fff}.ldBar-label:after{content:"%";display:inline}.ldBar.no-percent .ldBar-label:after{content:""}
+
+.opr-actions {
+    button {
+        @apply transition duration-300 ease-in;
+        &:hover {
+            @apply font-semibold;
+        }
+    }
+    button.addSebhaBtn * {
+        @apply text-pink-600;
+    }
+    button.editBtn * {
+        @apply text-blue-600;
+    }
+    button.shareBtn * {
+        @apply text-teal-600;
+    }
+    button.deleteBtn * {
+        @apply text-red-600;
+    }
+    button.cancelBtn * {
+        @apply text-orange-600;
+    }
+}
