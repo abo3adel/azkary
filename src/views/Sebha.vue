@@ -55,7 +55,7 @@
                     <div class="flex w-full h-full">
                         <div
                             class="relative m-auto overflow-hidden w-80 h-80"
-                            v-show="sebhaTheme === 'base'"
+                            v-show="sebhaTheme === 'brogressBar'"
                         >
                             <Progress
                                 id="baseSebha"
@@ -69,7 +69,7 @@
                         <div
                             class="relative m-auto overflow-hidden border rounded-full w-96 h-96"
                             style="border-color: var(--ion-color-primary)"
-                            v-show="sebhaTheme === 'dev'"
+                            v-show="sebhaTheme === 'wavesBubbles'"
                         >
                             <div
                                 class="absolute bottom-0 w-full h-5 duration-500 ease-in-out opacity-95 bg-primary-600"
@@ -480,7 +480,7 @@
         tasabeeh: Sebha[] = [];
         active = 0;
         sebha: ISebha = new Sebha();
-        sebhaTheme = 'dev';
+        sebhaTheme = 'wavesBubbles';
         svgHeight = 0;
         color = 'primary';
         barColor = COLORES[0].color;
@@ -667,10 +667,10 @@
          */
         async togglesebhaTheme(toggle = true) {
             if (toggle) {
-                this.sebhaTheme = this.sebhaTheme === 'dev' ? 'base' : 'dev';
+                this.sebhaTheme = this.sebhaTheme === 'wavesBubbles' ? 'brogressBar' : 'wavesBubbles';
             }
 
-            if (this.sebhaTheme === 'base') {
+            if (this.sebhaTheme === 'brogressBar') {
                 this.bar?.set(this.sebha.current / this.sebha.max);
             }
 
