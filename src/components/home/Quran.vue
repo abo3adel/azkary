@@ -157,11 +157,11 @@
                 .catch((e) => null);
             if (!res) {
                 return await this.offline();
-            }
+            }            
 
-            this.quran.ar = res.data.text;
-            this.quran.surah = res.data.surah.name;
-            this.quran.num = res.data.numberInSurah;
+            this.quran.ar = res.data.data.text;
+            this.quran.surah = res.data.data.surah.name;
+            this.quran.num = res.data.data.numberInSurah;
 
             res = await axios
                 .get(`http://api.alquran.cloud/v1/ayah/${surah}:${aya}/en.asad`)
@@ -171,7 +171,7 @@
                 this.quran.en = false;
                 return;
             }
-            this.quran.en = (res as AxiosResponse).data.text;
+            this.quran.en = (res as AxiosResponse).data.data.text;
 
             // this.quran.ar =
             //     'اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ';
