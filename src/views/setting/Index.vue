@@ -27,7 +27,9 @@
                             <ion-item
                                 @click.prevent="goTo('/settings/app')"
                                 class="hover:cursor-pointer item"
-                                :color="active === '/settings/app' ? 'primary' : ''"
+                                :color="
+                                    active === '/settings/app' ? 'primary' : ''
+                                "
                             >
                                 <ion-label>{{
                                     $t('setup.list.app')
@@ -45,7 +47,11 @@
                             <ion-item
                                 @click.prevent="goTo('/settings/control')"
                                 class="hover:cursor-pointer item"
-                                :color="active === '/settings/control' ? 'primary' : ''"
+                                :color="
+                                    active === '/settings/control'
+                                        ? 'primary'
+                                        : ''
+                                "
                             >
                                 <ion-label>{{
                                     $t('setup.list.control')
@@ -61,9 +67,14 @@
                                 />
                             </ion-item>
                             <ion-item
+                                v-if="isHybrid"
                                 @click.prevent="goTo('/settings/azkar')"
                                 class="hover:cursor-pointer item"
-                                :color="active === '/settings/azkar' ? 'primary' : ''"
+                                :color="
+                                    active === '/settings/azkar'
+                                        ? 'primary'
+                                        : ''
+                                "
                             >
                                 <ion-label>{{
                                     $t('setup.list.azkar')
@@ -81,11 +92,15 @@
                             <ion-item
                                 @click.prevent="goTo('/settings/sebha')"
                                 class="hover:cursor-pointer item"
-                                :color="active === '/settings/sebha' ? 'primary' : ''"
+                                :color="
+                                    active === '/settings/sebha'
+                                        ? 'primary'
+                                        : ''
+                                "
                             >
                                 <ion-label>{{
                                     $t('setup.list.sebha')
-                                }}</ion-label> 
+                                }}</ion-label>
                                 <ion-icon
                                     :icon="chevronForwardOutline"
                                     slot="end"
@@ -122,6 +137,7 @@
         IonButtons,
         IonButton,
         menuController,
+        isPlatform,
     } from '@ionic/vue';
 
     import { chevronForwardOutline, cogOutline, home } from 'ionicons/icons';
@@ -148,12 +164,13 @@
     export default class SettingIndex extends Vue {
         dir = 'rtl';
         active = '/settings/app';
+        isHybrid = true;
 
         chevronForwardOutline = chevronForwardOutline;
         cogOutline = cogOutline;
         home = home;
 
-        async goTo(page: string) {            
+        async goTo(page: string) {
             this.active = page;
             this.$router.replace(page);
             await menuController.close();
@@ -164,6 +181,7 @@
         }
 
         mounted() {
+            this.isHybrid = isPlatform('hybrid');
             this.active = location.pathname;
         }
     }

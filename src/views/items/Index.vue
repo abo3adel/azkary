@@ -7,7 +7,7 @@
                         {{ $t(`${type}.toolbar`) }}
                     </span>
                 </ion-title>
-                <template v-if="type === 'zikr'">
+                <template v-if="isHybrid && type === 'zikr'">
                     <ion-buttons slot="end">
                         <ion-button
                             type="button"
@@ -90,6 +90,7 @@
         IonRippleEffect,
         IonIcon,
         IonLabel,
+        isPlatform
     } from '@ionic/vue';
     import getCategoryIcon, { CategoryIcon } from '@/utils/getCategoryIcon';
     import { CategoryEntity, CategoryType } from '@/schema/CategoryEntity';
@@ -118,6 +119,7 @@
     export default class ZikrIndex extends Vue.with(Props) {
         categories: Category[] = [];
         icons: CategoryIcon[] = getCategoryIcon();
+        isHybrid = true;
 
         async loadCategories() {
             const con = await db();
@@ -134,6 +136,9 @@
             if (this.type === CategoryType.Du3a) {
                 this.icons = this.icons.slice(10);
             }
+
+            this.isHybrid = isPlatform('hybrid');
+
             this.loadCategories();
         }
     }

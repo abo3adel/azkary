@@ -213,6 +213,9 @@
                 azkarCount: 0,
             });
 
+            // local notifications not working with electron
+            if (!isPlatform('hybrid')) return;
+
             // iniate notifications
             await this.addNotification(
                 1,
@@ -254,7 +257,7 @@
             // @ts-ignore
             const perm = (await LocalNotifications.requestPermissions()) as {
                 results: string[];
-            };            
+            };
 
             if (!perm || perm.results[0] === 'granted') {
                 return;
