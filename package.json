@@ -36,6 +36,7 @@
     "cordova-sqlite-storage": "^5.1.0",
     "core-js": "^3.6.5",
     "cyprobar": "^1.0.5",
+    "electron-log": "^4.3.4",
     "es6-promise-plugin": "^4.2.2",
     "gsap": "^3.6.0",
     "luxon": "^1.26.0",

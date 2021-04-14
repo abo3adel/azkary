@@ -1,60 +1,62 @@
 {
-  "name": "Azkary",
-  "version": "1.0.0",
-  "description": "An Amazing Capacitor App",
-  "main": "./build/index.js",
-  "scripts": {
-    "build": "tsc",
-    "electron:start": "npm run build && electron ./",
-    "electron:pack": "npm run build && electron-builder build --dir",
-    "electron:build-windows": "npm run build && electron-builder build --windows",
-    "electron:build-linux": "npm run build && electron-builder build --linux",
-    "electron:build-mac": "npm run build && electron-builder build --mac"
-  },
-  "dependencies": {
-    "@capacitor-community/electron": "^1.3.1",
-    "@types/fs-extra": "^9.0.7",
-    "electron-updater": "^4.3.8"
-  },
-  "devDependencies": {
-    "electron": "~10.3.1",
-    "electron-builder": "^22.9.1",
-    "typescript": "^4.0.7"
-  },
-  "keywords": [
-    "capacitor",
-    "electron"
-  ],
-  "author": {
-    "name": "Ahmed Adel (NinjaCoder)",
-    "email": "abo3adel35@gmail.com",
-    "url": "http://abo3adel.github.io/"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/abo3adel/myazkar.git"
-  },
-  "license": "MIT",
-  "build": {
-    "appId": "com.ninjacoder.azkary",
-    "productName": "Azkary",
-    "copyright": "Copyright © 2021 ${author}",
-    "files": [
-      "assets/*",
-      "build/*",
-      "preloader.js",
-      "plugins/*",
-      "capacitor.config.json",
-      "app/**"
-    ],
-    "mac": {
-      "category": "public.app-category.developer-tools",
-      "target": "dmg",
-      "icon": "appIcon.png"
+    "name": "Azkary",
+    "version": "1.0.0",
+    "description": "An Amazing Capacitor App",
+    "main": "./build/index.js",
+    "scripts": {
+        "build": "tsc",
+        "electron:start": "npm run build && electron ./",
+        "electron:pack": "npm run build && electron-builder build --dir",
+        "electron:build-windows": "npm run build && electron-builder build --windows",
+        "electron:build-linux": "npm run build && electron-builder build --linux",
+        "electron:build-mac": "npm run build && electron-builder build --mac",
+        "buildApp": "electron-builder build --win --publish never",
+        "deploy": "electron-builder build --win --publish always"
     },
-    "win": {
-      "target": "nsis",
-      "icon": "appIcon.png"
+    "dependencies": {
+        "@capacitor-community/electron": "^1.3.1",
+        "@types/fs-extra": "^9.0.7",
+        "electron-updater": "^4.3.8"
+    },
+    "devDependencies": {
+        "electron": "~10.3.1",
+        "electron-builder": "^22.9.1",
+        "typescript": "^4.0.7"
+    },
+    "keywords": [
+        "capacitor",
+        "electron"
+    ],
+    "author": {
+        "name": "Ahmed Adel (NinjaCoder)",
+        "email": "abo3adel35@gmail.com",
+        "url": "http://abo3adel.github.io/"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/abo3adel/myazkar.git"
+    },
+    "license": "MIT",
+    "build": {
+        "appId": "com.ninjacoder.azkary",
+        "productName": "Azkary",
+        "copyright": "Copyright © 2021 ${author}",
+        "files": [
+            "assets/*",
+            "build/*",
+            "preloader.js",
+            "plugins/*",
+            "capacitor.config.json",
+            "app/**"
+        ],
+        "mac": {
+            "category": "public.app-category.developer-tools",
+            "target": "dmg",
+            "icon": "appIcon.png"
+        },
+        "win": {
+            "target": "nsis",
+            "icon": "appIcon.png"
+        }
     }
-  }
 }

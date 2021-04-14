@@ -34,3 +34,4 @@ browser*
 *.rdb
 
 resources/android/**
+electron-builder.env
