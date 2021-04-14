@@ -1,9 +1,9 @@
 {
   "name": "Azkary",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "private": true,
-  "homepage": "./",
-  "description": "An Ionic project",
+  "homepage": "https://github.com/abo3adel/myazkar",
+  "description": "hybird application with azkar, prayers, sebha and notifiable azkar",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",

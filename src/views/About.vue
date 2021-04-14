@@ -27,6 +27,10 @@
             <h1 class="mt-3 text-3xl">
                 {{ $t('app.slideName') }}
             </h1>
+            <h2 class="mt-1 text-lg">
+                {{ $t('app.version') }}: 
+                <span dir="ltr">1.0.1</span>
+            </h2>
             <hr class="w-1/4 mx-auto my-6 border border-gray-700" />
             <h3 class="text-2xl">{{ $t('app.download') }}</h3>
             <p class="mt-4 text-lg">

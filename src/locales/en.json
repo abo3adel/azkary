@@ -3,6 +3,7 @@
     "loaderTxt": "Please wait...",
     "app": {
         "slideName": "Azkary Application",
+        "version": "Version",
         "slide": {
             "azkar": "Muslim Azkar",
             "azkarMess": "Read a collection of Azkar(prayers)",
