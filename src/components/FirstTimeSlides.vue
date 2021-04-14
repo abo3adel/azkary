@@ -141,7 +141,7 @@
         };
 
         openLink() {
-            window.open('http://abo3adel.github.io', '_blank');
+            window.open('https://github.com/abo3adel/azkary/releases/latest/download/Azkary-Setup.exe', '_blank');
         }
 
         async seedDB() {

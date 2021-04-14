@@ -38,7 +38,7 @@
             </p>
             <ion-button
                 color="primary"
-                @click.prevent="openLink('http://abo3adel.github.io')"
+                @click.prevent="openLink('https://github.com/abo3adel/azkary/releases/latest/download/Azkary-Setup.exe')"
                 class="mt-3"
             >
                 {{ $t('app.slide.pcCopy') }}

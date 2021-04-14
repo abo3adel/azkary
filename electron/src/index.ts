@@ -1,6 +1,6 @@
-import { app, dialog } from 'electron';
+import { app } from 'electron';
 import { createCapacitorElectronApp } from '@capacitor-community/electron';
-import { autoUpdater } from 'electron-updater';
+// import { autoUpdater } from 'electron-updater';
 
 // The MainWindow object can be accessed via myCapacitorApp.getMainWindow()
 const myCapacitorApp = createCapacitorElectronApp({
@@ -39,34 +39,34 @@ app.on('activate', function() {
 // Define any IPC or other custom functionality below here
 
 /** autoUpdater */
-autoUpdater.logger = require('electron-log');
-// @ts-ignore
-autoUpdater.logger.transports.file.level = 'info';
+// autoUpdater.logger = require('electron-log');
+// // @ts-ignore
+// autoUpdater.logger.transports.file.level = 'info';
 
-autoUpdater.on('update-downloaded', () => {
-    console.log('update-downloaded lats quitAndInstall');
+// autoUpdater.on('update-downloaded', () => {
+//     console.log('update-downloaded lats quitAndInstall');
 
-    if (process.env.NODE_ENV === 'production') {
-        dialog.showMessageBox(
-            {
-                // @ts-ignore
-                type: 'info',
-                title: 'Found Updates',
-                message: 'Found updates, do you want update now?',
-                buttons: ['Sure', 'No'],
-            },
-            (buttonIndex) => {
-                if (buttonIndex === 0) {
-                    const isSilent = true;
-                    autoUpdater.quitAndInstall(isSilent);
-                    // autoUpdater.downloadUpdate();
-                }
-            }
-        );
-    }
-});
+//     if (process.env.NODE_ENV === 'production') {
+//         dialog.showMessageBox(
+//             {
+//                 // @ts-ignore
+//                 type: 'info',
+//                 title: 'Found Updates',
+//                 message: 'Found updates, do you want update now?',
+//                 buttons: ['Sure', 'No'],
+//             },
+//             (buttonIndex) => {
+//                 if (buttonIndex === 0) {
+//                     const isSilent = true;
+//                     autoUpdater.quitAndInstall(isSilent);
+//                     // autoUpdater.downloadUpdate();
+//                 }
+//             }
+//         );
+//     }
+// });
 
-app.on('ready', () => {
-    autoUpdater.checkForUpdatesAndNotify();
-    myCapacitorApp.init();
-});
+// app.on('ready', () => {
+//     autoUpdater.checkForUpdatesAndNotify();
+//     myCapacitorApp.init();
+// });
