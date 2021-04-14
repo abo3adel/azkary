@@ -11,8 +11,8 @@
         "electron:build-windows": "npm run build && electron-builder build --windows",
         "electron:build-linux": "npm run build && electron-builder build --linux",
         "electron:build-mac": "npm run build && electron-builder build --mac",
-        "buildApp": "npm build run && electron-builder build --win --publish never",
-        "deploy": "npm build run && electron-builder build --win --publish always"
+        "buildApp": "npm run build && electron-builder build --win --publish never",
+        "deploy": "npm run build && electron-builder build --win --publish always"
     },
     "dependencies": {
         "@capacitor-community/electron": "^1.3.1",
