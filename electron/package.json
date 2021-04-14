@@ -23,11 +23,19 @@
     "capacitor",
     "electron"
   ],
-  "author": "",
+  "author": {
+    "name": "Ahmed Adel (NinjaCoder)",
+    "email": "abo3adel35@gmail.com",
+    "url": "http://abo3adel.github.io/"
+  },
+  "repository": {
+    "url": "https://github.com/abo3adel/myazkar"
+  },
   "license": "MIT",
   "build": {
-    "appId": "com.example.capacitor-app",
-    "productName": "Capacitor App",
+    "appId": "com.ninjacoder.azkary",
+    "productName": "Azkary",
+    "copyright": "Copyright © 2021 ${author}",
     "files": [
       "assets/*",
       "build/*",
@@ -43,7 +51,7 @@
     },
     "win": {
       "target": "nsis",
-      "icon": "appIcon.ico"
+      "icon": "appIcon.png"
     }
   }
 }
