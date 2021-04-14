@@ -1,7 +1,7 @@
 {
     "appId": "com.ninjacoder.azkary",
     "appName": "azkary",
-    "bundledWebRuntime": false,
+    "bundledWebRuntime": true,
     "npmClient": "npm",
     "webDir": "dist",
     "hideLogs": true,
@@ -13,11 +13,5 @@
             "autoHide": false
         }
     },
-    "cordova": {},
-    "server": {
-        "url": "http://192.168.1.12:8100",
-        "cleartext": true,
-        "originalUrl": "http://192.168.1.12:8100",
-        "originalCleartext": true
-    }
+    "cordova": {}
 }
