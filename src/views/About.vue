@@ -28,21 +28,45 @@
                 {{ $t('app.slideName') }}
             </h1>
             <h2 class="mt-1 text-lg">
-                {{ $t('app.version') }}: 
+                {{ $t('app.version') }}:
                 <span dir="ltr">1.0.1</span>
             </h2>
             <hr class="w-1/4 mx-auto my-6 border border-gray-700" />
             <h3 class="text-2xl">{{ $t('app.download') }}</h3>
-            <p class="mt-4 text-lg">
-                {{ $t('app.slide.pcMess') }}
-            </p>
-            <ion-button
-                color="primary"
-                @click.prevent="openLink('https://github.com/abo3adel/azkary/releases/latest/download/Azkary-Setup.exe')"
-                class="mt-3"
-            >
-                {{ $t('app.slide.pcCopy') }}
-            </ion-button>
+            <div class="flex flex-wrap mt-2">
+                <div class="text-center border-r sm:border-gray-500 rtl:border-r-0 rtl:border-l sm:w-1/2">
+                    <p class="mt-4 text-lg">
+                        {{ $t('app.slide.thisAvalFor') }} {{ $t('app.slide.forPc') }}
+                    </p>
+                    <ion-button
+                        color="primary"
+                        @click.prevent="
+                            openLink(
+                                'https://github.com/abo3adel/azkary/releases/latest/download/Azkary-Setup.exe'
+                            )
+                        "
+                        class="mt-3"
+                    >
+                        {{ $t('app.slide.pcCopy') }}
+                    </ion-button>
+                </div>
+                <div class="text-center border-l sm:border-gray-500 rtl:border-l-0 rtl:border-r sm:w-1/2">
+                    <p class="mt-4 text-lg">
+                        {{ $t('app.slide.thisAvalFor') }} {{ $t('app.slide.forPhone') }}
+                    </p>
+                    <ion-button
+                        color="primary"
+                        @click.prevent="
+                            openLink(
+                                'http://play.google.com/store/apps/details?id=com.ninjacoder.azkary'
+                            )
+                        "
+                        class="mt-3"
+                    >
+                        {{ $t('app.slide.pcCopy') }}
+                    </ion-button>
+                </div>
+            </div>
         </ion-content>
         <div class="p-2 mt-3 text-white bg-gray-900 footer" dir="ltr">
             <p>

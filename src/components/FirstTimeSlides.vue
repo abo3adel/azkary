@@ -67,7 +67,7 @@
         </ion-slide>
 
         <ion-slide>
-            <div class="w-full slide">
+            <div class="w-full slide" v-if="isHybrid">
                 <div class="w-1/2 mx-auto mb-4 -mt-14">
                     <img
                         src="/assets/slides/computer.svg"
@@ -76,13 +76,39 @@
                         class="w-8 h-8"
                     />
                 </div>
-                <h2 class="block text-3xl">{{ $t('app.slide.pc') }}</h2>
+                <h2 class="block text-3xl">
+                    {{ $t('app.slide.avalFor') }} {{ $t('app.slide.forPc') }}
+                </h2>
                 <p class="mt-4 text-lg">
-                    {{ $t('app.slide.pcMess') }}
+                    {{ $t('app.slide.thisAvalFor') }} {{ $t('app.slide.forPc') }}
                 </p>
                 <ion-button
                     color="primary"
-                    @click.prevent="openLink"
+                    @click.prevent="openPcDownLink"
+                    class="mt-3"
+                >
+                    {{ $t('app.slide.pcCopy') }}
+                </ion-button>
+            </div>
+            <!-- else -->
+            <div class="w-full slide" v-else>
+                <div class="w-1/2 mx-auto mb-4 -mt-14">
+                    <img
+                        src="/assets/slides/smartphone.svg"
+                        width="20"
+                        height="20"
+                        class="w-8 h-8"
+                    />
+                </div>
+                <h2 class="block text-3xl">
+                    {{ $t('app.slide.avalFor') }} {{ $t('app.slide.forPhone') }}
+                </h2>
+                <p class="mt-4 text-lg">
+                    {{ $t('app.slide.thisAvalFor') }} {{ $t('app.slide.forPhone') }}
+                </p>
+                <ion-button
+                    color="primary"
+                    @click.prevent="openPhoneDownLink"
                     class="mt-3"
                 >
                     {{ $t('app.slide.pcCopy') }}
@@ -122,7 +148,7 @@
     import { Sebha } from '@/entities/Sebha';
     import { DateTime } from 'luxon';
     import { User } from '@/schema/UserEntity';
-    import { COLORES } from '@/App.vue';
+    // import { COLORES } from '@/App.vue';
 
     const { SplashScreen, StatusBar, LocalNotifications } = Plugins;
 
@@ -139,9 +165,14 @@
             },
             keyboard: true,
         };
+        isHybrid = isPlatform('hybrid');
 
-        openLink() {
+        openPcDownLink() {
             window.open('https://github.com/abo3adel/azkary/releases/latest/download/Azkary-Setup.exe', '_blank');
+        }
+
+        openPhoneDownLink() {
+            window.open('http://play.google.com/store/apps/details?id=com.ninjacoder.azkary', '_blank');
         }
 
         async seedDB() {

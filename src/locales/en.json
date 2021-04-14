@@ -10,8 +10,10 @@
             "ad3ia": "Prayer",
             "sebha": "Electronic Sebha(rosary)",
             "sebhaMess": "with the ability to add more",
-            "pc": "Available for PC",
-            "pcMess": "this app is also available for pc",
+            "avalFor": "Available for",
+            "thisAvalFor": "this app is also available for",
+            "forPc": "PC",
+            "forPhone": "Smart Phone",
             "pcCopy": "open link",
             "start": "Begin"
         },
