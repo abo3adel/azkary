@@ -37,6 +37,8 @@ app.on('activate', function() {
 });
 
 // Define any IPC or other custom functionality below here
+
+/** autoUpdater */
 autoUpdater.logger = require('electron-log');
 // @ts-ignore
 autoUpdater.logger.transports.file.level = 'info';

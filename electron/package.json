@@ -1,7 +1,7 @@
 {
     "name": "Azkary",
-    "version": "1.0.0",
-    "description": "An Amazing Capacitor App",
+    "version": "1.0.1",
+    "description": "hybird application with azkar, prayers, sebha and notifiable azkar",
     "main": "./build/index.js",
     "scripts": {
         "build": "tsc",
