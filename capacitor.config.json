@@ -1,7 +1,7 @@
 {
     "appId": "com.ninjacoder.azkary",
     "appName": "azkary",
-    "bundledWebRuntime": false,
+    "bundledWebRuntime": true,
     "npmClient": "npm",
     "webDir": "dist",
     "hideLogs": true,
