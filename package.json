@@ -3,7 +3,7 @@
     "version": "1.0.2",
     "private": true,
     "homepage": "https://github.com/abo3adel/azkary",
-    "description": "hybird application with azkar, prayers, sebha and notifiable azkar",
+    "description": "hybrid application with azkar, prayers, sebha and notifiable azkar",
     "scripts": {
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build",

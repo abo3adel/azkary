@@ -1,7 +1,7 @@
 {
     "name": "Azkary",
     "version": "1.0.2",
-    "description": "hybird application with azkar, prayers, sebha and notifiable azkar",
+    "description": "hybrid application with azkar, prayers, sebha and notifiable azkar",
     "main": "./build/index.js",
     "scripts": {
         "sync": "ionic cap sync @capacitor-community/electron",
