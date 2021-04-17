@@ -70,8 +70,9 @@
         },
         async mounted() {
             // first type run
-            const { value } = await Storage.get({ key: 'firstDone' });
-            if (!value || value === 'undefined') {
+            const isFirstRun = (await Storage.get({ key: 'firstDone' })).value;
+
+            if (!isFirstRun || isFirstRun === 'undefined') {
                 this.firstTime = true;
 
                 Storage.set({ key: 'firstDone', value: 'yes' });
@@ -102,7 +103,7 @@
                 this.fontSize
             );
 
-            if (isPlatform('hybrid') && value) {
+            if (isPlatform('hybrid') && isFirstRun) {
                 // set statusbar background color
                 StatusBar.setBackgroundColor({
                     // @ts-ignore
@@ -127,12 +128,21 @@
                 });
             });
 
-            if (value) {
+            if (isFirstRun) {
                 setTimeout(() => {
                     SplashScreen.hide();
                     this.slide = false;
                 }, 300);
             }
+
+            // remove splash loader
+            setTimeout(
+                () =>
+                    ((document.querySelector(
+                        '.splash-loader'
+                    ) as HTMLDivElement).style.display = 'none'),
+                301
+            );
         },
     });
 </script>
