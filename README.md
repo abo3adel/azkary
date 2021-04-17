@@ -6,6 +6,8 @@
 
 yet another azkar and supplications app but unlike any other app, Azkary works on both smartphone and PC
 
+> Visit **Web <a target="_blank" href="https://azkary.codes/">Demo</a>** or **Download Below**
+
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
       alt="Download from Google Play"
       height="80">](https://play.google.com/store/apps/details?id=com.ninjacoder.azkary)
