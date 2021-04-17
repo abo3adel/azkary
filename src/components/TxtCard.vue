@@ -68,7 +68,7 @@
             <hr class="w-3/4 mx-auto my-3 border border-gray-400" v-if="showEn" />
             <div class="text-lg text-left" v-if="showEn">
                 <p
-                    class="w-11/12 mx-auto font-semibold text-center text-red-600"
+                    class="w-11/12 mx-auto font-semibold text-justify text-red-600"
                     style="font-family: var(--ion-font-family)"
                     v-if="error.en"
                 >

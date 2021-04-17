@@ -28,7 +28,7 @@
                 "
             >
                 <div class="flex h-full overflow-auto">
-                    <div class="px-1 m-auto break-words sm:px-10">
+                    <div class="px-1 m-auto text-justify break-words sm:px-11">
                         <p
                             class="text-sm text-primary-600"
                             style="font-family: var(--ion-default-font)"

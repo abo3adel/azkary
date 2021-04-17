@@ -1,7 +1,7 @@
 <template>
     <div class="relative w-11/12 mx-auto mt-4 mb-8" v-if="z.count > 0">
         <div
-            class="relative px-3 pt-2 pb-4 overflow-hidden break-words border border-gray-500 rounded-md shadow-2xl select-none hover:cursor-pointer ion-activatable ripple-parent"
+            class="relative px-3 pt-2 pb-4 overflow-hidden text-justify break-words border border-gray-500 rounded-md shadow-2xl select-none hover:cursor-pointer ion-activatable ripple-parent"
             @click="
                 z.count--;
                 $emit('decree', z.count, z.id);

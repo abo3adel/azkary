@@ -31,7 +31,7 @@
             dir="rtl"
         >
             <ion-label
-                style="white-space: break-spaces;overflow-wrap: break-word;"
+                style="white-space: break-spaces;overflow-wrap: break-word;text-align: justify"
             >
                 <p
                     class="text-sm text-primary-600"
