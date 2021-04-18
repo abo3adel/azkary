@@ -29,12 +29,12 @@
             </h1>
             <h2 class="mt-1 text-lg">
                 {{ $t('app.version') }}:
-                <span dir="ltr">1.0.1</span>
+                <span dir="ltr">1.0.3</span>
             </h2>
             <hr class="w-1/4 mx-auto my-6 border border-gray-700" />
             <h3 class="text-2xl">{{ $t('app.download') }}</h3>
             <div class="flex flex-wrap mt-2">
-                <div class="text-center border-r sm:border-gray-500 rtl:border-r-0 rtl:border-l sm:w-1/2">
+                <div class="w-full text-center border-r sm:border-gray-500 rtl:border-r-0 rtl:border-l sm:w-1/2">
                     <p class="mt-4 text-lg">
                         {{ $t('app.slide.thisAvalFor') }} {{ $t('app.slide.forPc') }}
                     </p>
@@ -50,7 +50,7 @@
                         {{ $t('app.slide.pcCopy') }}
                     </ion-button>
                 </div>
-                <div class="text-center border-l sm:border-gray-500 rtl:border-l-0 rtl:border-r sm:w-1/2">
+                <div class="w-full text-center border-l sm:border-gray-500 rtl:border-l-0 rtl:border-r sm:w-1/2">
                     <p class="mt-4 text-lg">
                         {{ $t('app.slide.thisAvalFor') }} {{ $t('app.slide.forPhone') }}
                     </p>
