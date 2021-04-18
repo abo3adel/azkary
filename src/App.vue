@@ -70,9 +70,10 @@
         },
         async mounted() {
             // first type run
-            const isFirstRun = (await Storage.get({ key: 'firstDone' })).value;
+            const isNotFirstRun =
+                (await Storage.get({ key: 'firstDone' })).value || false;
 
-            if (!isFirstRun || isFirstRun === 'undefined') {
+            if (!isNotFirstRun || isNotFirstRun === 'undefined') {
                 this.firstTime = true;
 
                 Storage.set({ key: 'firstDone', value: 'yes' });
@@ -103,7 +104,7 @@
                 this.fontSize
             );
 
-            if (isPlatform('hybrid') && isFirstRun) {
+            if (isPlatform('hybrid') && isNotFirstRun) {
                 // set statusbar background color
                 StatusBar.setBackgroundColor({
                     // @ts-ignore
@@ -128,21 +129,25 @@
                 });
             });
 
-            if (isFirstRun) {
+            if (isNotFirstRun) {
                 setTimeout(() => {
+                    // console.log("hiding splash screen");
+                    // console.error('hiding splash screen');
                     SplashScreen.hide();
                     this.slide = false;
-                }, 300);
+                }, 2000);
             }
 
             // remove splash loader
-            setTimeout(
-                () =>
-                    ((document.querySelector(
-                        '.splash-loader'
-                    ) as HTMLDivElement).style.display = 'none'),
-                301
-            );
+            setTimeout(() => {
+                const splashLoader = document.querySelector(
+                    '.splash-loader'
+                ) as HTMLDivElement;
+
+                if (!splashLoader) return;
+
+                splashLoader.style.display = 'none';
+            }, 700);
         },
     });
 </script>

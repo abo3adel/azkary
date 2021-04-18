@@ -7,7 +7,7 @@
     "hideLogs": true,
     "plugins": {
         "SplashScreen": {
-            "launchShowDuration": 4000,
+            "launchShowDuration": 20000,
             "backgroundColor": "#128257",
             "showSpinner": true,
             "autoHide": false
